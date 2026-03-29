@@ -1,4 +1,5 @@
 name: "{frontmatter@name}"
+pluginDescription: ~/.agents/skills/
 description: "{frontmatter@description}"
 path: ~/.agents/skills/
 label: "agents-skills"

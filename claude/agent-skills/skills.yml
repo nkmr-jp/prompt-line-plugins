@@ -5,6 +5,6 @@ description: "{frontmatter@description}"
 path: ~/.claude/skills
 pattern: "**/*/SKILL.md"
 label: skill
-color: pink
+color: cyan
 icon: "{frontmatter@icon}"
 maxSuggestions: 20
