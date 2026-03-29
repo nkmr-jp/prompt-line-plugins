@@ -7,7 +7,7 @@ pattern: "**/commands/*.md"
 values:
   prefix: "**/.claude-plugin/*.json@name"
 label: plugin command
-color: green
+color: gray
 icon: "{frontmatter@icon}"
 argumentHint: "{frontmatter@argument-hint}"
 maxSuggestions: 20

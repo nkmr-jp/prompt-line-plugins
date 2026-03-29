@@ -4,5 +4,4 @@ path: ~/.agents/skills/
 label: "agents-skills"
 color: blue
 pattern: "**/*/SKILL.md"
-maxSuggestions: 20
 triggers: ["/","$"]

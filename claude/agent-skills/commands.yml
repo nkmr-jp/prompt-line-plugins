@@ -5,7 +5,7 @@ description: "{frontmatter@description}"
 path: ~/.claude/commands
 pattern: "*.md"
 label: command
-color: purple
+color: gray
 icon: "{frontmatter@icon}"
 argumentHint: "{frontmatter@argument-hint}"
 maxSuggestions: 20
