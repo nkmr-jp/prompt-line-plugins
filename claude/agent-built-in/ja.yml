@@ -1,0 +1,175 @@
+# Claude Code 組み込みスラッシュコマンド
+#
+# color プロパティは名前付きカラーと16進カラーコードの両方に対応:
+# - 名前付きカラー: grey, darkGrey, slate, stone, red, rose, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink
+# - 16進コード: #RGB or #RRGGBB (例: #FF6B35, #F63)
+
+name: claude-ja
+color: amber  # 16進コードも使用可能 例: "#FF6B35"
+reference: https://code.claude.com/docs/en/commands
+
+commands:
+  - name: add-dir
+    description: 追加の作業ディレクトリを登録する
+  - name: agents
+    description: 特化タスク用のカスタムAIサブエージェントを管理する
+  - name: bashes
+    description: バックグラウンドタスクの一覧と管理
+  - name: btw
+    description: 会話に追加せずに素早くサイドクエスチョンをする。Claudeが処理中でも独立して実行される
+    argument-hint: "<question>"
+  - name: batch
+    description: "大規模な変更を調査・計画し、5〜30の独立したワークツリーエージェントで並列実行してそれぞれPRを作成する"
+  - name: bug
+    description: バグを報告する（会話内容をAnthropicに送信）
+  - name: chrome
+    description: Claude in Chrome（ベータ）の設定を行う
+  - name: clear
+    description: "会話履歴をクリアしてコンテキストを解放する（エイリアス: /reset, /new）"
+  - name: color
+    description: "現在のセッションのプロンプトバーの色を設定する。使用可能な色: red, blue, green, yellow, purple, orange, pink, cyan。`default` でリセット"
+    argument-hint: "[color|default]"
+  - name: compact
+    description: 会話を圧縮する（フォーカス指示を任意で指定可能）
+    argument-hint: "[instructions]"
+  - name: config
+    description: "設定インターフェースを開いてテーマ、モデル、出力スタイルなどを調整する。エイリアス: /settings"
+  - name: context
+    description: 現在のコンテキスト使用量をカラーグリッドで表示する。コンテキスト負荷の高いツール、メモリ膨張、容量警告の最適化提案も表示
+  - name: copy
+    description: "最後のアシスタントレスポンスをクリップボードにコピーする。数値Nを渡すとN番目に新しいレスポンスをコピー（例: /copy 2）。コードブロックがある場合は個別ブロックまたは全体を選択するピッカーを表示"
+    argument-hint: "[N]"
+  - name: cost
+    description: トークン使用量の統計を表示する
+  - name: debug
+    description: セッションのデバッグログを読んで現在のセッションをトラブルシュートする
+    argument-hint: "[description]"
+  - name: desktop
+    description: "現在のCLIセッションをClaude Code Desktopアプリに引き継ぐ（macOSとWindowsのみ）。エイリアス: /app"
+  - name: diff
+    description: コミットされていない変更とターンごとのdiffを対話的に表示する
+  - name: doctor
+    description: Claude Codeのインストール状態と設定を診断・検証する
+  - name: effort
+    description: "モデルの推論レベルを設定する。low/medium/highはセッション間で保持。maxは現在のセッションのみ（Opus 4.6が必要）。autoでモデルのデフォルトにリセット。引数なしで現在のレベルを表示"
+    argument-hint: "[low|medium|high|max|auto]"
+  - name: exit
+    description: "CLIを終了する。エイリアス: /quit"
+  - name: export
+    description: "現在の会話をプレーンテキストとしてエクスポートする。ファイル名を指定するとそのファイルに直接書き込み、指定なしの場合はクリップボードへのコピーまたはファイル保存のダイアログを開く"
+    argument-hint: "[filename]"
+  - name: extra-usage
+    description: レート制限に達した際に作業を継続するための追加使用量を設定する
+  - name: fast
+    description: Fastモードのオン/オフを切り替える
+    argument-hint: "[on|off]"
+  - name: feedback
+    description: "Claude Codeについてのフィードバックを送信する。エイリアス: /bug"
+  - name: branch
+    description: "現在の会話のこの時点でブランチを作成する。エイリアス: /fork"
+    argument-hint: "[name]"
+  - name: fork
+    description: 現在の会話のこの時点でフォークを作成する
+    argument-hint: "[name]"
+  - name: help
+    description: 使い方のヘルプを表示する
+  - name: hooks
+    description: ツールイベント用のフック設定を管理する
+  - name: ide
+    description: IDE連携の管理とステータス表示
+  - name: insights
+    description: Claude Codeセッションの分析レポートを生成する（プロジェクト領域、操作パターン、摩擦ポイント）
+  - name: init
+    description: CLAUDE.mdガイドでプロジェクトを初期化する
+  - name: install-github-app
+    description: リポジトリにClaude GitHub Actionsをセットアップする
+  - name: install-slack-app
+    description: Claude Slackアプリをインストールする
+  - name: keybindings
+    description: キーバインド設定ファイルを開くまたは作成する
+  - name: login
+    description: Anthropicアカウントにサインインする
+  - name: loop
+    description: プロンプトやスラッシュコマンドを定期的に実行する（例：/loop 5m /foo、デフォルト10分間隔）
+    argument-hint: "[interval] [command]"
+  - name: logout
+    description: Anthropicアカウントからサインアウトする
+  - name: mcp
+    description: MCPサーバー接続とOAuth認証を管理する
+  - name: memory
+    description: CLAUDE.mdメモリファイルの編集、自動メモリの有効化/無効化、自動メモリエントリの表示を行う
+  - name: mobile
+    description: "Claudeモバイルアプリのダウンロード用QRコードを表示する。エイリアス: /ios, /android"
+  - name: model
+    description: AIモデルを選択または変更する（左右矢印キーで推論レベルを調整）。即時反映
+  - name: output-style
+    description: "出力スタイルを切り替える：Default、Explanatory（教育的インサイト）、Learning（ハンズオン練習）。カスタムスタイルにも対応"
+    argument-hint: "[style]"
+  - name: passes
+    description: 友人にClaude Codeの無料1週間パスを共有する（対象アカウントのみ表示）
+  - name: permissions
+    description: "パーミッションを表示または更新する。エイリアス: /allowed-tools"
+  - name: plan
+    description: プロンプトからプランモードに直接入る
+    argument-hint: "[description]"
+  - name: plugin
+    description: Claude Codeプラグインを管理する
+  - name: reload-plugins
+    description: アクティブなプラグインをすべてリロードし、保留中の変更を再起動なしで適用する
+  - name: pr-comments
+    description: GitHub プルリクエストのコメントを取得・表示する（現在のブランチのPRを自動検出、gh CLIが必要）
+  - name: privacy-settings
+    description: プライバシー設定を表示・更新する
+  - name: remote-env
+    description: テレポートセッション用のデフォルトリモート環境を設定する
+  - name: rc
+    description: /remote-control のエイリアス
+  - name: release-notes
+    description: 完全な変更履歴を表示する。最新バージョンがプロンプトに最も近い位置に表示される
+  - name: remote-control
+    description: "このセッションをclaude.aiからのリモートコントロールに利用可能にする。エイリアス: /rc"
+  - name: rename
+    description: 現在のセッションの名前を変更する（名前未指定時は会話履歴から自動生成）
+    argument-hint: "[name]"
+  - name: resume
+    description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。エイリアス: /continue"
+    argument-hint: "[session]"
+  - name: review
+    description: "非推奨。代わりにcode-reviewプラグインをインストール: claude plugin install code-review@claude-code-marketplace"
+  - name: rewind
+    description: "会話やコードを以前のポイントに巻き戻す、または選択したメッセージから要約する。エイリアス: /checkpoint"
+  - name: sandbox
+    description: ファイルシステムとネットワークを分離したサンドボックスモードを切り替える。対応プラットフォームのみ
+  - name: security-review
+    description: 現在のブランチの保留中の変更をセキュリティ脆弱性の観点から分析する（インジェクション、認証の問題、データ漏洩など）
+  - name: simplify
+    description: 変更されたコードの再利用性・品質・効率性をレビューし、問題があれば修正する
+  - name: skills
+    description: 利用可能なスキルを一覧表示する
+  - name: stats
+    description: "日次使用量、セッション履歴、連続使用日数、モデルの使用傾向を表示する"
+  - name: status
+    description: "設定インターフェースを開く（Statusタブ）。バージョン、モデル、アカウント、接続状況を表示"
+  - name: statusline
+    description: "Claude Codeのステータスラインを設定する。表示内容を指定するか、引数なしでシェルプロンプトから自動設定"
+  - name: stickers
+    description: Claude Codeステッカーを注文する
+  - name: tasks
+    description: バックグラウンドタスクの一覧と管理
+  - name: teleport
+    description: claude.aiからリモートセッションを再開する（サブスクリプション限定）
+    argument-hint: "[session]"
+  - name: terminal-setup
+    description: ターミナルのキーバインドを設定する（Shift+Enterなどのショートカット、VS Code・Alacritty・Warp対応）
+  - name: theme
+    description: "カラーテーマを変更する。ライト/ダーク、色覚対応（ダルトナイズ）、ANSIテーマを含む"
+  - name: todos
+    description: 現在のTODOアイテムを一覧表示する
+  - name: usage
+    description: プランの使用制限とレート制限のステータスを表示する
+  - name: upgrade
+    description: より高いプランティアに切り替えるためのアップグレードページを開く
+  - name: vim
+    description: Vim編集モードとNormal編集モードを切り替える
+  - name: voice
+    description: プッシュトゥトーク音声入力を切り替える。Claude.aiアカウントが必要

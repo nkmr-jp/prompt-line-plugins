@@ -1,0 +1,90 @@
+# OpenAI Codex CLI 組み込みスラッシュコマンド
+#
+# color プロパティは名前付きカラーと16進カラーコードの両方に対応:
+# - 名前付きカラー: grey, darkGrey, slate, stone, red, rose, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink
+# - 16進コード: #RGB or #RRGGBB (例: #00CC66, #0C6)
+
+name: codex
+color: emerald  # 16進コードも使用可能 例: "#00CC66"
+reference: https://developers.openai.com/codex/cli/slash-commands/
+
+commands:
+  - name: agent
+    description: アクティブなエージェントスレッドを切り替える
+  - name: approvals
+    description: Codexが実行できる操作を設定する
+  - name: apps
+    description: アプリ（コネクタ）を閲覧してプロンプトに挿入する
+  - name: clean
+    description: すべてのバックグラウンドターミナルを停止する
+  - name: clear
+    description: ターミナルをクリアして新しいチャットを開始する
+  - name: collab
+    description: コラボレーションモードを変更する（実験的）
+  - name: compact
+    description: 会話を要約してコンテキスト制限に達するのを防ぐ
+  - name: copy
+    description: Codexの最新の出力をクリップボードにコピーする
+  - name: diff
+    description: Git未追跡ファイルを含むGit diffを表示する
+  - name: elevate-sandbox
+    description: 拡張エージェントサンドボックスをセットアップする
+  - name: debug-config
+    description: 設定レイヤーと要件の診断情報を表示する
+  - name: exit
+    description: CLIを終了する（/quit のエイリアス）
+  - name: experimental
+    description: 実験的機能を切り替える
+  - name: fast
+    description: Fastモードを切り替える（プラン使用量2倍で最速の推論）
+  - name: feedback
+    description: Codexメンテナーにログを送信する
+  - name: fork
+    description: 現在のチャットをフォークする
+    argument-hint: "[session]"
+  - name: init
+    description: 現在のディレクトリにAGENTS.mdのひな形を生成する
+  - name: logout
+    description: Codexからサインアウトする
+  - name: mcp
+    description: 設定済みのModel Context Protocol（MCP）ツールを一覧表示する
+  - name: mention
+    description: ファイルを会話にアタッチする
+    argument-hint: "<path>"
+  - name: model
+    description: 使用するモデルを選択する（対応している場合は推論レベルも調整可能）
+  - name: new
+    description: 会話中に新しいチャットを開始する
+  - name: permissions
+    description: Codexが確認なしで実行できる操作を設定する
+  - name: personality
+    description: レスポンスのコミュニケーションスタイルを選択する
+  - name: plan
+    description: プランモードに切り替え、任意でプロンプトを送信する
+  - name: ps
+    description: 実験的バックグラウンドターミナルとその最新出力を表示する
+  - name: quit
+    description: CLIを終了する
+  - name: realtime
+    description: リアルタイム音声モードを切り替える（実験的）
+  - name: rename
+    description: 現在のスレッドの名前を変更する
+    argument-hint: "[name]"
+  - name: resume
+    description: セッションリストから保存済みの会話を再開する
+  - name: review
+    description: 現在の変更をレビューして問題を見つける
+  - name: settings
+    description: リアルタイムのマイク/スピーカーを設定する
+  - name: skills
+    description: スキルを使ってCodexの特定タスクのパフォーマンスを向上させる
+  - name: status
+    description: 現在のセッション設定とトークン使用量を表示する
+  - name: sandbox-add-read-dir
+    description: サンドボックスに追加ディレクトリの読み取りアクセスを付与する（Windowsのみ）
+  - name: statusline
+    description: TUIステータスラインのフィールドを対話的に設定する
+  - name: theme
+    description: シンタックスハイライトのテーマを選択する
+  - name: undo
+    description: Codexの直前のターンを元に戻す

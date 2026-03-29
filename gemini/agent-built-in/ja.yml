@@ -1,0 +1,105 @@
+# Google Gemini CLI 組み込みスラッシュコマンド
+#
+# color プロパティは名前付きカラーと16進カラーコードの両方に対応:
+# - 名前付きカラー: grey, darkGrey, slate, stone, red, rose, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink
+# - 16進コード: #RGB or #RRGGBB (例: #0066CC, #06C)
+
+name: gemini
+color: indigo  # 16進コードも使用可能 例: "#0066CC"
+reference: https://google-gemini.github.io/gemini-cli/docs/cli/commands.html
+
+commands:
+  - name: about
+    description: バージョン情報を表示する
+  - name: agents
+    description: "エージェントを管理する：一覧・有効化・無効化・設定・レジストリのリフレッシュ"
+  - name: auth
+    description: 認証方法を変更するダイアログを開く
+  - name: bug
+    description: Gemini CLIに関する問題を報告する
+    argument-hint: "[headline]"
+  - name: chat
+    description: 会話履歴を管理する（保存・再開・一覧・削除・共有・デバッグのサブコマンド付き）
+  - name: commands
+    description: .tomlファイルから読み込まれたカスタムスラッシュコマンドを管理する
+  - name: clear
+    description: セッション履歴とスクロールバックを含むターミナル画面をクリアする
+  - name: compact
+    description: /compress のエイリアス
+  - name: compress
+    description: チャットのコンテキストを要約に置き換えてトークン使用量を削減する
+  - name: copy
+    description: Gemini CLIが最後に生成した出力をクリップボードにコピーする
+  - name: directory
+    description: マルチディレクトリ対応のワークスペースディレクトリを管理する
+  - name: dir
+    description: /directory のエイリアス
+  - name: docs
+    description: Gemini CLIのドキュメントをブラウザで開く
+  - name: editor
+    description: サポートされているエディタを選択するダイアログを開く
+  - name: exit
+    description: Gemini CLIを終了する
+  - name: extensions
+    description: "エクステンションを管理する：インストール・有効化・無効化・探索・設定・更新など"
+  - name: footer
+    description: フッター（ステータスライン）に表示する項目を設定する
+  - name: help
+    description: Gemini CLIと利用可能なコマンドのヘルプ情報を表示する
+  - name: hooks
+    description: "ライフサイクルイベントでの動作をインターセプト・カスタマイズするフックを管理する"
+    argument-hint: "[disable-all|disable|enable-all|enable|list]"
+  - name: ide
+    description: "IDE連携を管理する"
+    argument-hint: "[disable|enable|install|status]"
+  - name: init
+    description: プロジェクトに合わせたGEMINI.mdコンテキストファイルを生成する
+  - name: mcp
+    description: "MCPサーバーを管理する：一覧・認証・無効化・有効化・更新"
+  - name: memory
+    description: GEMINI.mdファイルから読み込まれた階層的な指示コンテキストを管理する
+  - name: model
+    description: "モデル選択ダイアログを開くか、モデルを直接設定する"
+    argument-hint: "[manage|set <model-name>]"
+  - name: permissions
+    description: フォルダ信頼設定やその他のパーミッションを管理する
+    argument-hint: "[trust <directory-path>]"
+  - name: plan
+    description: プランモード（読み取り専用）に切り替え、現在のプランを表示する
+  - name: policies
+    description: "ポリシーを管理する：モード別にグループ化されたアクティブなポリシーを一覧表示"
+  - name: privacy
+    description: プライバシーに関する通知とデータ収集の設定を表示する
+  - name: quit
+    description: Gemini CLIを終了する
+  - name: restore
+    description: ツール実行前の状態にプロジェクトファイルを復元する
+  - name: resume
+    description: 以前の会話セッションを再開する
+    argument-hint: "[session]"
+  - name: rewind
+    description: 特定のメッセージまで戻って会話を再開する（Esc x2 ショートカット）
+  - name: settings
+    description: 設定エディタを開いて設定を表示・変更する
+  - name: setup-github
+    description: Geminiによるissueトリアージ・PRレビュー用にGitHub Actionsをセットアップする
+  - name: shortcuts
+    description: 入力エリア上部のショートカットパネルの表示を切り替える
+  - name: shells
+    description: "バックグラウンドシェルの表示切り替えと長時間プロセスの管理。エイリアス: /bashes"
+  - name: skills
+    description: 特化ワークフロー用のAgent Skillsを管理する
+    argument-hint: "[list|enable|disable|refresh]"
+  - name: stats
+    description: "セッション統計を表示する：セッション情報、モデルのトークン/クォータ、ツール別統計"
+    argument-hint: "[session|model|tools]"
+  - name: terminal-setup
+    description: マルチライン入力用のターミナルキーバインドを設定する（VS Code・Cursor・Windsurf対応）
+  - name: theme
+    description: ビジュアルテーマを変更するダイアログを開く
+  - name: tools
+    description: 利用可能なツールを表示する（詳細説明のオプション付き）
+  - name: upgrade
+    description: Gemini CLIのインストールを最新バージョンに更新する
+  - name: vim
+    description: 入力エリアでvimスタイルのナビゲーションと編集を切り替える
