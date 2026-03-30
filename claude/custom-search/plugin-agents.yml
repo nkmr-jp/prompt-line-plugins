@@ -4,6 +4,6 @@ name: "{pathdir:2}:{basename}(agent)"
 label: "{pathdir:1}"
 description: "{frontmatter@description}"
 path: ~/.claude/plugins/cache
-pattern: "**/agents/*.md"
+pattern: "*/*/{latest}/**/agents/*.md"
 searchPrefix: agent
 displayTime: "{updatedAt}"

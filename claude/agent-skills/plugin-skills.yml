@@ -3,6 +3,7 @@ pluginDescription: "~/.claude/plugins/cache/**/SKILL.md"
 name: "{frontmatter@name}"
 description: "{frontmatter@description}"
 path: ~/.claude/plugins/cache
+#  */*/{latest}/*/
 label: "{pathdir:1} / {pathdir:2}"
-pattern: "**/*/SKILL.md"
+pattern: "*/*/{latest}/**/SKILL.md"
 argumentHint: "{frontmatter@argument-hint}"
