@@ -1,12 +1,12 @@
-# Claude Code built-in slash commands
+# Claude Code built-in
 #
 # Color property supports both named colors and hex color codes:
 # - Named colors: grey, darkGrey, slate, stone, red, rose, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink
 # - Hex codes: #RGB or #RRGGBB (e.g., #FF6B35, #F63)
 
-pluginDescription: "Claude Code built-in slash commands"
+pluginDescription: "Claude Code built-in"
 name: claude
-color: orange  # You can also use hex codes like "#FF6B35"
+color: amber  # You can also use hex codes like "#FF6B35"
 reference: https://code.claude.com/docs/en/commands
 
 commands:
