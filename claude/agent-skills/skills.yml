@@ -6,4 +6,3 @@ path: ~/.claude/skills
 pattern: "**/*/SKILL.md"
 label: user
 icon: "{frontmatter@icon}"
-maxSuggestions: 20

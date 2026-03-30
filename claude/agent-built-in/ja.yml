@@ -5,7 +5,7 @@
 # - 16進コード: #RGB or #RRGGBB (例: #FF6B35, #F63)
 
 name: claude-ja
-color: orange  # 16進コードも使用可能 例: "#FF6B35"
+color: amber  # 16進コードも使用可能 例: "#FF6B35"
 reference: https://code.claude.com/docs/en/commands
 
 commands:
