@@ -5,7 +5,7 @@
 # - 16進コード: #RGB or #RRGGBB (例: #00CC66, #0C6)
 
 name: codex
-color: emerald  # 16進コードも使用可能 例: "#00CC66"
+color: sky  # 16進コードも使用可能 例: "#00CC66"
 reference: https://developers.openai.com/codex/cli/slash-commands/
 
 commands:

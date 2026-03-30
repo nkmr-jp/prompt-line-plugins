@@ -4,7 +4,6 @@ name: "{frontmatter@name}"
 description: "{frontmatter@description}"
 path: ~/.claude/plugins/cache
 label: "{dirname:5} / {dirname:4}"
-color: cyan
 pattern: "**/*/SKILL.md"
 argumentHint: "{frontmatter@argument-hint}"
 excludeMarker: ".orphaned_at"

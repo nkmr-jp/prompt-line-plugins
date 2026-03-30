@@ -4,7 +4,6 @@ name: "{prefix}:{basename}(agent)"
 label: plugin agent
 description: "{frontmatter@description}"
 path: ~/.claude/plugins/cache
-color: yellow
 pattern: "**/agents/*.md"
 values:
   prefix: "**/.claude-plugin/*.json@name"

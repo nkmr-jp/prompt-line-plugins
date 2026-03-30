@@ -6,7 +6,7 @@
 
 pluginDescription: "Claude Code built-in slash commands"
 name: claude
-color: amber  # You can also use hex codes like "#FF6B35"
+color: orange  # You can also use hex codes like "#FF6B35"
 reference: https://code.claude.com/docs/en/commands
 
 commands:

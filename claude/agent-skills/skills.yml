@@ -4,7 +4,6 @@ name: "{frontmatter@name}"
 description: "{frontmatter@description}"
 path: ~/.claude/skills
 pattern: "**/*/SKILL.md"
-label: skill
-color: cyan
+label: user
 icon: "{frontmatter@icon}"
 maxSuggestions: 20

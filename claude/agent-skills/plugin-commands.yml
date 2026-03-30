@@ -5,7 +5,6 @@ description: "{frontmatter@description}"
 path: ~/.claude/plugins/cache
 pattern: "**/commands/*.md"
 label: "{dirname:4}"
-color: cyan
 icon: "{frontmatter@icon}"
 argumentHint: "{frontmatter@argument-hint}"
 maxSuggestions: 20

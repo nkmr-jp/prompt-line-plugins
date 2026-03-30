@@ -6,7 +6,7 @@
 
 pluginDescription: "OpenAI Codex CLI built-in slash commands"
 name: codex
-color: emerald  # You can also use hex codes like "#00CC66"
+color: sky  # You can also use hex codes like "#00CC66"
 reference: https://developers.openai.com/codex/cli/slash-commands/
 
 commands:
