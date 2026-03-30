@@ -3,7 +3,6 @@ pluginDescription: "~/.claude/plugins/cache/**/SKILL.md"
 name: "{frontmatter@name}"
 description: "{frontmatter@description}"
 path: ~/.claude/plugins/cache
-label: "{dirname:5} / {dirname:4}"
+label: "{pathdir:1} / {pathdir:2}"
 pattern: "**/*/SKILL.md"
 argumentHint: "{frontmatter@argument-hint}"
-excludeMarker: ".orphaned_at"
