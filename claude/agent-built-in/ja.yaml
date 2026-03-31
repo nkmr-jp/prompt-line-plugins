@@ -4,9 +4,13 @@
 # - 名前付きカラー: grey, darkGrey, slate, stone, red, rose, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink
 # - 16進コード: #RGB or #RRGGBB (例: #FF6B35, #F63)
 
+pluginDescription: "Claude Code 組み込み"
 name: claude-ja
 color: amber  # 16進コードも使用可能 例: "#FF6B35"
-reference: https://code.claude.com/docs/en/commands
+references:
+  - https://code.claude.com/docs/en/commands
+  - https://code.claude.com/docs/en/skills#bundled-skills
+  - https://code.claude.com/docs/en/sub-agents#built-in-subagents
 
 commands:
   - name: add-dir
@@ -18,8 +22,6 @@ commands:
   - name: btw
     description: 会話に追加せずに素早くサイドクエスチョンをする。Claudeが処理中でも独立して実行される
     argument-hint: "<question>"
-  - name: batch
-    description: "大規模な変更を調査・計画し、5〜30の独立したワークツリーエージェントで並列実行してそれぞれPRを作成する"
   - name: bug
     description: バグを報告する（会話内容をAnthropicに送信）
   - name: chrome
@@ -41,9 +43,6 @@ commands:
     argument-hint: "[N]"
   - name: cost
     description: トークン使用量の統計を表示する
-  - name: debug
-    description: セッションのデバッグログを読んで現在のセッションをトラブルシュートする
-    argument-hint: "[description]"
   - name: desktop
     description: "現在のCLIセッションをClaude Code Desktopアプリに引き継ぐ（macOSとWindowsのみ）。エイリアス: /app"
   - name: diff
@@ -142,8 +141,6 @@ commands:
     description: ファイルシステムとネットワークを分離したサンドボックスモードを切り替える。対応プラットフォームのみ
   - name: security-review
     description: 現在のブランチの保留中の変更をセキュリティ脆弱性の観点から分析する（インジェクション、認証の問題、データ漏洩など）
-  - name: simplify
-    description: 変更されたコードの再利用性・品質・効率性をレビューし、問題があれば修正する
   - name: skills
     description: 利用可能なスキルを一覧表示する
   - name: stats
@@ -173,3 +170,30 @@ commands:
     description: Vim編集モードとNormal編集モードを切り替える
   - name: voice
     description: プッシュトゥトーク音声入力を切り替える。Claude.aiアカウントが必要
+skills:
+  - name: batch
+    description: "大規模な変更を調査・計画し、5〜30の独立したワークツリーエージェントで並列実行してそれぞれPRを作成する"
+  - name: debug
+    description: このセッションのデバッグログを有効にし、問題の診断を支援する
+    argument-hint: "[description]"
+  - name: loop
+    description: プロンプトやスラッシュコマンドを定期的に実行する（例：/loop 5m /foo、デフォルト10分間隔）
+    argument-hint: "[interval] <prompt>"
+  - name: debug
+    description: セッションのデバッグログを読んで現在のセッションをトラブルシュートする
+    argument-hint: "[description]"
+  - name: simplify
+    description: 変更されたコードの再利用性・品質・効率性をレビューし、問題があれば修正する
+  - name: claude-api
+    description: "Claude APIまたはAnthropic SDKでアプリを構築する。トリガー条件: コードが `anthropic`/`@anthropic-ai/sdk`/`claude_agent_sdk` をインポート、またはユーザーがClaude API・Anthropic SDK・Agent SDKの使用を依頼した場合"
+agents:
+  - name: Explore
+    description: コードベースの検索と分析に最適化された高速な読み取り専用エージェント
+  - name: Plan
+    description: プランモード中にコンテキストを収集してからプランを提示するリサーチエージェント
+  - name: general-purpose
+    description: 探索とアクションの両方を必要とする複雑なマルチステップタスク向けの汎用エージェント
+  - name: statusline-setup
+    description: /statuslineでステータスラインを設定する際に使用
+  - name: claude-code-guide
+    description: Claude Codeの機能について質問する際に使用
