@@ -7,7 +7,10 @@
 pluginDescription: "Claude Code built-in"
 name: claude
 color: amber  # You can also use hex codes like "#FF6B35"
-reference: https://code.claude.com/docs/en/commands
+references:
+  - https://code.claude.com/docs/en/commands
+  - https://code.claude.com/docs/en/skills#bundled-skills
+  - https://code.claude.com/docs/en/sub-agents#built-in-subagents
 
 commands:
   - name: add-dir
@@ -19,8 +22,6 @@ commands:
   - name: btw
     description: Ask a quick side question without adding to the conversation. Runs independently even while Claude is processing
     argument-hint: "<question>"
-  - name: batch
-    description: "Research and plan a large-scale change, then execute it in parallel across 5\u201330 isolated worktree agents that each open a PR"
   - name: bug
     description: Report bugs (sends conversation to Anthropic)
   - name: chrome
@@ -42,9 +43,6 @@ commands:
     argument-hint: "[N]"
   - name: cost
     description: Show token usage statistics
-  - name: debug
-    description: Troubleshoot the current session by reading the session debug log
-    argument-hint: "[description]"
   - name: desktop
     description: "Continue the current session in the Claude Code Desktop app (macOS and Windows only). Alias: /app"
   - name: diff
@@ -143,8 +141,6 @@ commands:
     description: Toggle sandbox mode with filesystem and network isolation. Available on supported platforms only
   - name: security-review
     description: Analyze pending changes on the current branch for security vulnerabilities (injection, auth issues, data exposure)
-  - name: simplify
-    description: Review changed code for reuse, quality, and efficiency, then fix any issues found
   - name: skills
     description: List available skills
   - name: stats
@@ -174,3 +170,30 @@ commands:
     description: Toggle between Vim and Normal editing modes
   - name: voice
     description: Toggle push-to-talk voice dictation. Requires a Claude.ai account
+skills:
+  - name: batch
+    description: "Research and plan a large-scale change, then execute it in parallel across 5–30 isolated worktree agents that each open a PR."
+  - name: debug
+    description: Enable debug logging for this session and help diagnose issues
+    argument-hint: "[description]"
+  - name: loop
+    description: Run a prompt or slash command on a recurring interval (e.g. /loop 5m /foo, defaults to 10m)
+    argument-hint: "[interval] <prompt>"
+  - name: debug
+    description: Troubleshoot the current session by reading the session debug log
+    argument-hint: "[description]"
+  - name: simplify
+    description:  Review changed code for reuse, quality, and efficiency, then fix any issues found.
+  - name: claude-api
+    description:  "Build apps with the Claude API or Anthropic SDK. TRIGGER when: code imports `anthropic`/`@anthropic-ai/sdk`/`claude_agent_sdk`, or user asks to use Claude API, Anthropic SDKs, or Agent SDK."
+agents:
+  - name: Explore
+    description: A fast, read-only agent optimized for searching and analyzing codebases.
+  - name: Plan
+    description: A research agent used during plan mode to gather context before presenting a plan.
+  - name: general-purpose
+    description: A capable agent for complex, multi-step tasks that require both exploration and action.
+  - name: statusline-setup
+    description: When you run /statusline to configure your status line
+  - name: claude-code-guide
+    description: When you ask questions about Claude Code features
