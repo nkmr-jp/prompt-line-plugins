@@ -20,7 +20,7 @@ commands:
   - name: bashes
     description: バックグラウンドタスクの一覧と管理
   - name: btw
-    description: 会話に追加せずに素早くサイドクエスチョンをする。Claudeが処理中でも独立して実行される
+    description: 会話に追加せずに素早くサイドクエスチョンをする
     argument-hint: "<question>"
   - name: bug
     description: バグを報告する（会話内容をAnthropicに送信）
@@ -39,18 +39,18 @@ commands:
   - name: context
     description: 現在のコンテキスト使用量をカラーグリッドで表示する。コンテキスト負荷の高いツール、メモリ膨張、容量警告の最適化提案も表示
   - name: copy
-    description: "最後のアシスタントレスポンスをクリップボードにコピーする。数値Nを渡すとN番目に新しいレスポンスをコピー（例: /copy 2）。コードブロックがある場合は個別ブロックまたは全体を選択するピッカーを表示"
+    description: "最後のアシスタントレスポンスをクリップボードにコピーする。数値Nを渡すとN番目に新しいレスポンスをコピー（例: /copy 2）。コードブロックがある場合は個別ブロックまたは全体を選択するピッカーを表示。ピッカーで `w` を押すとクリップボードの代わりにファイルに書き込む（SSH経由で便利）"
     argument-hint: "[N]"
   - name: cost
     description: トークン使用量の統計を表示する
   - name: desktop
     description: "現在のCLIセッションをClaude Code Desktopアプリに引き継ぐ（macOSとWindowsのみ）。エイリアス: /app"
   - name: diff
-    description: コミットされていない変更とターンごとのdiffを対話的に表示する
+    description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧
   - name: doctor
     description: Claude Codeのインストール状態と設定を診断・検証する
   - name: effort
-    description: "モデルの推論レベルを設定する。low/medium/highはセッション間で保持。maxは現在のセッションのみ（Opus 4.6が必要）。autoでモデルのデフォルトにリセット。引数なしで現在のレベルを表示"
+    description: "モデルの推論レベルを設定する。low/medium/highはセッション間で保持。maxは現在のセッションのみ（Opus 4.6が必要）。autoでモデルのデフォルトにリセット。引数なしで現在のレベルを表示。即時反映"
     argument-hint: "[low|medium|high|max|auto]"
   - name: exit
     description: "CLIを終了する。エイリアス: /quit"
@@ -73,13 +73,13 @@ commands:
   - name: help
     description: 使い方のヘルプを表示する
   - name: hooks
-    description: ツールイベント用のフック設定を管理する
+    description: ツールイベント用のフック設定を表示する
   - name: ide
     description: IDE連携の管理とステータス表示
   - name: insights
     description: Claude Codeセッションの分析レポートを生成する（プロジェクト領域、操作パターン、摩擦ポイント）
   - name: init
-    description: CLAUDE.mdガイドでプロジェクトを初期化する
+    description: "CLAUDE.mdガイドでプロジェクトを初期化する。CLAUDE_CODE_NEW_INIT=trueで、スキル・フック・個人メモリファイルの設定も含むインタラクティブフローを使用可能"
   - name: install-github-app
     description: リポジトリにClaude GitHub Actionsをセットアップする
   - name: install-slack-app
@@ -100,27 +100,29 @@ commands:
   - name: mobile
     description: "Claudeモバイルアプリのダウンロード用QRコードを表示する。エイリアス: /ios, /android"
   - name: model
-    description: AIモデルを選択または変更する（左右矢印キーで推論レベルを調整）。即時反映
+    description: AIモデルを選択または変更する。対応モデルでは左右矢印キーで推論レベルを調整可能。現在のレスポンスを待たずに即時反映
+    argument-hint: "[model]"
   - name: output-style
     description: "出力スタイルを切り替える：Default、Explanatory（教育的インサイト）、Learning（ハンズオン練習）。カスタムスタイルにも対応"
     argument-hint: "[style]"
   - name: passes
-    description: 友人にClaude Codeの無料1週間パスを共有する（対象アカウントのみ表示）
+    description: 友人にClaude Codeの無料1週間パスを共有する。対象アカウントのみ表示
   - name: permissions
     description: "パーミッションを表示または更新する。エイリアス: /allowed-tools"
   - name: plan
-    description: プロンプトからプランモードに直接入る
+    description: "プロンプトからプランモードに直接入る。説明を渡すとそのタスクですぐにプランモードを開始する（例: /plan 認証バグを修正）"
     argument-hint: "[description]"
   - name: plugin
     description: Claude Codeプラグインを管理する
   - name: reload-plugins
-    description: アクティブなプラグインをすべてリロードし、保留中の変更を再起動なしで適用する
+    description: アクティブなプラグインをすべてリロードし、保留中の変更を再起動なしで適用する。リロードされたコンポーネント数とロードエラーを報告
   - name: pr-comments
-    description: GitHub プルリクエストのコメントを取得・表示する（現在のブランチのPRを自動検出、gh CLIが必要）
+    description: "GitHub プルリクエストのコメントを取得・表示する。現在のブランチのPRを自動検出、またはPR URLや番号を指定可能。gh CLIが必要"
+    argument-hint: "[PR]"
   - name: privacy-settings
-    description: プライバシー設定を表示・更新する
+    description: プライバシー設定を表示・更新する。ProおよびMaxプランのサブスクライバーのみ利用可能
   - name: remote-env
-    description: テレポートセッション用のデフォルトリモート環境を設定する
+    description: --remoteで開始されたWebセッション用のデフォルトリモート環境を設定する
   - name: rc
     description: /remote-control のエイリアス
   - name: release-notes
@@ -128,25 +130,28 @@ commands:
   - name: remote-control
     description: "このセッションをclaude.aiからのリモートコントロールに利用可能にする。エイリアス: /rc"
   - name: rename
-    description: 現在のセッションの名前を変更する（名前未指定時は会話履歴から自動生成）
+    description: 現在のセッションの名前を変更し、プロンプトバーに表示する。名前未指定時は会話履歴から自動生成
     argument-hint: "[name]"
   - name: resume
     description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。エイリアス: /continue"
     argument-hint: "[session]"
   - name: review
-    description: "非推奨。代わりにcode-reviewプラグインをインストール: claude plugin install code-review@claude-code-marketplace"
+    description: "非推奨。代わりにcode-reviewプラグインをインストール: claude plugin install code-review@claude-plugins-official"
   - name: rewind
-    description: "会話やコードを以前のポイントに巻き戻す、または選択したメッセージから要約する。エイリアス: /checkpoint"
+    description: "会話やコードを以前のポイントに巻き戻す、または選択したメッセージから要約する。チェックポイント機能参照。エイリアス: /checkpoint"
   - name: sandbox
-    description: ファイルシステムとネットワークを分離したサンドボックスモードを切り替える。対応プラットフォームのみ
+    description: サンドボックスモードを切り替える。対応プラットフォームのみ
+  - name: schedule
+    description: "Cloudスケジュールタスクの作成・更新・一覧・実行を行う。Claudeが対話的にセットアップをガイドする"
+    argument-hint: "[description]"
   - name: security-review
-    description: 現在のブランチの保留中の変更をセキュリティ脆弱性の観点から分析する（インジェクション、認証の問題、データ漏洩など）
+    description: 現在のブランチの保留中の変更をセキュリティ脆弱性の観点から分析する。git diffをレビューしインジェクション、認証の問題、データ漏洩などのリスクを特定
   - name: skills
     description: 利用可能なスキルを一覧表示する
   - name: stats
     description: "日次使用量、セッション履歴、連続使用日数、モデルの使用傾向を表示する"
   - name: status
-    description: "設定インターフェースを開く（Statusタブ）。バージョン、モデル、アカウント、接続状況を表示"
+    description: "設定インターフェースを開く（Statusタブ）。バージョン、モデル、アカウント、接続状況を表示。Claudeのレスポンス中でも動作"
   - name: statusline
     description: "Claude Codeのステータスラインを設定する。表示内容を指定するか、引数なしでシェルプロンプトから自動設定"
   - name: stickers
@@ -157,7 +162,7 @@ commands:
     description: claude.aiからリモートセッションを再開する（サブスクリプション限定）
     argument-hint: "[session]"
   - name: terminal-setup
-    description: ターミナルのキーバインドを設定する（Shift+Enterなどのショートカット、VS Code・Alacritty・Warp対応）
+    description: ターミナルのキーバインドを設定する（Shift+Enterなどのショートカット）。VS Code・Alacritty・Warpなど必要なターミナルでのみ表示
   - name: theme
     description: "カラーテーマを変更する。ライト/ダーク、色覚対応（ダルトナイズ）、ANSIテーマを含む"
   - name: todos
@@ -195,5 +200,7 @@ agents:
     description: 探索とアクションの両方を必要とする複雑なマルチステップタスク向けの汎用エージェント
   - name: statusline-setup
     description: /statuslineでステータスラインを設定する際に使用
+  - name: Bash
+    description: ターミナルコマンドを別コンテキストで実行するヘルパーエージェント
   - name: claude-code-guide
     description: Claude Codeの機能について質問する際に使用
