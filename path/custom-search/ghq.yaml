@@ -1,0 +1,43 @@
+name: "{line}"
+description: ""
+icon: repo
+color: rose
+sourceCommand: "ghq list"
+#sourceDirectory: "~/.prompt-line"
+#sourcePath: "ghq.txt"
+shortcut: Ctrl+g
+runCommand: "open -a iTerm ~/ghq/{line}"
+inputFormat: "~/ghq/{line}"
+maxSuggestions: 100
+
+
+#"skills": {
+#  "freee-api-skill": {
+#    "source": "freee/freee-mcp",
+#    "sourceType": "github",
+#    "sourceUrl": "https://github.com/freee/freee-mcp.git",
+#    "skillPath": "skills/freee-api-skill/SKILL.md",
+#    "skillFolderHash": "898502267821dd000f223a26ab14c9eda2504394",
+#    "installedAt": "2026-03-01T19:39:15.363Z",
+#    "updatedAt": "2026-03-06T14:12:07.662Z"
+#  },
+#}
+
+#  {
+#    "name": "linear",
+#    "source": {
+#      "source": "local",
+#      "path": "./plugins/linear"
+#    },
+#    "policy": {
+#      "installation": "AVAILABLE",
+#      "authentication": "ON_INSTALL"
+#    },
+#    "category": "Productivity"
+#  },
+
+#source:
+#  type: command
+#  command: "ghq list"
+#  directory: "~/.prompt-line"
+#  path: "ghq.txt"

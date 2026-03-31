@@ -1,10 +1,18 @@
 # Claude Code plugin commands (from ~/.claude/plugins/cache/**/commands/*.md)
-pluginDescription: "~/.claude/plugins/cache/**/commands/*.md"
+#pluginDescription: "~/.claude/plugins/cache/**/commands/*.md"
+#name: "{pathdir:2}:{basename}"
+#label: "{pathdir:1}"
+#description: "{frontmatter@description}"
+#path: ~/.claude/plugins/cache
+#pattern: "*/*/{latest}/**/commands/*.md"
+#icon: "{frontmatter@icon}"
+#argumentHint: "{frontmatter@argument-hint}"
+#maxSuggestions: 20
+
 name: "{pathdir:2}:{basename}"
+icon: "{frontmatter@icon}"
 label: "{pathdir:1}"
 description: "{frontmatter@description}"
-path: ~/.claude/plugins/cache
-pattern: "*/*/{latest}/**/commands/*.md"
-icon: "{frontmatter@icon}"
 argumentHint: "{frontmatter@argument-hint}"
-maxSuggestions: 20
+sourcePath: ~/.claude/plugins/cache/*/*/{latest}/**/commands/*.md
+#pluginComment: "~/.claude/plugins/cache/**/commands/*.md"

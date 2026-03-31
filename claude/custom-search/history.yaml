@@ -1,0 +1,12 @@
+name: "{json@display}"
+icon: history
+color: orange
+description: ""
+searchPrefix: r
+shortcut: Ctrl+r
+sourcePath: "~/.claude/history.jsonl"
+orderBy: "{json@timestamp} desc"
+inputFormat: "{json@display}|{json@display}"
+displayTime: "{json@timestamp}"
+maxSuggestions: 100
+pluginArgs: [shortcut,]
