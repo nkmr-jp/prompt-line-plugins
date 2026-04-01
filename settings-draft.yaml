@@ -32,16 +32,18 @@ shortcuts:
   # Ctrl+r: "input=@r:"
 
 # ============================================================================
-# PLUGIN SETTINGS
+# PLUGIN SETTINGS (refs: `prompt-line-plugin help`)
 # ============================================================================
 # You can add your own plugins. refs: `prompt-line-plugin help`
+# - claude/custom-search/agents@agent のように場合は @agent: で検索できます。
+# - @や?の値は設定可能な項目です。(e.g. path/custom-search/ghq@g?open=Ghostty )
 plugins:
   github.com/nkmr-jp/prompt-line-plugins:
     # - agents/agent-skills/skills              # sourcePath: ~/.agents/skills/**/SKILL.md
     - claude/agent-built-in/en                  # Claude Code built-in commands,skills,agents | lang: en,ja
     - claude/agent-skills/commands              # sourcePath: ~/.claude/commands/*.md
     - claude/agent-skills/plugin-commands       # sourcePath: ~/.claude/plugins/cache/*/*/{latest}/**/commands/*.md
-    - claude/agent-skills/plugin-skills         # sourcePath: ~/.claude/plugins/cache/*/*/{latest}/**/SKILL.md
+    - claude/agent-skills/plugin-skills         # sourcePath: ~ /.claude/plugins/cache/*/*/{latest}/**/SKILL.md
     - claude/agent-skills/skills                # sourcePath: ~/.claude/skills/**/SKILL.md
     - claude/custom-search/agents@agent         # sourcePath: ~/.claude/agents/*.md
     - claude/custom-search/plans@plan           # sourcePath: ~/.claude/plans/*.md
@@ -50,7 +52,7 @@ plugins:
     - claude/custom-search/history@r            # sourcePath: ~/.claude/history.jsonl
     # - codex/agent-built-in/en                 # Codex CLI built-in commands | lang: en,ja
     # - gemini/agent-built-in/en                # Gemini CLI built-in commands | lang: en,ja
-    # - path/custom-search/ghq@ghq?app=iTerm    # sourceCommand: ghq list
+    # - path/custom-search/ghq@ghq?open=iTerm   # sourceCommand: ghq list
 
 # ============================================================================
 # FILE OPENER SETTINGS
