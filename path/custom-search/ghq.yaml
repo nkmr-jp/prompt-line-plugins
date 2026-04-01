@@ -3,8 +3,7 @@ description: ""
 icon: repo
 color: rose
 sourceCommand: "ghq list"
-#sourceDirectory: "~/.prompt-line"
-#sourcePath: "ghq.txt"
+#sourcePath: "~/.prompt-line/ghq.txt"
 shortcut: Ctrl+g
 runCommand: "open -a iTerm ~/ghq/{line}"
 inputFormat: "~/ghq/{line}"
