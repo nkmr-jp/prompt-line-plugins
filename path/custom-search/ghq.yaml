@@ -5,9 +5,11 @@ color: rose
 sourceCommand: "ghq list"
 #sourcePath: "~/.prompt-line/ghq.txt"
 shortcut: Ctrl+g
-runCommand: "open -a iTerm ~/ghq/{line}"
+runCommand: "open -a {args.app} ~/ghq/{line}"
 inputFormat: "~/ghq/{line}"
 maxSuggestions: 100
+args:
+  app: iTerm
 
 
 #"skills": {

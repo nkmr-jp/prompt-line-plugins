@@ -35,3 +35,12 @@ gemini/
 | custom-search | @       | subagents, ユーザー定義の検索機能               |
 
 ## Plugin
+
+WIP
+
+## Color
+
+Color property supports both named colors and hex color codes:
+
+- Named colors: grey, darkGrey, slate, stone, red, rose, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink
+- Hex codes: #RGB or #RRGGBB (e.g., #FF6B35, #F63)

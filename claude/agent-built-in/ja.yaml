@@ -1,11 +1,5 @@
-# Claude Code 組み込みスラッシュコマンド
-#
-# color プロパティは名前付きカラーと16進カラーコードの両方に対応:
-# - 名前付きカラー: grey, darkGrey, slate, stone, red, rose, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink
-# - 16進コード: #RGB or #RRGGBB (例: #FF6B35, #F63)
-
-pluginDescription: "Claude Code 組み込み"
 name: claude-ja
+description: Claude Code built-in commands,skills,agents
 color: amber  # 16進コードも使用可能 例: "#FF6B35"
 references:
   - https://code.claude.com/docs/en/commands
