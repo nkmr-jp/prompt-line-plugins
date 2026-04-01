@@ -1,7 +1,7 @@
 # Claude Code global commands
 # See: https://code.claude.com/docs/en/claude-directory#ce-global-commands
+sourcePath: ~/.claude/commands/*.md
 name: "{basename}"
 label: global
-sourcePath: ~/.claude/commands/*.md
 description: "{frontmatter@description}"
 argumentHint: "{frontmatter@argument-hint}"
