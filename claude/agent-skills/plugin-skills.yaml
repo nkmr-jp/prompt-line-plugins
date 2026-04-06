@@ -1,8 +1,7 @@
-# Claude Code plugin skills (from ~/.claude/plugins/cache/**/SKILL.md)
-pluginDescription: "~/.claude/plugins/cache/**/SKILL.md"
+# Claude Code plugin skills
+# See: https://code.claude.com/docs/en/plugins-reference#plugin-caching-and-file-resolution
+sourcePath: ~/.claude/plugins/cache/*/*/{latest}/**/SKILL.md
 name: "{frontmatter@name}"
-description: "{frontmatter@description}"
-path: ~/.claude/plugins/cache
 label: "{pathdir:1} / {pathdir:2}"
-pattern: "*/*/{latest}/**/SKILL.md"
+description: "{frontmatter@description}"
 argumentHint: "{frontmatter@argument-hint}"

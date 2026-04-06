@@ -1,7 +1,0 @@
-# Claude Code global agents
-sourcePath: ~/.claude/agents/*.md
-searchPrefix: agent
-name: "{basename}(agent)"
-label: global
-description: "{frontmatter@description}"
-displayTime: "{updatedAt}"

@@ -1,0 +1,8 @@
+name: "{frontmatter@name}"
+pluginDescription: ~/.agents/skills/
+description: "{frontmatter@description}"
+path: ~/.agents/skills/
+label: "agents / {pathdir:1}"
+color: blue
+pattern: "**/*/SKILL.md"
+triggers: ["/","$"]

@@ -1,7 +1,0 @@
-# Claude Code plugin commands
-# See: https://code.claude.com/docs/en/plugins-reference#plugin-caching-and-file-resolution
-sourcePath: ~/.claude/plugins/cache/*/*/{latest}/**/commands/*.md
-name: "{pathdir:2}:{basename}"
-label: "{pathdir:1}"
-description: "{frontmatter@description}"
-argumentHint: "{frontmatter@argument-hint}"

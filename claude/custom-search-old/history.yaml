@@ -4,6 +4,7 @@ name: "{json@display}"
 icon: history
 color: orange
 searchPrefix: r
+shortcut: Ctrl+r
 orderBy: "{json@timestamp} desc"
 inputFormat: "{json@display}|{json@display}"
 displayTime: "{json@timestamp}"

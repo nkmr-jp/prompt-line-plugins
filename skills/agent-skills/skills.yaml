@@ -1,8 +1,10 @@
+# skills
+# See:
+#  - https://skills.sh/
+#  - https://github.com/vercel-labs/skills
+sourcePath: ~/.agents/skills/**/*/SKILL.md
 name: "{frontmatter@name}"
-pluginDescription: ~/.agents/skills/
+label: "skills / {pathdir:1}"
 description: "{frontmatter@description}"
-path: ~/.agents/skills/
-label: "agents / {pathdir:1}"
 color: blue
-pattern: "**/*/SKILL.md"
 triggers: ["/","$"]

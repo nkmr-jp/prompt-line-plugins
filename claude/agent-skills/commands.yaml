@@ -1,9 +1,7 @@
-# Claude Code custom commands (from ~/.claude/commands/*.md)
-pluginDescription: "~/.claude/commands/*.md"
+# Claude Code global commands
+# See: https://code.claude.com/docs/en/claude-directory#ce-global-commands
+sourcePath: ~/.claude/commands/*.md
 name: "{basename}"
+label: global
 description: "{frontmatter@description}"
-path: ~/.claude/commands
-pattern: "*.md"
-label: user
-icon: "{frontmatter@icon}"
 argumentHint: "{frontmatter@argument-hint}"
