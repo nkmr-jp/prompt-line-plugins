@@ -37,7 +37,6 @@ shortcuts:
 # ============================================================================
 # You can add your own plugins. refs: `prompt-line-plugin help`
 # - claude/custom-search/agents@agent のように場合は @agent: で検索できます。
-# - @や?の値は設定可能な項目です。(e.g. path/custom-search/ghq@g?open=Ghostty )
 plugins:
   github.com/nkmr-jp/prompt-line-plugins:
     # - agents/agent-skills/skills              # sourcePath: ~/.agents/skills/**/SKILL.md
