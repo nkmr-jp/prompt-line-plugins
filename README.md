@@ -13,13 +13,13 @@ prompt-line-plugin install github.com/nkmr-jp/prompt-line-plugins
 
 ```
 claude/
-  agent-built-in/    # Claude Code 組み込み機能 (en,ja)
-  agent-skills/      # skill, commands
+  agent-built-in/    # Claude Code built-in features (en, ja)
+  agent-skills/      # skills, commands
   custom-search/     # @ mention search entries
 codex/
-  agent-built-in/    # OpenAI Codex CLI 組み込み機能 (en,ja)
+  agent-built-in/    # OpenAI Codex CLI built-in features (en, ja)
 gemini/
-  agent-built-in/    # Google Gemini CLI 組み込み機能 (en,ja)
+  agent-built-in/    # Google Gemini CLI built-in features (en, ja)
 ```
 
 ```
@@ -28,11 +28,11 @@ gemini/
 
 ## Type
 
-| type          | trigger | description                          |
-|---------------|---------|--------------------------------------|
-| agent-buit-in | / ,@    | Agent組み込みの commands、skills、subagents |
-| agents-skills | /, $    | skills, commands                     |
-| custom-search | @       | subagents, ユーザー定義の検索機能               |
+| type          | trigger | description                                  |
+|---------------|---------|----------------------------------------------|
+| agent-built-in | /, @   | Agent built-in commands, skills, subagents   |
+| agent-skills  | /, $    | skills, commands                             |
+| custom-search | @       | subagents, user-defined search features      |
 
 ## Plugin
 
