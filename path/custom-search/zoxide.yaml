@@ -1,6 +1,6 @@
 name: "{line}"
 description: ""
-icon: repo
+icon: folder
 color: lime
 sourceCommand: "zoxide query -l"
 inputFormat: "{line}"

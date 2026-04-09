@@ -1,6 +1,6 @@
 name: "{line}"
 description: ""
-icon: repo
+icon: folder
 color: sky
 sourceCommand: "mdfind -onlyin ~ 'kMDItemLastUsedDate >= $time.today(-7)' | head -100"
 inputFormat: "{line}"
