@@ -1,9 +1,0 @@
-# Claude Code plugin agents (from ~/.claude/plugins/cache/**/agents/*.md, search with @agent:)
-pluginDescription: "~/.claude/plugins/cache/**/agents/*.md, search with @agent:"
-name: "{pathdir:2}:{basename}(agent)"
-label: "{pathdir:1}"
-description: "{frontmatter@description}"
-path: ~/.claude/plugins/cache
-pattern: "*/*/{latest}/**/agents/*.md"
-searchPrefix: agent
-displayTime: "{updatedAt}"

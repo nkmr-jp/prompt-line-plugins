@@ -194,7 +194,5 @@ agents:
     description: 探索とアクションの両方を必要とする複雑なマルチステップタスク向けの汎用エージェント
   - name: statusline-setup
     description: /statuslineでステータスラインを設定する際に使用
-  - name: Bash
-    description: ターミナルコマンドを別コンテキストで実行するヘルパーエージェント
   - name: claude-code-guide
     description: Claude Codeの機能について質問する際に使用

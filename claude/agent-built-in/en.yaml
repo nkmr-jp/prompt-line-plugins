@@ -194,7 +194,5 @@ agents:
     description: A capable agent for complex, multi-step tasks that require both exploration and action.
   - name: statusline-setup
     description: When you run /statusline to configure your status line
-  - name: Bash
-    description: A helper agent for running terminal commands in a separate context.
   - name: claude-code-guide
     description: When you ask questions about Claude Code features
