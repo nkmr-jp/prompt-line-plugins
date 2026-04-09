@@ -1,0 +1,11 @@
+name: "{line}"
+description: ""
+icon: repo
+color: rose
+sourceCommand: "ghq list"
+runCommand: "open -a {args.open} ~/ghq/{line}"
+inputFormat: "~/ghq/{line}"
+maxSuggestions: 100
+searchPrefix: ghq
+args:
+  open: iTerm

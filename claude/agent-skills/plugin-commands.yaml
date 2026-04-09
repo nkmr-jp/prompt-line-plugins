@@ -1,10 +1,7 @@
-# Claude Code plugin commands (from ~/.claude/plugins/cache/**/commands/*.md)
-pluginDescription: "~/.claude/plugins/cache/**/commands/*.md"
+# Claude Code plugin commands
+# See: https://code.claude.com/docs/en/plugins-reference#plugin-caching-and-file-resolution
+sourcePath: ~/.claude/plugins/cache/*/*/{latest}/**/commands/*.md
 name: "{pathdir:2}:{basename}"
 label: "{pathdir:1}"
 description: "{frontmatter@description}"
-path: ~/.claude/plugins/cache
-pattern: "*/*/{latest}/**/commands/*.md"
-icon: "{frontmatter@icon}"
 argumentHint: "{frontmatter@argument-hint}"
-maxSuggestions: 20

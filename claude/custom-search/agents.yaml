@@ -1,9 +1,7 @@
-# Claude Code agents (from ~/.claude/agents/*.md, search with @agent:)
-pluginDescription: "~/.claude/agents/*.md, search with @agent:"
-name: "{basename}(agent)"
-label: user
-description: "{frontmatter@description}"
-path: ~/.claude/agents
-pattern: "*.md"
+# Claude Code global agents
+sourcePath: ~/.claude/agents/*.md
 searchPrefix: agent
+name: "{basename}(agent)"
+label: global
+description: "{frontmatter@description}"
 displayTime: "{updatedAt}"

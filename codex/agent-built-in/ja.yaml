@@ -36,7 +36,7 @@ commands:
   - name: experimental
     description: 実験的機能を切り替える
   - name: fast
-    description: Fastモードを切り替える（プラン使用量2倍で最速の推論）
+    description: GPT-5.4のFastモードを切り替える
   - name: feedback
     description: Codexメンテナーにログを送信する
   - name: fork
