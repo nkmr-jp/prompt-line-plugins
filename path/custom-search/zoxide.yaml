@@ -1,0 +1,8 @@
+name: "{line}"
+description: ""
+icon: repo
+color: lime
+sourceCommand: "zoxide query -l"
+inputFormat: "{line}"
+maxSuggestions: 100
+searchPrefix: z
