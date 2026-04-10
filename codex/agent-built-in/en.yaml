@@ -5,6 +5,7 @@
 # - Hex codes: #RGB or #RRGGBB (e.g., #00CC66, #0C6)
 
 name: codex
+description: Codex CLI built-in commands
 color: sky  # You can also use hex codes like "#00CC66"
 reference: https://developers.openai.com/codex/cli/slash-commands/
 
