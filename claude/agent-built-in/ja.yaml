@@ -8,20 +8,23 @@ references:
 
 commands:
   - name: add-dir
-    description: 追加の作業ディレクトリを登録する
+    description: 現在のセッションにファイルアクセス用の作業ディレクトリを追加する
+    argument-hint: "<path>"
   - name: agents
-    description: 特化タスク用のカスタムAIサブエージェントを管理する
-  - name: bashes
-    description: バックグラウンドタスクの一覧と管理
+    description: エージェント設定を管理する
+  - name: autofix-pr
+    description: 現在のブランチのPRを監視し、CIが失敗したりレビューコメントが付いたら自動で修正をプッシュするClaude Code Webセッションを起動する
+    argument-hint: "[prompt]"
   - name: btw
     description: 会話に追加せずに素早くサイドクエスチョンをする
     argument-hint: "<question>"
-  - name: bug
-    description: バグを報告する（会話内容をAnthropicに送信）
+  - name: branch
+    description: "現在の会話のこの時点でブランチを作成する。エイリアス: /fork"
+    argument-hint: "[name]"
   - name: chrome
-    description: Claude in Chrome（ベータ）の設定を行う
+    description: Claude in Chromeの設定を行う
   - name: clear
-    description: "会話履歴をクリアしてコンテキストを解放する（エイリアス: /reset, /new）"
+    description: "会話履歴をクリアしてコンテキストを解放する。エイリアス: /reset, /new"
   - name: color
     description: "現在のセッションのプロンプトバーの色を設定する。使用可能な色: red, blue, green, yellow, purple, orange, pink, cyan。`default` でリセット"
     argument-hint: "[color|default]"
@@ -58,11 +61,9 @@ commands:
     argument-hint: "[on|off]"
   - name: feedback
     description: "Claude Codeについてのフィードバックを送信する。エイリアス: /bug"
-  - name: branch
-    description: "現在の会話のこの時点でブランチを作成する。エイリアス: /fork"
-    argument-hint: "[name]"
+    argument-hint: "[report]"
   - name: fork
-    description: 現在の会話のこの時点でフォークを作成する
+    description: "現在の会話のこの時点でフォークを作成する。/branch のエイリアス"
     argument-hint: "[name]"
   - name: help
     description: 使い方のヘルプを表示する
@@ -82,11 +83,11 @@ commands:
     description: キーバインド設定ファイルを開くまたは作成する
   - name: login
     description: Anthropicアカウントにサインインする
+  - name: logout
+    description: Anthropicアカウントからサインアウトする
   - name: loop
     description: プロンプトやスラッシュコマンドを定期的に実行する（例：/loop 5m /foo、デフォルト10分間隔）
     argument-hint: "[interval] [command]"
-  - name: logout
-    description: Anthropicアカウントからサインアウトする
   - name: mcp
     description: MCPサーバー接続とOAuth認証を管理する
   - name: memory
@@ -96,33 +97,27 @@ commands:
   - name: model
     description: AIモデルを選択または変更する。対応モデルでは左右矢印キーで推論レベルを調整可能。現在のレスポンスを待たずに即時反映
     argument-hint: "[model]"
-  - name: output-style
-    description: "出力スタイルを切り替える：Default、Explanatory（教育的インサイト）、Learning（ハンズオン練習）。カスタムスタイルにも対応"
-    argument-hint: "[style]"
   - name: passes
     description: 友人にClaude Codeの無料1週間パスを共有する。対象アカウントのみ表示
   - name: permissions
-    description: "パーミッションを表示または更新する。エイリアス: /allowed-tools"
+    description: "ツールパーミッションのallow・ask・denyルールを管理する。エイリアス: /allowed-tools"
   - name: plan
     description: "プロンプトからプランモードに直接入る。説明を渡すとそのタスクですぐにプランモードを開始する（例: /plan 認証バグを修正）"
     argument-hint: "[description]"
   - name: plugin
     description: Claude Codeプラグインを管理する
-  - name: reload-plugins
-    description: アクティブなプラグインをすべてリロードし、保留中の変更を再起動なしで適用する。リロードされたコンポーネント数とロードエラーを報告
-  - name: pr-comments
-    description: "GitHub プルリクエストのコメントを取得・表示する。現在のブランチのPRを自動検出、またはPR URLや番号を指定可能。gh CLIが必要"
-    argument-hint: "[PR]"
+  - name: powerup
+    description: インタラクティブなレッスンとアニメーションデモでClaude Codeの機能を発見する
   - name: privacy-settings
     description: プライバシー設定を表示・更新する。ProおよびMaxプランのサブスクライバーのみ利用可能
-  - name: remote-env
-    description: --remoteで開始されたWebセッション用のデフォルトリモート環境を設定する
-  - name: rc
-    description: /remote-control のエイリアス
   - name: release-notes
-    description: 完全な変更履歴を表示する。最新バージョンがプロンプトに最も近い位置に表示される
+    description: インタラクティブなバージョンピッカーで変更履歴を表示する。最新バージョンがプロンプトに最も近い位置に表示される
+  - name: reload-plugins
+    description: アクティブなプラグインをすべてリロードし、保留中の変更を再起動なしで適用する。リロードされたコンポーネント数とロードエラーを報告
   - name: remote-control
     description: "このセッションをclaude.aiからのリモートコントロールに利用可能にする。エイリアス: /rc"
+  - name: remote-env
+    description: --remoteで開始されたWebセッション用のデフォルトリモート環境を設定する
   - name: rename
     description: 現在のセッションの名前を変更し、プロンプトバーに表示する。名前未指定時は会話履歴から自動生成
     argument-hint: "[name]"
@@ -140,6 +135,10 @@ commands:
     argument-hint: "[description]"
   - name: security-review
     description: 現在のブランチの保留中の変更をセキュリティ脆弱性の観点から分析する。git diffをレビューしインジェクション、認証の問題、データ漏洩などのリスクを特定
+  - name: setup-bedrock
+    description: Amazon Bedrock認証を設定する（CLAUDE_CODE_USE_BEDROCK=1の場合に表示）
+  - name: setup-vertex
+    description: Google Vertex AI認証を設定する（CLAUDE_CODE_USE_VERTEX=1の場合に表示）
   - name: skills
     description: 利用可能なスキルを一覧表示する
   - name: stats
@@ -151,40 +150,42 @@ commands:
   - name: stickers
     description: Claude Codeステッカーを注文する
   - name: tasks
-    description: バックグラウンドタスクの一覧と管理
+    description: "バックグラウンドタスクの一覧と管理。エイリアス: /bashes"
+  - name: team-onboarding
+    description: ローカルのClaude Code使用状況からチームメイト向けのオンボーディングガイドを生成する
   - name: teleport
-    description: claude.aiからリモートセッションを再開する（サブスクリプション限定）
+    description: "Claude Code Webセッションをこのターミナルに引き込む。エイリアス: /tp"
     argument-hint: "[session]"
   - name: terminal-setup
     description: ターミナルのキーバインドを設定する（Shift+Enterなどのショートカット）。VS Code・Alacritty・Warpなど必要なターミナルでのみ表示
   - name: theme
     description: "カラーテーマを変更する。ライト/ダーク、色覚対応（ダルトナイズ）、ANSIテーマを含む"
-  - name: todos
-    description: 現在のTODOアイテムを一覧表示する
-  - name: usage
-    description: プランの使用制限とレート制限のステータスを表示する
+  - name: ultraplan
+    description: ultraplanセッションでプランを作成し、ブラウザでレビューしてから実行する
+    argument-hint: "<prompt>"
   - name: upgrade
     description: より高いプランティアに切り替えるためのアップグレードページを開く
-  - name: vim
-    description: Vim編集モードとNormal編集モードを切り替える
+  - name: usage
+    description: プランの使用制限とレート制限のステータスを表示する
   - name: voice
     description: プッシュトゥトーク音声入力を切り替える。Claude.aiアカウントが必要
+  - name: web-setup
+    description: ローカルのgh CLI認証情報を使用してClaude Code WebにGitHubアカウントを接続する
 skills:
   - name: batch
     description: "大規模な変更を調査・計画し、5〜30の独立したワークツリーエージェントで並列実行してそれぞれPRを作成する"
-  - name: debug
-    description: このセッションのデバッグログを有効にし、問題の診断を支援する
-    argument-hint: "[description]"
-  - name: loop
-    description: プロンプトやスラッシュコマンドを定期的に実行する（例：/loop 5m /foo、デフォルト10分間隔）
-    argument-hint: "[interval] <prompt>"
-  - name: debug
-    description: セッションのデバッグログを読んで現在のセッションをトラブルシュートする
-    argument-hint: "[description]"
-  - name: simplify
-    description: 変更されたコードの再利用性・品質・効率性をレビューし、問題があれば修正する
+    argument-hint: "<instruction>"
   - name: claude-api
     description: "Claude APIまたはAnthropic SDKでアプリを構築する。トリガー条件: コードが `anthropic`/`@anthropic-ai/sdk`/`claude_agent_sdk` をインポート、またはユーザーがClaude API・Anthropic SDK・Agent SDKの使用を依頼した場合"
+  - name: debug
+    description: 現在のセッションのデバッグログを有効にし、セッションのデバッグログを読んで問題をトラブルシュートする。説明を付けて分析の焦点を絞ることも可能
+    argument-hint: "[description]"
+  - name: loop
+    description: "セッションが開いている間、プロンプトを繰り返し実行する。間隔を省略するとセルフペーシング。プロンプトを省略すると自律メンテナンスチェック（または `.claude/loop.md` のプロンプト）を実行"
+    argument-hint: "[interval] <prompt>"
+  - name: simplify
+    description: 変更されたコードの再利用性・品質・効率性をレビューし、問題があれば修正する
+    argument-hint: "[focus]"
 agents:
   - name: Explore
     description: コードベースの検索と分析に最適化された高速な読み取り専用エージェント

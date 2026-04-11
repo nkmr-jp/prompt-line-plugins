@@ -8,20 +8,23 @@ references:
 
 commands:
   - name: add-dir
-    description: Add a new working directory to the current session
+    description: Add a working directory for file access during the current session
+    argument-hint: "<path>"
   - name: agents
     description: Manage agent configurations
-  - name: bashes
-    description: List and manage background tasks
+  - name: autofix-pr
+    description: Spawn a Claude Code on the web session that watches the current branch's PR and pushes fixes when CI fails or reviewers leave comments
+    argument-hint: "[prompt]"
   - name: btw
     description: Ask a quick side question without adding to the conversation
     argument-hint: "<question>"
-  - name: bug
-    description: Report bugs (sends conversation to Anthropic)
+  - name: branch
+    description: "Create a branch of the current conversation at this point. Alias: /fork"
+    argument-hint: "[name]"
   - name: chrome
-    description: Configure Claude in Chrome (Beta) settings
+    description: Configure Claude in Chrome settings
   - name: clear
-    description: "Clear conversation history and free up context (aliases: /reset, /new)"
+    description: "Clear conversation history and free up context. Aliases: /reset, /new"
   - name: color
     description: "Set the prompt bar color for the current session. Available colors: red, blue, green, yellow, purple, orange, pink, cyan. Use `default` to reset"
     argument-hint: "[color|default]"
@@ -58,11 +61,9 @@ commands:
     argument-hint: "[on|off]"
   - name: feedback
     description: "Submit feedback about Claude Code. Alias: /bug"
-  - name: branch
-    description: "Create a branch of the current conversation at this point. Alias: /fork"
-    argument-hint: "[name]"
+    argument-hint: "[report]"
   - name: fork
-    description: Create a fork of the current conversation at this point
+    description: "Create a fork of the current conversation at this point. Alias for: /branch"
     argument-hint: "[name]"
   - name: help
     description: Get usage help
@@ -82,11 +83,11 @@ commands:
     description: Open or create your keybindings configuration file
   - name: login
     description: Sign in to your Anthropic account
+  - name: logout
+    description: Sign out from your Anthropic account
   - name: loop
     description: Run a prompt or slash command on a recurring interval (e.g. /loop 5m /foo, defaults to 10m)
     argument-hint: "[interval] [command]"
-  - name: logout
-    description: Sign out from your Anthropic account
   - name: mcp
     description: Manage MCP server connections and OAuth authentication
   - name: memory
@@ -96,33 +97,27 @@ commands:
   - name: model
     description: Select or change the AI model. For models that support it, use left/right arrows to adjust effort level. Takes effect immediately without waiting for the current response to finish
     argument-hint: "[model]"
-  - name: output-style
-    description: "Switch between output styles: Default, Explanatory (educational insights), or Learning (hands-on practice). Supports custom styles"
-    argument-hint: "[style]"
   - name: passes
     description: Share a free week of Claude Code with friends. Only visible if your account is eligible
   - name: permissions
-    description: "View or update permissions. Alias: /allowed-tools"
+    description: "Manage allow, ask, and deny rules for tool permissions. Alias: /allowed-tools"
   - name: plan
     description: "Enter plan mode directly from the prompt. Pass an optional description to enter plan mode and immediately start with that task, for example /plan fix the auth bug"
     argument-hint: "[description]"
   - name: plugin
     description: Manage Claude Code plugins
-  - name: reload-plugins
-    description: Reload all active plugins to apply pending changes without restarting. Reports counts for each reloaded component and flags any load errors
-  - name: pr-comments
-    description: "Fetch and display comments from a GitHub pull request. Automatically detects the PR for the current branch, or pass a PR URL or number. Requires the gh CLI"
-    argument-hint: "[PR]"
+  - name: powerup
+    description: Discover Claude Code features through quick interactive lessons with animated demos
   - name: privacy-settings
     description: View and update your privacy settings. Only available for Pro and Max plan subscribers
+  - name: release-notes
+    description: View the changelog in an interactive version picker, with the most recent version closest to your prompt
+  - name: reload-plugins
+    description: Reload all active plugins to apply pending changes without restarting. Reports counts for each reloaded component and flags any load errors
+  - name: remote-control
+    description: "Make this session available for remote control from claude.ai. Aliases: /rc"
   - name: remote-env
     description: Configure the default remote environment for web sessions started with --remote
-  - name: rc
-    description: Alias for /remote-control
-  - name: release-notes
-    description: View the full changelog, with the most recent version closest to your prompt
-  - name: remote-control
-    description: "Make this session available for remote control from claude.ai. Alias: /rc"
   - name: rename
     description: Rename the current session and show the name on the prompt bar. Without a name, auto-generates one from conversation history
     argument-hint: "[name]"
@@ -140,6 +135,10 @@ commands:
     argument-hint: "[description]"
   - name: security-review
     description: Analyze pending changes on the current branch for security vulnerabilities. Reviews the git diff and identifies risks like injection, auth issues, and data exposure
+  - name: setup-bedrock
+    description: Configure Amazon Bedrock authentication (visible when CLAUDE_CODE_USE_BEDROCK=1)
+  - name: setup-vertex
+    description: Configure Google Vertex AI authentication (visible when CLAUDE_CODE_USE_VERTEX=1)
   - name: skills
     description: List available skills
   - name: stats
@@ -151,40 +150,42 @@ commands:
   - name: stickers
     description: Order Claude Code stickers
   - name: tasks
-    description: List and manage background tasks
+    description: "List and manage background tasks. Alias: /bashes"
+  - name: team-onboarding
+    description: Generate a teammate ramp-up guide from local Claude Code usage
   - name: teleport
-    description: Resume a remote session from claude.ai (subscribers only)
+    description: "Pull a Claude Code on the web session into this terminal. Aliases: /tp"
     argument-hint: "[session]"
   - name: terminal-setup
     description: Configure terminal keybindings for Shift+Enter and other shortcuts. Only visible in terminals that need it, like VS Code, Alacritty, or Warp
   - name: theme
     description: "Change the color theme. Includes light/dark variants, colorblind-accessible (daltonized), and ANSI themes"
-  - name: todos
-    description: List current TODO items
-  - name: usage
-    description: Show plan usage limits and rate limit status
+  - name: ultraplan
+    description: Draft a plan in an ultraplan session, review in browser, then execute
+    argument-hint: "<prompt>"
   - name: upgrade
     description: Open the upgrade page to switch to a higher plan tier
-  - name: vim
-    description: Toggle between Vim and Normal editing modes
+  - name: usage
+    description: Show plan usage limits and rate limit status
   - name: voice
     description: Toggle push-to-talk voice dictation. Requires a Claude.ai account
+  - name: web-setup
+    description: Connect GitHub account to Claude Code on the web using local gh CLI credentials
 skills:
   - name: batch
     description: "Research and plan a large-scale change, then execute it in parallel across 5–30 isolated worktree agents that each open a PR."
+    argument-hint: "<instruction>"
+  - name: claude-api
+    description: "Build apps with the Claude API or Anthropic SDK. TRIGGER when: code imports `anthropic`/`@anthropic-ai/sdk`/`claude_agent_sdk`, or user asks to use Claude API, Anthropic SDKs, or Agent SDK."
   - name: debug
-    description: Enable debug logging for this session and help diagnose issues
+    description: Enable debug logging for the current session and troubleshoot issues by reading the session debug log. Optionally describe the issue to focus the analysis.
     argument-hint: "[description]"
   - name: loop
-    description: Run a prompt or slash command on a recurring interval (e.g. /loop 5m /foo, defaults to 10m)
+    description: "Run a prompt repeatedly while the session stays open. Omit interval for self-pacing. Omit prompt to run autonomous maintenance check (or prompt from `.claude/loop.md`)."
     argument-hint: "[interval] <prompt>"
-  - name: debug
-    description: Troubleshoot the current session by reading the session debug log
-    argument-hint: "[description]"
   - name: simplify
-    description:  Review changed code for reuse, quality, and efficiency, then fix any issues found.
-  - name: claude-api
-    description:  "Build apps with the Claude API or Anthropic SDK. TRIGGER when: code imports `anthropic`/`@anthropic-ai/sdk`/`claude_agent_sdk`, or user asks to use Claude API, Anthropic SDKs, or Agent SDK."
+    description: Review changed code for reuse, quality, and efficiency, then fix any issues found.
+    argument-hint: "[focus]"
 agents:
   - name: Explore
     description: A fast, read-only agent optimized for searching and analyzing codebases.
