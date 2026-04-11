@@ -1,10 +1,10 @@
-name: "{line}"
-description: ""
+name: "{json@name}"
+description: "{json@path}"
 icon: repo
 color: rose
-sourceCommand: "ghq list"
-runCommand: "open -a {args.open} ~/ghq/{line}"
-inputFormat: "~/ghq/{line}"
+sourceCommand: "./ghq-list.sh"
+runCommand: "open -a {args.open} ~/ghq/{json@path}"
+inputFormat: "~/ghq/{json@path}"
 maxSuggestions: 100
 searchPrefix: ghq
 args:
