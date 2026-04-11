@@ -11,81 +11,62 @@ reference: https://developers.openai.com/codex/cli/slash-commands/
 
 commands:
   - name: agent
-    description: Switch the active agent thread
-  - name: approvals
-    description: Choose what Codex is allowed to do
+    description: Switch between active agent threads to inspect subagent work
   - name: apps
     description: Browse apps (connectors) and insert them into your prompt
-  - name: clean
-    description: Stop all background terminals
   - name: clear
-    description: Clear the terminal and start a new chat
-  - name: collab
-    description: Change collaboration mode (experimental)
+    description: Reset terminal display and begin fresh conversation in same session
   - name: compact
-    description: Summarize conversation to prevent hitting the context limit
+    description: Summarize the visible conversation to free tokens
   - name: copy
-    description: Copy the latest Codex output to your clipboard
-  - name: diff
-    description: Show the Git diff, including files Git isn't tracking yet
-  - name: elevate-sandbox
-    description: Set up elevated agent sandbox
+    description: Copy the most recent completed Codex response to clipboard
   - name: debug-config
     description: Print config layer and requirements diagnostics
+  - name: diff
+    description: Show the Git diff, including files Git isn't tracking yet
   - name: exit
-    description: Exit the CLI (alias for /quit)
+    description: Exit the CLI session (alias for /quit)
   - name: experimental
-    description: Toggle experimental features
+    description: Enable or disable optional features like subagents
   - name: fast
-    description: Toggle Fast mode for GPT-5.4
+    description: Toggle or check Fast mode for GPT-5.4
+    argument-hint: "[on|off|status]"
   - name: feedback
-    description: Send logs to the Codex maintainers
+    description: Submit logs and diagnostics to maintainers
   - name: fork
-    description: Fork the current chat
-    argument-hint: "[session]"
+    description: Clone current conversation into new thread
   - name: init
     description: Generate an AGENTS.md scaffold in the current directory
   - name: logout
-    description: Sign out of Codex
+    description: Clear local credentials for current user
   - name: mcp
-    description: List configured Model Context Protocol (MCP) tools
+    description: List available Model Context Protocol tools
   - name: mention
-    description: Attach a file to the conversation
-    argument-hint: "<path>"
+    description: Attach specific files or folders to conversation
+    argument-hint: "<file_path>"
   - name: model
-    description: Choose the active model (and reasoning effort, when available)
+    description: Choose active model and reasoning effort level
   - name: new
-    description: Start a new chat during a conversation
+    description: Start fresh conversation within same CLI session
   - name: permissions
     description: Set what Codex can do without asking first
   - name: personality
-    description: Choose a communication style for responses
+    description: Select communication style (friendly, pragmatic, none)
   - name: plan
-    description: Switch to plan mode and optionally send a prompt
+    description: Enter plan mode with optional inline prompt
+    argument-hint: "[prompt_text]"
   - name: ps
-    description: Show experimental background terminals and their recent output
+    description: Display background terminals and recent output
   - name: quit
-    description: Exit the CLI
-  - name: realtime
-    description: Toggle realtime voice mode (experimental)
-  - name: rename
-    description: Rename the current thread
-    argument-hint: "[name]"
+    description: Exit the CLI immediately
   - name: resume
-    description: Resume a saved conversation from your session list
+    description: Reload a previously saved conversation
   - name: review
-    description: Review current changes and find issues
-  - name: settings
-    description: Configure realtime microphone/speaker
-  - name: skills
-    description: Use skills to improve how Codex performs specific tasks
-  - name: status
-    description: Show current session configuration and token usage
+    description: Request Codex analysis of working tree changes
   - name: sandbox-add-read-dir
-    description: Grant sandbox read access to an extra directory (Windows only)
+    description: Grant read access to directories outside current roots (Windows only)
+    argument-hint: "<directory_path>"
+  - name: status
+    description: Display session configuration and token usage
   - name: statusline
-    description: Configure TUI status-line fields interactively
-  - name: theme
-    description: Choose a syntax highlighting theme
-  - name: undo
-    description: Revert Codex's most recent turn
+    description: Configure and reorder footer status-line items
