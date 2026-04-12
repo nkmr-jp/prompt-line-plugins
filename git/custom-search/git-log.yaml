@@ -3,6 +3,6 @@ description: "{json@message}"
 icon: git-commit
 color: orange
 sourceCommand: "git -C {projectdir} log --format='{\"hash\":\"%h\",\"message\":\"%s\"}' -50"
-inputFormat: "{json@hash}"
+inputFormat: "{json@hash} {json@message}"
 maxSuggestions: 50
 searchPrefix: gl
