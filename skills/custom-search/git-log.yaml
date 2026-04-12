@@ -1,0 +1,8 @@
+name: "{line}"
+description: ""
+icon: git-commit
+color: orange
+sourceCommand: "git -C {projectdir} log --oneline -50"
+inputFormat: "{line}"
+maxSuggestions: 50
+searchPrefix: gl
