@@ -1,8 +1,8 @@
-name: "{line}"
-description: ""
+name: "{json@hash}"
+description: "{json@message}"
 icon: git-commit
 color: orange
-sourceCommand: "git -C {projectdir} log --oneline -50"
-inputFormat: "{line}"
+sourceCommand: "git -C {projectdir} log --format='{\"hash\":\"%h\",\"message\":\"%s\"}' -50"
+inputFormat: "{json@hash} {json@message}"
 maxSuggestions: 50
 searchPrefix: gl
