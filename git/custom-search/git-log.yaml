@@ -1,0 +1,15 @@
+name: "{json@hash}"
+description: "{json@message}"
+icon: git-commit
+color: orange
+sourceCommand: "bash git-log.sh {projectdir}"
+inputFormat: "{json@hash} {json@message}"
+maxSuggestions: 50
+searchPrefix: gl
+orderBy: "{json@timestamp} desc"
+tooltip: |-
+  commit [{json@hash}]({json@url}) {json@refs}
+  Author: {json@author}
+  Date:   {json@date}
+
+  {json@body}
