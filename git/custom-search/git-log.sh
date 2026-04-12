@@ -17,16 +17,16 @@ for commit in sys.stdin.read().split('\x01'):
     if len(parts) < 6:
         continue
     h, s, body, a, d, r = parts
+    s = s.strip()
+    body_text = s + ('\n' + body.strip() if body.strip() else '')
     item = {
         'hash': h.strip(),
-        'message': s.strip(),
+        'message': s,
+        'body': body_text,
         'author': a.strip(),
         'date': d.strip(),
         'refs': r.strip(),
         'url': remote + '/commit/' + h.strip()
     }
-    body = body.strip()
-    if body:
-        item['body'] = body
     print(json.dumps(item, ensure_ascii=False))
 " "$remote"
