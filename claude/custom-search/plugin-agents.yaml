@@ -4,4 +4,4 @@ searchPrefix: agent
 name: "{pathdir:2}:{basename}(agent)"
 label: "{pathdir:1}"
 description: "{frontmatter@description}"
-displayTime: "{updatedAt}"
+displayTime: "{mtime}"
