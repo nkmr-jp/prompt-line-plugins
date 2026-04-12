@@ -7,9 +7,8 @@ inputFormat: "{json@hash} {json@message}"
 maxSuggestions: 50
 searchPrefix: gl
 tooltip: |-
-  hash: {json@hash}
-  author: {json@author}
-  date: {json@date}
-  refs: {json@refs}
-  url: {json@url}
-  body: {json@body}
+  commit: [{json@hash}]({json@url}) {json@refs}
+  Author: {json@author}
+  Date:   {json@date}
+
+  {json@body}
