@@ -2,7 +2,13 @@ name: "{json@hash}"
 description: "{json@message}"
 icon: git-commit
 color: orange
-sourceCommand: "git -C {projectdir} log --format='{\"hash\":\"%h\",\"message\":\"%s\"}' -50"
+sourceCommand: "bash git-log.sh {projectdir}"
 inputFormat: "{json@hash} {json@message}"
 maxSuggestions: 50
 searchPrefix: gl
+tooltip: |-
+  hash: {json@fullhash}
+  author: {json@author}
+  date: {json@date}
+  refs: {json@refs}
+  url: {json@url}
