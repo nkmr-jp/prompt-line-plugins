@@ -6,6 +6,7 @@ sourceCommand: "bash git-log.sh {projectdir}"
 inputFormat: "{json@hash} {json@message}"
 maxSuggestions: 50
 searchPrefix: gl
+orderBy: "{json@timestamp} desc"
 tooltip: |-
   commit [{json@hash}]({json@url}) {json@refs}
   Author: {json@author}
