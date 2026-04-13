@@ -1,0 +1,7 @@
+# Codex CLI system skills
+# See: https://openai.github.io/codex/docs/skills
+sourcePath: ~/.codex/skills/**/*/SKILL.md
+name: "{frontmatter@name}"
+label: system
+description: "{frontmatter@description}"
+argumentHint: "{frontmatter@argument-hint}"

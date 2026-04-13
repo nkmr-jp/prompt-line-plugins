@@ -1,0 +1,11 @@
+# Codex CLI prompt history
+sourcePath: "~/.codex/history.jsonl"
+name: "{json@text}"
+icon: history
+color: sky
+searchPrefix: cr
+orderBy: "{json@ts} desc"
+inputFormat: "{json@text}|{json@text}"
+displayTime: "{json@ts}"
+tooltip: "{json@text}"
+maxSuggestions: 100
