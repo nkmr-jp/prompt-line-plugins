@@ -5,3 +5,4 @@ name: "{frontmatter@name}"
 label: system
 description: "{frontmatter@description}"
 argumentHint: "{frontmatter@argument-hint}"
+triggers: ["$"]
