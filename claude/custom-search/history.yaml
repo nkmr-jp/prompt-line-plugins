@@ -7,5 +7,5 @@ searchPrefix: r
 orderBy: "{json@timestamp} desc"
 inputFormat: "{json@display}|{json@display}"
 displayTime: "{json@timestamp}"
-tooltip: "text: {json@pastedContents.1.content}|{json@pastedContents.2.content}|{json@pastedContents.3.content}|{json@display}\nproject: {json@project}"
+tooltip: "{json@pastedContents.1.content}|{json@display}"
 maxSuggestions: 100
