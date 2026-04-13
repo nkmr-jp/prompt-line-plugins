@@ -1,11 +1,11 @@
 # Claude Code prompt history
 sourcePath: "~/.claude/history.jsonl"
-name: "{json@display}"
+name: "{json@pastedContents.1.content}|{json@pastedContents.2.content}|{json@pastedContents.3.content}|{json@pastedContents.4.content}|{json@pastedContents.5.content}|{json@pastedContents.6.content}|{json@pastedContents.7.content}|{json@pastedContents.8.content}|{json@display}"
 icon: history
 color: orange
 searchPrefix: r
 orderBy: "{json@timestamp} desc"
-inputFormat: "{json@display}|{json@display}"
+inputFormat: "{json@pastedContents.1.content}|{json@pastedContents.2.content}|{json@pastedContents.3.content}|{json@pastedContents.4.content}|{json@pastedContents.5.content}|{json@pastedContents.6.content}|{json@pastedContents.7.content}|{json@pastedContents.8.content}|{json@display}"
 displayTime: "{json@timestamp}"
 tooltip: "{json@pastedContents.1.content}|{json@pastedContents.2.content}|{json@pastedContents.3.content}|{json@pastedContents.4.content}|{json@pastedContents.5.content}|{json@pastedContents.6.content}|{json@pastedContents.7.content}|{json@pastedContents.8.content}|{json@display}"
 maxSuggestions: 100
