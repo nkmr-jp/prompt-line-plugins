@@ -1,5 +1,5 @@
 # Codex CLI plugin skills
-sourcePath: ~/.codex/plugins/cache/*/*/*/skills/**/SKILL.md
+sourcePath: ~/.codex/plugins/cache/*/*/{latest}/**/SKILL.md
 name: "{frontmatter@name}"
 label: "{pathdir:1} / {pathdir:2}"
 description: "{frontmatter@description}"
