@@ -1,0 +1,9 @@
+# Codex CLI sessions
+sourcePath: "~/.codex/session_index.jsonl"
+name: "{json@thread_name}"
+icon: comment-discussion
+color: sky
+searchPrefix: cs
+orderBy: "{json@updated_at} desc"
+displayTime: "{json@updated_at}"
+maxSuggestions: 50
