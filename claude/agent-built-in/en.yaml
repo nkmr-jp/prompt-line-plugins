@@ -114,8 +114,6 @@ commands:
     description: Discover Claude Code features through quick interactive lessons with animated demos
   - name: privacy-settings
     description: View and update your privacy settings. Only available for Pro and Max plan subscribers
-  - name: recap
-    description: Generate a one-line summary of the current session on demand
   - name: release-notes
     description: View the changelog in an interactive version picker, with the most recent version closest to your prompt
   - name: reload-plugins
