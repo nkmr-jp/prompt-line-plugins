@@ -5,4 +5,5 @@ name: "{frontmatter@name}"
 label: system
 description: "{frontmatter@description}"
 argumentHint: "{frontmatter@argument-hint}"
+excludeIf: "{frontmatter@user-invocable}==false"
 triggers: ["$"]
