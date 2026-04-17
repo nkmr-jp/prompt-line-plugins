@@ -75,6 +75,7 @@ commands:
     description: Exit Gemini CLI
   - name: restore
     description: Restore project files to a previous state before tool execution
+    argument-hint: "[tool_call_id]"
   - name: resume
     description: Resume a previous conversation session
     argument-hint: "[session]"

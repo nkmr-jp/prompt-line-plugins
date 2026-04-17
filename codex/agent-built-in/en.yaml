@@ -43,7 +43,7 @@ commands:
     description: List available Model Context Protocol tools
   - name: mention
     description: Attach specific files or folders to conversation
-    argument-hint: "<file_path>"
+    argument-hint: "[path]"
   - name: model
     description: Choose active model and reasoning effort level
   - name: new
@@ -55,6 +55,8 @@ commands:
   - name: plan
     description: Enter plan mode with optional inline prompt
     argument-hint: "[prompt_text]"
+  - name: plugins
+    description: Inspect installed and discoverable plugins with their tools
   - name: ps
     description: Display background terminals and recent output
   - name: quit
@@ -70,3 +72,7 @@ commands:
     description: Display session configuration and token usage
   - name: statusline
     description: Configure and reorder footer status-line items
+  - name: stop
+    description: Cancel all background terminals for the current session
+  - name: title
+    description: Configure terminal window title fields
