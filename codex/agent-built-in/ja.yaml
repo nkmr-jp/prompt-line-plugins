@@ -42,7 +42,7 @@ commands:
     description: 利用可能なModel Context Protocolツールを一覧表示する
   - name: mention
     description: 特定のファイルやフォルダを会話にアタッチする
-    argument-hint: "<file_path>"
+    argument-hint: "[path]"
   - name: model
     description: 使用するモデルと推論レベルを選択する
   - name: new
@@ -54,6 +54,8 @@ commands:
   - name: plan
     description: プランモードに入る（インラインプロンプトも指定可能）
     argument-hint: "[prompt_text]"
+  - name: plugins
+    description: インストール済みおよび発見可能なプラグインとそのツールを表示する
   - name: ps
     description: バックグラウンドターミナルと最新の出力を表示する
   - name: quit
@@ -69,3 +71,7 @@ commands:
     description: セッション設定とトークン使用量を表示する
   - name: statusline
     description: フッターのステータスライン項目を設定・並べ替える
+  - name: stop
+    description: 現在のセッションのバックグラウンドターミナルをすべてキャンセルする
+  - name: title
+    description: ターミナルウィンドウのタイトル項目を設定する

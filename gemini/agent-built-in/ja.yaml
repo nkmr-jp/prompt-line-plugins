@@ -74,6 +74,7 @@ commands:
     description: Gemini CLIを終了する
   - name: restore
     description: ツール実行前の状態にプロジェクトファイルを復元する
+    argument-hint: "[tool_call_id]"
   - name: resume
     description: 以前の会話セッションを再開する
     argument-hint: "[session]"

@@ -45,10 +45,10 @@ commands:
   - name: diff
     description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧
   - name: doctor
-    description: Claude Codeのインストール状態と設定を診断・検証する
+    description: Claude Codeのインストール状態と設定を診断・検証する。`f`キーでClaudeに問題を修正させる
   - name: effort
-    description: "モデルの推論レベルを設定する。low/medium/highはセッション間で保持。maxは現在のセッションのみ（Opus 4.6が必要）。autoでモデルのデフォルトにリセット。引数なしで現在のレベルを表示。即時反映"
-    argument-hint: "[low|medium|high|max|auto]"
+    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/autoを指定可能。利用可能なレベルはモデル依存。maxは現在のセッションのみ。autoでモデルのデフォルトにリセット。引数なしで現在のレベルを表示"
+    argument-hint: "[low|medium|high|xhigh|max|auto]"
   - name: exit
     description: "CLIを終了する。エイリアス: /quit"
   - name: export
@@ -62,9 +62,13 @@ commands:
   - name: feedback
     description: "Claude Codeについてのフィードバックを送信する。エイリアス: /bug"
     argument-hint: "[report]"
+  - name: focus
+    description: フォーカスビューをトグルする。直前のプロンプト、ツール呼び出しのサマリー（編集diffstat付き）、最終レスポンスのみを表示。fullscreenレンダリング時のみ利用可能
   - name: fork
     description: "現在の会話のこの時点でフォークを作成する。/branch のエイリアス"
     argument-hint: "[name]"
+  - name: heapdump
+    description: メモリ使用量診断用にJavaScriptヒープスナップショットとメモリブレークダウンを ~/Desktop に出力する
   - name: help
     description: 使い方のヘルプを表示する
   - name: hooks
@@ -86,7 +90,7 @@ commands:
   - name: logout
     description: Anthropicアカウントからサインアウトする
   - name: loop
-    description: プロンプトやスラッシュコマンドを定期的に実行する（例：/loop 5m /foo、デフォルト10分間隔）
+    description: "プロンプトやスラッシュコマンドを定期的に実行する（例：/loop 5m /foo、デフォルト10分間隔）。エイリアス: /proactive"
     argument-hint: "[interval] [command]"
   - name: mcp
     description: MCPサーバー接続とOAuth認証を管理する
@@ -110,6 +114,8 @@ commands:
     description: インタラクティブなレッスンとアニメーションデモでClaude Codeの機能を発見する
   - name: privacy-settings
     description: プライバシー設定を表示・更新する。ProおよびMaxプランのサブスクライバーのみ利用可能
+  - name: recap
+    description: 現在のセッションの1行サマリーをオンデマンドで生成する
   - name: release-notes
     description: インタラクティブなバージョンピッカーで変更履歴を表示する。最新バージョンがプロンプトに最も近い位置に表示される
   - name: reload-plugins
@@ -125,13 +131,14 @@ commands:
     description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。エイリアス: /continue"
     argument-hint: "[session]"
   - name: review
-    description: "非推奨。代わりにcode-reviewプラグインをインストール: claude plugin install code-review@claude-plugins-official"
+    description: 現在のセッションでPull Requestをローカルレビューする。より深いクラウドベースのレビューは /ultrareview を参照
+    argument-hint: "[PR]"
   - name: rewind
-    description: "会話やコードを以前のポイントに巻き戻す、または選択したメッセージから要約する。チェックポイント機能参照。エイリアス: /checkpoint"
+    description: "会話やコードを以前のポイントに巻き戻す、または選択したメッセージから要約する。チェックポイント機能参照。エイリアス: /checkpoint, /undo"
   - name: sandbox
     description: サンドボックスモードを切り替える。対応プラットフォームのみ
   - name: schedule
-    description: "Cloudスケジュールタスクの作成・更新・一覧・実行を行う。Claudeが対話的にセットアップをガイドする"
+    description: "routines（Cloudスケジュールタスク）の作成・更新・一覧・実行を行う。Claudeが対話的にセットアップをガイドする。エイリアス: /routines"
     argument-hint: "[description]"
   - name: security-review
     description: 現在のブランチの保留中の変更をセキュリティ脆弱性の観点から分析する。git diffをレビューしインジェクション、認証の問題、データ漏洩などのリスクを特定
@@ -140,7 +147,7 @@ commands:
   - name: setup-vertex
     description: Google Vertex AI認証を設定する（CLAUDE_CODE_USE_VERTEX=1の場合に表示）
   - name: skills
-    description: 利用可能なスキルを一覧表示する
+    description: 利用可能なスキルを一覧表示する。`t`キーでトークン数でソート
   - name: stats
     description: "日次使用量、セッション履歴、連続使用日数、モデルの使用傾向を表示する"
   - name: status
@@ -159,10 +166,16 @@ commands:
   - name: terminal-setup
     description: ターミナルのキーバインドを設定する（Shift+Enterなどのショートカット）。VS Code・Alacritty・Warpなど必要なターミナルでのみ表示
   - name: theme
-    description: "カラーテーマを変更する。ライト/ダーク、色覚対応（ダルトナイズ）、ANSIテーマを含む"
+    description: "カラーテーマを変更する。ターミナルのダーク/ライトモードに追従するauto、ライト/ダーク、色覚対応（ダルトナイズ）、ANSIテーマを含む"
+  - name: tui
+    description: "ターミナルUIレンダラーを設定し、会話を保ったまま再起動する。fullscreenでフリッカーフリーのalt-screenレンダラーを有効化。引数なしで現在のレンダラーを表示"
+    argument-hint: "[default|fullscreen]"
   - name: ultraplan
     description: ultraplanセッションでプランを作成し、ブラウザでレビューしてから実行する
     argument-hint: "<prompt>"
+  - name: ultrareview
+    description: ultraplanでクラウドサンドボックス上のマルチエージェント・コードレビューを深く実行する。Pro/Maxプランでは3回まで無料、以降はextra usageが必要
+    argument-hint: "[PR]"
   - name: upgrade
     description: より高いプランティアに切り替えるためのアップグレードページを開く
   - name: usage
@@ -180,6 +193,8 @@ skills:
   - name: debug
     description: 現在のセッションのデバッグログを有効にし、セッションのデバッグログを読んで問題をトラブルシュートする。説明を付けて分析の焦点を絞ることも可能
     argument-hint: "[description]"
+  - name: less-permission-prompts
+    description: トランスクリプトから頻出するread-onlyのBashとMCPツール呼び出しをスキャンし、プロジェクトの `.claude/settings.json` に優先度付きのallowlistを追加してパーミッションプロンプトを削減する
   - name: loop
     description: "セッションが開いている間、プロンプトを繰り返し実行する。間隔を省略するとセルフペーシング。プロンプトを省略すると自律メンテナンスチェック（または `.claude/loop.md` のプロンプト）を実行"
     argument-hint: "[interval] <prompt>"
