@@ -6,5 +6,6 @@ sourcePath: ~/.agents/skills/**/*/SKILL.md
 name: "{frontmatter@name}"
 label: "skills / {pathdir:1}"
 description: "{frontmatter@description}"
+excludeIf: "{frontmatter@user-invocable}==false"
 color: blue
 triggers: ["/","$"]

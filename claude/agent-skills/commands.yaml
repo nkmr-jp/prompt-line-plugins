@@ -5,3 +5,4 @@ name: "{basename}"
 label: global
 description: "{frontmatter@description}"
 argumentHint: "{frontmatter@argument-hint}"
+excludeIf: "{frontmatter@user-invocable}==false"
