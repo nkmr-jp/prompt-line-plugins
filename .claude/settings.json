@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(gh:*)",
+      "Bash(mkdir:*)",
+      "Bash(date:*)",
+      "Bash(echo:*)",
+      "Bash(ls:*)",
+      "Bash(pwd)",
+      "Bash(cat:*)",
+      "Bash(jq:*)",
+      "WebFetch(domain:code.claude.com)",
+      "WebFetch(domain:developers.openai.com)",
+      "WebFetch(domain:google-gemini.github.io)"
+    ]
+  }
+}
