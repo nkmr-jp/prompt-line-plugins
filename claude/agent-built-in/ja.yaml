@@ -114,8 +114,6 @@ commands:
     description: インタラクティブなレッスンとアニメーションデモでClaude Codeの機能を発見する
   - name: privacy-settings
     description: プライバシー設定を表示・更新する。ProおよびMaxプランのサブスクライバーのみ利用可能
-  - name: recap
-    description: 現在のセッションの1行サマリーをオンデマンドで生成する
   - name: release-notes
     description: インタラクティブなバージョンピッカーで変更履歴を表示する。最新バージョンがプロンプトに最も近い位置に表示される
   - name: reload-plugins
