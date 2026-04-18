@@ -78,7 +78,7 @@ commands:
   - name: insights
     description: Claude Codeセッションの分析レポートを生成する（プロジェクト領域、操作パターン、摩擦ポイント）
   - name: init
-    description: "CLAUDE.mdガイドでプロジェクトを初期化する。CLAUDE_CODE_NEW_INIT=trueで、スキル・フック・個人メモリファイルの設定も含むインタラクティブフローを使用可能"
+    description: "CLAUDE.mdガイドでプロジェクトを初期化する。CLAUDE_CODE_NEW_INIT=1で、スキル・フック・個人メモリファイルの設定も含むインタラクティブフローを使用可能"
   - name: install-github-app
     description: リポジトリにClaude GitHub Actionsをセットアップする
   - name: install-slack-app

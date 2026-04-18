@@ -78,7 +78,7 @@ commands:
   - name: insights
     description: Generate an analysis report of Claude Code sessions (project areas, operation patterns, friction points)
   - name: init
-    description: "Initialize project with CLAUDE.md guide. Set CLAUDE_CODE_NEW_INIT=true for an interactive flow that also walks through skills, hooks, and personal memory files"
+    description: "Initialize project with CLAUDE.md guide. Set CLAUDE_CODE_NEW_INIT=1 for an interactive flow that also walks through skills, hooks, and personal memory files"
   - name: install-github-app
     description: Set up Claude GitHub Actions for a repository
   - name: install-slack-app

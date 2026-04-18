@@ -25,22 +25,16 @@ commands:
     description: Manage custom slash commands loaded from .toml files
   - name: clear
     description: Clear the terminal screen including session history and scrollback
-  - name: compact
-    description: "Alias for /compress"
   - name: compress
-    description: Replace chat context with a summary to reduce token usage
+    description: "Replace chat context with a summary to reduce token usage. Alias: /compact"
   - name: copy
     description: Copy the last output produced by Gemini CLI to your clipboard
   - name: directory
-    description: Manage workspace directories for multi-directory support
-  - name: dir
-    description: Alias for /directory
+    description: "Manage workspace directories for multi-directory support. Alias: /dir"
   - name: docs
     description: Open the Gemini CLI documentation in your browser
   - name: editor
     description: Open a dialog for selecting supported editors
-  - name: exit
-    description: Exit Gemini CLI
   - name: extensions
     description: "Manage extensions: install, enable, disable, explore, config, update, and more"
   - name: footer
@@ -72,7 +66,7 @@ commands:
   - name: privacy
     description: Display the Privacy Notice and data collection preferences
   - name: quit
-    description: Exit Gemini CLI
+    description: "Exit Gemini CLI. Alias: /exit"
   - name: restore
     description: Restore project files to a previous state before tool execution
     argument-hint: "[tool_call_id]"
