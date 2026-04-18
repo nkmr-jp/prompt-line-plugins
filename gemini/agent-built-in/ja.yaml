@@ -24,22 +24,16 @@ commands:
     description: .tomlファイルから読み込まれたカスタムスラッシュコマンドを管理する
   - name: clear
     description: セッション履歴とスクロールバックを含むターミナル画面をクリアする
-  - name: compact
-    description: /compress のエイリアス
   - name: compress
-    description: チャットのコンテキストを要約に置き換えてトークン使用量を削減する
+    description: "チャットのコンテキストを要約に置き換えてトークン使用量を削減する。エイリアス: /compact"
   - name: copy
     description: Gemini CLIが最後に生成した出力をクリップボードにコピーする
   - name: directory
-    description: マルチディレクトリ対応のワークスペースディレクトリを管理する
-  - name: dir
-    description: /directory のエイリアス
+    description: "マルチディレクトリ対応のワークスペースディレクトリを管理する。エイリアス: /dir"
   - name: docs
     description: Gemini CLIのドキュメントをブラウザで開く
   - name: editor
     description: サポートされているエディタを選択するダイアログを開く
-  - name: exit
-    description: Gemini CLIを終了する
   - name: extensions
     description: "エクステンションを管理する：インストール・有効化・無効化・探索・設定・更新など"
   - name: footer
@@ -71,7 +65,7 @@ commands:
   - name: privacy
     description: プライバシーに関する通知とデータ収集の設定を表示する
   - name: quit
-    description: Gemini CLIを終了する
+    description: "Gemini CLIを終了する。エイリアス: /exit"
   - name: restore
     description: ツール実行前の状態にプロジェクトファイルを復元する
     argument-hint: "[tool_call_id]"

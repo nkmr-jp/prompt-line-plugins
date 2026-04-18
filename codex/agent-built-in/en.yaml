@@ -24,8 +24,6 @@ commands:
     description: Print config layer and requirements diagnostics
   - name: diff
     description: Show the Git diff, including files Git isn't tracking yet
-  - name: exit
-    description: Exit the CLI session (alias for /quit)
   - name: experimental
     description: Enable or disable optional features like subagents
   - name: fast
@@ -60,7 +58,7 @@ commands:
   - name: ps
     description: Display background terminals and recent output
   - name: quit
-    description: Exit the CLI immediately
+    description: "Exit the CLI immediately. Alias: /exit"
   - name: resume
     description: Reload a previously saved conversation
   - name: review
