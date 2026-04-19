@@ -23,8 +23,6 @@ commands:
     description: 設定レイヤーと要件の診断情報を表示する
   - name: diff
     description: Git未追跡ファイルを含むGit diffを表示する
-  - name: exit
-    description: CLIセッションを終了する（/quit のエイリアス）
   - name: experimental
     description: サブエージェントなどのオプション機能を有効化/無効化する
   - name: fast
@@ -59,7 +57,7 @@ commands:
   - name: ps
     description: バックグラウンドターミナルと最新の出力を表示する
   - name: quit
-    description: CLIを即座に終了する
+    description: "CLIを即座に終了する。エイリアス: /exit"
   - name: resume
     description: 以前に保存した会話をリロードする
   - name: review
