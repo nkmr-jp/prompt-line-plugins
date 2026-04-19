@@ -47,7 +47,7 @@ commands:
   - name: new
     description: Start fresh conversation within same CLI session
   - name: permissions
-    description: Set what Codex can do without asking first
+    description: "Set what Codex can do without asking first. Alias: /approvals"
   - name: personality
     description: Select communication style (friendly, pragmatic, none)
   - name: plan
@@ -65,12 +65,12 @@ commands:
     description: Request Codex analysis of working tree changes
   - name: sandbox-add-read-dir
     description: Grant read access to directories outside current roots (Windows only)
-    argument-hint: "<directory_path>"
+    argument-hint: "<absolute_directory_path>"
   - name: status
     description: Display session configuration and token usage
   - name: statusline
     description: Configure and reorder footer status-line items
   - name: stop
-    description: Cancel all background terminals for the current session
+    description: "Cancel all background terminals for the current session. Alias: /clean"
   - name: title
     description: Configure terminal window title fields

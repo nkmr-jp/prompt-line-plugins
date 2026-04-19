@@ -45,10 +45,10 @@ commands:
   - name: diff
     description: Open an interactive diff viewer showing uncommitted changes and per-turn diffs. Use left/right arrows to switch between the current git diff and individual Claude turns, and up/down to browse files
   - name: doctor
-    description: Diagnose and verify your Claude Code installation and settings. Press `f` to have Claude fix any reported issues
+    description: Diagnose and verify your Claude Code installation and settings. Results show with status icons. Press `f` to have Claude fix any reported issues
   - name: effort
-    description: "Set the model effort level. Accepts low/medium/high/xhigh/max/auto. Available levels depend on the model; max is session-only. auto resets to the model default. Without an argument, shows the current level"
-    argument-hint: "[low|medium|high|xhigh|max|auto]"
+    description: "Set the model effort level. Accepts low/medium/high/xhigh/max. Available levels depend on the model; max is session-only. auto resets to the model default. Without an argument, opens an interactive slider"
+    argument-hint: "[level|auto]"
   - name: exit
     description: "Exit the CLI. Alias: /quit"
   - name: export
@@ -63,7 +63,7 @@ commands:
     description: "Submit feedback about Claude Code. Alias: /bug"
     argument-hint: "[report]"
   - name: focus
-    description: Toggle the focus view that shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. Only available in fullscreen rendering
+    description: Toggle the focus view that shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. The selection persists across sessions. Only available in fullscreen rendering
   - name: fork
     description: "Create a fork of the current conversation at this point. Alias for: /branch"
     argument-hint: "[name]"
@@ -78,7 +78,7 @@ commands:
   - name: insights
     description: Generate an analysis report of Claude Code sessions (project areas, operation patterns, friction points)
   - name: init
-    description: "Initialize project with CLAUDE.md guide. Set CLAUDE_CODE_NEW_INIT=1 for an interactive flow that also walks through skills, hooks, and personal memory files"
+    description: "Initialize project with a CLAUDE.md guide. Set CLAUDE_CODE_NEW_INIT=1 for an interactive flow that also walks through skills, hooks, and personal memory files"
   - name: install-github-app
     description: Set up Claude GitHub Actions for a repository
   - name: install-slack-app
@@ -117,7 +117,7 @@ commands:
   - name: recap
     description: Generate a one-line summary of the current session on demand
   - name: release-notes
-    description: View the changelog in an interactive version picker, with the most recent version closest to your prompt
+    description: View the changelog in an interactive version picker. Select a specific version to see its release notes, or choose to show all versions
   - name: reload-plugins
     description: Reload all active plugins to apply pending changes without restarting. Reports counts for each reloaded component and flags any load errors
   - name: remote-control
@@ -143,9 +143,9 @@ commands:
   - name: security-review
     description: Analyze pending changes on the current branch for security vulnerabilities. Reviews the git diff and identifies risks like injection, auth issues, and data exposure
   - name: setup-bedrock
-    description: Configure Amazon Bedrock authentication (visible when CLAUDE_CODE_USE_BEDROCK=1)
+    description: Configure Amazon Bedrock authentication, region, and model pins through an interactive wizard. Only visible when CLAUDE_CODE_USE_BEDROCK=1 is set
   - name: setup-vertex
-    description: Configure Google Vertex AI authentication (visible when CLAUDE_CODE_USE_VERTEX=1)
+    description: Configure Google Vertex AI authentication, project, region, and model pins through an interactive wizard. Only visible when CLAUDE_CODE_USE_VERTEX=1 is set
   - name: skills
     description: List available skills. Press `t` to sort by token count
   - name: stats
@@ -161,7 +161,7 @@ commands:
   - name: team-onboarding
     description: Generate a teammate ramp-up guide from local Claude Code usage
   - name: teleport
-    description: "Pull a Claude Code on the web session into this terminal. Aliases: /tp"
+    description: "Pull a Claude Code on the web session into this terminal: opens a picker, then fetches the branch and conversation. Requires a claude.ai subscription. Aliases: /tp"
     argument-hint: "[session]"
   - name: terminal-setup
     description: Configure terminal keybindings for Shift+Enter and other shortcuts. Only visible in terminals that need it, like VS Code, Alacritty, or Warp
@@ -189,11 +189,11 @@ skills:
     description: "Research and plan a large-scale change, then execute it in parallel across 5–30 isolated worktree agents that each open a PR."
     argument-hint: "<instruction>"
   - name: claude-api
-    description: "Build apps with the Claude API or Anthropic SDK. TRIGGER when: code imports `anthropic`/`@anthropic-ai/sdk`/`claude_agent_sdk`, or user asks to use Claude API, Anthropic SDKs, or Agent SDK."
+    description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
   - name: debug
     description: Enable debug logging for the current session and troubleshoot issues by reading the session debug log. Optionally describe the issue to focus the analysis.
     argument-hint: "[description]"
-  - name: less-permission-prompts
+  - name: fewer-permission-prompts
     description: Scan your transcripts for common read-only Bash and MCP tool calls, then add a prioritized allowlist to project `.claude/settings.json` to reduce permission prompts.
   - name: loop
     description: "Run a prompt repeatedly while the session stays open. Omit interval for self-pacing. Omit prompt to run autonomous maintenance check (or prompt from `.claude/loop.md`)."

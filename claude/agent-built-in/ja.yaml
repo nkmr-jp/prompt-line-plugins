@@ -45,10 +45,10 @@ commands:
   - name: diff
     description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧
   - name: doctor
-    description: Claude Codeのインストール状態と設定を診断・検証する。`f`キーでClaudeに問題を修正させる
+    description: Claude Codeのインストール状態と設定を診断・検証する。結果はステータスアイコン付きで表示。`f`キーでClaudeに問題を修正させる
   - name: effort
-    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/autoを指定可能。利用可能なレベルはモデル依存。maxは現在のセッションのみ。autoでモデルのデフォルトにリセット。引数なしで現在のレベルを表示"
-    argument-hint: "[low|medium|high|xhigh|max|auto]"
+    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/maxを指定可能。利用可能なレベルはモデル依存。maxは現在のセッションのみ。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く"
+    argument-hint: "[level|auto]"
   - name: exit
     description: "CLIを終了する。エイリアス: /quit"
   - name: export
@@ -63,7 +63,7 @@ commands:
     description: "Claude Codeについてのフィードバックを送信する。エイリアス: /bug"
     argument-hint: "[report]"
   - name: focus
-    description: フォーカスビューをトグルする。直前のプロンプト、ツール呼び出しのサマリー（編集diffstat付き）、最終レスポンスのみを表示。fullscreenレンダリング時のみ利用可能
+    description: フォーカスビューをトグルする。直前のプロンプト、ツール呼び出しのサマリー（編集diffstat付き）、最終レスポンスのみを表示。選択状態はセッション間で保持される。fullscreenレンダリング時のみ利用可能
   - name: fork
     description: "現在の会話のこの時点でフォークを作成する。/branch のエイリアス"
     argument-hint: "[name]"
@@ -117,7 +117,7 @@ commands:
   - name: recap
     description: 現在のセッションの1行サマリーをオンデマンドで生成する
   - name: release-notes
-    description: インタラクティブなバージョンピッカーで変更履歴を表示する。最新バージョンがプロンプトに最も近い位置に表示される
+    description: インタラクティブなバージョンピッカーで変更履歴を表示する。特定のバージョンを選んでリリースノートを見るか、全バージョンをまとめて表示できる
   - name: reload-plugins
     description: アクティブなプラグインをすべてリロードし、保留中の変更を再起動なしで適用する。リロードされたコンポーネント数とロードエラーを報告
   - name: remote-control
@@ -143,9 +143,9 @@ commands:
   - name: security-review
     description: 現在のブランチの保留中の変更をセキュリティ脆弱性の観点から分析する。git diffをレビューしインジェクション、認証の問題、データ漏洩などのリスクを特定
   - name: setup-bedrock
-    description: Amazon Bedrock認証を設定する（CLAUDE_CODE_USE_BEDROCK=1の場合に表示）
+    description: Amazon Bedrock認証・リージョン・モデルピンをインタラクティブウィザードで設定する。CLAUDE_CODE_USE_BEDROCK=1の場合のみ表示
   - name: setup-vertex
-    description: Google Vertex AI認証を設定する（CLAUDE_CODE_USE_VERTEX=1の場合に表示）
+    description: Google Vertex AI認証・プロジェクト・リージョン・モデルピンをインタラクティブウィザードで設定する。CLAUDE_CODE_USE_VERTEX=1の場合のみ表示
   - name: skills
     description: 利用可能なスキルを一覧表示する。`t`キーでトークン数でソート
   - name: stats
@@ -161,7 +161,7 @@ commands:
   - name: team-onboarding
     description: ローカルのClaude Code使用状況からチームメイト向けのオンボーディングガイドを生成する
   - name: teleport
-    description: "Claude Code Webセッションをこのターミナルに引き込む。エイリアス: /tp"
+    description: "Claude Code Webセッションをこのターミナルに引き込む。ピッカーを開いてブランチと会話を取得。claude.aiサブスクリプションが必要。エイリアス: /tp"
     argument-hint: "[session]"
   - name: terminal-setup
     description: ターミナルのキーバインドを設定する（Shift+Enterなどのショートカット）。VS Code・Alacritty・Warpなど必要なターミナルでのみ表示
@@ -189,11 +189,11 @@ skills:
     description: "大規模な変更を調査・計画し、5〜30の独立したワークツリーエージェントで並列実行してそれぞれPRを作成する"
     argument-hint: "<instruction>"
   - name: claude-api
-    description: "Claude APIまたはAnthropic SDKでアプリを構築する。トリガー条件: コードが `anthropic`/`@anthropic-ai/sdk`/`claude_agent_sdk` をインポート、またはユーザーがClaude API・Anthropic SDK・Agent SDKの使用を依頼した場合"
+    description: "Claude APIとManaged Agentsのリファレンス資料をプロジェクトの言語（Python, TypeScript, Java, Go, Ruby, C#, PHP, cURL）に応じて読み込む。tool use、streaming、batches、structured outputs、よくある落とし穴をカバー。`anthropic` または `@anthropic-ai/sdk` をインポートすると自動的に有効化"
   - name: debug
     description: 現在のセッションのデバッグログを有効にし、セッションのデバッグログを読んで問題をトラブルシュートする。説明を付けて分析の焦点を絞ることも可能
     argument-hint: "[description]"
-  - name: less-permission-prompts
+  - name: fewer-permission-prompts
     description: トランスクリプトから頻出するread-onlyのBashとMCPツール呼び出しをスキャンし、プロジェクトの `.claude/settings.json` に優先度付きのallowlistを追加してパーミッションプロンプトを削減する
   - name: loop
     description: "セッションが開いている間、プロンプトを繰り返し実行する。間隔を省略するとセルフペーシング。プロンプトを省略すると自律メンテナンスチェック（または `.claude/loop.md` のプロンプト）を実行"
