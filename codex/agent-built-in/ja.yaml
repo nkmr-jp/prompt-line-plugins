@@ -48,7 +48,7 @@ commands:
   - name: new
     description: 同じCLIセッション内で新しい会話を開始する
   - name: permissions
-    description: Codexが確認なしで実行できる操作を設定する
+    description: "Codexが確認なしで実行できる操作を設定する。エイリアス: /approvals"
   - name: personality
     description: コミュニケーションスタイルを選択する（friendly, pragmatic, none）
   - name: plan
@@ -66,12 +66,12 @@ commands:
     description: ワーキングツリーの変更のCodex分析をリクエストする
   - name: sandbox-add-read-dir
     description: 現在のルート外のディレクトリへの読み取りアクセスを付与する（Windowsのみ）
-    argument-hint: "<directory_path>"
+    argument-hint: "<absolute_directory_path>"
   - name: status
     description: セッション設定とトークン使用量を表示する
   - name: statusline
     description: フッターのステータスライン項目を設定・並べ替える
   - name: stop
-    description: 現在のセッションのバックグラウンドターミナルをすべてキャンセルする
+    description: "現在のセッションのバックグラウンドターミナルをすべてキャンセルする。エイリアス: /clean"
   - name: title
     description: ターミナルウィンドウのタイトル項目を設定する
