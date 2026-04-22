@@ -3,7 +3,7 @@
 # Usage: bash git-log.sh [projectdir]
 
 projectdir="${1:-.}"
-remote=$(git -C "$projectdir" remote get-url origin 2>/dev/null | sed 's|git@github.com:|https://github.com/|; s|.git$||')
+remote=$(git -C "$projectdir" remote get-url origin 2>/dev/null | sed 's|^ssh://git@github.com/|https://github.com/|; s|^git@github.com:|https://github.com/|; s|\.git$||')
 
 git -C "$projectdir" log --format='%h%x00%s%x00%b%x00%an <%ae>%x00%ad%x00%d%x00%at%x01' -50 | python3 -c "
 import sys, json
