@@ -38,8 +38,6 @@ commands:
   - name: copy
     description: "最後のアシスタントレスポンスをクリップボードにコピーする。数値Nを渡すとN番目に新しいレスポンスをコピー（例: /copy 2）。コードブロックがある場合は個別ブロックまたは全体を選択するピッカーを表示。ピッカーで `w` を押すとクリップボードの代わりにファイルに書き込む（SSH経由で便利）"
     argument-hint: "[N]"
-  - name: cost
-    description: トークン使用量の統計を表示する
   - name: desktop
     description: "現在のCLIセッションをClaude Code Desktopアプリに引き継ぐ（macOSとWindowsのみ）。エイリアス: /app"
   - name: diff
@@ -148,8 +146,6 @@ commands:
     description: Google Vertex AI認証・プロジェクト・リージョン・モデルピンをインタラクティブウィザードで設定する。CLAUDE_CODE_USE_VERTEX=1の場合のみ表示
   - name: skills
     description: 利用可能なスキルを一覧表示する。`t`キーでトークン数でソート
-  - name: stats
-    description: "日次使用量、セッション履歴、連続使用日数、モデルの使用傾向を表示する"
   - name: status
     description: "設定インターフェースを開く（Statusタブ）。バージョン、モデル、アカウント、接続状況を表示。Claudeのレスポンス中でも動作"
   - name: statusline
@@ -179,9 +175,10 @@ commands:
   - name: upgrade
     description: より高いプランティアに切り替えるためのアップグレードページを開く
   - name: usage
-    description: プランの使用制限とレート制限のステータスを表示する
+    description: "セッションコスト、プラン使用制限、アクティビティ統計を表示する。エイリアス: /cost, /stats"
   - name: voice
-    description: プッシュトゥトーク音声入力を切り替える。Claude.aiアカウントが必要
+    description: 音声入力を切り替える、または特定のモードで有効化する。Claude.aiアカウントが必要
+    argument-hint: "[hold|tap|off]"
   - name: web-setup
     description: ローカルのgh CLI認証情報を使用してClaude Code WebにGitHubアカウントを接続する
 skills:

@@ -38,8 +38,6 @@ commands:
   - name: copy
     description: "Copy the last assistant response to clipboard. Pass a number N to copy the Nth-latest response (e.g. /copy 2). When code blocks are present, shows an interactive picker to select individual blocks or the full response. Press `w` in the picker to write the selection to a file instead of the clipboard, which is useful over SSH"
     argument-hint: "[N]"
-  - name: cost
-    description: Show token usage statistics
   - name: desktop
     description: "Continue the current session in the Claude Code Desktop app (macOS and Windows only). Alias: /app"
   - name: diff
@@ -148,8 +146,6 @@ commands:
     description: Configure Google Vertex AI authentication, project, region, and model pins through an interactive wizard. Only visible when CLAUDE_CODE_USE_VERTEX=1 is set
   - name: skills
     description: List available skills. Press `t` to sort by token count
-  - name: stats
-    description: "Visualize daily usage, session history, streaks, and model preferences"
   - name: status
     description: "Open the Settings interface (Status tab) showing version, model, account, and connectivity. Works while Claude is responding"
   - name: statusline
@@ -179,9 +175,10 @@ commands:
   - name: upgrade
     description: Open the upgrade page to switch to a higher plan tier
   - name: usage
-    description: Show plan usage limits and rate limit status
+    description: "Show session cost, plan usage limits, and activity stats. Aliases: /cost, /stats"
   - name: voice
-    description: Toggle push-to-talk voice dictation. Requires a Claude.ai account
+    description: Toggle voice dictation, or enable it in a specific mode. Requires a Claude.ai account
+    argument-hint: "[hold|tap|off]"
   - name: web-setup
     description: Connect GitHub account to Claude Code on the web using local gh CLI credentials
 skills:
