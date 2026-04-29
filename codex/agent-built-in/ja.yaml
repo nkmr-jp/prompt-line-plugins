@@ -26,7 +26,7 @@ commands:
   - name: experimental
     description: サブエージェントなどのオプション機能を有効化/無効化する
   - name: fast
-    description: GPT-5.4のFastモードの切り替えまたは確認
+    description: 対応モデルのFastモードを切り替える
     argument-hint: "[on|off|status]"
   - name: feedback
     description: メンテナーにログと診断情報を送信する
