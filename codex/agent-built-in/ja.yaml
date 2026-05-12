@@ -32,15 +32,21 @@ commands:
     description: メンテナーにログと診断情報を送信する
   - name: fork
     description: 現在の会話を新しいスレッドにクローンする
+  - name: goal
+    description: 実験的なタスク目標を設定・管理する
+    argument-hint: "<objective>|[pause|resume|clear]"
   - name: init
     description: 現在のディレクトリにAGENTS.mdのひな形を生成する
+  - name: keymap
+    description: キーボードショートカットを確認・再マッピングする
   - name: logout
     description: 現在のユーザーのローカル認証情報をクリアする
   - name: mcp
     description: 利用可能なModel Context Protocolツールを一覧表示する
+    argument-hint: "[verbose]"
   - name: mention
     description: 特定のファイルやフォルダを会話にアタッチする
-    argument-hint: "[path]"
+    argument-hint: "<file_path>"
   - name: model
     description: 使用するモデルと推論レベルを選択する
   - name: new
@@ -65,6 +71,9 @@ commands:
   - name: sandbox-add-read-dir
     description: 現在のルート外のディレクトリへの読み取りアクセスを付与する（Windowsのみ）
     argument-hint: "<absolute_directory_path>"
+  - name: side
+    description: 一時的なサイド会話を作成する
+    argument-hint: "[inline_text]"
   - name: status
     description: セッション設定とトークン使用量を表示する
   - name: statusline
