@@ -33,15 +33,21 @@ commands:
     description: Submit logs and diagnostics to maintainers
   - name: fork
     description: Clone current conversation into new thread
+  - name: goal
+    description: Set or manage experimental task objectives
+    argument-hint: "<objective>|[pause|resume|clear]"
   - name: init
     description: Generate an AGENTS.md scaffold in the current directory
+  - name: keymap
+    description: Inspect and remap keyboard shortcuts
   - name: logout
     description: Clear local credentials for current user
   - name: mcp
     description: List available Model Context Protocol tools
+    argument-hint: "[verbose]"
   - name: mention
     description: Attach specific files or folders to conversation
-    argument-hint: "[path]"
+    argument-hint: "<file_path>"
   - name: model
     description: Choose active model and reasoning effort level
   - name: new
@@ -66,6 +72,9 @@ commands:
   - name: sandbox-add-read-dir
     description: Grant read access to directories outside current roots (Windows only)
     argument-hint: "<absolute_directory_path>"
+  - name: side
+    description: Create an ephemeral side conversation
+    argument-hint: "[inline_text]"
   - name: status
     description: Display session configuration and token usage
   - name: statusline

@@ -15,6 +15,9 @@ commands:
   - name: autofix-pr
     description: Spawn a Claude Code on the web session that watches the current branch's PR and pushes fixes when CI fails or reviewers leave comments
     argument-hint: "[prompt]"
+  - name: background
+    description: "Detach the current session to run as a background agent and free this terminal. Pass a prompt to send one more instruction before detaching. Alias: /bg"
+    argument-hint: "[prompt]"
   - name: btw
     description: Ask a quick side question without adding to the conversation
     argument-hint: "<question>"
@@ -24,9 +27,10 @@ commands:
   - name: chrome
     description: Configure Claude in Chrome settings
   - name: clear
-    description: "Clear conversation history and free up context. Aliases: /reset, /new"
+    description: "Start a new conversation with empty context. The previous conversation stays available in /resume. Pass a name to label the previous conversation. Aliases: /reset, /new"
+    argument-hint: "[name]"
   - name: color
-    description: "Set the prompt bar color for the current session. Available colors: red, blue, green, yellow, purple, orange, pink, cyan. Use `default` to reset"
+    description: "Set the prompt bar color for the current session. Available colors: red, blue, green, yellow, purple, orange, pink, cyan. Use `default` to reset, or run with no argument to pick a random color"
     argument-hint: "[color|default]"
   - name: compact
     description: Compact conversation with optional focus instructions
@@ -65,6 +69,9 @@ commands:
   - name: fork
     description: "Create a fork of the current conversation at this point. Alias for: /branch"
     argument-hint: "[name]"
+  - name: goal
+    description: "Set a goal: Claude keeps working across turns until the condition is met. With no argument, shows the current goal. Works in interactive, -p, and Remote Control modes"
+    argument-hint: "[condition|clear]"
   - name: heapdump
     description: Write a JavaScript heap snapshot and a memory breakdown to ~/Desktop for diagnosing high memory usage
   - name: help
@@ -112,6 +119,8 @@ commands:
     description: Discover Claude Code features through quick interactive lessons with animated demos
   - name: privacy-settings
     description: View and update your privacy settings. Only available for Pro and Max plan subscribers
+  - name: radio
+    description: Open Claude FM lo-fi radio in your browser. Not available on Bedrock, Vertex, or Foundry
   - name: recap
     description: Generate a one-line summary of the current session on demand
   - name: release-notes
@@ -138,6 +147,8 @@ commands:
   - name: schedule
     description: "Create, update, list, or run routines (Cloud scheduled tasks). Claude walks you through the setup conversationally. Alias: /routines"
     argument-hint: "[description]"
+  - name: scroll-speed
+    description: Adjust mouse wheel scroll speed interactively, with a ruler you can scroll while the dialog is open to preview the change
   - name: security-review
     description: Analyze pending changes on the current branch for security vulnerabilities. Reviews the git diff and identifies risks like injection, auth issues, and data exposure
   - name: setup-bedrock
@@ -152,6 +163,8 @@ commands:
     description: "Configure Claude Code's status line. Describe what you want, or run without arguments to auto-configure from your shell prompt"
   - name: stickers
     description: Order Claude Code stickers
+  - name: stop
+    description: Stop the current background session. Only available while attached to a background session; the transcript and any worktree are kept
   - name: tasks
     description: "List and manage background tasks. Alias: /bashes"
   - name: team-onboarding

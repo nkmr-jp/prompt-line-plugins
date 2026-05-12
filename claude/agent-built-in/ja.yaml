@@ -15,6 +15,9 @@ commands:
   - name: autofix-pr
     description: 現在のブランチのPRを監視し、CIが失敗したりレビューコメントが付いたら自動で修正をプッシュするClaude Code Webセッションを起動する
     argument-hint: "[prompt]"
+  - name: background
+    description: "現在のセッションをバックグラウンドエージェントとしてデタッチし、ターミナルを解放する。プロンプトを渡すとデタッチ前に追加の指示を送信できる。エイリアス: /bg"
+    argument-hint: "[prompt]"
   - name: btw
     description: 会話に追加せずに素早くサイドクエスチョンをする
     argument-hint: "<question>"
@@ -24,9 +27,10 @@ commands:
   - name: chrome
     description: Claude in Chromeの設定を行う
   - name: clear
-    description: "会話履歴をクリアしてコンテキストを解放する。エイリアス: /reset, /new"
+    description: "空のコンテキストで新しい会話を開始する。直前の会話は /resume から引き続き利用できる。名前を渡すと直前の会話にラベルを付ける。エイリアス: /reset, /new"
+    argument-hint: "[name]"
   - name: color
-    description: "現在のセッションのプロンプトバーの色を設定する。使用可能な色: red, blue, green, yellow, purple, orange, pink, cyan。`default` でリセット"
+    description: "現在のセッションのプロンプトバーの色を設定する。使用可能な色: red, blue, green, yellow, purple, orange, pink, cyan。`default` でリセット、引数なしでランダムな色を選択"
     argument-hint: "[color|default]"
   - name: compact
     description: 会話を圧縮する（フォーカス指示を任意で指定可能）
@@ -65,6 +69,9 @@ commands:
   - name: fork
     description: "現在の会話のこの時点でフォークを作成する。/branch のエイリアス"
     argument-hint: "[name]"
+  - name: goal
+    description: "ゴールを設定する。Claudeは条件が満たされるまで複数ターンにわたって作業を続ける。引数なしで現在のゴールを表示。インタラクティブ・-p・Remote Controlの各モードで動作"
+    argument-hint: "[condition|clear]"
   - name: heapdump
     description: メモリ使用量診断用にJavaScriptヒープスナップショットとメモリブレークダウンを ~/Desktop に出力する
   - name: help
@@ -112,6 +119,8 @@ commands:
     description: インタラクティブなレッスンとアニメーションデモでClaude Codeの機能を発見する
   - name: privacy-settings
     description: プライバシー設定を表示・更新する。ProおよびMaxプランのサブスクライバーのみ利用可能
+  - name: radio
+    description: Claude FMのlo-fiラジオをブラウザで開く。Bedrock・Vertex・Foundryでは利用不可
   - name: recap
     description: 現在のセッションの1行サマリーをオンデマンドで生成する
   - name: release-notes
@@ -138,6 +147,8 @@ commands:
   - name: schedule
     description: "routines（Cloudスケジュールタスク）の作成・更新・一覧・実行を行う。Claudeが対話的にセットアップをガイドする。エイリアス: /routines"
     argument-hint: "[description]"
+  - name: scroll-speed
+    description: マウスホイールのスクロール速度を対話的に調整する。ダイアログ表示中にスクロール可能なルーラーで変更をプレビューできる
   - name: security-review
     description: 現在のブランチの保留中の変更をセキュリティ脆弱性の観点から分析する。git diffをレビューしインジェクション、認証の問題、データ漏洩などのリスクを特定
   - name: setup-bedrock
@@ -152,6 +163,8 @@ commands:
     description: "Claude Codeのステータスラインを設定する。表示内容を指定するか、引数なしでシェルプロンプトから自動設定"
   - name: stickers
     description: Claude Codeステッカーを注文する
+  - name: stop
+    description: 現在のバックグラウンドセッションを停止する。バックグラウンドセッションにアタッチ中のみ利用可能。トランスクリプトとworktreeは保持される
   - name: tasks
     description: "バックグラウンドタスクの一覧と管理。エイリアス: /bashes"
   - name: team-onboarding
