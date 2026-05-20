@@ -56,13 +56,11 @@ commands:
   - name: export
     description: "現在の会話をプレーンテキストとしてエクスポートする。ファイル名を指定するとそのファイルに直接書き込み、指定なしの場合はクリップボードへのコピーまたはファイル保存のダイアログを開く"
     argument-hint: "[filename]"
-  - name: extra-usage
-    description: レート制限に達した際に作業を継続するための追加使用量を設定する
   - name: fast
     description: Fastモードのオン/オフを切り替える
     argument-hint: "[on|off]"
   - name: feedback
-    description: "Claude Codeについてのフィードバックを送信する。エイリアス: /bug"
+    description: "Claude Codeについてのフィードバックを送信する。エイリアス: /bug, /share"
     argument-hint: "[report]"
   - name: focus
     description: フォーカスビューをトグルする。直前のプロンプト、ツール呼び出しのサマリー（編集diffstat付き）、最終レスポンスのみを表示。選択状態はセッション間で保持される。fullscreenレンダリング時のみ利用可能
@@ -96,7 +94,7 @@ commands:
     description: Anthropicアカウントからサインアウトする
   - name: loop
     description: "プロンプトやスラッシュコマンドを定期的に実行する（例：/loop 5m /foo、デフォルト10分間隔）。エイリアス: /proactive"
-    argument-hint: "[interval] [command]"
+    argument-hint: "[interval] [prompt]"
   - name: mcp
     description: MCPサーバー接続とOAuth認証を管理する
   - name: memory
@@ -189,6 +187,8 @@ commands:
     description: より高いプランティアに切り替えるためのアップグレードページを開く
   - name: usage
     description: "セッションコスト、プラン使用制限、アクティビティ統計を表示する。エイリアス: /cost, /stats"
+  - name: usage-credits
+    description: "レート制限に達した際に作業を継続するための使用量クレジットを設定する。/extra-usage からリネームされ、旧名称はエイリアスとして引き続き利用可能"
   - name: voice
     description: 音声入力を切り替える、または特定のモードで有効化する。Claude.aiアカウントが必要
     argument-hint: "[hold|tap|off]"
@@ -208,9 +208,15 @@ skills:
   - name: loop
     description: "セッションが開いている間、プロンプトを繰り返し実行する。間隔を省略するとセルフペーシング。プロンプトを省略すると自律メンテナンスチェック（または `.claude/loop.md` のプロンプト）を実行"
     argument-hint: "[interval] <prompt>"
+  - name: run
+    description: "プロジェクトのアプリを起動・操作して、変更が動作している様子を実際に確認する。既存のプロジェクト用スキルがあればそれを優先し、なければプロジェクトタイプごとの組み込みパターンにフォールバックする"
+  - name: run-skill-generator
+    description: "/run と /verify に対し、クリーンな環境からプロジェクトのアプリをビルド・起動・操作する方法を教え込む"
   - name: simplify
     description: 変更されたコードの再利用性・品質・効率性をレビューし、問題があれば修正する
     argument-hint: "[focus]"
+  - name: verify
+    description: "プロジェクトのアプリをビルドして実行し、実際の挙動を観察することで、コード変更が意図通り動作するかを確認する"
 agents:
   - name: Explore
     description: コードベースの検索と分析に最適化された高速な読み取り専用エージェント
