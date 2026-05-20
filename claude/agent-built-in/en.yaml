@@ -56,13 +56,11 @@ commands:
   - name: export
     description: "Export the current conversation as plain text. With a filename, writes directly to that file; without, opens a dialog to copy to clipboard or save to a file"
     argument-hint: "[filename]"
-  - name: extra-usage
-    description: Configure extra usage to keep working when rate limits are hit
   - name: fast
     description: Toggle Fast mode on or off
     argument-hint: "[on|off]"
   - name: feedback
-    description: "Submit feedback about Claude Code. Alias: /bug"
+    description: "Submit feedback about Claude Code. Aliases: /bug, /share"
     argument-hint: "[report]"
   - name: focus
     description: Toggle the focus view that shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. The selection persists across sessions. Only available in fullscreen rendering
@@ -96,7 +94,7 @@ commands:
     description: Sign out from your Anthropic account
   - name: loop
     description: "Run a prompt or slash command on a recurring interval (e.g. /loop 5m /foo, defaults to 10m). Alias: /proactive"
-    argument-hint: "[interval] [command]"
+    argument-hint: "[interval] [prompt]"
   - name: mcp
     description: Manage MCP server connections and OAuth authentication
   - name: memory
@@ -189,6 +187,8 @@ commands:
     description: Open the upgrade page to switch to a higher plan tier
   - name: usage
     description: "Show session cost, plan usage limits, and activity stats. Aliases: /cost, /stats"
+  - name: usage-credits
+    description: "Configure usage credits to keep working when you hit a limit. Renamed from /extra-usage; the old name still works as an alias"
   - name: voice
     description: Toggle voice dictation, or enable it in a specific mode. Requires a Claude.ai account
     argument-hint: "[hold|tap|off]"
@@ -208,9 +208,15 @@ skills:
   - name: loop
     description: "Run a prompt repeatedly while the session stays open. Omit interval for self-pacing. Omit prompt to run autonomous maintenance check (or prompt from `.claude/loop.md`)."
     argument-hint: "[interval] <prompt>"
+  - name: run
+    description: "Launch and drive your project's app to see a change working in the running app. Looks for a project skill that already covers launching the app; otherwise falls back to built-in patterns per project type."
+  - name: run-skill-generator
+    description: "Teach /run and /verify how to build, launch, and drive your project's app from a clean environment."
   - name: simplify
     description: Review changed code for reuse, quality, and efficiency, then fix any issues found.
     argument-hint: "[focus]"
+  - name: verify
+    description: "Confirm a code change does what it should by building your project's app, running it, and observing the result."
 agents:
   - name: Explore
     description: A fast, read-only agent optimized for searching and analyzing codebases.

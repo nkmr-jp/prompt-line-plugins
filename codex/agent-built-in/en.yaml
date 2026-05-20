@@ -14,6 +14,8 @@ commands:
     description: Switch between active agent threads to inspect subagent work
   - name: apps
     description: Browse apps (connectors) and insert them into your prompt
+  - name: approve
+    description: Retry a one-time auto-review denial for the previous command
   - name: clear
     description: Reset terminal display and begin fresh conversation in same session
   - name: compact
@@ -36,6 +38,10 @@ commands:
   - name: goal
     description: Set or manage experimental task objectives
     argument-hint: "<objective>|[pause|resume|clear]"
+  - name: hooks
+    description: Review, trust, or disable lifecycle hooks
+  - name: ide
+    description: Include IDE context by pulling editor files and selections into the conversation
   - name: init
     description: Generate an AGENTS.md scaffold in the current directory
   - name: keymap
@@ -45,6 +51,8 @@ commands:
   - name: mcp
     description: List available Model Context Protocol tools
     argument-hint: "[verbose]"
+  - name: memories
+    description: Configure memory use, including memory injection and generation
   - name: mention
     description: Attach specific files or folders to conversation
     argument-hint: "<file_path>"
@@ -65,6 +73,8 @@ commands:
     description: Display background terminals and recent output
   - name: quit
     description: "Exit the CLI immediately. Alias: /exit"
+  - name: raw
+    description: Toggle raw scrollback rendering for better terminal text selection
   - name: resume
     description: Reload a previously saved conversation
   - name: review
@@ -75,6 +85,8 @@ commands:
   - name: side
     description: Create an ephemeral side conversation
     argument-hint: "[inline_text]"
+  - name: skills
+    description: Browse and apply task-specific skill context
   - name: status
     description: Display session configuration and token usage
   - name: statusline
@@ -83,3 +95,5 @@ commands:
     description: "Cancel all background terminals for the current session. Alias: /clean"
   - name: title
     description: Configure terminal window title fields
+  - name: vim
+    description: Toggle Vim mode for composer editing
