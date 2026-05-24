@@ -17,17 +17,17 @@ commands:
   - name: approve
     description: Retry a one-time auto-review denial for the previous command
   - name: clear
-    description: Reset terminal display and begin fresh conversation in same session
+    description: Clear the terminal and start a fresh chat
   - name: compact
     description: Summarize the visible conversation to free tokens
   - name: copy
-    description: Copy the most recent completed Codex response to clipboard
+    description: Copy the latest completed Codex output
   - name: debug-config
     description: Print config layer and requirements diagnostics
   - name: diff
     description: Show the Git diff, including files Git isn't tracking yet
   - name: experimental
-    description: Enable or disable optional features like subagents
+    description: Toggle experimental features
   - name: fast
     description: Toggle Fast mode for supported models
     argument-hint: "[on|off|status]"
@@ -36,12 +36,13 @@ commands:
   - name: fork
     description: Clone current conversation into new thread
   - name: goal
-    description: Set or manage experimental task objectives
-    argument-hint: "<objective>|[pause|resume|clear]"
+    description: Set, pause, resume, view, or clear a task goal
+    argument-hint: "[<objective>|pause|resume|clear]"
   - name: hooks
-    description: Review, trust, or disable lifecycle hooks
+    description: Review lifecycle hooks and view/manage hook configuration loaded into the current session
   - name: ide
-    description: Include IDE context by pulling editor files and selections into the conversation
+    description: Include open files, current selection, and other IDE context
+    argument-hint: "[text]"
   - name: init
     description: Generate an AGENTS.md scaffold in the current directory
   - name: keymap
@@ -65,8 +66,8 @@ commands:
   - name: personality
     description: Select communication style (friendly, pragmatic, none)
   - name: plan
-    description: Enter plan mode with optional inline prompt
-    argument-hint: "[prompt_text]"
+    description: Switch to plan mode and optionally send a prompt
+    argument-hint: "[prompt]"
   - name: plugins
     description: Inspect installed and discoverable plugins with their tools
   - name: ps
@@ -75,6 +76,7 @@ commands:
     description: "Exit the CLI immediately. Alias: /exit"
   - name: raw
     description: Toggle raw scrollback rendering for better terminal text selection
+    argument-hint: "[on|off]"
   - name: resume
     description: Reload a previously saved conversation
   - name: review
@@ -83,8 +85,8 @@ commands:
     description: Grant read access to directories outside current roots (Windows only)
     argument-hint: "<absolute_directory_path>"
   - name: side
-    description: Create an ephemeral side conversation
-    argument-hint: "[inline_text]"
+    description: Start an ephemeral side conversation
+    argument-hint: "[prompt]"
   - name: skills
     description: Browse and apply task-specific skill context
   - name: status
@@ -93,6 +95,8 @@ commands:
     description: Configure and reorder footer status-line items
   - name: stop
     description: "Cancel all background terminals for the current session. Alias: /clean"
+  - name: theme
+    description: Choose a syntax-highlighting theme. Preview and persist a terminal syntax-highlighting theme
   - name: title
     description: Configure terminal window title fields
   - name: vim

@@ -16,17 +16,17 @@ commands:
   - name: approve
     description: 直前のコマンドに対する自動レビューの拒否を一度だけ再試行する
   - name: clear
-    description: ターミナル表示をリセットして同じセッション内で新しい会話を開始する
+    description: ターミナルをクリアして新しいチャットを開始する
   - name: compact
     description: 表示中の会話を要約してトークンを解放する
   - name: copy
-    description: 最新の完了済みCodexレスポンスをクリップボードにコピーする
+    description: 最新の完了済みCodex出力をクリップボードにコピーする
   - name: debug-config
     description: 設定レイヤーと要件の診断情報を表示する
   - name: diff
     description: Git未追跡ファイルを含むGit diffを表示する
   - name: experimental
-    description: サブエージェントなどのオプション機能を有効化/無効化する
+    description: 実験的機能を切り替える
   - name: fast
     description: 対応モデルのFastモードを切り替える
     argument-hint: "[on|off|status]"
@@ -35,12 +35,13 @@ commands:
   - name: fork
     description: 現在の会話を新しいスレッドにクローンする
   - name: goal
-    description: 実験的なタスク目標を設定・管理する
-    argument-hint: "<objective>|[pause|resume|clear]"
+    description: タスクの目標を設定・一時停止・再開・確認・クリアする
+    argument-hint: "[<objective>|pause|resume|clear]"
   - name: hooks
-    description: ライフサイクルフックの確認・信頼・無効化を行う
+    description: ライフサイクルフックを確認し、現在のセッションに読み込まれたフック設定を表示・管理する
   - name: ide
-    description: エディタのファイルや選択範囲を取り込んでIDEコンテキストを会話に含める
+    description: 開いているファイル・現在の選択範囲などのIDEコンテキストを取り込む
+    argument-hint: "[text]"
   - name: init
     description: 現在のディレクトリにAGENTS.mdのひな形を生成する
   - name: keymap
@@ -64,8 +65,8 @@ commands:
   - name: personality
     description: コミュニケーションスタイルを選択する（friendly, pragmatic, none）
   - name: plan
-    description: プランモードに入る（インラインプロンプトも指定可能）
-    argument-hint: "[prompt_text]"
+    description: プランモードに切り替え、必要に応じてプロンプトを送信する
+    argument-hint: "[prompt]"
   - name: plugins
     description: インストール済みおよび発見可能なプラグインとそのツールを表示する
   - name: ps
@@ -74,6 +75,7 @@ commands:
     description: "CLIを即座に終了する。エイリアス: /exit"
   - name: raw
     description: ターミナルでのテキスト選択を容易にするため、raw スクロールバック表示を切り替える
+    argument-hint: "[on|off]"
   - name: resume
     description: 以前に保存した会話をリロードする
   - name: review
@@ -82,8 +84,8 @@ commands:
     description: 現在のルート外のディレクトリへの読み取りアクセスを付与する（Windowsのみ）
     argument-hint: "<absolute_directory_path>"
   - name: side
-    description: 一時的なサイド会話を作成する
-    argument-hint: "[inline_text]"
+    description: 一時的なサイド会話を開始する
+    argument-hint: "[prompt]"
   - name: skills
     description: タスクに特化したスキルコンテキストを閲覧・適用する
   - name: status
@@ -92,6 +94,8 @@ commands:
     description: フッターのステータスライン項目を設定・並べ替える
   - name: stop
     description: "現在のセッションのバックグラウンドターミナルをすべてキャンセルする。エイリアス: /clean"
+  - name: theme
+    description: シンタックスハイライトテーマを選択する。ターミナルのシンタックスハイライトテーマをプレビューして永続化する
   - name: title
     description: ターミナルウィンドウのタイトル項目を設定する
   - name: vim
