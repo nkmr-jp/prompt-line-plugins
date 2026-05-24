@@ -38,7 +38,8 @@ commands:
   - name: config
     description: "設定インターフェースを開いてテーマ、モデル、出力スタイルなどを調整する。エイリアス: /settings"
   - name: context
-    description: 現在のコンテキスト使用量をカラーグリッドで表示する。コンテキスト負荷の高いツール、メモリ膨張、容量警告の最適化提案も表示
+    description: 現在のコンテキスト使用量をカラーグリッドで表示する。コンテキスト負荷の高いツール、メモリ膨張、容量警告の最適化提案も表示。`all` を渡すと項目ごとの詳細をフルスクリーンで展開
+    argument-hint: "[all]"
   - name: copy
     description: "最後のアシスタントレスポンスをクリップボードにコピーする。数値Nを渡すとN番目に新しいレスポンスをコピー（例: /copy 2）。コードブロックがある場合は個別ブロックまたは全体を選択するピッカーを表示。ピッカーで `w` を押すとクリップボードの代わりにファイルに書き込む（SSH経由で便利）"
     argument-hint: "[N]"
@@ -200,6 +201,10 @@ skills:
     argument-hint: "<instruction>"
   - name: claude-api
     description: "Claude APIとManaged Agentsのリファレンス資料をプロジェクトの言語（Python, TypeScript, Java, Go, Ruby, C#, PHP, cURL）に応じて読み込む。tool use、streaming、batches、structured outputs、よくある落とし穴をカバー。`anthropic` または `@anthropic-ai/sdk` をインポートすると自動的に有効化"
+    argument-hint: "[migrate|managed-agents-onboard]"
+  - name: code-review
+    description: "現在の diff を指定した effort レベルでレビューし、正しさのバグを報告する。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げる。`--comment` で GitHub PR にインラインコメントとして投稿する。/simplify からリネームされ、旧名称はエイリアスとして引き続き利用可能"
+    argument-hint: "[low|medium|high|xhigh|max] [--comment] [target]"
   - name: debug
     description: 現在のセッションのデバッグログを有効にし、セッションのデバッグログを読んで問題をトラブルシュートする。説明を付けて分析の焦点を絞ることも可能
     argument-hint: "[description]"
@@ -212,9 +217,6 @@ skills:
     description: "プロジェクトのアプリを起動・操作して、変更が動作している様子を実際に確認する。既存のプロジェクト用スキルがあればそれを優先し、なければプロジェクトタイプごとの組み込みパターンにフォールバックする"
   - name: run-skill-generator
     description: "/run と /verify に対し、クリーンな環境からプロジェクトのアプリをビルド・起動・操作する方法を教え込む"
-  - name: simplify
-    description: 変更されたコードの再利用性・品質・効率性をレビューし、問題があれば修正する
-    argument-hint: "[focus]"
   - name: verify
     description: "プロジェクトのアプリをビルドして実行し、実際の挙動を観察することで、コード変更が意図通り動作するかを確認する"
 agents:

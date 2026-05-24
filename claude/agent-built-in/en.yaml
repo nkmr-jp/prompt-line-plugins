@@ -38,7 +38,8 @@ commands:
   - name: config
     description: "Open the Settings interface to adjust theme, model, output style, and other preferences. Alias: /settings"
   - name: context
-    description: Visualize current context usage as a colored grid. Shows optimization suggestions for context-heavy tools, memory bloat, and capacity warnings
+    description: Visualize current context usage as a colored grid. Shows optimization suggestions for context-heavy tools, memory bloat, and capacity warnings. Pass `all` to expand the per-item breakdown in fullscreen mode
+    argument-hint: "[all]"
   - name: copy
     description: "Copy the last assistant response to clipboard. Pass a number N to copy the Nth-latest response (e.g. /copy 2). When code blocks are present, shows an interactive picker to select individual blocks or the full response. Press `w` in the picker to write the selection to a file instead of the clipboard, which is useful over SSH"
     argument-hint: "[N]"
@@ -200,6 +201,10 @@ skills:
     argument-hint: "<instruction>"
   - name: claude-api
     description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
+    argument-hint: "[migrate|managed-agents-onboard]"
+  - name: code-review
+    description: "Review the current diff for correctness bugs at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage. Pass `--comment` to post findings as inline PR comments. Renamed from /simplify; the old name still works as an alias."
+    argument-hint: "[low|medium|high|xhigh|max] [--comment] [target]"
   - name: debug
     description: Enable debug logging for the current session and troubleshoot issues by reading the session debug log. Optionally describe the issue to focus the analysis.
     argument-hint: "[description]"
@@ -212,9 +217,6 @@ skills:
     description: "Launch and drive your project's app to see a change working in the running app. Looks for a project skill that already covers launching the app; otherwise falls back to built-in patterns per project type."
   - name: run-skill-generator
     description: "Teach /run and /verify how to build, launch, and drive your project's app from a clean environment."
-  - name: simplify
-    description: Review changed code for reuse, quality, and efficiency, then fix any issues found.
-    argument-hint: "[focus]"
   - name: verify
     description: "Confirm a code change does what it should by building your project's app, running it, and observing the result."
 agents:
