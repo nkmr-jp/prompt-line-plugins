@@ -50,7 +50,7 @@ commands:
   - name: doctor
     description: Diagnose and verify your Claude Code installation and settings. Results show with status icons. Press `f` to have Claude fix any reported issues
   - name: effort
-    description: "Set the model effort level. Accepts low/medium/high/xhigh/max. Available levels depend on the model; max is session-only. auto resets to the model default. Without an argument, opens an interactive slider"
+    description: "Set the model effort level. Accepts low/medium/high/xhigh/max/ultracode. Available levels depend on the model; max and ultracode are session-only. ultracode combines xhigh reasoning with automatic workflow orchestration. auto resets to the model default. Without an argument, opens an interactive slider"
     argument-hint: "[level|auto]"
   - name: exit
     description: "Exit the CLI. Alias: /quit"
@@ -103,7 +103,7 @@ commands:
   - name: mobile
     description: "Show QR code to download the Claude mobile app. Aliases: /ios, /android"
   - name: model
-    description: Select or change the AI model for the current session, taking effect immediately. For models that support it, use left/right arrows to adjust effort level. Press `d` to set the selection as the default for new sessions
+    description: Switch the AI model and save it as your default for new sessions. For models that support it, use left/right arrows to adjust effort level. With no argument, opens a picker; press `s` on a row to switch for the current session only. The picker asks for confirmation when the conversation has prior output
     argument-hint: "[model]"
   - name: passes
     description: Share a free week of Claude Code with friends. Only visible if your account is eligible

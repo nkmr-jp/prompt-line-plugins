@@ -50,7 +50,7 @@ commands:
   - name: doctor
     description: Claude Codeのインストール状態と設定を診断・検証する。結果はステータスアイコン付きで表示。`f`キーでClaudeに問題を修正させる
   - name: effort
-    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/maxを指定可能。利用可能なレベルはモデル依存。maxは現在のセッションのみ。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く"
+    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く"
     argument-hint: "[level|auto]"
   - name: exit
     description: "CLIを終了する。エイリアス: /quit"
@@ -103,7 +103,7 @@ commands:
   - name: mobile
     description: "Claudeモバイルアプリのダウンロード用QRコードを表示する。エイリアス: /ios, /android"
   - name: model
-    description: 現在のセッションのAIモデルを選択または変更し、即座に反映する。対応モデルでは左右矢印キーで推論レベルを調整可能。`d`キーで選択したモデルを新規セッションのデフォルトに設定
+    description: AIモデルを切り替え、新規セッションのデフォルトとして保存する。対応モデルでは左右矢印キーで推論レベルを調整可能。引数なしでピッカーを開き、行で `s` キーを押すと現在のセッションのみ切り替える。会話に既存の出力がある場合、ピッカーは確認を求める
     argument-hint: "[model]"
   - name: passes
     description: 友人にClaude Codeの無料1週間パスを共有する。対象アカウントのみ表示
