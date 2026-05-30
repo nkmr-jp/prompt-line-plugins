@@ -103,7 +103,7 @@ commands:
   - name: mobile
     description: "Claudeモバイルアプリのダウンロード用QRコードを表示する。エイリアス: /ios, /android"
   - name: model
-    description: AIモデルを選択または変更する。対応モデルでは左右矢印キーで推論レベルを調整可能。現在のレスポンスを待たずに即時反映
+    description: 現在のセッションのAIモデルを選択または変更し、即座に反映する。対応モデルでは左右矢印キーで推論レベルを調整可能。`d`キーで選択したモデルを新規セッションのデフォルトに設定
     argument-hint: "[model]"
   - name: passes
     description: 友人にClaude Codeの無料1週間パスを共有する。対象アカウントのみ表示
@@ -126,6 +126,8 @@ commands:
     description: インタラクティブなバージョンピッカーで変更履歴を表示する。特定のバージョンを選んでリリースノートを見るか、全バージョンをまとめて表示できる
   - name: reload-plugins
     description: アクティブなプラグインをすべてリロードし、保留中の変更を再起動なしで適用する。リロードされたコンポーネント数とロードエラーを報告
+  - name: reload-skills
+    description: 再起動せずにスキルとコマンドのディレクトリを再スキャンし、ディスク上の変更を反映する
   - name: remote-control
     description: "このセッションをclaude.aiからのリモートコントロールに利用可能にする。エイリアス: /rc"
   - name: remote-env
@@ -137,7 +139,7 @@ commands:
     description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。エイリアス: /continue"
     argument-hint: "[session]"
   - name: review
-    description: 現在のセッションでPull Requestをローカルレビューする。より深いクラウドベースのレビューは /ultrareview を参照
+    description: 現在のセッションでPull Requestをローカルレビューする。より深いクラウドベースのレビューは /code-review ultra を参照
     argument-hint: "[PR]"
   - name: rewind
     description: "会話やコードを以前のポイントに巻き戻す、または選択したメッセージから要約する。チェックポイント機能参照。エイリアス: /checkpoint, /undo"
@@ -195,6 +197,8 @@ commands:
     argument-hint: "[hold|tap|off]"
   - name: web-setup
     description: ローカルのgh CLI認証情報を使用してClaude Code WebにGitHubアカウントを接続する
+  - name: workflows
+    description: 多数のバックグラウンドエージェントを横断してオーケストレーションする動的ワークフローの進捗ビューを開く
 skills:
   - name: batch
     description: "大規模な変更を調査・計画し、5〜30の独立したワークツリーエージェントで並列実行してそれぞれPRを作成する"
@@ -203,11 +207,14 @@ skills:
     description: "Claude APIとManaged Agentsのリファレンス資料をプロジェクトの言語（Python, TypeScript, Java, Go, Ruby, C#, PHP, cURL）に応じて読み込む。tool use、streaming、batches、structured outputs、よくある落とし穴をカバー。`anthropic` または `@anthropic-ai/sdk` をインポートすると自動的に有効化"
     argument-hint: "[migrate|managed-agents-onboard]"
   - name: code-review
-    description: "現在の diff を指定した effort レベルでレビューし、正しさのバグを報告する。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げる。`--comment` で GitHub PR にインラインコメントとして投稿する。/simplify からリネームされ、旧名称はエイリアスとして引き続き利用可能"
-    argument-hint: "[low|medium|high|xhigh|max] [--comment] [target]"
+    description: "現在の diff を指定した effort レベルで、正しさのバグと再利用・簡素化・効率化のクリーンアップの観点からレビューする。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。`--fix` で修正を working tree に適用、`--comment` で GitHub PR にインラインコメントとして投稿する"
+    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
   - name: debug
     description: 現在のセッションのデバッグログを有効にし、セッションのデバッグログを読んで問題をトラブルシュートする。説明を付けて分析の焦点を絞ることも可能
     argument-hint: "[description]"
+  - name: deep-research
+    description: "Web 検索をファンアウトし、ソースを取得・相互検証してから、引用付きのリサーチレポートを統合する"
+    argument-hint: "<question>"
   - name: fewer-permission-prompts
     description: トランスクリプトから頻出するread-onlyのBashとMCPツール呼び出しをスキャンし、プロジェクトの `.claude/settings.json` に優先度付きのallowlistを追加してパーミッションプロンプトを削減する
   - name: loop
@@ -217,6 +224,9 @@ skills:
     description: "プロジェクトのアプリを起動・操作して、変更が動作している様子を実際に確認する。既存のプロジェクト用スキルがあればそれを優先し、なければプロジェクトタイプごとの組み込みパターンにフォールバックする"
   - name: run-skill-generator
     description: "/run と /verify に対し、クリーンな環境からプロジェクトのアプリをビルド・起動・操作する方法を教え込む"
+  - name: simplify
+    description: "変更されたコードを再利用・簡素化・効率化・抽象化の観点からレビューし、修正を適用する。品質改善のみで、バグは探さない（バグ検出は /code-review を使用）"
+    argument-hint: "[target]"
   - name: verify
     description: "プロジェクトのアプリをビルドして実行し、実際の挙動を観察することで、コード変更が意図通り動作するかを確認する"
 agents:

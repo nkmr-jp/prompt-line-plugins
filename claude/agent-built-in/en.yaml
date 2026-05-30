@@ -103,7 +103,7 @@ commands:
   - name: mobile
     description: "Show QR code to download the Claude mobile app. Aliases: /ios, /android"
   - name: model
-    description: Select or change the AI model. For models that support it, use left/right arrows to adjust effort level. Takes effect immediately without waiting for the current response to finish
+    description: Select or change the AI model for the current session, taking effect immediately. For models that support it, use left/right arrows to adjust effort level. Press `d` to set the selection as the default for new sessions
     argument-hint: "[model]"
   - name: passes
     description: Share a free week of Claude Code with friends. Only visible if your account is eligible
@@ -126,6 +126,8 @@ commands:
     description: View the changelog in an interactive version picker. Select a specific version to see its release notes, or choose to show all versions
   - name: reload-plugins
     description: Reload all active plugins to apply pending changes without restarting. Reports counts for each reloaded component and flags any load errors
+  - name: reload-skills
+    description: Re-scan skill and command directories so changes on disk become available without restarting the session
   - name: remote-control
     description: "Make this session available for remote control from claude.ai. Aliases: /rc"
   - name: remote-env
@@ -137,7 +139,7 @@ commands:
     description: "Resume a conversation by ID or name, or open the session picker. Alias: /continue"
     argument-hint: "[session]"
   - name: review
-    description: Review a pull request locally in your current session. For a deeper cloud-based review, see /ultrareview
+    description: Review a pull request locally in your current session. For a deeper cloud-based review, see /code-review ultra
     argument-hint: "[PR]"
   - name: rewind
     description: "Rewind the conversation and/or code to a previous point, or summarize from a selected message. See checkpointing. Aliases: /checkpoint, /undo"
@@ -195,6 +197,8 @@ commands:
     argument-hint: "[hold|tap|off]"
   - name: web-setup
     description: Connect GitHub account to Claude Code on the web using local gh CLI credentials
+  - name: workflows
+    description: Open the workflow progress view showing dynamic workflows that orchestrate work across many background agents
 skills:
   - name: batch
     description: "Research and plan a large-scale change, then execute it in parallel across 5–30 isolated worktree agents that each open a PR."
@@ -203,11 +207,14 @@ skills:
     description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
     argument-hint: "[migrate|managed-agents-onboard]"
   - name: code-review
-    description: "Review the current diff for correctness bugs at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage. Pass `--comment` to post findings as inline PR comments. Renamed from /simplify; the old name still works as an alias."
-    argument-hint: "[low|medium|high|xhigh|max] [--comment] [target]"
+    description: "Review the current diff for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. Pass `--fix` to apply findings to the working tree, or `--comment` to post inline PR comments."
+    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
   - name: debug
     description: Enable debug logging for the current session and troubleshoot issues by reading the session debug log. Optionally describe the issue to focus the analysis.
     argument-hint: "[description]"
+  - name: deep-research
+    description: "Fan out web searches, fetch and cross-check sources, then synthesize a cited research report."
+    argument-hint: "<question>"
   - name: fewer-permission-prompts
     description: Scan your transcripts for common read-only Bash and MCP tool calls, then add a prioritized allowlist to project `.claude/settings.json` to reduce permission prompts.
   - name: loop
@@ -217,6 +224,9 @@ skills:
     description: "Launch and drive your project's app to see a change working in the running app. Looks for a project skill that already covers launching the app; otherwise falls back to built-in patterns per project type."
   - name: run-skill-generator
     description: "Teach /run and /verify how to build, launch, and drive your project's app from a clean environment."
+  - name: simplify
+    description: "Review the changed code for reuse, simplification, efficiency, and abstraction cleanups, then apply the fixes. Quality only — it does not hunt for bugs; use /code-review for that."
+    argument-hint: "[target]"
   - name: verify
     description: "Confirm a code change does what it should by building your project's app, running it, and observing the result."
 agents:
