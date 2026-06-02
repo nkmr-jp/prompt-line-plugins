@@ -85,7 +85,7 @@ commands:
     description: Grant read access to directories outside current roots (Windows only)
     argument-hint: "<absolute_directory_path>"
   - name: side
-    description: Start an ephemeral side conversation
+    description: "Start an ephemeral side conversation. Alias: /btw"
     argument-hint: "[prompt]"
   - name: skills
     description: Browse and apply task-specific skill context
@@ -96,7 +96,7 @@ commands:
   - name: stop
     description: "Cancel all background terminals for the current session. Alias: /clean"
   - name: theme
-    description: Choose a syntax-highlighting theme. Preview and persist a terminal syntax-highlighting theme
+    description: Choose a syntax-highlighting theme. Preview and persist your selection
   - name: title
     description: Configure terminal window title fields
   - name: vim

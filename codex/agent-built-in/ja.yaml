@@ -84,7 +84,7 @@ commands:
     description: 現在のルート外のディレクトリへの読み取りアクセスを付与する（Windowsのみ）
     argument-hint: "<absolute_directory_path>"
   - name: side
-    description: 一時的なサイド会話を開始する
+    description: "一時的なサイド会話を開始する。エイリアス: /btw"
     argument-hint: "[prompt]"
   - name: skills
     description: タスクに特化したスキルコンテキストを閲覧・適用する
@@ -95,7 +95,7 @@ commands:
   - name: stop
     description: "現在のセッションのバックグラウンドターミナルをすべてキャンセルする。エイリアス: /clean"
   - name: theme
-    description: シンタックスハイライトテーマを選択する。ターミナルのシンタックスハイライトテーマをプレビューして永続化する
+    description: シンタックスハイライトテーマを選択する。選択内容をプレビューして永続化する
   - name: title
     description: ターミナルウィンドウのタイトル項目を設定する
   - name: vim

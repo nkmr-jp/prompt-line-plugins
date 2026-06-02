@@ -18,12 +18,12 @@ commands:
   - name: background
     description: "現在のセッションをバックグラウンドエージェントとしてデタッチし、ターミナルを解放する。プロンプトを渡すとデタッチ前に追加の指示を送信できる。エイリアス: /bg"
     argument-hint: "[prompt]"
-  - name: btw
-    description: 会話に追加せずに素早くサイドクエスチョンをする
-    argument-hint: "<question>"
   - name: branch
     description: "現在の会話のこの時点でブランチを作成する。エイリアス: /fork"
     argument-hint: "[name]"
+  - name: btw
+    description: 会話に追加せずに素早くサイドクエスチョンをする
+    argument-hint: "<question>"
   - name: chrome
     description: Claude in Chromeの設定を行う
   - name: clear
@@ -44,13 +44,13 @@ commands:
     description: "最後のアシスタントレスポンスをクリップボードにコピーする。数値Nを渡すとN番目に新しいレスポンスをコピー（例: /copy 2）。コードブロックがある場合は個別ブロックまたは全体を選択するピッカーを表示。ピッカーで `w` を押すとクリップボードの代わりにファイルに書き込む（SSH経由で便利）"
     argument-hint: "[N]"
   - name: desktop
-    description: "現在のCLIセッションをClaude Code Desktopアプリに引き継ぐ（macOSとWindowsのみ）。エイリアス: /app"
+    description: "現在のセッションをClaude Code Desktopアプリで続行する。macOSまたはWindowsとClaudeのサブスクリプションが必要。エイリアス: /app"
   - name: diff
     description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧
   - name: doctor
     description: Claude Codeのインストール状態と設定を診断・検証する。結果はステータスアイコン付きで表示。`f`キーでClaudeに問題を修正させる
   - name: effort
-    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/maxを指定可能。利用可能なレベルはモデル依存。maxは現在のセッションのみ。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く"
+    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く"
     argument-hint: "[level|auto]"
   - name: exit
     description: "CLIを終了する。エイリアス: /quit"
@@ -61,7 +61,7 @@ commands:
     description: Fastモードのオン/オフを切り替える
     argument-hint: "[on|off]"
   - name: feedback
-    description: "Claude Codeについてのフィードバックを送信する。エイリアス: /bug, /share"
+    description: "フィードバックの送信、バグ報告、会話の共有を行う。エイリアス: /bug, /share"
     argument-hint: "[report]"
   - name: focus
     description: フォーカスビューをトグルする。直前のプロンプト、ツール呼び出しのサマリー（編集diffstat付き）、最終レスポンスのみを表示。選択状態はセッション間で保持される。fullscreenレンダリング時のみ利用可能
@@ -103,7 +103,7 @@ commands:
   - name: mobile
     description: "Claudeモバイルアプリのダウンロード用QRコードを表示する。エイリアス: /ios, /android"
   - name: model
-    description: 現在のセッションのAIモデルを選択または変更し、即座に反映する。対応モデルでは左右矢印キーで推論レベルを調整可能。`d`キーで選択したモデルを新規セッションのデフォルトに設定
+    description: AIモデルを切り替え、新規セッションのデフォルトとして保存する。対応モデルでは左右矢印キーで推論レベルを調整可能。引数なしでピッカーを開き、行で `s` キーを押すと現在のセッションのみ切り替える。会話に既存の出力がある場合、ピッカーは確認を求める
     argument-hint: "[model]"
   - name: passes
     description: 友人にClaude Codeの無料1週間パスを共有する。対象アカウントのみ表示
@@ -174,7 +174,7 @@ commands:
     description: "Claude Code Webセッションをこのターミナルに引き込む。ピッカーを開いてブランチと会話を取得。claude.aiサブスクリプションが必要。エイリアス: /tp"
     argument-hint: "[session]"
   - name: terminal-setup
-    description: ターミナルのキーバインドを設定する（Shift+Enterなどのショートカット）。VS Code・Alacritty・Warpなど必要なターミナルでのみ表示
+    description: ターミナルのキーバインドを設定する（Shift+Enterなどのショートカット）。VS Code・Cursor・Windsurf・Alacritty・Zedなど必要なターミナルでのみ表示
   - name: theme
     description: "カラーテーマを変更する。ターミナルのダーク/ライトモードに追従するauto、ライト/ダーク、色覚対応（ダルトナイズ）、ANSIテーマを含む"
   - name: tui
@@ -184,7 +184,7 @@ commands:
     description: ultraplanセッションでプランを作成し、ブラウザでレビューしてから実行する
     argument-hint: "<prompt>"
   - name: ultrareview
-    description: ultraplanでクラウドサンドボックス上のマルチエージェント・コードレビューを深く実行する。Pro/Maxプランでは3回まで無料、以降はextra usageが必要
+    description: "クラウドサンドボックス上で深いマルチエージェント・コードレビューを実行する。推奨される呼び出しは /code-review ultra で、/ultrareview はエイリアスとして残る。Pro/Maxプランでは3回まで無料、以降はusage creditsが必要"
     argument-hint: "[PR]"
   - name: upgrade
     description: より高いプランティアに切り替えるためのアップグレードページを開く
