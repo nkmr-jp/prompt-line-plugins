@@ -18,12 +18,12 @@ commands:
   - name: background
     description: "Detach the current session to run as a background agent and free this terminal. Pass a prompt to send one more instruction before detaching. Alias: /bg"
     argument-hint: "[prompt]"
-  - name: btw
-    description: Ask a quick side question without adding to the conversation
-    argument-hint: "<question>"
   - name: branch
     description: "Create a branch of the current conversation at this point. Alias: /fork"
     argument-hint: "[name]"
+  - name: btw
+    description: Ask a quick side question without adding to the conversation
+    argument-hint: "<question>"
   - name: chrome
     description: Configure Claude in Chrome settings
   - name: clear
@@ -44,7 +44,7 @@ commands:
     description: "Copy the last assistant response to clipboard. Pass a number N to copy the Nth-latest response (e.g. /copy 2). When code blocks are present, shows an interactive picker to select individual blocks or the full response. Press `w` in the picker to write the selection to a file instead of the clipboard, which is useful over SSH"
     argument-hint: "[N]"
   - name: desktop
-    description: "Continue the current session in the Claude Code Desktop app (macOS and Windows only). Alias: /app"
+    description: "Continue the current session in the Claude Code Desktop app. Requires macOS or Windows and a Claude subscription. Alias: /app"
   - name: diff
     description: Open an interactive diff viewer showing uncommitted changes and per-turn diffs. Use left/right arrows to switch between the current git diff and individual Claude turns, and up/down to browse files
   - name: doctor
@@ -61,7 +61,7 @@ commands:
     description: Toggle Fast mode on or off
     argument-hint: "[on|off]"
   - name: feedback
-    description: "Submit feedback about Claude Code. Aliases: /bug, /share"
+    description: "Submit feedback, report a bug, or share your conversation. Aliases: /bug, /share"
     argument-hint: "[report]"
   - name: focus
     description: Toggle the focus view that shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. The selection persists across sessions. Only available in fullscreen rendering
@@ -174,7 +174,7 @@ commands:
     description: "Pull a Claude Code on the web session into this terminal: opens a picker, then fetches the branch and conversation. Requires a claude.ai subscription. Aliases: /tp"
     argument-hint: "[session]"
   - name: terminal-setup
-    description: Configure terminal keybindings for Shift+Enter and other shortcuts. Only visible in terminals that need it, like VS Code, Alacritty, or Warp
+    description: Configure terminal keybindings for Shift+Enter and other shortcuts. Only visible in terminals that need it, like VS Code, Cursor, Windsurf, Alacritty, or Zed
   - name: theme
     description: "Change the color theme. Includes an auto option that follows the terminal's dark/light mode, light/dark variants, colorblind-accessible (daltonized), and ANSI themes"
   - name: tui
@@ -184,7 +184,7 @@ commands:
     description: Draft a plan in an ultraplan session, review in browser, then execute
     argument-hint: "<prompt>"
   - name: ultrareview
-    description: Run a deep, multi-agent code review in a cloud sandbox with ultrareview. Includes 3 free runs on Pro and Max, then requires extra usage
+    description: "Run a deep, multi-agent code review in a cloud sandbox. The preferred invocation is now /code-review ultra; /ultrareview remains as an alias. Includes 3 free runs on Pro and Max, then requires usage credits"
     argument-hint: "[PR]"
   - name: upgrade
     description: Open the upgrade page to switch to a higher plan tier
