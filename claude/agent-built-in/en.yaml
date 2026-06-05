@@ -19,7 +19,7 @@ commands:
     description: "Detach the current session to run as a background agent and free this terminal. Pass a prompt to send one more instruction before detaching. Alias: /bg"
     argument-hint: "[prompt]"
   - name: branch
-    description: "Create a branch of the current conversation at this point. Alias: /fork"
+    description: "Create a branch of the current conversation at this point. Switches into the branch; the original is preserved and you can return via /resume"
     argument-hint: "[name]"
   - name: btw
     description: Ask a quick side question without adding to the conversation
@@ -66,8 +66,8 @@ commands:
   - name: focus
     description: Toggle the focus view that shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. The selection persists across sessions. Only available in fullscreen rendering
   - name: fork
-    description: "Create a fork of the current conversation at this point. Alias for: /branch"
-    argument-hint: "[name]"
+    description: "Spawn a forked subagent that inherits the full conversation; the result returns when it finishes. Before v2.1.161 this was an alias for /branch"
+    argument-hint: "<directive>"
   - name: goal
     description: "Set a goal: Claude keeps working across turns until the condition is met. With no argument, shows the current goal. Works in interactive, -p, and Remote Control modes"
     argument-hint: "[condition|clear]"

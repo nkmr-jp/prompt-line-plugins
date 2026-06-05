@@ -19,7 +19,7 @@ commands:
     description: "現在のセッションをバックグラウンドエージェントとしてデタッチし、ターミナルを解放する。プロンプトを渡すとデタッチ前に追加の指示を送信できる。エイリアス: /bg"
     argument-hint: "[prompt]"
   - name: branch
-    description: "現在の会話のこの時点でブランチを作成する。エイリアス: /fork"
+    description: "現在の会話のこの時点でブランチを作成する。ブランチに切り替わり、元の会話は保持され /resume で戻れる"
     argument-hint: "[name]"
   - name: btw
     description: 会話に追加せずに素早くサイドクエスチョンをする
@@ -66,8 +66,8 @@ commands:
   - name: focus
     description: フォーカスビューをトグルする。直前のプロンプト、ツール呼び出しのサマリー（編集diffstat付き）、最終レスポンスのみを表示。選択状態はセッション間で保持される。fullscreenレンダリング時のみ利用可能
   - name: fork
-    description: "現在の会話のこの時点でフォークを作成する。/branch のエイリアス"
-    argument-hint: "[name]"
+    description: "現在の会話全体を引き継いだフォークサブエージェントを起動し、完了すると結果を返す。v2.1.161 より前は /branch のエイリアスだった"
+    argument-hint: "<directive>"
   - name: goal
     description: "ゴールを設定する。Claudeは条件が満たされるまで複数ターンにわたって作業を続ける。引数なしで現在のゴールを表示。インタラクティブ・-p・Remote Controlの各モードで動作"
     argument-hint: "[condition|clear]"
