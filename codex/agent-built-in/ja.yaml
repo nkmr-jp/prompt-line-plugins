@@ -84,7 +84,7 @@ commands:
     description: 現在のルート外のディレクトリへの読み取りアクセスを付与する（Windowsのみ）
     argument-hint: "<absolute_directory_path>"
   - name: side
-    description: 一時的なサイド会話を開始する
+    description: "一時的なサイド会話を開始する。エイリアス: /btw"
     argument-hint: "[prompt]"
   - name: skills
     description: タスクに特化したスキルコンテキストを閲覧・適用する

@@ -85,7 +85,7 @@ commands:
     description: Grant read access to directories outside current roots (Windows only)
     argument-hint: "<absolute_directory_path>"
   - name: side
-    description: Start an ephemeral side conversation
+    description: "Start an ephemeral side conversation. Alias: /btw"
     argument-hint: "[prompt]"
   - name: skills
     description: Browse and apply task-specific skill context
