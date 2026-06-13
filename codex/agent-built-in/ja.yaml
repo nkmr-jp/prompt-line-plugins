@@ -15,6 +15,8 @@ commands:
     description: アプリ（コネクタ）を閲覧してプロンプトに挿入する
   - name: approve
     description: 直前のコマンドに対する自動レビューの拒否を一度だけ再試行する
+  - name: archive
+    description: 現在のセッションをアーカイブしてCodexを終了する
   - name: clear
     description: ターミナルをクリアして新しいチャットを開始する
   - name: compact
