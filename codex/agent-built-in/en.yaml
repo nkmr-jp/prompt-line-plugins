@@ -16,6 +16,8 @@ commands:
     description: Browse apps (connectors) and insert them into your prompt
   - name: approve
     description: Retry a one-time auto-review denial for the previous command
+  - name: archive
+    description: Archive the current session and exit Codex
   - name: clear
     description: Clear the terminal and start a fresh chat
   - name: compact
