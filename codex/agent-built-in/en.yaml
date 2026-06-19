@@ -16,6 +16,8 @@ commands:
     description: Browse apps (connectors) and insert them into your prompt
   - name: approve
     description: Retry a one-time auto-review denial for the previous command
+  - name: archive
+    description: Archive the current session and exit Codex
   - name: clear
     description: Clear the terminal and start a fresh chat
   - name: compact
@@ -24,6 +26,8 @@ commands:
     description: Copy the latest completed Codex output
   - name: debug-config
     description: Print config layer and requirements diagnostics
+  - name: delete
+    description: Permanently delete the current session and exit Codex
   - name: diff
     description: Show the Git diff, including files Git isn't tracking yet
   - name: experimental
@@ -43,6 +47,8 @@ commands:
   - name: ide
     description: Include open files, current selection, and other IDE context
     argument-hint: "[text]"
+  - name: import
+    description: Import Claude Code configuration with setup and recent chats
   - name: init
     description: Generate an AGENTS.md scaffold in the current directory
   - name: keymap
@@ -99,5 +105,7 @@ commands:
     description: Choose a syntax-highlighting theme. Preview and persist a terminal syntax-highlighting theme
   - name: title
     description: Configure terminal window title fields
+  - name: usage
+    description: View account token usage or use a rate-limit reset
   - name: vim
     description: Toggle Vim mode for composer editing

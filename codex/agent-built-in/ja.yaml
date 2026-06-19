@@ -15,6 +15,8 @@ commands:
     description: アプリ（コネクタ）を閲覧してプロンプトに挿入する
   - name: approve
     description: 直前のコマンドに対する自動レビューの拒否を一度だけ再試行する
+  - name: archive
+    description: 現在のセッションをアーカイブしてCodexを終了する
   - name: clear
     description: ターミナルをクリアして新しいチャットを開始する
   - name: compact
@@ -23,6 +25,8 @@ commands:
     description: 最新の完了済みCodex出力をクリップボードにコピーする
   - name: debug-config
     description: 設定レイヤーと要件の診断情報を表示する
+  - name: delete
+    description: 現在のセッションを完全に削除してCodexを終了する
   - name: diff
     description: Git未追跡ファイルを含むGit diffを表示する
   - name: experimental
@@ -42,6 +46,8 @@ commands:
   - name: ide
     description: 開いているファイル・現在の選択範囲などのIDEコンテキストを取り込む
     argument-hint: "[text]"
+  - name: import
+    description: Claude Codeの設定をセットアップ内容と最近のチャットとともにインポートする
   - name: init
     description: 現在のディレクトリにAGENTS.mdのひな形を生成する
   - name: keymap
@@ -98,5 +104,7 @@ commands:
     description: シンタックスハイライトテーマを選択する。ターミナルのシンタックスハイライトテーマをプレビューして永続化する
   - name: title
     description: ターミナルウィンドウのタイトル項目を設定する
+  - name: usage
+    description: アカウントのトークン使用量を表示する、またはレート制限のリセットを使用する
   - name: vim
     description: コンポーザー編集用のVimモードを切り替える
