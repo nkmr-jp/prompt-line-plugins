@@ -10,6 +10,9 @@ commands:
   - name: add-dir
     description: 現在のセッションにファイルアクセス用の作業ディレクトリを追加する
     argument-hint: "<path>"
+  - name: advisor
+    description: "タスク中の重要な局面で2つ目のモデルに助言を求めるadvisorツールを有効化/無効化する。opus、sonnet、fable、またはフルモデルIDを指定可能。引数なしでピッカーを開く"
+    argument-hint: "[model|off]"
   - name: agents
     description: エージェント設定を管理する
   - name: autofix-pr
@@ -24,6 +27,9 @@ commands:
   - name: branch
     description: 現在の会話のこの時点でブランチを作成する
     argument-hint: "[name]"
+  - name: cd
+    description: "このセッションを新しい作業ディレクトリに移動する。会話のプロンプトキャッシュは保持され、システムプロンプトを再構築する代わりに新ディレクトリのCLAUDE.mdが追加される。セッションを移動せず追加ディレクトリへのアクセスを付与するには /add-dir を使用"
+    argument-hint: "<path>"
   - name: chrome
     description: Claude in Chromeの設定を行う
   - name: clear
@@ -36,7 +42,8 @@ commands:
     description: 会話を圧縮する（フォーカス指示を任意で指定可能）
     argument-hint: "[instructions]"
   - name: config
-    description: "設定インターフェースを開いてテーマ、モデル、出力スタイルなどを調整する。エイリアス: /settings"
+    description: "設定インターフェースを開いてテーマ、モデル、出力スタイルなどを調整する。key=value のペア（例: /config thinking=false）を渡すと設定を直接変更でき、`/config help` でキー一覧を表示する。インタラクティブ・-p・Remote Controlの各モードで動作。エイリアス: /settings"
+    argument-hint: "[key=value...]"
   - name: context
     description: 現在のコンテキスト使用量をカラーグリッドで表示する。コンテキスト負荷の高いツール、メモリ膨張、容量警告の最適化提案も表示。`all` を渡すと項目ごとの詳細をフルスクリーンで展開
     argument-hint: "[all]"
@@ -50,7 +57,7 @@ commands:
   - name: doctor
     description: Claude Codeのインストール状態と設定を診断・検証する。結果はステータスアイコン付きで表示。`f`キーでClaudeに問題を修正させる
   - name: effort
-    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/maxを指定可能。利用可能なレベルはモデル依存。maxは現在のセッションのみ。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く"
+    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く"
     argument-hint: "[level|auto]"
   - name: exit
     description: "CLIを終了する。エイリアス: /quit"
@@ -94,7 +101,7 @@ commands:
   - name: logout
     description: Anthropicアカウントからサインアウトする
   - name: loop
-    description: "プロンプトやスラッシュコマンドを定期的に実行する（例：/loop 5m /foo、デフォルト10分間隔）。エイリアス: /proactive"
+    description: "セッションが開いている間、プロンプトやスラッシュコマンドを繰り返し実行する。間隔を省略するとClaudeがセルフペーシングする。プロンプトを省略すると自律メンテナンスチェック（または .claude/loop.md のプロンプト）を実行する。エイリアス: /proactive"
     argument-hint: "[interval] [prompt]"
   - name: mcp
     description: MCPサーバー接続とOAuth認証を管理する
@@ -103,7 +110,7 @@ commands:
   - name: mobile
     description: "Claudeモバイルアプリのダウンロード用QRコードを表示する。エイリアス: /ios, /android"
   - name: model
-    description: 現在のセッションのAIモデルを選択または変更し、即座に反映する。対応モデルでは左右矢印キーで推論レベルを調整可能。`d`キーで選択したモデルを新規セッションのデフォルトに設定
+    description: AIモデルを切り替え、新規セッションのデフォルトとして保存する（即座に反映）。対応モデルでは左右矢印キーで推論レベルを調整可能。引数なしでピッカーを開き、`s`キーで現在のセッションのみ切り替え
     argument-hint: "[model]"
   - name: passes
     description: 友人にClaude Codeの無料1週間パスを共有する。対象アカウントのみ表示
