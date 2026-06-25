@@ -104,7 +104,8 @@ commands:
     description: "セッションが開いている間、プロンプトやスラッシュコマンドを繰り返し実行する。間隔を省略するとClaudeがセルフペーシングする。プロンプトを省略すると自律メンテナンスチェック（または .claude/loop.md のプロンプト）を実行する。エイリアス: /proactive"
     argument-hint: "[interval] [prompt]"
   - name: mcp
-    description: MCPサーバー接続とOAuth認証を管理する
+    description: "MCPサーバー接続とOAuth認証を管理する。引数なしで対話的な一覧を開き、`reconnect <server>` で切断された1つのサーバーを再接続、`enable`/`disable` にサーバー名または `all` を渡して有効化/無効化する"
+    argument-hint: "[reconnect <server>|enable|disable [<server>|all]]"
   - name: memory
     description: CLAUDE.mdメモリファイルの編集、自動メモリの有効化/無効化、自動メモリエントリの表示を行う
   - name: mobile
@@ -120,7 +121,8 @@ commands:
     description: "プロンプトからプランモードに直接入る。説明を渡すとそのタスクですぐにプランモードを開始する（例: /plan 認証バグを修正）"
     argument-hint: "[description]"
   - name: plugin
-    description: Claude Codeプラグインを管理する
+    description: "Claude Codeプラグインを管理する。引数なしでプラグインメニューを開くか、list・install・enable・disable などのサブコマンドを渡して直接操作する"
+    argument-hint: "[subcommand]"
   - name: powerup
     description: インタラクティブなレッスンとアニメーションデモでClaude Codeの機能を発見する
   - name: privacy-settings
@@ -132,7 +134,8 @@ commands:
   - name: release-notes
     description: インタラクティブなバージョンピッカーで変更履歴を表示する。特定のバージョンを選んでリリースノートを見るか、全バージョンをまとめて表示できる
   - name: reload-plugins
-    description: アクティブなプラグインをすべてリロードし、保留中の変更を再起動なしで適用する。リロードされたコンポーネント数とロードエラーを報告
+    description: "アクティブなプラグインをすべてリロードし、保留中の変更を再起動なしで適用する。リロードされたコンポーネント数とロードエラーを報告。読み込まれるMCPツールが変化してプロンプトキャッシュが無効化される場合は警告してスキップし、--force を渡すと強制実行する"
+    argument-hint: "[--force]"
   - name: reload-skills
     description: 再起動せずにスキルとコマンドのディレクトリを再スキャンし、ディスク上の変更を反映する
   - name: remote-control
