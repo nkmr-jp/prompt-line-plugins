@@ -91,7 +91,7 @@ commands:
   - name: init
     description: "CLAUDE.mdガイドでプロジェクトを初期化する。CLAUDE_CODE_NEW_INIT=1で、スキル・フック・個人メモリファイルの設定も含むインタラクティブフローを使用可能"
   - name: install-github-app
-    description: リポジトリにClaude GitHub Actionsをセットアップする
+    description: リポジトリに Claude GitHub App をインストールする。任意で GitHub Actions ワークフローとシークレットのセットアップも行う
   - name: install-slack-app
     description: Claude Slackアプリをインストールする
   - name: keybindings
@@ -149,7 +149,7 @@ commands:
     description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。エイリアス: /continue"
     argument-hint: "[session]"
   - name: review
-    description: 現在のセッションでPull Requestをローカルレビューする。より深いクラウドベースのレビューは /code-review ultra を参照
+    description: GitHub Pull Request を番号で指定し、/code-review と同じレビューエンジンでレビューする。引数なしでオープン中の PR 一覧から選択する。クラウドベースのレビューは /code-review ultra を参照
     argument-hint: "[PR]"
   - name: rewind
     description: "会話やコードを以前のポイントに巻き戻す、または選択したメッセージから要約する。チェックポイント機能参照。エイリアス: /checkpoint, /undo"

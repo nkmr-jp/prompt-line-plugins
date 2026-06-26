@@ -106,6 +106,7 @@ commands:
   - name: title
     description: Configure terminal window title fields
   - name: usage
-    description: View account token usage or use a rate-limit reset
+    description: View account token usage
+    argument-hint: "[daily|weekly|cumulative]"
   - name: vim
     description: Toggle Vim mode for composer editing
