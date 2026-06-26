@@ -91,7 +91,7 @@ commands:
   - name: init
     description: "Initialize project with a CLAUDE.md guide. Set CLAUDE_CODE_NEW_INIT=1 for an interactive flow that also walks through skills, hooks, and personal memory files"
   - name: install-github-app
-    description: Set up Claude GitHub Actions for a repository
+    description: Install the Claude GitHub App for a repository, with an optional step to set up GitHub Actions workflows and secrets
   - name: install-slack-app
     description: Install the Claude Slack app
   - name: keybindings
@@ -149,7 +149,7 @@ commands:
     description: "Resume a conversation by ID or name, or open the session picker. Alias: /continue"
     argument-hint: "[session]"
   - name: review
-    description: Review a pull request locally in your current session. For a deeper cloud-based review, see /code-review ultra
+    description: Review a GitHub pull request by number, using the same review engine as /code-review. With no arguments, lists open PRs to pick from. For a cloud-based review, see /code-review ultra
     argument-hint: "[PR]"
   - name: rewind
     description: "Rewind the conversation and/or code to a previous point, or summarize from a selected message. See checkpointing. Aliases: /checkpoint, /undo"

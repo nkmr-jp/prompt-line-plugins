@@ -105,6 +105,7 @@ commands:
   - name: title
     description: ターミナルウィンドウのタイトル項目を設定する
   - name: usage
-    description: アカウントのトークン使用量を表示する、またはレート制限のリセットを使用する
+    description: アカウントのトークン使用量を表示する
+    argument-hint: "[daily|weekly|cumulative]"
   - name: vim
     description: コンポーザー編集用のVimモードを切り替える
