@@ -50,6 +50,8 @@ commands:
   - name: copy
     description: "Copy the last assistant response to clipboard. Pass a number N to copy the Nth-latest response (e.g. /copy 2). When code blocks are present, shows an interactive picker to select individual blocks or the full response. Press `w` in the picker to write the selection to a file instead of the clipboard, which is useful over SSH"
     argument-hint: "[N]"
+  - name: design-login
+    description: Authorize design-system access for /design-sync with your claude.ai account
   - name: desktop
     description: "Continue the current session in the Claude Code Desktop app (macOS and Windows only). Alias: /app"
   - name: diff
@@ -194,7 +196,7 @@ commands:
     description: Draft a plan in an ultraplan session, review in browser, then execute
     argument-hint: "<prompt>"
   - name: ultrareview
-    description: Run a deep, multi-agent code review in a cloud sandbox with ultrareview. Includes 3 free runs on Pro and Max, then requires extra usage
+    description: "Run a deep, multi-agent code review in a cloud sandbox. The preferred invocation is now /code-review ultra; /ultrareview remains as an alias. Includes 3 free runs on Pro and Max, then requires usage credits"
     argument-hint: "[PR]"
   - name: upgrade
     description: Open the upgrade page to switch to a higher plan tier
@@ -219,12 +221,17 @@ skills:
   - name: code-review
     description: "Review the current diff for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. Pass `--fix` to apply findings to the working tree, or `--comment` to post inline PR comments."
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
+  - name: dataviz
+    description: "Design charts, graphs, dashboards, and data visualizations that read as one cohesive system across light and dark, using a validated, accessible color palette."
   - name: debug
     description: Enable debug logging for the current session and troubleshoot issues by reading the session debug log. Optionally describe the issue to focus the analysis.
     argument-hint: "[description]"
   - name: deep-research
     description: "Fan out web searches, fetch and cross-check sources, then synthesize a cited research report."
     argument-hint: "<question>"
+  - name: design-sync
+    description: "Convert your repo's React design system and upload it to Claude Design so designs use your real components. Optionally name the design system. A first sync can take a few hours on a large repo. Unavailable on Amazon Bedrock, Google Cloud Agent Platform, and Microsoft Foundry."
+    argument-hint: "[hint]"
   - name: fewer-permission-prompts
     description: Scan your transcripts for common read-only Bash and MCP tool calls, then add a prioritized allowlist to project `.claude/settings.json` to reduce permission prompts.
   - name: loop
