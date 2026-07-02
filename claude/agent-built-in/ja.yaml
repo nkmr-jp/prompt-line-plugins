@@ -50,6 +50,8 @@ commands:
   - name: copy
     description: "最後のアシスタントレスポンスをクリップボードにコピーする。数値Nを渡すとN番目に新しいレスポンスをコピー（例: /copy 2）。コードブロックがある場合は個別ブロックまたは全体を選択するピッカーを表示。ピッカーで `w` を押すとクリップボードの代わりにファイルに書き込む（SSH経由で便利）"
     argument-hint: "[N]"
+  - name: design-login
+    description: /design-sync 用のデザインシステムアクセスを claude.ai アカウントで認可する
   - name: desktop
     description: "現在のCLIセッションをClaude Code Desktopアプリに引き継ぐ（macOSとWindowsのみ）。エイリアス: /app"
   - name: diff
@@ -194,7 +196,7 @@ commands:
     description: ultraplanセッションでプランを作成し、ブラウザでレビューしてから実行する
     argument-hint: "<prompt>"
   - name: ultrareview
-    description: ultraplanでクラウドサンドボックス上のマルチエージェント・コードレビューを深く実行する。Pro/Maxプランでは3回まで無料、以降はextra usageが必要
+    description: "クラウドサンドボックス上でマルチエージェント・コードレビューを深く実行する。推奨される呼び出しは /code-review ultra となり、/ultrareview はエイリアスとして残る。Pro/Maxプランでは3回まで無料、以降は usage credits が必要"
     argument-hint: "[PR]"
   - name: upgrade
     description: より高いプランティアに切り替えるためのアップグレードページを開く
@@ -219,12 +221,17 @@ skills:
   - name: code-review
     description: "現在の diff を指定した effort レベルで、正しさのバグと再利用・簡素化・効率化のクリーンアップの観点からレビューする。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。`--fix` で修正を working tree に適用、`--comment` で GitHub PR にインラインコメントとして投稿する"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
+  - name: dataviz
+    description: "チャート・グラフ・ダッシュボード・データビジュアライゼーションを、検証済みでアクセシブルなカラーパレットを用いて、ライト/ダークで統一感のある1つのシステムとして設計する"
   - name: debug
     description: 現在のセッションのデバッグログを有効にし、セッションのデバッグログを読んで問題をトラブルシュートする。説明を付けて分析の焦点を絞ることも可能
     argument-hint: "[description]"
   - name: deep-research
     description: "Web 検索をファンアウトし、ソースを取得・相互検証してから、引用付きのリサーチレポートを統合する"
     argument-hint: "<question>"
+  - name: design-sync
+    description: "リポジトリのReactデザインシステムを変換してClaude Designにアップロードし、デザインで実際のコンポーネントを使えるようにする。デザインシステム名を任意で指定可能。大規模リポジトリでは初回同期に数時間かかることがある。Amazon Bedrock・Google Cloud Agent Platform・Microsoft Foundryでは利用不可"
+    argument-hint: "[hint]"
   - name: fewer-permission-prompts
     description: トランスクリプトから頻出するread-onlyのBashとMCPツール呼び出しをスキャンし、プロジェクトの `.claude/settings.json` に優先度付きのallowlistを追加してパーミッションプロンプトを削減する
   - name: loop
