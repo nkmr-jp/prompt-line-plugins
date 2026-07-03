@@ -14,7 +14,7 @@ commands:
     description: "タスク中の重要な局面で2つ目のモデルに助言を求めるadvisorツールを有効化/無効化する。opus、sonnet、fable、またはフルモデルIDを指定可能。引数なしでピッカーを開く"
     argument-hint: "[model|off]"
   - name: agents
-    description: エージェント設定を管理する
+    description: "サブエージェントの作成・管理を Claude に依頼するか、.claude/agents/ または ~/.claude/agents/ のファイルを直接編集するよう促すリマインダーを表示する。旧バージョンでは対話的な管理インターフェースを開いていた"
   - name: autofix-pr
     description: 現在のブランチのPRを監視し、CIが失敗したりレビューコメントが付いたら自動で修正をプッシュするClaude Code Webセッションを起動する
     argument-hint: "[prompt]"
