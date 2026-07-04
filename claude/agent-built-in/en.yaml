@@ -14,7 +14,7 @@ commands:
     description: "Enable or disable the advisor tool, which consults a second model for guidance at key moments during a task. Accepts opus, sonnet, fable, or a full model ID. Without an argument, opens a picker"
     argument-hint: "[model|off]"
   - name: agents
-    description: Manage agent configurations
+    description: "Prints a reminder to ask Claude to create or manage subagents, or to edit the .claude/agents/ or ~/.claude/agents/ files directly. Earlier versions opened an interactive management interface"
   - name: autofix-pr
     description: Spawn a Claude Code on the web session that watches the current branch's PR and pushes fixes when CI fails or reviewers leave comments
     argument-hint: "[prompt]"
@@ -186,7 +186,7 @@ commands:
     description: "Pull a Claude Code on the web session into this terminal: opens a picker, then fetches the branch and conversation. Requires a claude.ai subscription. Aliases: /tp"
     argument-hint: "[session]"
   - name: terminal-setup
-    description: Configure terminal keybindings for Shift+Enter and other shortcuts. Only visible in terminals that need it, like VS Code, Alacritty, or Warp
+    description: Configure terminal keybindings for Shift+Enter and other shortcuts. Only visible in terminals that need it, like VS Code, Cursor, Devin Desktop, Alacritty, or Zed
   - name: theme
     description: "Change the color theme. Includes an auto option that follows the terminal's dark/light mode, light/dark variants, colorblind-accessible (daltonized), and ANSI themes"
   - name: tui
