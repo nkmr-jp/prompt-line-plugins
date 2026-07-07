@@ -151,7 +151,7 @@ commands:
     description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。エイリアス: /continue"
     argument-hint: "[session]"
   - name: review
-    description: GitHub Pull Request を番号で指定し、/code-review と同じレビューエンジンでレビューする。引数なしでオープン中の PR 一覧から選択する。クラウドベースのレビューは /code-review ultra を参照
+    description: GitHub Pull Request を番号で指定し、高速なシングルパスでレビューする。引数なしでオープン中の PR 一覧から選択する。より深いマルチエージェントレビューは /code-review、クラウドベースのレビューは /code-review ultra を参照
     argument-hint: "[PR]"
   - name: rewind
     description: "会話やコードを以前のポイントに巻き戻す、または選択したメッセージから要約する。チェックポイント機能参照。エイリアス: /checkpoint, /undo"
