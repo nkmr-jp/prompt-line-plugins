@@ -11,6 +11,8 @@ reference: https://developers.openai.com/codex/cli/slash-commands/
 commands:
   - name: agent
     description: アクティブなエージェントスレッドを切り替えてサブエージェントの作業を確認する
+  - name: app
+    description: 現在のセッションをデスクトップアプリに引き継ぐ
   - name: apps
     description: アプリ（コネクタ）を閲覧してプロンプトに挿入する
   - name: approve
@@ -82,6 +84,9 @@ commands:
   - name: raw
     description: ターミナルでのテキスト選択を容易にするため、raw スクロールバック表示を切り替える
     argument-hint: "[on|off]"
+  - name: rename
+    description: 現在のセッションの名前を変更する
+    argument-hint: "[name]"
   - name: resume
     description: 以前に保存した会話をリロードする
   - name: review
@@ -89,6 +94,8 @@ commands:
   - name: sandbox-add-read-dir
     description: 現在のルート外のディレクトリへの読み取りアクセスを付与する（Windowsのみ）
     argument-hint: "<absolute_directory_path>"
+  - name: setup-default-sandbox
+    description: 昇格された Windows サンドボックスを設定する
   - name: side
     description: "一時的なサイド会話を開始する。エイリアス: /btw"
     argument-hint: "[prompt]"

@@ -57,7 +57,7 @@ commands:
   - name: diff
     description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧
   - name: doctor
-    description: Claude Codeのインストール状態と設定を診断・検証する。結果はステータスアイコン付きで表示。`f`キーでClaudeに問題を修正させる
+    description: "Claude Codeのインストール状態と設定を診断・検証する。結果はステータスアイコン付きで表示。`f`キーでClaudeに問題を修正させる。エイリアス: /checkup"
   - name: effort
     description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く"
     argument-hint: "[level|auto]"
@@ -127,6 +127,9 @@ commands:
     argument-hint: "[subcommand]"
   - name: powerup
     description: インタラクティブなレッスンとアニメーションデモでClaude Codeの機能を発見する
+  - name: pr-comments
+    description: GitHub Pull Request のコメントを取得して表示する
+    argument-hint: "[PR]"
   - name: privacy-settings
     description: プライバシー設定を表示・更新する。ProおよびMaxプランのサブスクライバーのみ利用可能
   - name: radio

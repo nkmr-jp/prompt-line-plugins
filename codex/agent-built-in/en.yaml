@@ -12,6 +12,8 @@ reference: https://developers.openai.com/codex/cli/slash-commands/
 commands:
   - name: agent
     description: Switch between active agent threads to inspect subagent work
+  - name: app
+    description: Continue the current session in the desktop app
   - name: apps
     description: Browse apps (connectors) and insert them into your prompt
   - name: approve
@@ -83,6 +85,9 @@ commands:
   - name: raw
     description: Toggle raw scrollback rendering for better terminal text selection
     argument-hint: "[on|off]"
+  - name: rename
+    description: Rename the current session
+    argument-hint: "[name]"
   - name: resume
     description: Reload a previously saved conversation
   - name: review
@@ -90,6 +95,8 @@ commands:
   - name: sandbox-add-read-dir
     description: Grant read access to directories outside current roots (Windows only)
     argument-hint: "<absolute_directory_path>"
+  - name: setup-default-sandbox
+    description: Configure the elevated Windows sandbox
   - name: side
     description: "Start an ephemeral side conversation. Alias: /btw"
     argument-hint: "[prompt]"
