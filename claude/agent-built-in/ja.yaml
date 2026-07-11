@@ -127,9 +127,6 @@ commands:
     argument-hint: "[subcommand]"
   - name: powerup
     description: インタラクティブなレッスンとアニメーションデモでClaude Codeの機能を発見する
-  - name: pr-comments
-    description: GitHub Pull Request のコメントを取得して表示する
-    argument-hint: "[PR]"
   - name: privacy-settings
     description: プライバシー設定を表示・更新する。ProおよびMaxプランのサブスクライバーのみ利用可能
   - name: radio

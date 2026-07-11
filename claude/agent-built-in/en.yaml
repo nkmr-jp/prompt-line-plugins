@@ -127,9 +127,6 @@ commands:
     argument-hint: "[subcommand]"
   - name: powerup
     description: Discover Claude Code features through quick interactive lessons with animated demos
-  - name: pr-comments
-    description: Fetch and display comments from a GitHub pull request
-    argument-hint: "[PR]"
   - name: privacy-settings
     description: View and update your privacy settings. Only available for Pro and Max plan subscribers
   - name: radio
