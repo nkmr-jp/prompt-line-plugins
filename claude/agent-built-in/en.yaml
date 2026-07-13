@@ -57,7 +57,7 @@ commands:
   - name: diff
     description: Open an interactive diff viewer showing uncommitted changes and per-turn diffs. Use left/right arrows to switch between the current git diff and individual Claude turns, and up/down to browse files
   - name: doctor
-    description: "Diagnose and verify your Claude Code installation and settings. Results show with status icons. Press `f` to have Claude fix any reported issues. Alias: /checkup"
+    description: "Run a setup checkup that diagnoses issues and can fix them. Checks installation health, PATH problems, and unparseable settings, finds unused skills, MCP servers, and plugins versus their context cost, deduplicates CLAUDE.md files, flags slow hooks, and checks for a newer version. Reports findings first and asks for confirmation before changing anything. Alias: /checkup"
   - name: effort
     description: "Set the model effort level. Accepts low/medium/high/xhigh/max/ultracode. Available levels depend on the model; max and ultracode are session-only. ultracode combines xhigh reasoning with automatic workflow orchestration. auto resets to the model default. Without an argument, opens an interactive slider"
     argument-hint: "[level|auto]"
@@ -223,6 +223,7 @@ skills:
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
   - name: dataviz
     description: "Design charts, graphs, dashboards, and data visualizations that read as one cohesive system across light and dark, using a validated, accessible color palette."
+    argument-hint: "[request]"
   - name: debug
     description: Enable debug logging for the current session and troubleshoot issues by reading the session debug log. Optionally describe the issue to focus the analysis.
     argument-hint: "[description]"

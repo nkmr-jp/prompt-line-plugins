@@ -10,7 +10,7 @@ reference: https://developers.openai.com/codex/cli/slash-commands/
 
 commands:
   - name: agent
-    description: アクティブなエージェントスレッドを切り替えてサブエージェントの作業を確認する
+    description: "アクティブなエージェントスレッドを切り替えてサブエージェントの作業を確認する。エイリアス: /subagents"
   - name: app
     description: 現在のセッションをデスクトップアプリに引き継ぐ
   - name: apps
@@ -41,8 +41,8 @@ commands:
   - name: fork
     description: 現在の会話を新しいスレッドにクローンする
   - name: goal
-    description: タスクの目標を設定・一時停止・再開・確認・クリアする
-    argument-hint: "[<objective>|pause|resume|clear]"
+    description: タスクの目標を設定・編集・一時停止・再開・確認・クリアする
+    argument-hint: "[<objective>|edit|pause|resume|clear]"
   - name: hooks
     description: ライフサイクルフックを確認し、現在のセッションに読み込まれたフック設定を表示・管理する
   - name: ide
@@ -72,6 +72,9 @@ commands:
     description: "Codexが確認なしで実行できる操作を設定する。エイリアス: /approvals"
   - name: personality
     description: コミュニケーションスタイルを選択する（friendly, pragmatic, none）
+  - name: pets
+    description: "ターミナルペットを選択または非表示にする。エイリアス: /pet"
+    argument-hint: "[off]"
   - name: plan
     description: プランモードに切り替え、必要に応じてプロンプトを送信する
     argument-hint: "[prompt]"

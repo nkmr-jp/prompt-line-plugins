@@ -11,7 +11,7 @@ reference: https://developers.openai.com/codex/cli/slash-commands/
 
 commands:
   - name: agent
-    description: Switch between active agent threads to inspect subagent work
+    description: "Switch between active agent threads to inspect subagent work. Alias: /subagents"
   - name: app
     description: Continue the current session in the desktop app
   - name: apps
@@ -42,8 +42,8 @@ commands:
   - name: fork
     description: Clone current conversation into new thread
   - name: goal
-    description: Set, pause, resume, view, or clear a task goal
-    argument-hint: "[<objective>|pause|resume|clear]"
+    description: Set, edit, pause, resume, view, or clear a task goal
+    argument-hint: "[<objective>|edit|pause|resume|clear]"
   - name: hooks
     description: Review lifecycle hooks and view/manage hook configuration loaded into the current session
   - name: ide
@@ -73,6 +73,9 @@ commands:
     description: "Set what Codex can do without asking first. Alias: /approvals"
   - name: personality
     description: Select communication style (friendly, pragmatic, none)
+  - name: pets
+    description: "Choose or hide a terminal pet. Alias: /pet"
+    argument-hint: "[off]"
   - name: plan
     description: Switch to plan mode and optionally send a prompt
     argument-hint: "[prompt]"

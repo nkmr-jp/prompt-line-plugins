@@ -57,7 +57,7 @@ commands:
   - name: diff
     description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧
   - name: doctor
-    description: "Claude Codeのインストール状態と設定を診断・検証する。結果はステータスアイコン付きで表示。`f`キーでClaudeに問題を修正させる。エイリアス: /checkup"
+    description: "セットアップ全体を点検し、見つかった問題を診断して修正まで行う。インストール状態・PATHの問題・解析できない設定ファイルを確認し、コンテキストコストに見合わない未使用のスキル・MCPサーバー・プラグインを洗い出し、CLAUDE.mdの重複を整理し、遅いフックを検出し、新バージョンの有無も確認する。変更前に必ず結果を提示して確認を求める。エイリアス: /checkup"
   - name: effort
     description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く"
     argument-hint: "[level|auto]"
@@ -223,6 +223,7 @@ skills:
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
   - name: dataviz
     description: "チャート・グラフ・ダッシュボード・データビジュアライゼーションを、検証済みでアクセシブルなカラーパレットを用いて、ライト/ダークで統一感のある1つのシステムとして設計する"
+    argument-hint: "[request]"
   - name: debug
     description: 現在のセッションのデバッグログを有効にし、セッションのデバッグログを読んで問題をトラブルシュートする。説明を付けて分析の焦点を絞ることも可能
     argument-hint: "[description]"
