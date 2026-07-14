@@ -8,7 +8,7 @@ references:
 
 commands:
   - name: add-dir
-    description: Add a working directory for file access during the current session
+    description: Add a working directory for file access during the current session. Typing a partial path shows matching directory suggestions. Note that most .claude/ configuration is not discovered from the added directory
     argument-hint: "<path>"
   - name: advisor
     description: "Enable or disable the advisor tool, which consults a second model for guidance at key moments during a task. Accepts opus, sonnet, fable, or a full model ID. Without an argument, opens a picker"
@@ -16,17 +16,17 @@ commands:
   - name: agents
     description: "Prints a reminder to ask Claude to create or manage subagents, or to edit the .claude/agents/ or ~/.claude/agents/ files directly. Earlier versions opened an interactive management interface"
   - name: autofix-pr
-    description: Spawn a Claude Code on the web session that watches the current branch's PR and pushes fixes when CI fails or reviewers leave comments
+    description: Spawn a Claude Code on the web session that watches the current branch's PR and pushes fixes when CI fails or reviewers leave comments. Detects the open PR from the checked-out branch, so it requires the gh CLI and access to Claude Code on the web
     argument-hint: "[prompt]"
   - name: background
     description: "Detach the current session to run as a background agent and free this terminal. Pass a prompt to send one more instruction before detaching. Alias: /bg"
     argument-hint: "[prompt]"
+  - name: branch
+    description: Create a branch of the current conversation at this point to try a different direction without losing the conversation as it stands. Switches you into the branch and preserves the original, which you can return to with /resume. To hand a side task to a background subagent instead, use /fork
+    argument-hint: "[name]"
   - name: btw
     description: Ask a quick side question without adding to the conversation
     argument-hint: "<question>"
-  - name: branch
-    description: Create a branch of the current conversation at this point
-    argument-hint: "[name]"
   - name: cd
     description: "Move this session to a new working directory. The conversation's prompt cache is preserved and the new directory's CLAUDE.md is appended instead of rebuilding the system prompt. To grant access to an extra directory without moving the session, use /add-dir"
     argument-hint: "<path>"
@@ -39,10 +39,10 @@ commands:
     description: "Set the prompt bar color for the current session. Available colors: red, blue, green, yellow, purple, orange, pink, cyan. Use `default` to reset, or run with no argument to pick a random color"
     argument-hint: "[color|default]"
   - name: compact
-    description: Compact conversation with optional focus instructions
+    description: Free up context by summarizing the conversation so far. Optionally pass focus instructions for the summary
     argument-hint: "[instructions]"
   - name: config
-    description: "Open the Settings interface to adjust theme, model, output style, and other preferences. Pass key=value pairs (e.g. /config thinking=false) to set settings directly, or run `/config help` to list available keys. Works in interactive, -p, and Remote Control modes. Alias: /settings"
+    description: "Open the Settings interface to adjust theme, model, output style, and other preferences. Pass key=value pairs (e.g. /config thinking=false) to set settings directly; named shorthand keys such as /config theme=dark or /config model=sonnet are also accepted. Run `/config --help` to list every settable key with its options. Works in interactive, -p, and Remote Control modes. Alias: /settings"
     argument-hint: "[key=value...]"
   - name: context
     description: Visualize current context usage as a colored grid. Shows optimization suggestions for context-heavy tools, memory bloat, and capacity warnings. Pass `all` to expand the per-item breakdown in fullscreen mode
@@ -53,16 +53,16 @@ commands:
   - name: design-login
     description: Authorize design-system access for /design-sync with your claude.ai account
   - name: desktop
-    description: "Continue the current session in the Claude Code Desktop app (macOS and Windows only). Alias: /app"
+    description: "Continue the current session in the Claude Code Desktop app. Requires macOS or Windows and a Claude subscription. Alias: /app"
   - name: diff
     description: Open an interactive diff viewer showing uncommitted changes and per-turn diffs. Use left/right arrows to switch between the current git diff and individual Claude turns, and up/down to browse files
   - name: doctor
-    description: "Run a setup checkup that diagnoses issues and can fix them. Checks installation health, PATH problems, and unparseable settings, finds unused skills, MCP servers, and plugins versus their context cost, deduplicates CLAUDE.md files, flags slow hooks, and checks for a newer version. Reports findings first and asks for confirmation before changing anything. Alias: /checkup"
+    description: "Run a setup checkup that diagnoses issues and can fix them. Checks installation health, PATH problems, and unparseable settings, finds unused skills, MCP servers, and plugins versus their context cost, deduplicates CLAUDE.md files, flags slow hooks, and checks for a newer version. Also offers to make auto mode your default and to pre-approve frequently denied read-only commands. Reports findings first and asks for confirmation before changing anything. Alias: /checkup"
   - name: effort
     description: "Set the model effort level. Accepts low/medium/high/xhigh/max/ultracode. Available levels depend on the model; max and ultracode are session-only. ultracode combines xhigh reasoning with automatic workflow orchestration. auto resets to the model default. Without an argument, opens an interactive slider"
     argument-hint: "[level|auto]"
   - name: exit
-    description: "Exit the CLI. Alias: /quit"
+    description: "Exit the CLI. In an attached background session, this detaches and the session keeps running. Alias: /quit"
   - name: export
     description: "Export the current conversation as plain text. With a filename, writes directly to that file; without, opens a dialog to copy to clipboard or save to a file"
     argument-hint: "[filename]"
@@ -70,7 +70,7 @@ commands:
     description: Toggle Fast mode on or off
     argument-hint: "[on|off]"
   - name: feedback
-    description: "Submit feedback about Claude Code. Aliases: /bug, /share"
+    description: "Submit feedback, report a bug, or share your conversation. Sending to Anthropic requires authentication. Aliases: /bug, /share"
     argument-hint: "[report]"
   - name: focus
     description: Toggle the focus view that shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. The selection persists across sessions. Only available in fullscreen rendering
@@ -78,26 +78,26 @@ commands:
     description: Spawn a forked subagent that inherits the full conversation context to work on a directive
     argument-hint: "<directive>"
   - name: goal
-    description: "Set a goal: Claude keeps working across turns until the condition is met. With no argument, shows the current goal. Works in interactive, -p, and Remote Control modes"
+    description: "Set a goal: Claude keeps working across turns until the condition is met. With no argument, shows the current or most recently achieved goal. Pass clear, stop, off, reset, none, or cancel to remove an active goal early. Works in interactive, -p, and Remote Control modes"
     argument-hint: "[condition|clear]"
   - name: heapdump
     description: Write a JavaScript heap snapshot and a memory breakdown to ~/Desktop for diagnosing high memory usage
   - name: help
-    description: Get usage help
+    description: Show help and available commands
   - name: hooks
     description: View hook configurations for tool events
   - name: ide
     description: Manage IDE integrations and show status
-  - name: insights
-    description: Generate an analysis report of Claude Code sessions (project areas, operation patterns, friction points)
   - name: init
     description: "Initialize project with a CLAUDE.md guide. Set CLAUDE_CODE_NEW_INIT=1 for an interactive flow that also walks through skills, hooks, and personal memory files"
+  - name: insights
+    description: Generate an analysis report of Claude Code sessions (project areas, operation patterns, friction points)
   - name: install-github-app
     description: Install the Claude GitHub App for a repository, with an optional step to set up GitHub Actions workflows and secrets
   - name: install-slack-app
     description: Install the Claude Slack app
   - name: keybindings
-    description: Open or create your keybindings configuration file
+    description: Open your keyboard shortcuts file
   - name: login
     description: Sign in to your Anthropic account
   - name: logout
@@ -113,12 +113,12 @@ commands:
   - name: mobile
     description: "Show QR code to download the Claude mobile app. Aliases: /ios, /android"
   - name: model
-    description: Switch the AI model and save it as the default for new sessions, taking effect immediately. For models that support it, use left/right arrows to adjust effort level. Without an argument, opens a picker; press `s` on a row to switch for the current session only
+    description: Switch the AI model and save it as the default for new sessions. For models that support it, use left/right arrows to adjust effort level. Without an argument, opens a picker; press `s` on a row to switch for the current session only. The picker asks for confirmation when the conversation has prior output, since the next response re-reads the full history without cached context
     argument-hint: "[model]"
   - name: passes
     description: Share a free week of Claude Code with friends. Only visible if your account is eligible
   - name: permissions
-    description: "Manage allow, ask, and deny rules for tool permissions. Alias: /allowed-tools"
+    description: "Manage allow, ask, and deny rules for tool permissions. Opens an interactive dialog to view rules by scope, add or remove rules, manage working directories, and review recent auto mode denials. Alias: /allowed-tools"
   - name: plan
     description: "Enter plan mode directly from the prompt. Pass an optional description to enter plan mode and immediately start with that task, for example /plan fix the auth bug"
     argument-hint: "[description]"
@@ -130,7 +130,7 @@ commands:
   - name: privacy-settings
     description: View and update your privacy settings. Only available for Pro and Max plan subscribers
   - name: radio
-    description: Open Claude FM lo-fi radio in your browser. Not available on Bedrock, Vertex, or Foundry
+    description: Open Claude FM lo-fi radio in your browser. Prints the stream URL when no browser is available. Not available on Amazon Bedrock, Google Cloud's Agent Platform, or Microsoft Foundry
   - name: recap
     description: Generate a one-line summary of the current session on demand
   - name: release-notes
@@ -143,7 +143,7 @@ commands:
   - name: remote-control
     description: "Make this session available for remote control from claude.ai. Aliases: /rc"
   - name: remote-env
-    description: Configure the default remote environment for web sessions started with --remote
+    description: Choose the default environment for cloud agents
   - name: rename
     description: Rename the current session and show the name on the prompt bar. Without a name, auto-generates one from conversation history
     argument-hint: "[name]"
@@ -165,11 +165,11 @@ commands:
   - name: security-review
     description: Analyze pending changes on the current branch for security vulnerabilities. Reviews the git diff and identifies risks like injection, auth issues, and data exposure
   - name: setup-bedrock
-    description: Configure Amazon Bedrock authentication, region, and model pins through an interactive wizard. Only visible when CLAUDE_CODE_USE_BEDROCK=1 is set
+    description: Configure Amazon Bedrock authentication, region, and model pins through an interactive wizard. Only visible when CLAUDE_CODE_USE_BEDROCK=1 is set. First-time users can also reach this wizard from the login screen
   - name: setup-vertex
-    description: Configure Google Vertex AI authentication, project, region, and model pins through an interactive wizard. Only visible when CLAUDE_CODE_USE_VERTEX=1 is set
+    description: Configure Google Cloud's Agent Platform authentication, project, region, and model pins through an interactive wizard. Only visible when CLAUDE_CODE_USE_VERTEX=1 is set. First-time users can also reach this wizard from the login screen
   - name: skills
-    description: List available skills. Press `t` to sort by token count
+    description: List available skills. Type to filter by name, press `t` to sort by token count, or press `Space` to cycle a skill's visibility to Claude and the / menu, then `Enter` to save
   - name: status
     description: "Open the Settings interface (Status tab) showing version, model, account, and connectivity. Works while Claude is responding"
   - name: statusline
@@ -177,23 +177,23 @@ commands:
   - name: stickers
     description: Order Claude Code stickers
   - name: stop
-    description: Stop the current background session. Only available while attached to a background session; the transcript and any worktree are kept
+    description: Stop the current background session. Only available while attached to a background session; the transcript and any worktree are kept. To detach without stopping, use /exit
   - name: tasks
     description: "List and manage background tasks. Alias: /bashes"
   - name: team-onboarding
-    description: Generate a teammate ramp-up guide from local Claude Code usage
+    description: Generate a teammate onboarding guide from the past 30 days of sessions, commands, and MCP server usage. claude.ai subscribers also get a share link teammates can open directly in Claude Code
   - name: teleport
     description: "Pull a Claude Code on the web session into this terminal: opens a picker, then fetches the branch and conversation. Requires a claude.ai subscription. Aliases: /tp"
     argument-hint: "[session]"
   - name: terminal-setup
     description: Configure terminal keybindings for Shift+Enter and other shortcuts. Only visible in terminals that need it, like VS Code, Cursor, Devin Desktop, Alacritty, or Zed
   - name: theme
-    description: "Change the color theme. Includes an auto option that follows the terminal's dark/light mode, light/dark variants, colorblind-accessible (daltonized), and ANSI themes"
+    description: "Change the color theme. Includes an auto option that follows the terminal's dark/light mode, light/dark variants, colorblind-accessible (daltonized) themes, ANSI themes that use the terminal's palette, and custom themes from ~/.claude/themes/ or plugins"
   - name: tui
     description: "Set the terminal UI renderer and relaunch into it with your conversation intact. fullscreen enables the flicker-free alt-screen renderer. Without an argument, prints the active renderer"
     argument-hint: "[default|fullscreen]"
   - name: ultraplan
-    description: Draft a plan in an ultraplan session, review in browser, then execute
+    description: Draft a plan in an ultraplan session, review it in your browser, then execute remotely or send it back to your terminal
     argument-hint: "<prompt>"
   - name: ultrareview
     description: "Run a deep, multi-agent code review in a cloud sandbox. The preferred invocation is now /code-review ultra; /ultrareview remains as an alias. Includes 3 free runs on Pro and Max, then requires usage credits"
@@ -201,19 +201,19 @@ commands:
   - name: upgrade
     description: Open the upgrade page to switch to a higher plan tier
   - name: usage
-    description: "Show session cost, plan usage limits, and activity stats. Aliases: /cost, /stats"
+    description: "Show session cost, plan usage limits, and activity stats. On Pro, Max, Team, and Enterprise plans, includes a breakdown of usage by skill, subagent, plugin, and MCP server. Aliases: /cost, /stats"
   - name: usage-credits
-    description: "Configure usage credits to keep working when you hit a limit. Renamed from /extra-usage; the old name still works as an alias"
+    description: "Configure usage credits to keep working when you hit a limit. On Pro and Max plans, opens an in-CLI dialog to buy credits, set a monthly spend limit, and configure auto-reload; other plans open the usage-credits billing page in a browser. Renamed from /extra-usage"
   - name: voice
     description: Toggle voice dictation, or enable it in a specific mode. Requires a Claude.ai account
     argument-hint: "[hold|tap|off]"
   - name: web-setup
     description: Connect GitHub account to Claude Code on the web using local gh CLI credentials
   - name: workflows
-    description: Open the workflow progress view showing dynamic workflows that orchestrate work across many background agents
+    description: Open the workflow progress view to watch, pause, resume, or save running and completed workflows
 skills:
   - name: batch
-    description: "Research and plan a large-scale change, then execute it in parallel across 5–30 isolated worktree agents that each open a PR."
+    description: "Research and plan a large-scale change, then execute it in parallel across 5–30 isolated worktree agents that each run tests and open a PR. Requires a git repository."
     argument-hint: "<instruction>"
   - name: claude-api
     description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
@@ -222,10 +222,10 @@ skills:
     description: "Review the current diff for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. Pass `--fix` to apply findings to the working tree, or `--comment` to post inline PR comments."
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
   - name: dataviz
-    description: "Design charts, graphs, dashboards, and data visualizations that read as one cohesive system across light and dark, using a validated, accessible color palette."
+    description: "Design guidance for charts, graphs, and dashboards. Picks the chart form for the data, assigns color by role, validates the palette for colorblind safety and contrast with a bundled script, and applies mark, interaction, and accessibility rules."
     argument-hint: "[request]"
   - name: debug
-    description: Enable debug logging for the current session and troubleshoot issues by reading the session debug log. Optionally describe the issue to focus the analysis.
+    description: Enable debug logging for the current session and troubleshoot issues by reading the session debug log. Logging is off unless you started with `claude --debug`, so running /debug mid-session captures logs from that point forward. Optionally describe the issue to focus the analysis.
     argument-hint: "[description]"
   - name: deep-research
     description: "Fan out web searches, fetch and cross-check sources, then synthesize a cited research report."
@@ -243,7 +243,7 @@ skills:
   - name: run-skill-generator
     description: "Teach /run and /verify how to build, launch, and drive your project's app from a clean environment."
   - name: simplify
-    description: "Review the changed code for reuse, simplification, efficiency, and abstraction cleanups, then apply the fixes. Quality only — it does not hunt for bugs; use /code-review for that."
+    description: "Review the changed code for cleanup opportunities and apply the fixes. Four review agents run in parallel, covering reuse of existing helpers, simplification, efficiency, and whether the change is at the right level of abstraction. It does not hunt for correctness bugs — use /code-review for that."
     argument-hint: "[target]"
   - name: verify
     description: "Confirm a code change does what it should by building your project's app, running it, and observing the result."

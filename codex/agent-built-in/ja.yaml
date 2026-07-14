@@ -6,17 +6,17 @@
 
 name: codex
 color: sky  # 16進コードも使用可能 例: "#00CC66"
-reference: https://developers.openai.com/codex/cli/slash-commands/
+reference: https://learn.chatgpt.com/docs/developer-commands?surface=cli
 
 commands:
   - name: agent
     description: "アクティブなエージェントスレッドを切り替えてサブエージェントの作業を確認する。エイリアス: /subagents"
   - name: app
     description: 現在のセッションをデスクトップアプリに引き継ぐ
-  - name: apps
-    description: アプリ（コネクタ）を閲覧してプロンプトに挿入する
   - name: approve
     description: 直前のコマンドに対する自動レビューの拒否を一度だけ再試行する
+  - name: apps
+    description: アプリ（コネクタ）を閲覧してプロンプトに挿入する
   - name: archive
     description: 現在のセッションをアーカイブしてCodexを終了する
   - name: clear
@@ -107,13 +107,13 @@ commands:
   - name: status
     description: セッション設定とトークン使用量を表示する
   - name: statusline
-    description: フッターのステータスライン項目を設定・並べ替える
+    description: フッターのステータスライン項目（model・context・limits・git・tokens・session）を設定・並べ替え、config.toml に永続化する
   - name: stop
     description: "現在のセッションのバックグラウンドターミナルをすべてキャンセルする。エイリアス: /clean"
   - name: theme
-    description: シンタックスハイライトテーマを選択する。ターミナルのシンタックスハイライトテーマをプレビューして永続化する
+    description: ターミナルのシンタックスハイライトテーマをプレビューして永続化する
   - name: title
-    description: ターミナルウィンドウのタイトル項目を設定する
+    description: ターミナルウィンドウ／タブのタイトル項目を対話的に設定する。project・status・thread・branch・model・タスク進捗などの項目を選択・並べ替えできる
   - name: usage
     description: アカウントのトークン使用量を表示する
     argument-hint: "[daily|weekly|cumulative]"

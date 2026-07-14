@@ -7,17 +7,17 @@
 name: codex
 description: Codex CLI built-in commands
 color: sky  # You can also use hex codes like "#00CC66"
-reference: https://developers.openai.com/codex/cli/slash-commands/
+reference: https://learn.chatgpt.com/docs/developer-commands?surface=cli
 
 commands:
   - name: agent
     description: "Switch between active agent threads to inspect subagent work. Alias: /subagents"
   - name: app
     description: Continue the current session in the desktop app
-  - name: apps
-    description: Browse apps (connectors) and insert them into your prompt
   - name: approve
     description: Retry a one-time auto-review denial for the previous command
+  - name: apps
+    description: Browse apps (connectors) and insert them into your prompt
   - name: archive
     description: Archive the current session and exit Codex
   - name: clear
@@ -108,13 +108,13 @@ commands:
   - name: status
     description: Display session configuration and token usage
   - name: statusline
-    description: Configure and reorder footer status-line items
+    description: Configure and reorder footer status-line items (model, context, limits, git, tokens, session), persisted in config.toml
   - name: stop
     description: "Cancel all background terminals for the current session. Alias: /clean"
   - name: theme
-    description: Choose a syntax-highlighting theme. Preview and persist a terminal syntax-highlighting theme
+    description: Preview and persist a terminal syntax-highlighting theme
   - name: title
-    description: Configure terminal window title fields
+    description: Configure terminal window or tab title fields interactively, picking and reordering items such as project, status, thread, branch, model, and task progress
   - name: usage
     description: View account token usage
     argument-hint: "[daily|weekly|cumulative]"
