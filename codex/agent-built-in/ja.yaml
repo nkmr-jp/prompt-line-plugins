@@ -6,15 +6,17 @@
 
 name: codex
 color: sky  # 16進コードも使用可能 例: "#00CC66"
-reference: https://developers.openai.com/codex/cli/slash-commands/
+reference: https://learn.chatgpt.com/docs/developer-commands?surface=cli
 
 commands:
   - name: agent
-    description: アクティブなエージェントスレッドを切り替えてサブエージェントの作業を確認する
-  - name: apps
-    description: アプリ（コネクタ）を閲覧してプロンプトに挿入する
+    description: "アクティブなエージェントスレッドを切り替えてサブエージェントの作業を確認する。エイリアス: /subagents"
+  - name: app
+    description: 現在のセッションをデスクトップアプリに引き継ぐ
   - name: approve
     description: 直前のコマンドに対する自動レビューの拒否を一度だけ再試行する
+  - name: apps
+    description: アプリ（コネクタ）を閲覧してプロンプトに挿入する
   - name: archive
     description: 現在のセッションをアーカイブしてCodexを終了する
   - name: clear
@@ -39,8 +41,8 @@ commands:
   - name: fork
     description: 現在の会話を新しいスレッドにクローンする
   - name: goal
-    description: タスクの目標を設定・一時停止・再開・確認・クリアする
-    argument-hint: "[<objective>|pause|resume|clear]"
+    description: タスクの目標を設定・編集・一時停止・再開・確認・クリアする
+    argument-hint: "[<objective>|edit|pause|resume|clear]"
   - name: hooks
     description: ライフサイクルフックを確認し、現在のセッションに読み込まれたフック設定を表示・管理する
   - name: ide
@@ -70,6 +72,9 @@ commands:
     description: "Codexが確認なしで実行できる操作を設定する。エイリアス: /approvals"
   - name: personality
     description: コミュニケーションスタイルを選択する（friendly, pragmatic, none）
+  - name: pets
+    description: "ターミナルペットを選択または非表示にする。エイリアス: /pet"
+    argument-hint: "[off]"
   - name: plan
     description: プランモードに切り替え、必要に応じてプロンプトを送信する
     argument-hint: "[prompt]"
@@ -82,6 +87,9 @@ commands:
   - name: raw
     description: ターミナルでのテキスト選択を容易にするため、raw スクロールバック表示を切り替える
     argument-hint: "[on|off]"
+  - name: rename
+    description: 現在のセッションの名前を変更する
+    argument-hint: "[name]"
   - name: resume
     description: 以前に保存した会話をリロードする
   - name: review
@@ -89,6 +97,8 @@ commands:
   - name: sandbox-add-read-dir
     description: 現在のルート外のディレクトリへの読み取りアクセスを付与する（Windowsのみ）
     argument-hint: "<absolute_directory_path>"
+  - name: setup-default-sandbox
+    description: 昇格された Windows サンドボックスを設定する
   - name: side
     description: "一時的なサイド会話を開始する。エイリアス: /btw"
     argument-hint: "[prompt]"
@@ -97,13 +107,13 @@ commands:
   - name: status
     description: セッション設定とトークン使用量を表示する
   - name: statusline
-    description: フッターのステータスライン項目を設定・並べ替える
+    description: フッターのステータスライン項目（model・context・limits・git・tokens・session）を設定・並べ替え、config.toml に永続化する
   - name: stop
     description: "現在のセッションのバックグラウンドターミナルをすべてキャンセルする。エイリアス: /clean"
   - name: theme
-    description: シンタックスハイライトテーマを選択する。ターミナルのシンタックスハイライトテーマをプレビューして永続化する
+    description: ターミナルのシンタックスハイライトテーマをプレビューして永続化する
   - name: title
-    description: ターミナルウィンドウのタイトル項目を設定する
+    description: ターミナルウィンドウ／タブのタイトル項目を対話的に設定する。project・status・thread・branch・model・タスク進捗などの項目を選択・並べ替えできる
   - name: usage
     description: アカウントのトークン使用量を表示する
     argument-hint: "[daily|weekly|cumulative]"

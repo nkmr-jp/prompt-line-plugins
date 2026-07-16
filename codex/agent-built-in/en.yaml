@@ -7,15 +7,17 @@
 name: codex
 description: Codex CLI built-in commands
 color: sky  # You can also use hex codes like "#00CC66"
-reference: https://developers.openai.com/codex/cli/slash-commands/
+reference: https://learn.chatgpt.com/docs/developer-commands?surface=cli
 
 commands:
   - name: agent
-    description: Switch between active agent threads to inspect subagent work
-  - name: apps
-    description: Browse apps (connectors) and insert them into your prompt
+    description: "Switch between active agent threads to inspect subagent work. Alias: /subagents"
+  - name: app
+    description: Continue the current session in the desktop app
   - name: approve
     description: Retry a one-time auto-review denial for the previous command
+  - name: apps
+    description: Browse apps (connectors) and insert them into your prompt
   - name: archive
     description: Archive the current session and exit Codex
   - name: clear
@@ -40,8 +42,8 @@ commands:
   - name: fork
     description: Clone current conversation into new thread
   - name: goal
-    description: Set, pause, resume, view, or clear a task goal
-    argument-hint: "[<objective>|pause|resume|clear]"
+    description: Set, edit, pause, resume, view, or clear a task goal
+    argument-hint: "[<objective>|edit|pause|resume|clear]"
   - name: hooks
     description: Review lifecycle hooks and view/manage hook configuration loaded into the current session
   - name: ide
@@ -71,6 +73,9 @@ commands:
     description: "Set what Codex can do without asking first. Alias: /approvals"
   - name: personality
     description: Select communication style (friendly, pragmatic, none)
+  - name: pets
+    description: "Choose or hide a terminal pet. Alias: /pet"
+    argument-hint: "[off]"
   - name: plan
     description: Switch to plan mode and optionally send a prompt
     argument-hint: "[prompt]"
@@ -83,6 +88,9 @@ commands:
   - name: raw
     description: Toggle raw scrollback rendering for better terminal text selection
     argument-hint: "[on|off]"
+  - name: rename
+    description: Rename the current session
+    argument-hint: "[name]"
   - name: resume
     description: Reload a previously saved conversation
   - name: review
@@ -90,6 +98,8 @@ commands:
   - name: sandbox-add-read-dir
     description: Grant read access to directories outside current roots (Windows only)
     argument-hint: "<absolute_directory_path>"
+  - name: setup-default-sandbox
+    description: Configure the elevated Windows sandbox
   - name: side
     description: "Start an ephemeral side conversation. Alias: /btw"
     argument-hint: "[prompt]"
@@ -98,13 +108,13 @@ commands:
   - name: status
     description: Display session configuration and token usage
   - name: statusline
-    description: Configure and reorder footer status-line items
+    description: Configure and reorder footer status-line items (model, context, limits, git, tokens, session), persisted in config.toml
   - name: stop
     description: "Cancel all background terminals for the current session. Alias: /clean"
   - name: theme
-    description: Choose a syntax-highlighting theme. Preview and persist a terminal syntax-highlighting theme
+    description: Preview and persist a terminal syntax-highlighting theme
   - name: title
-    description: Configure terminal window title fields
+    description: Configure terminal window or tab title fields interactively, picking and reordering items such as project, status, thread, branch, model, and task progress
   - name: usage
     description: View account token usage
     argument-hint: "[daily|weekly|cumulative]"
