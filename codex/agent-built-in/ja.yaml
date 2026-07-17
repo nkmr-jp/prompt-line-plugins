@@ -10,7 +10,9 @@ reference: https://developers.openai.com/codex/cli/slash-commands/
 
 commands:
   - name: agent
-    description: アクティブなエージェントスレッドを切り替えてサブエージェントの作業を確認する
+    description: "アクティブなエージェントスレッドを切り替えてサブエージェントの作業を確認する。エイリアス: /subagents"
+  - name: app
+    description: 現在のセッションをChatGPTデスクトップアプリに引き継ぐ（macOSまたはWindows）
   - name: apps
     description: アプリ（コネクタ）を閲覧してプロンプトに挿入する
   - name: approve
@@ -18,7 +20,7 @@ commands:
   - name: archive
     description: 現在のセッションをアーカイブしてCodexを終了する
   - name: clear
-    description: ターミナルをクリアして新しいチャットを開始する
+    description: ターミナルをクリアして新しいタスクを開始する
   - name: compact
     description: 表示中の会話を要約してトークンを解放する
   - name: copy
@@ -37,7 +39,7 @@ commands:
   - name: feedback
     description: メンテナーにログと診断情報を送信する
   - name: fork
-    description: 現在の会話を新しいスレッドにクローンする
+    description: 現在のタスクを新しいタスクにフォークし、トランスクリプトを失わずに別のアプローチを試す
   - name: goal
     description: タスクの目標を設定・一時停止・再開・確認・クリアする
     argument-hint: "[<objective>|pause|resume|clear]"
@@ -47,7 +49,7 @@ commands:
     description: 開いているファイル・現在の選択範囲などのIDEコンテキストを取り込む
     argument-hint: "[text]"
   - name: import
-    description: Claude Codeの設定をセットアップ内容と最近のチャットとともにインポートする
+    description: Claude Codeのセットアップ、プロジェクトファイル、最近のチャットをインポートする
   - name: init
     description: 現在のディレクトリにAGENTS.mdのひな形を生成する
   - name: keymap
@@ -70,6 +72,8 @@ commands:
     description: "Codexが確認なしで実行できる操作を設定する。エイリアス: /approvals"
   - name: personality
     description: コミュニケーションスタイルを選択する（friendly, pragmatic, none）
+  - name: pets
+    description: "ターミナルペットを選択または非表示にしてTUIをパーソナライズする。エイリアス: /pet"
   - name: plan
     description: プランモードに切り替え、必要に応じてプロンプトを送信する
     argument-hint: "[prompt]"
@@ -82,6 +86,9 @@ commands:
   - name: raw
     description: ターミナルでのテキスト選択を容易にするため、raw スクロールバック表示を切り替える
     argument-hint: "[on|off]"
+  - name: rename
+    description: TUIを離れずに現在のタスクの名前を変更する
+    argument-hint: "[name]"
   - name: resume
     description: 以前に保存した会話をリロードする
   - name: review
@@ -89,6 +96,8 @@ commands:
   - name: sandbox-add-read-dir
     description: 現在のルート外のディレクトリへの読み取りアクセスを付与する（Windowsのみ）
     argument-hint: "<absolute_directory_path>"
+  - name: setup-default-sandbox
+    description: 制限付きトークンの劣化サンドボックスを置き換える昇格エージェントサンドボックスをセットアップする（Windowsのみ）
   - name: side
     description: "一時的なサイド会話を開始する。エイリアス: /btw"
     argument-hint: "[prompt]"
@@ -105,7 +114,7 @@ commands:
   - name: title
     description: ターミナルウィンドウのタイトル項目を設定する
   - name: usage
-    description: アカウントのトークン使用量を表示する
+    description: アカウントのトークン使用量を表示する、またはレート制限リセットを使用する
     argument-hint: "[daily|weekly|cumulative]"
   - name: vim
     description: コンポーザー編集用のVimモードを切り替える

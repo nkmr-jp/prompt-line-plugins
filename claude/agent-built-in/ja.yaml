@@ -11,7 +11,7 @@ commands:
     description: 現在のセッションにファイルアクセス用の作業ディレクトリを追加する
     argument-hint: "<path>"
   - name: advisor
-    description: "タスク中の重要な局面で2つ目のモデルに助言を求めるadvisorツールを有効化/無効化する。opus、sonnet、fable、またはフルモデルIDを指定可能。引数なしでピッカーを開く"
+    description: "タスク中の重要な局面で2つ目のモデルに助言を求めるadvisorツールを有効化/無効化する。opus、sonnet、またはフルモデルIDを指定可能（fableは指定不可）。引数なしでピッカーを開く"
     argument-hint: "[model|off]"
   - name: agents
     description: "サブエージェントの作成・管理を Claude に依頼するか、.claude/agents/ または ~/.claude/agents/ のファイルを直接編集するよう促すリマインダーを表示する。旧バージョンでは対話的な管理インターフェースを開いていた"
@@ -21,12 +21,12 @@ commands:
   - name: background
     description: "現在のセッションをバックグラウンドエージェントとしてデタッチし、ターミナルを解放する。プロンプトを渡すとデタッチ前に追加の指示を送信できる。エイリアス: /bg"
     argument-hint: "[prompt]"
+  - name: branch
+    description: 現在の会話のこの時点でブランチを作成する。元の会話は保持され、/resume で戻れる。サイドタスクをバックグラウンドのサブエージェントに任せる場合は /fork を使用
+    argument-hint: "[name]"
   - name: btw
     description: 会話に追加せずに素早くサイドクエスチョンをする
     argument-hint: "<question>"
-  - name: branch
-    description: 現在の会話のこの時点でブランチを作成する
-    argument-hint: "[name]"
   - name: cd
     description: "このセッションを新しい作業ディレクトリに移動する。会話のプロンプトキャッシュは保持され、システムプロンプトを再構築する代わりに新ディレクトリのCLAUDE.mdが追加される。セッションを移動せず追加ディレクトリへのアクセスを付与するには /add-dir を使用"
     argument-hint: "<path>"
@@ -53,16 +53,14 @@ commands:
   - name: design-login
     description: /design-sync 用のデザインシステムアクセスを claude.ai アカウントで認可する
   - name: desktop
-    description: "現在のCLIセッションをClaude Code Desktopアプリに引き継ぐ（macOSとWindowsのみ）。エイリアス: /app"
+    description: "現在のセッションをClaude Code Desktopアプリに引き継ぐ。macOSまたはWindowsとClaudeサブスクリプションが必要。エイリアス: /app"
   - name: diff
     description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧
-  - name: doctor
-    description: Claude Codeのインストール状態と設定を診断・検証する。結果はステータスアイコン付きで表示。`f`キーでClaudeに問題を修正させる
   - name: effort
     description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く"
     argument-hint: "[level|auto]"
   - name: exit
-    description: "CLIを終了する。エイリアス: /quit"
+    description: "CLIを終了する。バックグラウンドセッションにアタッチ中の場合はデタッチのみ行い、セッションは動作し続ける。エイリアス: /quit"
   - name: export
     description: "現在の会話をプレーンテキストとしてエクスポートする。ファイル名を指定するとそのファイルに直接書き込み、指定なしの場合はクリップボードへのコピーまたはファイル保存のダイアログを開く"
     argument-hint: "[filename]"
@@ -70,12 +68,12 @@ commands:
     description: Fastモードのオン/オフを切り替える
     argument-hint: "[on|off]"
   - name: feedback
-    description: "Claude Codeについてのフィードバックを送信する。エイリアス: /bug, /share"
+    description: "フィードバックの送信、バグ報告、会話の共有を行う。Anthropicへの送信には認証が必要。エイリアス: /bug, /share"
     argument-hint: "[report]"
   - name: focus
     description: フォーカスビューをトグルする。直前のプロンプト、ツール呼び出しのサマリー（編集diffstat付き）、最終レスポンスのみを表示。選択状態はセッション間で保持される。fullscreenレンダリング時のみ利用可能
   - name: fork
-    description: 会話全体のコンテキストを引き継いだフォーク済みサブエージェントを起動し、指示（directive）を実行させる
+    description: 会話全体を引き継いだバックグラウンドのフォーク済みサブエージェントを起動し、作業を続けながら指示（directive）を実行させる。完了時に結果が会話に返る。自分で会話のコピーに切り替えるには /branch、セッション内サブエージェントには /subtask を使用
     argument-hint: "<directive>"
   - name: goal
     description: "ゴールを設定する。Claudeは条件が満たされるまで複数ターンにわたって作業を続ける。引数なしで現在のゴールを表示。インタラクティブ・-p・Remote Controlの各モードで動作"
@@ -102,9 +100,6 @@ commands:
     description: Anthropicアカウントにサインインする
   - name: logout
     description: Anthropicアカウントからサインアウトする
-  - name: loop
-    description: "セッションが開いている間、プロンプトやスラッシュコマンドを繰り返し実行する。間隔を省略するとClaudeがセルフペーシングする。プロンプトを省略すると自律メンテナンスチェック（または .claude/loop.md のプロンプト）を実行する。エイリアス: /proactive"
-    argument-hint: "[interval] [prompt]"
   - name: mcp
     description: "MCPサーバー接続とOAuth認証を管理する。引数なしで対話的な一覧を開き、`reconnect <server>` で切断された1つのサーバーを再接続、`enable`/`disable` にサーバー名または `all` を渡して有効化/無効化する"
     argument-hint: "[reconnect <server>|enable|disable [<server>|all]]"
@@ -169,7 +164,7 @@ commands:
   - name: setup-vertex
     description: Google Vertex AI認証・プロジェクト・リージョン・モデルピンをインタラクティブウィザードで設定する。CLAUDE_CODE_USE_VERTEX=1の場合のみ表示
   - name: skills
-    description: 利用可能なスキルを一覧表示する。`t`キーでトークン数でソート
+    description: 利用可能なスキルを一覧表示する。文字入力で名前をフィルタ、`t`キーでトークン数ソート、Spaceキーでスキルの表示/非表示を切り替え
   - name: status
     description: "設定インターフェースを開く（Statusタブ）。バージョン、モデル、アカウント、接続状況を表示。Claudeのレスポンス中でも動作"
   - name: statusline
@@ -178,8 +173,10 @@ commands:
     description: Claude Codeステッカーを注文する
   - name: stop
     description: 現在のバックグラウンドセッションを停止する。バックグラウンドセッションにアタッチ中のみ利用可能。トランスクリプトとworktreeは保持される
+  - name: subtask
+    description: 会話コンテキストを共有するセッション内サブエージェントを起動してタスクを実行させる（旧 /fork の挙動）
   - name: tasks
-    description: "バックグラウンドタスクの一覧と管理。エイリアス: /bashes"
+    description: "現在のセッションのバックグラウンド作業（完了済みサブエージェントを含む）を表示・管理する。エイリアス: /bashes"
   - name: team-onboarding
     description: ローカルのClaude Code使用状況からチームメイト向けのオンボーディングガイドを生成する
   - name: teleport
@@ -201,7 +198,7 @@ commands:
   - name: upgrade
     description: より高いプランティアに切り替えるためのアップグレードページを開く
   - name: usage
-    description: "セッションコスト、プラン使用制限、アクティビティ統計を表示する。エイリアス: /cost, /stats"
+    description: "セッションコスト、プラン使用制限、アクティビティ統計を表示する。有料プランではスキル・サブエージェント・プラグイン・MCPサーバー別の内訳も表示。エイリアス: /cost, /stats"
   - name: usage-credits
     description: "レート制限に達した際に作業を継続するための使用量クレジットを設定する。/extra-usage からリネームされ、旧名称はエイリアスとして引き続き利用可能"
   - name: voice
@@ -223,6 +220,7 @@ skills:
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
   - name: dataviz
     description: "チャート・グラフ・ダッシュボード・データビジュアライゼーションを、検証済みでアクセシブルなカラーパレットを用いて、ライト/ダークで統一感のある1つのシステムとして設計する"
+    argument-hint: "[request]"
   - name: debug
     description: 現在のセッションのデバッグログを有効にし、セッションのデバッグログを読んで問題をトラブルシュートする。説明を付けて分析の焦点を絞ることも可能
     argument-hint: "[description]"
@@ -232,6 +230,8 @@ skills:
   - name: design-sync
     description: "リポジトリのReactデザインシステムを変換してClaude Designにアップロードし、デザインで実際のコンポーネントを使えるようにする。デザインシステム名を任意で指定可能。大規模リポジトリでは初回同期に数時間かかることがある。Amazon Bedrock・Google Cloud Agent Platform・Microsoft Foundryでは利用不可"
     argument-hint: "[hint]"
+  - name: doctor
+    description: "インストール・設定・スキル・MCP・プラグイン・フック・CLAUDE.mdの問題を診断して修正するセットアップチェックを実行する。まず検出結果を報告し、変更前に確認を求める。エイリアス: /checkup"
   - name: fewer-permission-prompts
     description: トランスクリプトから頻出するread-onlyのBashとMCPツール呼び出しをスキャンし、プロジェクトの `.claude/settings.json` に優先度付きのallowlistを追加してパーミッションプロンプトを削減する
   - name: loop
@@ -257,3 +257,5 @@ agents:
     description: /statuslineでステータスラインを設定する際に使用
   - name: claude-code-guide
     description: Claude Codeの機能について質問する際に使用
+  - name: fork
+    description: 新規開始ではなくこれまでの会話全体を引き継ぐサブエージェント。ツール呼び出しはメイン会話の外で行われ、最終結果のみが返る

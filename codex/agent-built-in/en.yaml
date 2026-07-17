@@ -11,7 +11,9 @@ reference: https://developers.openai.com/codex/cli/slash-commands/
 
 commands:
   - name: agent
-    description: Switch between active agent threads to inspect subagent work
+    description: "Switch between active agent threads to inspect subagent work. Alias: /subagents"
+  - name: app
+    description: Continue the current session in the ChatGPT desktop app (macOS or Windows)
   - name: apps
     description: Browse apps (connectors) and insert them into your prompt
   - name: approve
@@ -19,7 +21,7 @@ commands:
   - name: archive
     description: Archive the current session and exit Codex
   - name: clear
-    description: Clear the terminal and start a fresh chat
+    description: Clear the terminal and start a fresh task
   - name: compact
     description: Summarize the visible conversation to free tokens
   - name: copy
@@ -38,7 +40,7 @@ commands:
   - name: feedback
     description: Submit logs and diagnostics to maintainers
   - name: fork
-    description: Clone current conversation into new thread
+    description: Fork the current task into a new task to explore another approach without losing the transcript
   - name: goal
     description: Set, pause, resume, view, or clear a task goal
     argument-hint: "[<objective>|pause|resume|clear]"
@@ -48,7 +50,7 @@ commands:
     description: Include open files, current selection, and other IDE context
     argument-hint: "[text]"
   - name: import
-    description: Import Claude Code configuration with setup and recent chats
+    description: Import Claude Code setup, project files, and recent chats
   - name: init
     description: Generate an AGENTS.md scaffold in the current directory
   - name: keymap
@@ -71,6 +73,8 @@ commands:
     description: "Set what Codex can do without asking first. Alias: /approvals"
   - name: personality
     description: Select communication style (friendly, pragmatic, none)
+  - name: pets
+    description: "Choose or hide a terminal pet to personalize the TUI. Alias: /pet"
   - name: plan
     description: Switch to plan mode and optionally send a prompt
     argument-hint: "[prompt]"
@@ -83,6 +87,9 @@ commands:
   - name: raw
     description: Toggle raw scrollback rendering for better terminal text selection
     argument-hint: "[on|off]"
+  - name: rename
+    description: Rename the current task without leaving the TUI
+    argument-hint: "[name]"
   - name: resume
     description: Reload a previously saved conversation
   - name: review
@@ -90,6 +97,8 @@ commands:
   - name: sandbox-add-read-dir
     description: Grant read access to directories outside current roots (Windows only)
     argument-hint: "<absolute_directory_path>"
+  - name: setup-default-sandbox
+    description: Set up the elevated agent sandbox to replace the degraded restricted-token sandbox (Windows only)
   - name: side
     description: "Start an ephemeral side conversation. Alias: /btw"
     argument-hint: "[prompt]"
@@ -106,7 +115,7 @@ commands:
   - name: title
     description: Configure terminal window title fields
   - name: usage
-    description: View account token usage
+    description: View account token usage or use a rate-limit reset
     argument-hint: "[daily|weekly|cumulative]"
   - name: vim
     description: Toggle Vim mode for composer editing

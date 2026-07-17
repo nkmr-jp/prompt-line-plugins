@@ -11,7 +11,7 @@ commands:
     description: Add a working directory for file access during the current session
     argument-hint: "<path>"
   - name: advisor
-    description: "Enable or disable the advisor tool, which consults a second model for guidance at key moments during a task. Accepts opus, sonnet, fable, or a full model ID. Without an argument, opens a picker"
+    description: "Enable or disable the advisor tool, which consults a second model for guidance at key moments during a task. Accepts opus, sonnet, or a full model ID; fable is not offered. Without an argument, opens a picker"
     argument-hint: "[model|off]"
   - name: agents
     description: "Prints a reminder to ask Claude to create or manage subagents, or to edit the .claude/agents/ or ~/.claude/agents/ files directly. Earlier versions opened an interactive management interface"
@@ -21,12 +21,12 @@ commands:
   - name: background
     description: "Detach the current session to run as a background agent and free this terminal. Pass a prompt to send one more instruction before detaching. Alias: /bg"
     argument-hint: "[prompt]"
+  - name: branch
+    description: Create a branch of the current conversation at this point, preserving the original so you can try a different direction. Return to the original with /resume. To hand a side task to a background subagent instead, use /fork
+    argument-hint: "[name]"
   - name: btw
     description: Ask a quick side question without adding to the conversation
     argument-hint: "<question>"
-  - name: branch
-    description: Create a branch of the current conversation at this point
-    argument-hint: "[name]"
   - name: cd
     description: "Move this session to a new working directory. The conversation's prompt cache is preserved and the new directory's CLAUDE.md is appended instead of rebuilding the system prompt. To grant access to an extra directory without moving the session, use /add-dir"
     argument-hint: "<path>"
@@ -53,16 +53,14 @@ commands:
   - name: design-login
     description: Authorize design-system access for /design-sync with your claude.ai account
   - name: desktop
-    description: "Continue the current session in the Claude Code Desktop app (macOS and Windows only). Alias: /app"
+    description: "Continue the current session in the Claude Code Desktop app. Requires macOS or Windows and a Claude subscription. Alias: /app"
   - name: diff
     description: Open an interactive diff viewer showing uncommitted changes and per-turn diffs. Use left/right arrows to switch between the current git diff and individual Claude turns, and up/down to browse files
-  - name: doctor
-    description: Diagnose and verify your Claude Code installation and settings. Results show with status icons. Press `f` to have Claude fix any reported issues
   - name: effort
     description: "Set the model effort level. Accepts low/medium/high/xhigh/max/ultracode. Available levels depend on the model; max and ultracode are session-only. ultracode combines xhigh reasoning with automatic workflow orchestration. auto resets to the model default. Without an argument, opens an interactive slider"
     argument-hint: "[level|auto]"
   - name: exit
-    description: "Exit the CLI. Alias: /quit"
+    description: "Exit the CLI. In an attached background session, detaches and the session keeps running. Alias: /quit"
   - name: export
     description: "Export the current conversation as plain text. With a filename, writes directly to that file; without, opens a dialog to copy to clipboard or save to a file"
     argument-hint: "[filename]"
@@ -70,12 +68,12 @@ commands:
     description: Toggle Fast mode on or off
     argument-hint: "[on|off]"
   - name: feedback
-    description: "Submit feedback about Claude Code. Aliases: /bug, /share"
+    description: "Submit feedback, report a bug, or share your conversation. Sending to Anthropic requires authentication. Aliases: /bug, /share"
     argument-hint: "[report]"
   - name: focus
     description: Toggle the focus view that shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. The selection persists across sessions. Only available in fullscreen rendering
   - name: fork
-    description: Spawn a forked subagent that inherits the full conversation context to work on a directive
+    description: "Spawn a forked subagent: a background subagent that inherits the full conversation and works on the directive while you keep going; its result returns when it finishes. To switch into a copy of the conversation yourself, use /branch; for an in-session subagent, use /subtask"
     argument-hint: "<directive>"
   - name: goal
     description: "Set a goal: Claude keeps working across turns until the condition is met. With no argument, shows the current goal. Works in interactive, -p, and Remote Control modes"
@@ -102,9 +100,6 @@ commands:
     description: Sign in to your Anthropic account
   - name: logout
     description: Sign out from your Anthropic account
-  - name: loop
-    description: "Run a prompt or slash command repeatedly while the session stays open. Omit the interval and Claude self-paces. Omit the prompt to run an autonomous maintenance check (or the prompt in .claude/loop.md). Alias: /proactive"
-    argument-hint: "[interval] [prompt]"
   - name: mcp
     description: "Manage MCP server connections and OAuth authentication. Run with no argument for the interactive list, `reconnect <server>` to reconnect one disconnected server, or `enable`/`disable` with a server name or `all`"
     argument-hint: "[reconnect <server>|enable|disable [<server>|all]]"
@@ -169,7 +164,7 @@ commands:
   - name: setup-vertex
     description: Configure Google Vertex AI authentication, project, region, and model pins through an interactive wizard. Only visible when CLAUDE_CODE_USE_VERTEX=1 is set
   - name: skills
-    description: List available skills. Press `t` to sort by token count
+    description: List available skills. Type to filter by name, press `t` to sort by token count, press Space to cycle a skill's visibility
   - name: status
     description: "Open the Settings interface (Status tab) showing version, model, account, and connectivity. Works while Claude is responding"
   - name: statusline
@@ -178,8 +173,10 @@ commands:
     description: Order Claude Code stickers
   - name: stop
     description: Stop the current background session. Only available while attached to a background session; the transcript and any worktree are kept
+  - name: subtask
+    description: Launch an in-session subagent that shares your conversation context to work on a task (the former behavior of /fork)
   - name: tasks
-    description: "List and manage background tasks. Alias: /bashes"
+    description: "View and manage background work in the current session, including subagents that have finished. Alias: /bashes"
   - name: team-onboarding
     description: Generate a teammate ramp-up guide from local Claude Code usage
   - name: teleport
@@ -201,7 +198,7 @@ commands:
   - name: upgrade
     description: Open the upgrade page to switch to a higher plan tier
   - name: usage
-    description: "Show session cost, plan usage limits, and activity stats. Aliases: /cost, /stats"
+    description: "Show session cost, plan usage limits, and activity stats, including a breakdown by skill, subagent, plugin, and MCP server on paid plans. Aliases: /cost, /stats"
   - name: usage-credits
     description: "Configure usage credits to keep working when you hit a limit. Renamed from /extra-usage; the old name still works as an alias"
   - name: voice
@@ -223,6 +220,7 @@ skills:
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
   - name: dataviz
     description: "Design charts, graphs, dashboards, and data visualizations that read as one cohesive system across light and dark, using a validated, accessible color palette."
+    argument-hint: "[request]"
   - name: debug
     description: Enable debug logging for the current session and troubleshoot issues by reading the session debug log. Optionally describe the issue to focus the analysis.
     argument-hint: "[description]"
@@ -232,6 +230,8 @@ skills:
   - name: design-sync
     description: "Convert your repo's React design system and upload it to Claude Design so designs use your real components. Optionally name the design system. A first sync can take a few hours on a large repo. Unavailable on Amazon Bedrock, Google Cloud Agent Platform, and Microsoft Foundry."
     argument-hint: "[hint]"
+  - name: doctor
+    description: "Run a setup checkup that diagnoses and fixes installation, settings, skills, MCP, plugin, hook, and CLAUDE.md issues. Reports findings first and asks for confirmation before changing anything. Alias: /checkup"
   - name: fewer-permission-prompts
     description: Scan your transcripts for common read-only Bash and MCP tool calls, then add a prioritized allowlist to project `.claude/settings.json` to reduce permission prompts.
   - name: loop
@@ -257,3 +257,5 @@ agents:
     description: When you run /statusline to configure your status line
   - name: claude-code-guide
     description: When you ask questions about Claude Code features
+  - name: fork
+    description: A subagent that inherits the entire conversation so far instead of starting fresh; its tool calls stay out of the main conversation and only the final result returns.
