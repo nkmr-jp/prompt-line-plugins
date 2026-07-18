@@ -75,7 +75,7 @@ commands:
   - name: focus
     description: フォーカスビューをトグルする。直前のプロンプト、ツール呼び出しのサマリー（編集diffstat付き）、最終レスポンスのみを表示。選択状態はセッション間で保持される。fullscreenレンダリング時のみ利用可能
   - name: fork
-    description: 会話全体のコンテキストを引き継いだフォーク済みサブエージェントを起動し、指示（directive）を実行させる
+    description: "会話全体を新しいバックグラウンドセッションにコピーしたフォーク済みサブエージェントを起動し、作業を続けたまま指示（directive）を実行させる。完了すると結果が返る。コンテキストを共有するセッション内サブエージェントには /subtask を、自分で会話のコピーに切り替えるには /branch を使う"
     argument-hint: "<directive>"
   - name: goal
     description: "ゴールを設定する。Claudeは条件が満たされるまで複数ターンにわたって作業を続ける。引数なしで現在のゴール、または直近に達成したゴールを表示。clear・stop・off・reset・none・cancel のいずれかを渡すと、有効なゴールを早期に解除できる。インタラクティブ・-p・Remote Controlの各モードで動作"
@@ -178,6 +178,8 @@ commands:
     description: Claude Codeステッカーを注文する
   - name: stop
     description: 現在のバックグラウンドセッションを停止する。バックグラウンドセッションにアタッチ中のみ利用可能。トランスクリプトとworktreeは保持される。停止せずにデタッチしたい場合は /exit を使う
+  - name: subtask
+    description: 会話のコンテキストを共有するセッション内サブエージェントを起動してタスクを実行させる（旧来の /fork のセッション内動作）
   - name: tasks
     description: "バックグラウンドタスクの一覧と管理。エイリアス: /bashes"
   - name: team-onboarding
