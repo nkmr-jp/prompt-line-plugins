@@ -75,7 +75,7 @@ commands:
   - name: focus
     description: Toggle the focus view that shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. The selection persists across sessions. Only available in fullscreen rendering
   - name: fork
-    description: Spawn a forked subagent that inherits the full conversation context to work on a directive
+    description: "Spawn a forked subagent that copies the full conversation into a new background session and works on the directive while you keep going; its result returns when it finishes. For an in-session subagent that shares your context, use /subtask; to switch into a copy of the conversation yourself, use /branch"
     argument-hint: "<directive>"
   - name: goal
     description: "Set a goal: Claude keeps working across turns until the condition is met. With no argument, shows the current or most recently achieved goal. Pass clear, stop, off, reset, none, or cancel to remove an active goal early. Works in interactive, -p, and Remote Control modes"
@@ -178,6 +178,8 @@ commands:
     description: Order Claude Code stickers
   - name: stop
     description: Stop the current background session. Only available while attached to a background session; the transcript and any worktree are kept. To detach without stopping, use /exit
+  - name: subtask
+    description: Launch an in-session subagent that shares your conversation context to work on a task (the former in-session behavior of /fork)
   - name: tasks
     description: "List and manage background tasks. Alias: /bashes"
   - name: team-onboarding
