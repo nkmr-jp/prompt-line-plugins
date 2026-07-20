@@ -22,6 +22,10 @@ commands:
     description: Archive the current session and exit Codex
   - name: clear
     description: Clear the terminal and start a fresh chat
+  - name: cloud
+    description: Run the chat in the cloud, when cloud execution is available
+  - name: cloud-environment
+    description: Choose the cloud environment for the chat
   - name: compact
     description: Summarize the visible conversation to free tokens
   - name: copy
@@ -49,12 +53,16 @@ commands:
   - name: ide
     description: Include open files, current selection, and other IDE context
     argument-hint: "[text]"
+  - name: ide-context
+    description: Turn automatic IDE context on or off
   - name: import
     description: Import Claude Code configuration with setup and recent chats
   - name: init
     description: Generate an AGENTS.md scaffold in the current directory
   - name: keymap
     description: Inspect and remap keyboard shortcuts
+  - name: local
+    description: Run the chat in your local workspace
   - name: logout
     description: Clear local credentials for current user
   - name: mcp
@@ -81,6 +89,8 @@ commands:
     argument-hint: "[prompt]"
   - name: plugins
     description: Inspect installed and discoverable plugins with their tools
+  - name: project
+    description: Choose a project for new chats
   - name: ps
     description: Display background terminals and recent output
   - name: quit
@@ -88,6 +98,8 @@ commands:
   - name: raw
     description: Toggle raw scrollback rendering for better terminal text selection
     argument-hint: "[on|off]"
+  - name: reasoning
+    description: Choose the reasoning effort for the current chat
   - name: rename
     description: Rename the current session
     argument-hint: "[name]"
@@ -120,3 +132,5 @@ commands:
     argument-hint: "[daily|weekly|cumulative]"
   - name: vim
     description: Toggle Vim mode for composer editing
+  - name: worktree
+    description: Run the chat in a new Git worktree
