@@ -21,6 +21,10 @@ commands:
     description: 現在のセッションをアーカイブしてCodexを終了する
   - name: clear
     description: ターミナルをクリアして新しいチャットを開始する
+  - name: cloud
+    description: クラウド実行が利用可能な場合に、チャットをクラウドで実行する
+  - name: cloud-environment
+    description: チャットで使用するクラウド環境を選択する
   - name: compact
     description: 表示中の会話を要約してトークンを解放する
   - name: copy
@@ -48,12 +52,16 @@ commands:
   - name: ide
     description: 開いているファイル・現在の選択範囲などのIDEコンテキストを取り込む
     argument-hint: "[text]"
+  - name: ide-context
+    description: 自動IDEコンテキストのオン/オフを切り替える
   - name: import
     description: Claude Codeの設定をセットアップ内容と最近のチャットとともにインポートする
   - name: init
     description: 現在のディレクトリにAGENTS.mdのひな形を生成する
   - name: keymap
     description: キーボードショートカットを確認・再マッピングする
+  - name: local
+    description: チャットをローカルワークスペースで実行する
   - name: logout
     description: 現在のユーザーのローカル認証情報をクリアする
   - name: mcp
@@ -80,6 +88,8 @@ commands:
     argument-hint: "[prompt]"
   - name: plugins
     description: インストール済みおよび発見可能なプラグインとそのツールを表示する
+  - name: project
+    description: 新しいチャット用のプロジェクトを選択する
   - name: ps
     description: バックグラウンドターミナルと最新の出力を表示する
   - name: quit
@@ -87,6 +97,8 @@ commands:
   - name: raw
     description: ターミナルでのテキスト選択を容易にするため、raw スクロールバック表示を切り替える
     argument-hint: "[on|off]"
+  - name: reasoning
+    description: 現在のチャットの推論レベルを選択する
   - name: rename
     description: 現在のセッションの名前を変更する
     argument-hint: "[name]"
@@ -119,3 +131,5 @@ commands:
     argument-hint: "[daily|weekly|cumulative]"
   - name: vim
     description: コンポーザー編集用のVimモードを切り替える
+  - name: worktree
+    description: 新しいGit worktreeでチャットを実行する

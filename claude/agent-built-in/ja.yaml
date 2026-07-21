@@ -11,7 +11,7 @@ commands:
     description: 現在のセッションにファイルアクセス用の作業ディレクトリを追加する。パスを途中まで入力すると候補が表示される。なお、追加したディレクトリ配下の .claude/ 設定はほとんど読み込まれない点に注意
     argument-hint: "<path>"
   - name: advisor
-    description: "タスク中の重要な局面で2つ目のモデルに助言を求めるadvisorツールを有効化/無効化する。opus、sonnet、fable、またはフルモデルIDを指定可能。引数なしでピッカーを開く"
+    description: "タスク中の重要な局面で2つ目のモデルに助言を求めるadvisorツールを有効化/無効化する。opus、sonnet、またはフルモデルIDを指定可能（Fable 5 は advisor として提供されない）。引数なしでピッカーを開く"
     argument-hint: "[model|off]"
   - name: agents
     description: "サブエージェントの作成・管理を Claude に依頼するか、.claude/agents/ または ~/.claude/agents/ のファイルを直接編集するよう促すリマインダーを表示する。旧バージョンでは対話的な管理インターフェースを開いていた"
@@ -25,8 +25,11 @@ commands:
     description: 現在の会話のこの時点でブランチを作成し、今の会話を失わずに別の方向を試せるようにする。作成したブランチに切り替わり、元の会話は保持されて /resume から戻れる。自分が切り替わるのではなくサブタスクをバックグラウンドのサブエージェントに任せたい場合は /fork を使う
     argument-hint: "[name]"
   - name: btw
-    description: 会話に追加せずに素早くサイドクエスチョンをする
-    argument-hint: "<question>"
+    description: 会話に追加せずに素早くサイドクエスチョンをする。質問を省略すると、このセッションで直近に尋ねたサイドクエスチョンのオーバーレイを再度開き、過去の回答をたどれる
+    argument-hint: "[question]"
+  - name: bug
+    description: "バグを報告する、または会話を共有する。送信前にセッション履歴をどこまで含めるかを選び、同意画面で確認する。ファーストパーティ接続でAnthropicにサインインしている場合はAnthropicへ送信され、サードパーティプロバイダー利用時やAnthropicの認証情報がない場合は ~/.claude/feedback-bundles/ 配下のローカルアーカイブに書き出され、自分で転送する。エイリアス: /share"
+    argument-hint: "[report]"
   - name: cd
     description: "このセッションを新しい作業ディレクトリに移動する。会話のプロンプトキャッシュは保持され、システムプロンプトを再構築する代わりに新ディレクトリのCLAUDE.mdが追加される。セッションを移動せず追加ディレクトリへのアクセスを付与するには /add-dir を使用"
     argument-hint: "<path>"
@@ -70,13 +73,13 @@ commands:
     description: Fastモードのオン/オフを切り替える
     argument-hint: "[on|off]"
   - name: feedback
-    description: "フィードバックの送信、バグ報告、会話の共有を行う。Anthropicへの送信には認証が必要。エイリアス: /bug, /share"
+    description: Claude Code に関するプロダクトフィードバックを送る。/bug と同じダイアログが開き、同意手順と送信ルールも同じ
     argument-hint: "[report]"
   - name: focus
     description: フォーカスビューをトグルする。直前のプロンプト、ツール呼び出しのサマリー（編集diffstat付き）、最終レスポンスのみを表示。選択状態はセッション間で保持される。fullscreenレンダリング時のみ利用可能
   - name: fork
-    description: "会話全体を新しいバックグラウンドセッションにコピーしたフォーク済みサブエージェントを起動し、作業を続けたまま指示（directive）を実行させる。完了すると結果が返る。コンテキストを共有するセッション内サブエージェントには /subtask を、自分で会話のコピーに切り替えるには /branch を使う"
-    argument-hint: "<directive>"
+    description: "現在の会話を新しいバックグラウンドセッションにコピーし、この場で作業を続ける。2つのセッションはその時点から独立する。プロンプトを渡すとコピー側がすぐに作業を開始し、渡さない場合は agent view で待機する。結果がこの会話に返るサブエージェントに副タスクを任せるには /subtask を、自分でコピーに切り替えるには /branch を使う"
+    argument-hint: "[prompt]"
   - name: goal
     description: "ゴールを設定する。Claudeは条件が満たされるまで複数ターンにわたって作業を続ける。引数なしで現在のゴール、または直近に達成したゴールを表示。clear・stop・off・reset・none・cancel のいずれかを渡すと、有効なゴールを早期に解除できる。インタラクティブ・-p・Remote Controlの各モードで動作"
     argument-hint: "[condition|clear]"
@@ -179,9 +182,10 @@ commands:
   - name: stop
     description: 現在のバックグラウンドセッションを停止する。バックグラウンドセッションにアタッチ中のみ利用可能。トランスクリプトとworktreeは保持される。停止せずにデタッチしたい場合は /exit を使う
   - name: subtask
-    description: 会話のコンテキストを共有するセッション内サブエージェントを起動してタスクを実行させる（旧来の /fork のセッション内動作）
+    description: "フォーク済みサブエージェントを起動する。会話全体を引き継いだバックグラウンドサブエージェントがタスクを実行し、その間も作業を続けられる。完了するとこの会話に結果が返る。会話を別のバックグラウンドセッションにコピーする場合は /fork を使う"
+    argument-hint: "<task>"
   - name: tasks
-    description: "バックグラウンドタスクの一覧と管理。エイリアス: /bashes"
+    description: "現在のセッションのバックグラウンド処理を一覧・管理する。完了済みのサブエージェントも含まれる。エイリアス: /bashes"
   - name: team-onboarding
     description: 直近30日のセッション・コマンド・MCPサーバー利用状況から、チームメイト向けのオンボーディングガイドを生成する。claude.aiのサブスクライバーはチームメイトがClaude Codeで直接開ける共有リンクも取得できる
   - name: teleport
@@ -198,8 +202,8 @@ commands:
     description: ultraplanセッションでプランを作成し、ブラウザでレビューしてから、リモートで実行するかターミナルに送り返す
     argument-hint: "<prompt>"
   - name: ultrareview
-    description: "クラウドサンドボックス上でマルチエージェント・コードレビューを深く実行する。推奨される呼び出しは /code-review ultra となり、/ultrareview はエイリアスとして残る。Pro/Maxプランでは3回まで無料、以降は usage credits が必要"
-    argument-hint: "[PR]"
+    description: "クラウドサンドボックス上でマルチエージェント・コードレビューを深く実行する。PR参照を渡すとそのプルリクエストを、ブランチ名を渡すと比較ベースを変更してレビューする。推奨される呼び出しは /code-review ultra となり、/ultrareview はエイリアスとして残る。Pro/Maxプランでは3回まで無料、以降は usage credits が必要"
+    argument-hint: "[PR|branch]"
   - name: upgrade
     description: より高いプランティアに切り替えるためのアップグレードページを開く
   - name: usage
