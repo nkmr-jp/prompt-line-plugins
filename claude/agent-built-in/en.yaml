@@ -25,8 +25,11 @@ commands:
     description: Create a branch of the current conversation at this point to try a different direction without losing the conversation as it stands. Switches you into the branch and preserves the original, which you can return to with /resume. To hand a side task to a background subagent instead, use /fork
     argument-hint: "[name]"
   - name: btw
-    description: Ask a quick side question without adding to the conversation
-    argument-hint: "<question>"
+    description: Ask a quick side question without adding to the conversation. Without a question, reopens the overlay on your most recent side question from this session so you can browse earlier answers
+    argument-hint: "[question]"
+  - name: bug
+    description: "Report a bug or share your conversation. You choose how much session history to include and confirm on a consent screen before anything is sent. When signed in to Anthropic on a first-party connection the report goes to Anthropic; on a third-party provider or without Anthropic credentials it is written to a local archive under ~/.claude/feedback-bundles/ that you forward yourself. Alias: /share"
+    argument-hint: "[report]"
   - name: cd
     description: "Move this session to a new working directory. The conversation's prompt cache is preserved and the new directory's CLAUDE.md is appended instead of rebuilding the system prompt. To grant access to an extra directory without moving the session, use /add-dir"
     argument-hint: "<path>"
@@ -70,7 +73,7 @@ commands:
     description: Toggle Fast mode on or off
     argument-hint: "[on|off]"
   - name: feedback
-    description: "Submit feedback, report a bug, or share your conversation. Sending to Anthropic requires authentication. Aliases: /bug, /share"
+    description: Send product feedback about Claude Code. Opens the same dialog as /bug, with the same consent step and sending rules
     argument-hint: "[report]"
   - name: focus
     description: Toggle the focus view that shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. The selection persists across sessions. Only available in fullscreen rendering
@@ -182,7 +185,7 @@ commands:
     description: "Spawn a forked subagent: a background subagent that inherits the full conversation and works on the task while you keep working, returning its result to this conversation when it finishes. To copy the conversation into a separate background session instead, use /fork"
     argument-hint: "<task>"
   - name: tasks
-    description: "List and manage background tasks. Alias: /bashes"
+    description: "View and manage background work in the current session, including subagents that have finished. Alias: /bashes"
   - name: team-onboarding
     description: Generate a teammate onboarding guide from the past 30 days of sessions, commands, and MCP server usage. claude.ai subscribers also get a share link teammates can open directly in Claude Code
   - name: teleport
@@ -199,8 +202,8 @@ commands:
     description: Draft a plan in an ultraplan session, review it in your browser, then execute remotely or send it back to your terminal
     argument-hint: "<prompt>"
   - name: ultrareview
-    description: "Run a deep, multi-agent code review in a cloud sandbox. The preferred invocation is now /code-review ultra; /ultrareview remains as an alias. Includes 3 free runs on Pro and Max, then requires usage credits"
-    argument-hint: "[PR]"
+    description: "Run a deep, multi-agent code review in a cloud sandbox. Pass a PR reference to review that pull request, or a branch name to change the comparison base. The preferred invocation is now /code-review ultra; /ultrareview remains as an alias. Includes 3 free runs on Pro and Max, then requires usage credits"
+    argument-hint: "[PR|branch]"
   - name: upgrade
     description: Open the upgrade page to switch to a higher plan tier
   - name: usage
