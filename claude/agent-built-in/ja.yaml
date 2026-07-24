@@ -22,7 +22,7 @@ commands:
     description: "現在のセッションをバックグラウンドエージェントとしてデタッチし、ターミナルを解放する。プロンプトを渡すとデタッチ前に追加の指示を送信できる。エイリアス: /bg"
     argument-hint: "[prompt]"
   - name: branch
-    description: 現在の会話のこの時点でブランチを作成し、今の会話を失わずに別の方向を試せるようにする。作成したブランチに切り替わり、元の会話は保持されて /resume から戻れる。自分が切り替わるのではなくサブタスクをバックグラウンドのサブエージェントに任せたい場合は /fork を使う
+    description: 現在の会話のこの時点でブランチを作成し、今の会話を失わずに別の方向を試せるようにする。作成したブランチに切り替わり、元の会話は保持されて /resume から戻れる。自分が切り替わらずにコピーを独立したバックグラウンドセッションとして動かしたい場合は /fork、結果がこの会話に戻ってくるサブエージェントに脇作業を任せたい場合は /subtask を使う
     argument-hint: "[name]"
   - name: btw
     description: 会話に追加せずに素早くサイドクエスチョンをする。質問を省略すると、このセッションで直近に尋ねたサイドクエスチョンのオーバーレイを再度開き、過去の回答をたどれる
@@ -48,7 +48,7 @@ commands:
     description: "設定インターフェースを開いてテーマ、モデル、出力スタイルなどを調整する。key=value のペア（例: /config thinking=false）を渡すと設定を直接変更でき、/config theme=dark や /config model=sonnet のような短縮キーも使える。`/config --help` で設定可能な全キーと選択肢を表示する。インタラクティブ・-p・Remote Controlの各モードで動作。エイリアス: /settings"
     argument-hint: "[key=value...]"
   - name: context
-    description: 現在のコンテキスト使用量をカラーグリッドで表示する。コンテキスト負荷の高いツール、メモリ膨張、容量警告の最適化提案も表示。`all` を渡すと項目ごとの詳細をフルスクリーンで展開
+    description: 現在のコンテキスト使用量をカラーグリッドで表示する。コンテキスト負荷の高いツール、メモリ膨張、容量警告の最適化提案も表示。会話がコンテキストウィンドウを超えた場合は、超過量と空き容量を確保するコマンドを警告として表示する。`all` を渡すと項目ごとの詳細をフルスクリーンで展開
     argument-hint: "[all]"
   - name: copy
     description: "最後のアシスタントレスポンスをクリップボードにコピーする。数値Nを渡すとN番目に新しいレスポンスをコピー（例: /copy 2）。コードブロックがある場合は個別ブロックまたは全体を選択するピッカーを表示。ピッカーで `w` を押すとクリップボードの代わりにファイルに書き込む（SSH経由で便利）"
@@ -154,7 +154,7 @@ commands:
     description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。エイリアス: /continue"
     argument-hint: "[session]"
   - name: review
-    description: GitHub Pull Request を番号で指定し、高速なシングルパスでレビューする。引数なしでオープン中の PR 一覧から選択する。より深いマルチエージェントレビューは /code-review、クラウドベースのレビューは /code-review ultra を参照
+    description: GitHub Pull Request を番号で指定し、高速なシングルパスの読み取り専用レビューを実行する。引数なしでオープン中の PR 一覧から選択でき、PR 番号の後ろに書いたテキストは追加のレビュー指示として扱われる。effort レベルを指定したマルチエージェントレビューは /code-review <level> <pr#>、クラウドベースのレビューは /code-review ultra を参照
     argument-hint: "[PR]"
   - name: rewind
     description: "会話やコードを以前のポイントに巻き戻す、または選択したメッセージから要約する。チェックポイント機能参照。エイリアス: /checkpoint, /undo"
@@ -209,7 +209,7 @@ commands:
   - name: usage
     description: "セッションコスト、プラン使用制限、アクティビティ統計を表示する。Pro・Max・Team・Enterpriseの各プランでは、スキル・サブエージェント・プラグイン・MCPサーバー別の使用量内訳も表示する。エイリアス: /cost, /stats"
   - name: usage-credits
-    description: "レート制限に達した際に作業を継続するための使用量クレジットを設定する。Pro・MaxプランではCLI内のダイアログでクレジット購入・月間上限の設定・自動リロードの設定ができ、その他のプランではブラウザで請求ページを開く。/extra-usage からリネームされた"
+    description: "レート制限に達した際に使用量クレジットを設定する、または管理者にリクエストする。ブラウザで使用量クレジットの請求設定を開くが、請求権限を持たない Team・Enterprise メンバーはダイアログで確認したうえで CLI から管理者へリクエストを送信する。SSH 経由などブラウザを開けない場合は URL を表示する。/extra-usage からリネームされた"
   - name: voice
     description: 音声入力を切り替える、または特定のモードで有効化する。Claude.aiアカウントが必要
     argument-hint: "[hold|tap|off]"

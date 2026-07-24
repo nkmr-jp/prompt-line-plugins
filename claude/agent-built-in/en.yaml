@@ -22,7 +22,7 @@ commands:
     description: "Detach the current session to run as a background agent and free this terminal. Pass a prompt to send one more instruction before detaching. Alias: /bg"
     argument-hint: "[prompt]"
   - name: branch
-    description: Create a branch of the current conversation at this point to try a different direction without losing the conversation as it stands. Switches you into the branch and preserves the original, which you can return to with /resume. To hand a side task to a background subagent instead, use /fork
+    description: Create a branch of the current conversation at this point to try a different direction without losing the conversation as it stands. Switches you into the branch and preserves the original, which you can return to with /resume. To run a copy as a separate background session instead of switching into it, use /fork; to hand a side task to a subagent that reports back into this conversation, use /subtask
     argument-hint: "[name]"
   - name: btw
     description: Ask a quick side question without adding to the conversation. Without a question, reopens the overlay on your most recent side question from this session so you can browse earlier answers
@@ -48,7 +48,7 @@ commands:
     description: "Open the Settings interface to adjust theme, model, output style, and other preferences. Pass key=value pairs (e.g. /config thinking=false) to set settings directly; named shorthand keys such as /config theme=dark or /config model=sonnet are also accepted. Run `/config --help` to list every settable key with its options. Works in interactive, -p, and Remote Control modes. Alias: /settings"
     argument-hint: "[key=value...]"
   - name: context
-    description: Visualize current context usage as a colored grid. Shows optimization suggestions for context-heavy tools, memory bloat, and capacity warnings. Pass `all` to expand the per-item breakdown in fullscreen mode
+    description: Visualize current context usage as a colored grid. Shows optimization suggestions for context-heavy tools, memory bloat, and capacity warnings. When the conversation exceeds the context window, the output warns how far over the limit you are and which command frees space. Pass `all` to expand the per-item breakdown in fullscreen mode
     argument-hint: "[all]"
   - name: copy
     description: "Copy the last assistant response to clipboard. Pass a number N to copy the Nth-latest response (e.g. /copy 2). When code blocks are present, shows an interactive picker to select individual blocks or the full response. Press `w` in the picker to write the selection to a file instead of the clipboard, which is useful over SSH"
@@ -154,7 +154,7 @@ commands:
     description: "Resume a conversation by ID or name, or open the session picker. Alias: /continue"
     argument-hint: "[session]"
   - name: review
-    description: Review a GitHub pull request by number with a fast, single-pass review. With no arguments, lists open PRs to pick from. For a deeper multi-agent review use /code-review; for a cloud-based review see /code-review ultra
+    description: Run a fast, single-pass, read-only review of a GitHub pull request by number. With no arguments, lists open PRs to pick from; text after the PR number becomes additional review instructions. For a multi-agent review at a chosen effort level use /code-review <level> <pr#>; for a cloud-based review see /code-review ultra
     argument-hint: "[PR]"
   - name: rewind
     description: "Rewind the conversation and/or code to a previous point, or summarize from a selected message. See checkpointing. Aliases: /checkpoint, /undo"
@@ -209,7 +209,7 @@ commands:
   - name: usage
     description: "Show session cost, plan usage limits, and activity stats. On Pro, Max, Team, and Enterprise plans, includes a breakdown of usage by skill, subagent, plugin, and MCP server. Aliases: /cost, /stats"
   - name: usage-credits
-    description: "Configure usage credits to keep working when you hit a limit. On Pro and Max plans, opens an in-CLI dialog to buy credits, set a monthly spend limit, and configure auto-reload; other plans open the usage-credits billing page in a browser. Renamed from /extra-usage"
+    description: "Configure usage credits, or request them from your admin, when you hit a limit. Opens your usage-credits billing settings in the browser; Team and Enterprise members without billing access instead send a usage-credits request to their admin from the CLI after confirming in a dialog. When no browser can open, for example over SSH, the URL is printed instead. Renamed from /extra-usage"
   - name: voice
     description: Toggle voice dictation, or enable it in a specific mode. Requires a Claude.ai account
     argument-hint: "[hold|tap|off]"
