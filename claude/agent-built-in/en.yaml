@@ -58,13 +58,13 @@ commands:
     description: "Copy the last assistant response to clipboard. Pass a number N to copy the Nth-latest response (e.g. /copy 2). When code blocks are present, shows an interactive picker to select individual blocks or the full response. Press `w` in the picker to write the selection to a file instead of the clipboard, which is useful over SSH"
     argument-hint: "[N]"
   - name: daemon
-    description: "Manage background services and routines"
+    description: Manage background services and routines
   - name: design-consent
-    description: "Grant Claude agent access to your Design projects"
+    description: Grant Claude agent access to your Design projects
   - name: design-login
     description: Authorize design-system access for /design-sync with your claude.ai account
   - name: design-revoke
-    description: "Revoke Claude agent access to your Design projects"
+    description: Revoke Claude agent access to your Design projects
   - name: desktop
     description: "Continue the current session in the Claude Code Desktop app. Requires macOS or Windows and a Claude subscription. Alias: /app"
   - name: diff
@@ -100,7 +100,7 @@ commands:
   - name: ide
     description: Manage IDE integrations and show status
   - name: import
-    description: "Import config from another AI coding agent"
+    description: Import config from another AI coding agent
     argument-hint: "[codex|gemini] [--dry-run]"
   - name: init
     description: "Initialize project with a CLAUDE.md guide. Set CLAUDE_CODE_NEW_INIT=1 for an interactive flow that also walks through skills, hooks, and personal memory files"
@@ -186,7 +186,7 @@ commands:
   - name: setup-vertex
     description: Configure Google Cloud's Agent Platform authentication, project, region, and model pins through an interactive wizard. Only visible when CLAUDE_CODE_USE_VERTEX=1 is set. First-time users can also reach this wizard from the login screen
   - name: skill-doctor
-    description: "Show which loaded skills are unused and costing context"
+    description: Show which loaded skills are unused and costing context
   - name: skills
     description: List available skills. Type to filter by name, press `t` to sort by token count, or press `Space` to cycle a skill's visibility to Claude and the / menu, then `Enter` to save
   - name: status
@@ -241,9 +241,9 @@ skills:
   - name: artifact-capabilities
     description: "Runtime capabilities a published Artifact page can be granted — behavior static HTML cannot provide on its own, such as the page reading live or connected data, keeping state shared across viewers, or updating and republishing itself. Serves this user's live capability roster and the typed call definitions"
   - name: artifact-design
-    description: "Design guidance and fundamentals for Artifacts"
+    description: Design guidance and fundamentals for Artifacts
   - name: artifact-pr-review
-    description: "Publish a PR review briefing Artifact from a template"
+    description: Publish a PR review briefing Artifact from a template
   - name: batch
     description: "Research and plan a large-scale change, then execute it in parallel across 5–30 isolated worktree agents that each run tests and open a PR. Requires a git repository."
     argument-hint: "<instruction>"
@@ -251,14 +251,14 @@ skills:
     description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
     argument-hint: "[migrate|managed-agents-onboard]"
   - name: claude-code-docs
-    description: "Answer questions about Claude Code features and settings"
+    description: Answer questions about Claude Code features and settings
   - name: claude-in-chrome
     description: "Automate your Chrome browser to interact with web pages: click elements, fill forms, capture screenshots, read console logs, and navigate sites. Opens pages in new tabs within your existing Chrome session, and requires site-level permissions configured in the extension"
   - name: code-review
     description: "Review the current diff for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. Pass `--fix` to apply findings to the working tree, or `--comment` to post inline PR comments."
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
   - name: code-walkthrough
-    description: "Generate an interactive walkthrough artifact for code"
+    description: Generate an interactive walkthrough artifact for code
   - name: dataviz
     description: "Design guidance for charts, graphs, and dashboards. Picks the chart form for the data, assigns color by role, validates the palette for colorblind safety and contrast with a bundled script, and applies mark, interaction, and accessibility rules."
     argument-hint: "[request]"
@@ -269,7 +269,7 @@ skills:
     description: "Fan out web searches, fetch and cross-check sources, then synthesize a cited research report."
     argument-hint: "<question>"
   - name: design
-    description: "Push your local design system to claude.ai/design, and manage agent access to your Design projects"
+    description: "Work with Claude Design (claude.ai/design): create, import, export, sync, and manage agent access"
     argument-hint: "[consent|revoke]"
   - name: design-sync
     description: "Convert your repo's React design system and upload it to Claude Design so designs use your real components. Optionally name the design system. A first sync can take a few hours on a large repo. Unavailable on Amazon Bedrock, Google Cloud Agent Platform, Microsoft Foundry, and Claude Platform on AWS."
@@ -297,9 +297,9 @@ skills:
   - name: verify
     description: "Confirm a code change does what it should by building your project's app, running it, and observing the result."
   - name: whiteboard
-    description: "Sketch on a whiteboard Artifact you can send back to Claude"
+    description: Sketch on a whiteboard Artifact you can send back to Claude
   - name: workshop
-    description: "Workshop a document through decisions presented as an Artifact"
+    description: Workshop a document through decisions presented as an Artifact
 agents:
   - name: Explore
     description: A fast, read-only agent optimized for searching and analyzing codebases.
