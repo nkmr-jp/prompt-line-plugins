@@ -15,6 +15,8 @@ commands:
     argument-hint: "[model|off]"
   - name: agents
     description: "Prints a reminder to ask Claude to create or manage subagents, or to edit the .claude/agents/ or ~/.claude/agents/ files directly. Earlier versions opened an interactive management interface"
+  - name: artifacts
+    description: "Browse your published and shared artifacts. Also reopenable with Ctrl+]"
   - name: autofix-pr
     description: Spawn a Claude Code on the web session that watches the current branch's PR and pushes fixes when CI fails or reviewers leave comments. Detects the open PR from the checked-out branch, so it requires the gh CLI and access to Claude Code on the web
     argument-hint: "[prompt]"
@@ -24,6 +26,8 @@ commands:
   - name: branch
     description: Create a branch of the current conversation at this point to try a different direction without losing the conversation as it stands. Switches you into the branch and preserves the original, which you can return to with /resume. To run a copy as a separate background session instead of switching into it, use /fork; to hand a side task to a subagent that reports back into this conversation, use /subtask
     argument-hint: "[name]"
+  - name: brief
+    description: "Toggle brief-only mode, where Claude replies through a dedicated message tool instead of normal assistant text"
   - name: btw
     description: Ask a quick side question without adding to the conversation. Without a question, reopens the overlay on your most recent side question from this session so you can browse earlier answers
     argument-hint: "[question]"
@@ -53,8 +57,14 @@ commands:
   - name: copy
     description: "Copy the last assistant response to clipboard. Pass a number N to copy the Nth-latest response (e.g. /copy 2). When code blocks are present, shows an interactive picker to select individual blocks or the full response. Press `w` in the picker to write the selection to a file instead of the clipboard, which is useful over SSH"
     argument-hint: "[N]"
+  - name: daemon
+    description: "Manage background services and routines"
+  - name: design-consent
+    description: "Grant Claude agent access to your Design projects"
   - name: design-login
     description: Authorize design-system access for /design-sync with your claude.ai account
+  - name: design-revoke
+    description: "Revoke Claude agent access to your Design projects"
   - name: desktop
     description: "Continue the current session in the Claude Code Desktop app. Requires macOS or Windows and a Claude subscription. Alias: /app"
   - name: diff
@@ -89,6 +99,9 @@ commands:
     description: View hook configurations for tool events
   - name: ide
     description: Manage IDE integrations and show status
+  - name: import
+    description: "Import config from another AI coding agent"
+    argument-hint: "[codex|gemini] [--dry-run]"
   - name: init
     description: "Initialize project with a CLAUDE.md guide. Set CLAUDE_CODE_NEW_INIT=1 for an interactive flow that also walks through skills, hooks, and personal memory files"
   - name: insights
@@ -103,6 +116,8 @@ commands:
     description: Sign in to your Anthropic account
   - name: logout
     description: Sign out from your Anthropic account
+  - name: loops
+    description: "List, create, and delete loops"
   - name: mcp
     description: "Manage MCP server connections and OAuth authentication. Run with no argument for the interactive list, `reconnect <server>` to reconnect one disconnected server, or `enable`/`disable` with a server name or `all`"
     argument-hint: "[reconnect <server>|enable|disable [<server>|all]]"
@@ -115,6 +130,8 @@ commands:
     argument-hint: "[model]"
   - name: passes
     description: Share a free week of Claude Code with friends. Only visible if your account is eligible
+  - name: pause-memory
+    description: "Pause automemory for this session. Aliases: /memory-pause, /toggle-memory"
   - name: permissions
     description: "Manage allow, ask, and deny rules for tool permissions. Opens an interactive dialog to view rules by scope, add or remove rules, manage working directories, and review recent auto mode denials. Alias: /allowed-tools"
   - name: plan
@@ -162,10 +179,14 @@ commands:
     description: Adjust mouse wheel scroll speed interactively, with a ruler you can scroll while the dialog is open to preview the change
   - name: security-review
     description: Analyze pending changes on the current branch for security vulnerabilities. Reviews the git diff and identifies risks like injection, auth issues, and data exposure
+  - name: session
+    description: "Show cloud session URL and QR code. Alias: /remote"
   - name: setup-bedrock
     description: Configure Amazon Bedrock authentication, region, and model pins through an interactive wizard. Only visible when CLAUDE_CODE_USE_BEDROCK=1 is set. First-time users can also reach this wizard from the login screen
   - name: setup-vertex
     description: Configure Google Cloud's Agent Platform authentication, project, region, and model pins through an interactive wizard. Only visible when CLAUDE_CODE_USE_VERTEX=1 is set. First-time users can also reach this wizard from the login screen
+  - name: skill-doctor
+    description: "Show which loaded skills are unused and costing context"
   - name: skills
     description: List available skills. Type to filter by name, press `t` to sort by token count, or press `Space` to cycle a skill's visibility to Claude and the / menu, then `Enter` to save
   - name: status
@@ -199,12 +220,16 @@ commands:
   - name: ultrareview
     description: "Run a deep, multi-agent code review in a cloud sandbox. Pass a PR reference to review that pull request, or a branch name to change the comparison base. The preferred invocation is now /code-review ultra; /ultrareview remains as an alias. Includes 3 free runs on Pro and Max, then requires usage credits"
     argument-hint: "[PR|branch]"
+  - name: update
+    description: "Switch to the latest version without losing the conversation. Alias: /restart"
   - name: upgrade
     description: Open the upgrade page to switch to a higher plan tier
   - name: usage
     description: "Show session cost, plan usage limits, and activity stats. On Pro, Max, Team, and Enterprise plans, includes a breakdown of usage by skill, subagent, plugin, and MCP server. Aliases: /cost, /stats"
   - name: usage-credits
     description: "Configure usage credits, or request them from your admin, when you hit a limit. Opens your usage-credits billing settings in the browser; Team and Enterprise members without billing access instead send a usage-credits request to their admin from the CLI after confirming in a dialog. When no browser can open, for example over SSH, the URL is printed instead. Renamed from /extra-usage"
+  - name: version
+    description: "Print the version this session is running, which can differ from what autoupdate has already downloaded"
   - name: voice
     description: Toggle voice dictation, or enable it in a specific mode. Requires a Claude.ai account
     argument-hint: "[hold|tap|off]"
@@ -213,15 +238,27 @@ commands:
   - name: workflows
     description: Open the workflow progress view to watch, pause, resume, or save running and completed workflows
 skills:
+  - name: artifact-capabilities
+    description: "Runtime capabilities a published Artifact page can be granted — behavior static HTML cannot provide on its own, such as the page reading live or connected data, keeping state shared across viewers, or updating and republishing itself. Serves this user's live capability roster and the typed call definitions"
+  - name: artifact-design
+    description: "Design guidance and fundamentals for Artifacts"
+  - name: artifact-pr-review
+    description: "Publish a PR review briefing Artifact from a template"
   - name: batch
     description: "Research and plan a large-scale change, then execute it in parallel across 5–30 isolated worktree agents that each run tests and open a PR. Requires a git repository."
     argument-hint: "<instruction>"
   - name: claude-api
     description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
     argument-hint: "[migrate|managed-agents-onboard]"
+  - name: claude-code-docs
+    description: "Answer questions about Claude Code features and settings"
+  - name: claude-in-chrome
+    description: "Automate your Chrome browser to interact with web pages: click elements, fill forms, capture screenshots, read console logs, and navigate sites. Opens pages in new tabs within your existing Chrome session, and requires site-level permissions configured in the extension"
   - name: code-review
     description: "Review the current diff for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. Pass `--fix` to apply findings to the working tree, or `--comment` to post inline PR comments."
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
+  - name: code-walkthrough
+    description: "Generate an interactive walkthrough artifact for code"
   - name: dataviz
     description: "Design guidance for charts, graphs, and dashboards. Picks the chart form for the data, assigns color by role, validates the palette for colorblind safety and contrast with a bundled script, and applies mark, interaction, and accessibility rules."
     argument-hint: "[request]"
@@ -231,6 +268,9 @@ skills:
   - name: deep-research
     description: "Fan out web searches, fetch and cross-check sources, then synthesize a cited research report."
     argument-hint: "<question>"
+  - name: design
+    description: "Push your local design system to claude.ai/design, and manage agent access to your Design projects"
+    argument-hint: "[consent|revoke]"
   - name: design-sync
     description: "Convert your repo's React design system and upload it to Claude Design so designs use your real components. Optionally name the design system. A first sync can take a few hours on a large repo. Unavailable on Amazon Bedrock, Google Cloud Agent Platform, Microsoft Foundry, and Claude Platform on AWS."
     argument-hint: "[hint]"
@@ -241,6 +281,10 @@ skills:
   - name: loop
     description: "Run a prompt or slash command repeatedly while the session stays open. Omit the interval and Claude self-paces between iterations. Omit the prompt to run an autonomous maintenance check (or the prompt in .claude/loop.md). Alias: /proactive"
     argument-hint: "[interval] [prompt]"
+  - name: plan-artifact
+    description: "Publish an implementation plan, design doc, or RFC as a shareable Artifact"
+  - name: pr-explainer
+    description: "Generate a shareable walkthrough artifact for a pull request: what changed, why, and a reviewer-oriented before/after narrative"
   - name: run
     description: "Launch and drive your project's app to see a change working in the running app. Looks for a project skill that already covers launching the app; otherwise falls back to built-in patterns per project type."
   - name: run-skill-generator
@@ -248,8 +292,14 @@ skills:
   - name: simplify
     description: "Review the changed code for cleanup opportunities and apply the fixes. Four review agents run in parallel, covering reuse of existing helpers, simplification, efficiency, and whether the change is at the right level of abstraction. It does not hunt for correctness bugs — use /code-review for that."
     argument-hint: "[target]"
+  - name: update-config
+    description: "Change settings in settings.json: hooks, permissions, and environment variables"
   - name: verify
     description: "Confirm a code change does what it should by building your project's app, running it, and observing the result."
+  - name: whiteboard
+    description: "Sketch on a whiteboard Artifact you can send back to Claude"
+  - name: workshop
+    description: "Workshop a document through decisions presented as an Artifact"
 agents:
   - name: Explore
     description: A fast, read-only agent optimized for searching and analyzing codebases.

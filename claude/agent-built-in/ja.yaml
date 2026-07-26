@@ -15,6 +15,8 @@ commands:
     argument-hint: "[model|off]"
   - name: agents
     description: "サブエージェントの作成・管理を Claude に依頼するか、.claude/agents/ または ~/.claude/agents/ のファイルを直接編集するよう促すリマインダーを表示する。旧バージョンでは対話的な管理インターフェースを開いていた"
+  - name: artifacts
+    description: "公開済み・共有されている Artifacts を一覧表示する。Ctrl+] でも直近の Artifact を開ける"
   - name: autofix-pr
     description: 現在のブランチのPRを監視し、CIが失敗したりレビューコメントが付いたら自動で修正をプッシュするClaude Code Webセッションを起動する。チェックアウト中のブランチからオープンなPRを検出するため、gh CLI と Claude Code Web へのアクセスが必要
     argument-hint: "[prompt]"
@@ -24,6 +26,8 @@ commands:
   - name: branch
     description: 現在の会話のこの時点でブランチを作成し、今の会話を失わずに別の方向を試せるようにする。作成したブランチに切り替わり、元の会話は保持されて /resume から戻れる。自分が切り替わらずにコピーを独立したバックグラウンドセッションとして動かしたい場合は /fork、結果がこの会話に戻ってくるサブエージェントに脇作業を任せたい場合は /subtask を使う
     argument-hint: "[name]"
+  - name: brief
+    description: "brief モードを切り替える。通常のアシスタント応答ではなく専用のメッセージツール経由で返答するようになる"
   - name: btw
     description: 会話に追加せずに素早くサイドクエスチョンをする。質問を省略すると、このセッションで直近に尋ねたサイドクエスチョンのオーバーレイを再度開き、過去の回答をたどれる
     argument-hint: "[question]"
@@ -53,8 +57,14 @@ commands:
   - name: copy
     description: "最後のアシスタントレスポンスをクリップボードにコピーする。数値Nを渡すとN番目に新しいレスポンスをコピー（例: /copy 2）。コードブロックがある場合は個別ブロックまたは全体を選択するピッカーを表示。ピッカーで `w` を押すとクリップボードの代わりにファイルに書き込む（SSH経由で便利）"
     argument-hint: "[N]"
+  - name: daemon
+    description: "バックグラウンドサービスと routines を管理する"
+  - name: design-consent
+    description: "Claude エージェントに Design プロジェクトへのアクセスを許可する"
   - name: design-login
     description: /design-sync 用のデザインシステムアクセスを claude.ai アカウントで認可する
+  - name: design-revoke
+    description: "Claude エージェントの Design プロジェクトへのアクセスを取り消す"
   - name: desktop
     description: "現在のCLIセッションをClaude Code Desktopアプリに引き継ぐ。macOSまたはWindowsとClaudeのサブスクリプションが必要。エイリアス: /app"
   - name: diff
@@ -89,6 +99,9 @@ commands:
     description: ツールイベント用のフック設定を表示する
   - name: ide
     description: IDE連携の管理とステータス表示
+  - name: import
+    description: "他の AI コーディングエージェントから設定をインポートする"
+    argument-hint: "[codex|gemini] [--dry-run]"
   - name: init
     description: "CLAUDE.mdガイドでプロジェクトを初期化する。CLAUDE_CODE_NEW_INIT=1で、スキル・フック・個人メモリファイルの設定も含むインタラクティブフローを使用可能"
   - name: insights
@@ -103,6 +116,8 @@ commands:
     description: Anthropicアカウントにサインインする
   - name: logout
     description: Anthropicアカウントからサインアウトする
+  - name: loops
+    description: "loop の一覧表示・作成・削除を行う"
   - name: mcp
     description: "MCPサーバー接続とOAuth認証を管理する。引数なしで対話的な一覧を開き、`reconnect <server>` で切断された1つのサーバーを再接続、`enable`/`disable` にサーバー名または `all` を渡して有効化/無効化する"
     argument-hint: "[reconnect <server>|enable|disable [<server>|all]]"
@@ -115,6 +130,8 @@ commands:
     argument-hint: "[model]"
   - name: passes
     description: 友人にClaude Codeの無料1週間パスを共有する。対象アカウントのみ表示
+  - name: pause-memory
+    description: "このセッションの自動メモリ保存を一時停止する。エイリアス: /memory-pause, /toggle-memory"
   - name: permissions
     description: "ツールパーミッションのallow・ask・denyルールを管理する。対話ダイアログを開き、スコープ別のルール確認、ルールの追加・削除、作業ディレクトリの管理、autoモードでの直近の拒否内容の確認ができる。エイリアス: /allowed-tools"
   - name: plan
@@ -162,10 +179,14 @@ commands:
     description: マウスホイールのスクロール速度を対話的に調整する。ダイアログ表示中にスクロール可能なルーラーで変更をプレビューできる
   - name: security-review
     description: 現在のブランチの保留中の変更をセキュリティ脆弱性の観点から分析する。git diffをレビューしインジェクション、認証の問題、データ漏洩などのリスクを特定
+  - name: session
+    description: "クラウドセッションの URL と QR コードを表示する。エイリアス: /remote"
   - name: setup-bedrock
     description: Amazon Bedrock認証・リージョン・モデルピンをインタラクティブウィザードで設定する。CLAUDE_CODE_USE_BEDROCK=1の場合のみ表示。初回利用時はログイン画面からもこのウィザードを開ける
   - name: setup-vertex
     description: Google Cloud's Agent Platform認証・プロジェクト・リージョン・モデルピンをインタラクティブウィザードで設定する。CLAUDE_CODE_USE_VERTEX=1の場合のみ表示。初回利用時はログイン画面からもこのウィザードを開ける
+  - name: skill-doctor
+    description: "読み込まれているスキルのうち、使われずにコンテキストを消費しているものを表示する"
   - name: skills
     description: 利用可能なスキルを一覧表示する。入力して名前で絞り込み、`t`キーでトークン数でソート、`Space`キーでClaudeと / メニューへの表示/非表示を切り替え、`Enter`で保存
   - name: status
@@ -199,12 +220,16 @@ commands:
   - name: ultrareview
     description: "クラウドサンドボックス上でマルチエージェント・コードレビューを深く実行する。PR参照を渡すとそのプルリクエストを、ブランチ名を渡すと比較ベースを変更してレビューする。推奨される呼び出しは /code-review ultra となり、/ultrareview はエイリアスとして残る。Pro/Maxプランでは3回まで無料、以降は usage credits が必要"
     argument-hint: "[PR|branch]"
+  - name: update
+    description: "会話を維持したまま最新バージョンに切り替える。エイリアス: /restart"
   - name: upgrade
     description: より高いプランティアに切り替えるためのアップグレードページを開く
   - name: usage
     description: "セッションコスト、プラン使用制限、アクティビティ統計を表示する。Pro・Max・Team・Enterpriseの各プランでは、スキル・サブエージェント・プラグイン・MCPサーバー別の使用量内訳も表示する。エイリアス: /cost, /stats"
   - name: usage-credits
     description: "レート制限に達した際に使用量クレジットを設定する、または管理者にリクエストする。ブラウザで使用量クレジットの請求設定を開くが、請求権限を持たない Team・Enterprise メンバーはダイアログで確認したうえで CLI から管理者へリクエストを送信する。SSH 経由などブラウザを開けない場合は URL を表示する。/extra-usage からリネームされた"
+  - name: version
+    description: "このセッションが実行中のバージョンを表示する。autoupdate がダウンロード済みのバージョンとは異なる場合がある"
   - name: voice
     description: 音声入力を切り替える、または特定のモードで有効化する。Claude.aiアカウントが必要
     argument-hint: "[hold|tap|off]"
@@ -213,15 +238,27 @@ commands:
   - name: workflows
     description: ワークフロー進捗ビューを開き、実行中および完了したワークフローの監視・一時停止・再開・保存を行う
 skills:
+  - name: artifact-capabilities
+    description: "公開した Artifact ページに付与できるランタイム機能 — ライブデータや接続済みデータの読み取り、閲覧者間での状態共有、ページ自身の更新と再公開など、静的 HTML だけでは実現できない挙動。利用可能な機能一覧と型付きの呼び出し定義を提供する"
+  - name: artifact-design
+    description: "Artifacts のデザインガイダンスと基礎知識"
+  - name: artifact-pr-review
+    description: "テンプレートから PR レビュー用のブリーフィング Artifact を公開する"
   - name: batch
     description: "大規模な変更を調査・計画し、5〜30の独立したワークツリーエージェントで並列実行して、それぞれがテストを実行しPRを作成する。gitリポジトリが必要"
     argument-hint: "<instruction>"
   - name: claude-api
     description: "Claude APIとManaged Agentsのリファレンス資料をプロジェクトの言語（Python, TypeScript, Java, Go, Ruby, C#, PHP, cURL）に応じて読み込む。tool use、streaming、batches、structured outputs、よくある落とし穴をカバー。`anthropic` または `@anthropic-ai/sdk` をインポートすると自動的に有効化"
     argument-hint: "[migrate|managed-agents-onboard]"
+  - name: claude-code-docs
+    description: "Claude Code の機能や設定に関する質問に回答する"
+  - name: claude-in-chrome
+    description: "Chrome ブラウザを自動操作して Web ページを操作する。要素のクリック、フォーム入力、スクリーンショット取得、コンソールログの読み取り、ページ遷移に対応。既存の Chrome セッション内の新しいタブでページを開くため、拡張機能側でサイトごとの権限設定が必要"
   - name: code-review
     description: "現在の diff を指定した effort レベルで、正しさのバグと再利用・簡素化・効率化のクリーンアップの観点からレビューする。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。`--fix` で修正を working tree に適用、`--comment` で GitHub PR にインラインコメントとして投稿する"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
+  - name: code-walkthrough
+    description: "コードのインタラクティブなウォークスルー Artifact を生成する"
   - name: dataviz
     description: "チャート・グラフ・ダッシュボードの設計を支援する。データに合ったチャート形式を選び、役割に応じて色を割り当て、付属スクリプトで色覚多様性への安全性とコントラストを検証し、マーク・インタラクション・アクセシビリティのルールを適用する"
     argument-hint: "[request]"
@@ -231,6 +268,9 @@ skills:
   - name: deep-research
     description: "Web 検索をファンアウトし、ソースを取得・相互検証してから、引用付きのリサーチレポートを統合する"
     argument-hint: "<question>"
+  - name: design
+    description: "ローカルのデザインシステムを claude.ai/design にプッシュし、Design プロジェクトへのエージェントのアクセスを管理する"
+    argument-hint: "[consent|revoke]"
   - name: design-sync
     description: "リポジトリのReactデザインシステムを変換してClaude Designにアップロードし、デザインで実際のコンポーネントを使えるようにする。デザインシステム名を任意で指定可能。大規模リポジトリでは初回同期に数時間かかることがある。Amazon Bedrock・Google Cloud Agent Platform・Microsoft Foundry・Claude Platform on AWSでは利用不可"
     argument-hint: "[hint]"
@@ -241,6 +281,10 @@ skills:
   - name: loop
     description: "セッションが開いている間、プロンプトやスラッシュコマンドを繰り返し実行する。間隔を省略すると Claude がイテレーション間隔をセルフペーシングする。プロンプトを省略すると自律メンテナンスチェック（または .claude/loop.md のプロンプト）を実行する。エイリアス: /proactive"
     argument-hint: "[interval] [prompt]"
+  - name: plan-artifact
+    description: "実装計画・設計ドキュメント・RFC を共有可能な Artifact として公開する"
+  - name: pr-explainer
+    description: "PR の共有可能なウォークスルー Artifact を生成する。何がどう変わり、なぜそうしたかを、レビュアー向けのビフォー/アフター形式でまとめる"
   - name: run
     description: "プロジェクトのアプリを起動・操作して、変更が動作している様子を実際に確認する。既存のプロジェクト用スキルがあればそれを優先し、なければプロジェクトタイプごとの組み込みパターンにフォールバックする"
   - name: run-skill-generator
@@ -248,8 +292,14 @@ skills:
   - name: simplify
     description: "変更されたコードのクリーンアップ箇所をレビューし、修正を適用する。4つのレビューエージェントが並列で動き、既存ヘルパーの再利用・簡素化・効率化・抽象度の妥当性をカバーする。正しさのバグは探さない（バグ検出は /code-review を使用）"
     argument-hint: "[target]"
+  - name: update-config
+    description: "settings.json の設定を変更する。hooks、permissions、環境変数に対応"
   - name: verify
     description: "プロジェクトのアプリをビルドして実行し、実際の挙動を観察することで、コード変更が意図通り動作するかを確認する"
+  - name: whiteboard
+    description: "Claude に送り返せるホワイトボード Artifact 上でスケッチする"
+  - name: workshop
+    description: "Artifact 上で提示される選択を通じてドキュメントを検討・作り込む"
 agents:
   - name: Explore
     description: コードベースの検索と分析に最適化された高速な読み取り専用エージェント
