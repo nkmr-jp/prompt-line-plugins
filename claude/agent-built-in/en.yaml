@@ -59,8 +59,6 @@ commands:
     description: "Continue the current session in the Claude Code Desktop app. Requires macOS or Windows and a Claude subscription. Alias: /app"
   - name: diff
     description: Open an interactive diff viewer showing uncommitted changes and per-turn diffs. Use left/right arrows to switch between the current git diff and individual Claude turns, and up/down to browse files
-  - name: doctor
-    description: "Run a setup checkup that diagnoses issues and can fix them. Checks installation health, PATH problems, and unparseable settings, finds unused skills, MCP servers, and plugins versus their context cost, deduplicates CLAUDE.md files, flags slow hooks, and checks for a newer version. Also offers to make auto mode your default and to pre-approve frequently denied read-only commands. Reports findings first and asks for confirmation before changing anything. Alias: /checkup"
   - name: effort
     description: "Set the model effort level. Accepts low/medium/high/xhigh/max/ultracode. Available levels depend on the model; max and ultracode are session-only. ultracode combines xhigh reasoning with automatic workflow orchestration. auto resets to the model default. Without an argument, opens an interactive slider"
     argument-hint: "[level|auto]"
@@ -105,9 +103,6 @@ commands:
     description: Sign in to your Anthropic account
   - name: logout
     description: Sign out from your Anthropic account
-  - name: loop
-    description: "Run a prompt or slash command repeatedly while the session stays open. Omit the interval and Claude self-paces. Omit the prompt to run an autonomous maintenance check (or the prompt in .claude/loop.md). Alias: /proactive"
-    argument-hint: "[interval] [prompt]"
   - name: mcp
     description: "Manage MCP server connections and OAuth authentication. Run with no argument for the interactive list, `reconnect <server>` to reconnect one disconnected server, or `enable`/`disable` with a server name or `all`"
     argument-hint: "[reconnect <server>|enable|disable [<server>|all]]"
@@ -133,7 +128,7 @@ commands:
   - name: privacy-settings
     description: View and update your privacy settings. Only available for Pro and Max plan subscribers
   - name: radio
-    description: Open Claude FM lo-fi radio in your browser. Prints the stream URL when no browser is available. Not available on Amazon Bedrock, Google Cloud's Agent Platform, or Microsoft Foundry
+    description: Open Claude FM lo-fi radio in your browser. Prints the stream URL when no browser is available. Not available on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, or Claude Platform on AWS
   - name: recap
     description: Generate a one-line summary of the current session on demand
   - name: release-notes
@@ -237,13 +232,15 @@ skills:
     description: "Fan out web searches, fetch and cross-check sources, then synthesize a cited research report."
     argument-hint: "<question>"
   - name: design-sync
-    description: "Convert your repo's React design system and upload it to Claude Design so designs use your real components. Optionally name the design system. A first sync can take a few hours on a large repo. Unavailable on Amazon Bedrock, Google Cloud Agent Platform, and Microsoft Foundry."
+    description: "Convert your repo's React design system and upload it to Claude Design so designs use your real components. Optionally name the design system. A first sync can take a few hours on a large repo. Unavailable on Amazon Bedrock, Google Cloud Agent Platform, Microsoft Foundry, and Claude Platform on AWS."
     argument-hint: "[hint]"
+  - name: doctor
+    description: "Run a setup checkup that diagnoses issues and can fix them. Checks installation health, PATH problems, and unparseable settings, finds unused skills, MCP servers, and plugins versus their context cost, deduplicates CLAUDE.md files, flags slow hooks, and checks for a newer version. Also offers to make auto mode your default and to pre-approve frequently denied read-only commands. Reports findings first and asks for confirmation before changing anything. Alias: /checkup"
   - name: fewer-permission-prompts
     description: Scan your transcripts for common read-only Bash and MCP tool calls, then add a prioritized allowlist to project `.claude/settings.json` to reduce permission prompts.
   - name: loop
-    description: "Run a prompt repeatedly while the session stays open. Omit interval for self-pacing. Omit prompt to run autonomous maintenance check (or prompt from `.claude/loop.md`)."
-    argument-hint: "[interval] <prompt>"
+    description: "Run a prompt or slash command repeatedly while the session stays open. Omit the interval and Claude self-paces between iterations. Omit the prompt to run an autonomous maintenance check (or the prompt in .claude/loop.md). Alias: /proactive"
+    argument-hint: "[interval] [prompt]"
   - name: run
     description: "Launch and drive your project's app to see a change working in the running app. Looks for a project skill that already covers launching the app; otherwise falls back to built-in patterns per project type."
   - name: run-skill-generator

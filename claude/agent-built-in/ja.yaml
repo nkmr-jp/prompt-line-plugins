@@ -59,8 +59,6 @@ commands:
     description: "現在のCLIセッションをClaude Code Desktopアプリに引き継ぐ。macOSまたはWindowsとClaudeのサブスクリプションが必要。エイリアス: /app"
   - name: diff
     description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧
-  - name: doctor
-    description: "セットアップ全体を点検し、見つかった問題を診断して修正まで行う。インストール状態・PATHの問題・解析できない設定ファイルを確認し、コンテキストコストに見合わない未使用のスキル・MCPサーバー・プラグインを洗い出し、CLAUDE.mdの重複を整理し、遅いフックを検出し、新バージョンの有無も確認する。さらに auto モードをデフォルトにすることや、頻繁に拒否している読み取り専用コマンドの事前承認も提案する。変更前に必ず結果を提示して確認を求める。エイリアス: /checkup"
   - name: effort
     description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く"
     argument-hint: "[level|auto]"
@@ -105,9 +103,6 @@ commands:
     description: Anthropicアカウントにサインインする
   - name: logout
     description: Anthropicアカウントからサインアウトする
-  - name: loop
-    description: "セッションが開いている間、プロンプトやスラッシュコマンドを繰り返し実行する。間隔を省略するとClaudeがセルフペーシングする。プロンプトを省略すると自律メンテナンスチェック（または .claude/loop.md のプロンプト）を実行する。エイリアス: /proactive"
-    argument-hint: "[interval] [prompt]"
   - name: mcp
     description: "MCPサーバー接続とOAuth認証を管理する。引数なしで対話的な一覧を開き、`reconnect <server>` で切断された1つのサーバーを再接続、`enable`/`disable` にサーバー名または `all` を渡して有効化/無効化する"
     argument-hint: "[reconnect <server>|enable|disable [<server>|all]]"
@@ -133,7 +128,7 @@ commands:
   - name: privacy-settings
     description: プライバシー設定を表示・更新する。ProおよびMaxプランのサブスクライバーのみ利用可能
   - name: radio
-    description: Claude FMのlo-fiラジオをブラウザで開く。ブラウザが使えない場合はストリームURLを表示する。Amazon Bedrock・Google Cloud's Agent Platform・Microsoft Foundryでは利用不可
+    description: Claude FMのlo-fiラジオをブラウザで開く。ブラウザが使えない場合はストリームURLを表示する。Amazon Bedrock・Google Cloud's Agent Platform・Microsoft Foundry・Claude Platform on AWSでは利用不可
   - name: recap
     description: 現在のセッションの1行サマリーをオンデマンドで生成する
   - name: release-notes
@@ -237,13 +232,15 @@ skills:
     description: "Web 検索をファンアウトし、ソースを取得・相互検証してから、引用付きのリサーチレポートを統合する"
     argument-hint: "<question>"
   - name: design-sync
-    description: "リポジトリのReactデザインシステムを変換してClaude Designにアップロードし、デザインで実際のコンポーネントを使えるようにする。デザインシステム名を任意で指定可能。大規模リポジトリでは初回同期に数時間かかることがある。Amazon Bedrock・Google Cloud Agent Platform・Microsoft Foundryでは利用不可"
+    description: "リポジトリのReactデザインシステムを変換してClaude Designにアップロードし、デザインで実際のコンポーネントを使えるようにする。デザインシステム名を任意で指定可能。大規模リポジトリでは初回同期に数時間かかることがある。Amazon Bedrock・Google Cloud Agent Platform・Microsoft Foundry・Claude Platform on AWSでは利用不可"
     argument-hint: "[hint]"
+  - name: doctor
+    description: "セットアップ全体を点検し、見つかった問題を診断して修正まで行う。インストール状態・PATHの問題・解析できない設定ファイルを確認し、コンテキストコストに見合わない未使用のスキル・MCPサーバー・プラグインを洗い出し、CLAUDE.mdの重複を整理し、遅いフックを検出し、新バージョンの有無も確認する。さらに auto モードをデフォルトにすることや、頻繁に拒否している読み取り専用コマンドの事前承認も提案する。変更前に必ず結果を提示して確認を求める。エイリアス: /checkup"
   - name: fewer-permission-prompts
     description: トランスクリプトから頻出するread-onlyのBashとMCPツール呼び出しをスキャンし、プロジェクトの `.claude/settings.json` に優先度付きのallowlistを追加してパーミッションプロンプトを削減する
   - name: loop
-    description: "セッションが開いている間、プロンプトを繰り返し実行する。間隔を省略するとセルフペーシング。プロンプトを省略すると自律メンテナンスチェック（または `.claude/loop.md` のプロンプト）を実行"
-    argument-hint: "[interval] <prompt>"
+    description: "セッションが開いている間、プロンプトやスラッシュコマンドを繰り返し実行する。間隔を省略すると Claude がイテレーション間隔をセルフペーシングする。プロンプトを省略すると自律メンテナンスチェック（または .claude/loop.md のプロンプト）を実行する。エイリアス: /proactive"
+    argument-hint: "[interval] [prompt]"
   - name: run
     description: "プロジェクトのアプリを起動・操作して、変更が動作している様子を実際に確認する。既存のプロジェクト用スキルがあればそれを優先し、なければプロジェクトタイプごとの組み込みパターンにフォールバックする"
   - name: run-skill-generator
