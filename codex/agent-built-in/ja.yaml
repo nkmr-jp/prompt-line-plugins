@@ -127,7 +127,7 @@ commands:
   - name: title
     description: ターミナルウィンドウ／タブのタイトル項目を対話的に設定する。project・status・thread・branch・model・タスク進捗などの項目を選択・並べ替えできる
   - name: usage
-    description: アカウントのトークン使用量を表示する
+    description: アカウントのトークン使用量を表示する、またはレート制限のリセットを使う
     argument-hint: "[daily|weekly|cumulative]"
   - name: vim
     description: コンポーザー編集用のVimモードを切り替える
