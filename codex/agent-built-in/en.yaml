@@ -128,7 +128,7 @@ commands:
   - name: title
     description: Configure terminal window or tab title fields interactively, picking and reordering items such as project, status, thread, branch, model, and task progress
   - name: usage
-    description: View account token usage
+    description: View account token usage, or use a rate-limit reset
     argument-hint: "[daily|weekly|cumulative]"
   - name: vim
     description: Toggle Vim mode for composer editing
