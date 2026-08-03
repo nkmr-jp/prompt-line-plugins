@@ -310,3 +310,5 @@ agents:
     description: When you run /statusline to configure your status line
   - name: claude-code-guide
     description: When you ask questions about Claude Code features
+  - name: claude
+    description: When you dispatch a background session from `claude agents` or `claude --bg` without naming an agent. Claude can also delegate to it like any other subagent

@@ -310,3 +310,5 @@ agents:
     description: /statuslineでステータスラインを設定する際に使用
   - name: claude-code-guide
     description: Claude Codeの機能について質問する際に使用
+  - name: claude
+    description: "エージェントを指定せずに`claude agents`や`claude --bg`からバックグラウンドセッションを起動した際に使用。他のサブエージェントと同様に、Claudeが自ら委譲することもある"
