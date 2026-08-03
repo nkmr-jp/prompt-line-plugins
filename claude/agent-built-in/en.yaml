@@ -8,7 +8,7 @@ references:
 
 commands:
   - name: add-dir
-    description: Add a working directory for file access during the current session. Typing a partial path shows matching directory suggestions. Note that most .claude/ configuration is not discovered from the added directory
+    description: Add a working directory for file access during the current session. Typing a partial path shows matching directory suggestions; press Tab to accept one. Most .claude/ configuration is not discovered from the added directory, but you can later resume the session from it with --continue or --resume
     argument-hint: "<path>"
   - name: advisor
     description: "Enable or disable the advisor tool, which consults a second model for guidance at key moments during a task. Accepts opus, sonnet, or a full model ID (Fable 5 is not offered as the advisor). Without an argument, opens a picker"
@@ -35,7 +35,7 @@ commands:
     description: "Report a bug or share your conversation. You choose how much session history to include and confirm on a consent screen before anything is sent. When signed in to Anthropic on a first-party connection the report goes to Anthropic; on a third-party provider or without Anthropic credentials it is written to a local archive under ~/.claude/feedback-bundles/ that you forward yourself. Alias: /share"
     argument-hint: "[report]"
   - name: cd
-    description: "Move this session to a new working directory. The conversation's prompt cache is preserved and the new directory's CLAUDE.md is appended instead of rebuilding the system prompt. To grant access to an extra directory without moving the session, use /add-dir"
+    description: "Move this session to a new working directory. The conversation's prompt cache is preserved and the new directory's CLAUDE.md is appended instead of rebuilding the system prompt. Prompts you to trust the directory if you have not worked in it before, and Cd permission rules can restrict or disable targets. To grant access to an extra directory without moving the session, use /add-dir"
     argument-hint: "<path>"
   - name: chrome
     description: Configure Claude in Chrome settings
@@ -66,7 +66,7 @@ commands:
   - name: design-revoke
     description: Revoke Claude agent access to your Design projects
   - name: desktop
-    description: "Continue the current session in the Claude Code Desktop app. Requires macOS or Windows and a Claude subscription. Alias: /app"
+    description: "Continue the current session in the Claude Code Desktop app. Requires macOS or x64 Windows and a Claude subscription. Alias: /app"
   - name: diff
     description: Open an interactive diff viewer showing uncommitted changes and per-turn diffs. Use left/right arrows to switch between the current git diff and individual Claude turns, and up/down to browse files
   - name: effort
@@ -92,7 +92,7 @@ commands:
     description: "Set a goal: Claude keeps working across turns until the condition is met. With no argument, shows the current or most recently achieved goal. Pass clear, stop, off, reset, none, or cancel to remove an active goal early. Works in interactive, -p, and Remote Control modes"
     argument-hint: "[condition|clear]"
   - name: heapdump
-    description: Write a JavaScript heap snapshot and a memory breakdown to ~/Desktop for diagnosing high memory usage
+    description: Write a JavaScript heap snapshot and a memory breakdown to ~/Desktop, or your home directory on Linux without a Desktop folder, for diagnosing high memory usage. The .heapsnapshot file contains your full conversation and credentials, so do not share it
   - name: help
     description: Show help and available commands
   - name: hooks
@@ -105,11 +105,11 @@ commands:
   - name: init
     description: "Initialize project with a CLAUDE.md guide. Set CLAUDE_CODE_NEW_INIT=1 for an interactive flow that also walks through skills, hooks, and personal memory files"
   - name: insights
-    description: Generate an analysis report of Claude Code sessions (project areas, operation patterns, friction points)
+    description: Generate an analysis report of Claude Code sessions (project areas, interaction patterns, friction points)
   - name: install-github-app
     description: Install the Claude GitHub App for a repository, with an optional step to set up GitHub Actions workflows and secrets
   - name: install-slack-app
-    description: Install the Claude Slack app
+    description: Install the Claude Slack app. Opens a browser to complete the OAuth flow
   - name: keybindings
     description: Open your keyboard shortcuts file
   - name: login
@@ -154,16 +154,16 @@ commands:
     description: "Reload all active plugins to apply pending changes without restarting. Reports counts for each reloaded component and flags any load errors. When the reload would change which MCP tools are loaded and invalidate the prompt cache, it warns and skips unless you pass --force"
     argument-hint: "[--force]"
   - name: reload-skills
-    description: Re-scan skill and command directories so changes on disk become available without restarting the session
+    description: Re-scan skill and command directories so changes on disk become available without restarting the session. Reports how many skills are available and how many were added or removed
   - name: remote-control
-    description: "Make this session available for remote control from claude.ai. Aliases: /rc"
+    description: "Make this session available for Remote Control from claude.ai. Alias: /rc"
   - name: remote-env
     description: Choose the default environment for cloud agents
   - name: rename
     description: Rename the current session and show the name on the prompt bar. Without a name, auto-generates one from conversation history
     argument-hint: "[name]"
   - name: resume
-    description: "Resume a conversation by ID or name, or open the session picker. Alias: /continue"
+    description: "Resume a conversation by ID or name, or open the session picker. Background sessions appear marked bg; a running one cannot be resumed here, so attach to it from claude agents or stop it there first. Alias: /continue"
     argument-hint: "[session]"
   - name: review
     description: Run a fast, single-pass, read-only review of a GitHub pull request by number. With no arguments, lists open PRs to pick from; text after the PR number becomes additional review instructions. For a multi-agent review at a chosen effort level use /code-review <level> <pr#>; for a cloud-based review see /code-review ultra
@@ -176,9 +176,9 @@ commands:
     description: "Create, update, list, or run routines (Cloud scheduled tasks). Claude walks you through the setup conversationally. Alias: /routines"
     argument-hint: "[description]"
   - name: scroll-speed
-    description: Adjust mouse wheel scroll speed interactively, with a ruler you can scroll while the dialog is open to preview the change
+    description: Adjust mouse wheel scroll speed interactively, with a ruler you can scroll while the dialog is open to preview the change. Available in fullscreen rendering only and not in the JetBrains IDE terminal
   - name: security-review
-    description: Analyze pending changes on the current branch for security vulnerabilities. Reviews the git diff and identifies risks like injection, auth issues, and data exposure
+    description: Analyze the changes on the current branch for security vulnerabilities. Reviews the diff between your branch and origin's default branch, identifying risks like injection, auth issues, and data exposure. Needs an origin remote
   - name: session
     description: "Show cloud session URL and QR code. Alias: /remote"
   - name: setup-bedrock
@@ -196,7 +196,7 @@ commands:
   - name: stickers
     description: Order Claude Code stickers
   - name: stop
-    description: Stop the current background session. Only available while attached to a background session; the transcript and any worktree are kept. To detach without stopping, use /exit
+    description: Stop the current background session. Only available while attached to a background session; the transcript and any worktree are kept. To detach without stopping, use /exit or press the left arrow key
   - name: subtask
     description: "Spawn a forked subagent: a background subagent that inherits the full conversation and works on the task while you keep working, returning its result to this conversation when it finishes. To copy the conversation into a separate background session instead, use /fork"
     argument-hint: "<task>"
@@ -205,8 +205,7 @@ commands:
   - name: team-onboarding
     description: Generate a teammate onboarding guide from the past 30 days of sessions, commands, and MCP server usage. claude.ai subscribers also get a share link teammates can open directly in Claude Code
   - name: teleport
-    description: "Pull a Claude Code on the web session into this terminal: opens a picker, then fetches the branch and conversation. Requires a claude.ai subscription. Aliases: /tp"
-    argument-hint: "[session]"
+    description: "Pull a Claude Code on the web session into this terminal: opens a picker, then fetches the branch and conversation. Requires a claude.ai subscription. Alias: /tp"
   - name: terminal-setup
     description: Configure terminal keybindings for Shift+Enter and other shortcuts. Only visible in terminals that need it, like VS Code, Cursor, Devin Desktop, Alacritty, or Zed
   - name: theme
@@ -223,7 +222,7 @@ commands:
   - name: update
     description: "Switch to the latest version without losing the conversation. Alias: /restart"
   - name: upgrade
-    description: Open the upgrade page to switch to a higher plan tier
+    description: Open the upgrade page in your browser to switch to a higher plan tier
   - name: usage
     description: "Show session cost, plan usage limits, and activity stats. On Pro, Max, Team, and Enterprise plans, includes a breakdown of usage by skill, subagent, plugin, and MCP server. Aliases: /cost, /stats"
   - name: usage-credits
@@ -234,7 +233,7 @@ commands:
     description: Toggle voice dictation, or enable it in a specific mode. Requires a Claude.ai account
     argument-hint: "[hold|tap|off]"
   - name: web-setup
-    description: Connect GitHub account to Claude Code on the web using local gh CLI credentials
+    description: Connect GitHub account to Claude Code on the web using local gh CLI credentials. /schedule prompts for this automatically if GitHub is not connected
   - name: workflows
     description: Open the workflow progress view to watch, pause, resume, or save running and completed workflows
 skills:
@@ -311,3 +310,5 @@ agents:
     description: When you run /statusline to configure your status line
   - name: claude-code-guide
     description: When you ask questions about Claude Code features
+  - name: claude
+    description: When you dispatch a background session from `claude agents` or `claude --bg` without naming an agent. Claude can also delegate to it like any other subagent

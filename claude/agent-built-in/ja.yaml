@@ -8,7 +8,7 @@ references:
 
 commands:
   - name: add-dir
-    description: 現在のセッションにファイルアクセス用の作業ディレクトリを追加する。パスを途中まで入力すると候補が表示される。なお、追加したディレクトリ配下の .claude/ 設定はほとんど読み込まれない点に注意
+    description: 現在のセッションにファイルアクセス用の作業ディレクトリを追加する。パスを途中まで入力すると候補が表示され、Tab で確定できる。追加したディレクトリ配下の .claude/ 設定はほとんど読み込まれないが、そのディレクトリから --continue / --resume でセッションを再開できる
     argument-hint: "<path>"
   - name: advisor
     description: "タスク中の重要な局面で2つ目のモデルに助言を求めるadvisorツールを有効化/無効化する。opus、sonnet、またはフルモデルIDを指定可能（Fable 5 は advisor として提供されない）。引数なしでピッカーを開く"
@@ -35,7 +35,7 @@ commands:
     description: "バグを報告する、または会話を共有する。送信前にセッション履歴をどこまで含めるかを選び、同意画面で確認する。ファーストパーティ接続でAnthropicにサインインしている場合はAnthropicへ送信され、サードパーティプロバイダー利用時やAnthropicの認証情報がない場合は ~/.claude/feedback-bundles/ 配下のローカルアーカイブに書き出され、自分で転送する。エイリアス: /share"
     argument-hint: "[report]"
   - name: cd
-    description: "このセッションを新しい作業ディレクトリに移動する。会話のプロンプトキャッシュは保持され、システムプロンプトを再構築する代わりに新ディレクトリのCLAUDE.mdが追加される。セッションを移動せず追加ディレクトリへのアクセスを付与するには /add-dir を使用"
+    description: "このセッションを新しい作業ディレクトリに移動する。会話のプロンプトキャッシュは保持され、システムプロンプトを再構築する代わりに新ディレクトリのCLAUDE.mdが追加される。未使用のディレクトリでは信頼するかを確認され、移動先は Cd の permission ルールで制限・無効化できる。セッションを移動せず追加ディレクトリへのアクセスを付与するには /add-dir を使用"
     argument-hint: "<path>"
   - name: chrome
     description: Claude in Chromeの設定を行う
@@ -66,7 +66,7 @@ commands:
   - name: design-revoke
     description: Claude エージェントの Design プロジェクトへのアクセスを取り消す
   - name: desktop
-    description: "現在のCLIセッションをClaude Code Desktopアプリに引き継ぐ。macOSまたはWindowsとClaudeのサブスクリプションが必要。エイリアス: /app"
+    description: "現在のCLIセッションをClaude Code Desktopアプリに引き継ぐ。macOSまたはx64のWindowsとClaudeのサブスクリプションが必要。エイリアス: /app"
   - name: diff
     description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧
   - name: effort
@@ -92,7 +92,7 @@ commands:
     description: "ゴールを設定する。Claudeは条件が満たされるまで複数ターンにわたって作業を続ける。引数なしで現在のゴール、または直近に達成したゴールを表示。clear・stop・off・reset・none・cancel のいずれかを渡すと、有効なゴールを早期に解除できる。インタラクティブ・-p・Remote Controlの各モードで動作"
     argument-hint: "[condition|clear]"
   - name: heapdump
-    description: メモリ使用量診断用にJavaScriptヒープスナップショットとメモリブレークダウンを ~/Desktop に出力する
+    description: メモリ使用量診断用にJavaScriptヒープスナップショットとメモリブレークダウンを ~/Desktop（Desktop フォルダが無い Linux ではホームディレクトリ）に出力する。.heapsnapshot ファイルには会話全体と認証情報が含まれるため共有しないこと
   - name: help
     description: ヘルプと利用可能なコマンド一覧を表示する
   - name: hooks
@@ -105,11 +105,11 @@ commands:
   - name: init
     description: "CLAUDE.mdガイドでプロジェクトを初期化する。CLAUDE_CODE_NEW_INIT=1で、スキル・フック・個人メモリファイルの設定も含むインタラクティブフローを使用可能"
   - name: insights
-    description: Claude Codeセッションの分析レポートを生成する（プロジェクト領域、操作パターン、摩擦ポイント）
+    description: Claude Codeセッションの分析レポートを生成する（プロジェクト領域、インタラクションパターン、摩擦ポイント）
   - name: install-github-app
     description: リポジトリに Claude GitHub App をインストールする。任意で GitHub Actions ワークフローとシークレットのセットアップも行う
   - name: install-slack-app
-    description: Claude Slackアプリをインストールする
+    description: Claude Slackアプリをインストールする。ブラウザを開いてOAuthフローを完了する
   - name: keybindings
     description: キーボードショートカットの設定ファイルを開く
   - name: login
@@ -154,16 +154,16 @@ commands:
     description: "アクティブなプラグインをすべてリロードし、保留中の変更を再起動なしで適用する。リロードされたコンポーネント数とロードエラーを報告。読み込まれるMCPツールが変化してプロンプトキャッシュが無効化される場合は警告してスキップし、--force を渡すと強制実行する"
     argument-hint: "[--force]"
   - name: reload-skills
-    description: 再起動せずにスキルとコマンドのディレクトリを再スキャンし、ディスク上の変更を反映する
+    description: 再起動せずにスキルとコマンドのディレクトリを再スキャンし、ディスク上の変更を反映する。利用可能なスキル数と追加・削除された数を報告する
   - name: remote-control
-    description: "このセッションをclaude.aiからのリモートコントロールに利用可能にする。エイリアス: /rc"
+    description: "このセッションをclaude.aiからのRemote Controlに利用可能にする。エイリアス: /rc"
   - name: remote-env
     description: クラウドエージェント用のデフォルト環境を選択する
   - name: rename
     description: 現在のセッションの名前を変更し、プロンプトバーに表示する。名前未指定時は会話履歴から自動生成
     argument-hint: "[name]"
   - name: resume
-    description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。エイリアス: /continue"
+    description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。バックグラウンドセッションは bg 付きで表示され、実行中のものはここでは再開できないため claude agents からアタッチするか停止する。エイリアス: /continue"
     argument-hint: "[session]"
   - name: review
     description: GitHub Pull Request を番号で指定し、高速なシングルパスの読み取り専用レビューを実行する。引数なしでオープン中の PR 一覧から選択でき、PR 番号の後ろに書いたテキストは追加のレビュー指示として扱われる。effort レベルを指定したマルチエージェントレビューは /code-review <level> <pr#>、クラウドベースのレビューは /code-review ultra を参照
@@ -176,9 +176,9 @@ commands:
     description: "routines（Cloudスケジュールタスク）の作成・更新・一覧・実行を行う。Claudeが対話的にセットアップをガイドする。エイリアス: /routines"
     argument-hint: "[description]"
   - name: scroll-speed
-    description: マウスホイールのスクロール速度を対話的に調整する。ダイアログ表示中にスクロール可能なルーラーで変更をプレビューできる
+    description: マウスホイールのスクロール速度を対話的に調整する。ダイアログ表示中にスクロール可能なルーラーで変更をプレビューできる。全画面レンダリング時のみ利用でき、JetBrains IDE のターミナルでは使えない
   - name: security-review
-    description: 現在のブランチの保留中の変更をセキュリティ脆弱性の観点から分析する。git diffをレビューしインジェクション、認証の問題、データ漏洩などのリスクを特定
+    description: 現在のブランチの変更をセキュリティ脆弱性の観点から分析する。ブランチと origin のデフォルトブランチとの差分をレビューし、インジェクション、認証の問題、データ漏洩などのリスクを特定する。origin リモートが必要
   - name: session
     description: "クラウドセッションの URL と QR コードを表示する。エイリアス: /remote"
   - name: setup-bedrock
@@ -196,7 +196,7 @@ commands:
   - name: stickers
     description: Claude Codeステッカーを注文する
   - name: stop
-    description: 現在のバックグラウンドセッションを停止する。バックグラウンドセッションにアタッチ中のみ利用可能。トランスクリプトとworktreeは保持される。停止せずにデタッチしたい場合は /exit を使う
+    description: 現在のバックグラウンドセッションを停止する。バックグラウンドセッションにアタッチ中のみ利用可能。トランスクリプトとworktreeは保持される。停止せずにデタッチしたい場合は /exit か左矢印キーを使う
   - name: subtask
     description: "フォーク済みサブエージェントを起動する。会話全体を引き継いだバックグラウンドサブエージェントがタスクを実行し、その間も作業を続けられる。完了するとこの会話に結果が返る。会話を別のバックグラウンドセッションにコピーする場合は /fork を使う"
     argument-hint: "<task>"
@@ -206,7 +206,6 @@ commands:
     description: 直近30日のセッション・コマンド・MCPサーバー利用状況から、チームメイト向けのオンボーディングガイドを生成する。claude.aiのサブスクライバーはチームメイトがClaude Codeで直接開ける共有リンクも取得できる
   - name: teleport
     description: "Claude Code Webセッションをこのターミナルに引き込む。ピッカーを開いてブランチと会話を取得。claude.aiサブスクリプションが必要。エイリアス: /tp"
-    argument-hint: "[session]"
   - name: terminal-setup
     description: ターミナルのキーバインドを設定する（Shift+Enterなどのショートカット）。VS Code・Cursor・Devin Desktop・Alacritty・Zedなど必要なターミナルでのみ表示
   - name: theme
@@ -223,7 +222,7 @@ commands:
   - name: update
     description: "会話を維持したまま最新バージョンに切り替える。エイリアス: /restart"
   - name: upgrade
-    description: より高いプランティアに切り替えるためのアップグレードページを開く
+    description: より高いプランティアに切り替えるためのアップグレードページをブラウザで開く
   - name: usage
     description: "セッションコスト、プラン使用制限、アクティビティ統計を表示する。Pro・Max・Team・Enterpriseの各プランでは、スキル・サブエージェント・プラグイン・MCPサーバー別の使用量内訳も表示する。エイリアス: /cost, /stats"
   - name: usage-credits
@@ -234,7 +233,7 @@ commands:
     description: 音声入力を切り替える、または特定のモードで有効化する。Claude.aiアカウントが必要
     argument-hint: "[hold|tap|off]"
   - name: web-setup
-    description: ローカルのgh CLI認証情報を使用してClaude Code WebにGitHubアカウントを接続する
+    description: ローカルのgh CLI認証情報を使用してClaude Code WebにGitHubアカウントを接続する。GitHub未接続の場合は /schedule が自動的に接続を促す
   - name: workflows
     description: ワークフロー進捗ビューを開き、実行中および完了したワークフローの監視・一時停止・再開・保存を行う
 skills:
@@ -311,3 +310,5 @@ agents:
     description: /statuslineでステータスラインを設定する際に使用
   - name: claude-code-guide
     description: Claude Codeの機能について質問する際に使用
+  - name: claude
+    description: "エージェントを指定せずに`claude agents`や`claude --bg`からバックグラウンドセッションを起動した際に使用。他のサブエージェントと同様に、Claudeが自ら委譲することもある"
