@@ -86,7 +86,7 @@ commands:
   - name: focus
     description: Toggle the focus view that shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. The selection persists across sessions. Only available in fullscreen rendering
   - name: fork
-    description: "Copy the current conversation into a new background session and keep working here; the two sessions are independent from that point on. Pass a prompt and the copy starts on it immediately; without one it waits in agent view. To hand a side task to a subagent whose result returns to this conversation, use /subtask; to switch into a copy yourself, use /branch"
+    description: "Copy the current conversation into a new background session and keep working here; the two sessions are independent from that point on. As of v2.1.221 the copy runs in a new worktree of its own instead of the original session's checkout. Pass a prompt and the copy starts on it immediately; without one it waits in agent view. To hand a side task to a subagent whose result returns to this conversation, use /subtask; to switch into a copy yourself, use /branch"
     argument-hint: "[prompt]"
   - name: goal
     description: "Set a goal: Claude keeps working across turns until the condition is met. With no argument, shows the current or most recently achieved goal. Pass clear, stop, off, reset, none, or cancel to remove an active goal early. Works in interactive, -p, and Remote Control modes"
@@ -138,7 +138,7 @@ commands:
     description: "Enter plan mode directly from the prompt. Pass an optional description to enter plan mode and immediately start with that task, for example /plan fix the auth bug"
     argument-hint: "[description]"
   - name: plugin
-    description: "Manage Claude Code plugins. Run with no argument to open the plugin menu, or pass a subcommand such as list, install, enable, or disable to act directly"
+    description: "Manage Claude Code plugins. Run with no argument to open the plugin menu, or pass a subcommand such as list, install, enable, or disable to act directly. As of v2.1.221, install refreshes a stale marketplace catalog and retries before reporting a plugin not found, and plugins installed here activate immediately when safe instead of always needing /reload-plugins"
     argument-hint: "[subcommand]"
   - name: powerup
     description: Discover Claude Code features through quick interactive lessons with animated demos
@@ -190,7 +190,7 @@ commands:
   - name: skills
     description: List available skills. Type to filter by name, press `t` to sort by token count, or press `Space` to cycle a skill's visibility to Claude and the / menu, then `Enter` to save
   - name: status
-    description: "Open the Settings interface (Status tab) showing version, model, account, and connectivity. Works while Claude is responding"
+    description: "Open the Settings interface (Status tab) showing version, model, account, and connectivity. As of v2.1.221 it also shows the session kind: interactive, or a background job that is attached or unattended. Works while Claude is responding"
   - name: statusline
     description: "Configure Claude Code's status line. Describe what you want, or run without arguments to auto-configure from your shell prompt"
   - name: stickers
@@ -247,8 +247,8 @@ skills:
     description: "Research and plan a large-scale change, then execute it in parallel across 5–30 isolated worktree agents that each run tests and open a PR. Requires a git repository."
     argument-hint: "<instruction>"
   - name: claude-api
-    description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
-    argument-hint: "[migrate|managed-agents-onboard]"
+    description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Subcommands: `migrate` upgrades existing Claude API code to a newer model, `managed-agents-onboard` walks through creating a Managed Agent, and `prompt-audit` (v2.1.221 or later) audits prompts and tool descriptions for patterns written for older models. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
+    argument-hint: "[migrate|managed-agents-onboard|prompt-audit]"
   - name: claude-code-docs
     description: Answer questions about Claude Code features and settings
   - name: claude-in-chrome
