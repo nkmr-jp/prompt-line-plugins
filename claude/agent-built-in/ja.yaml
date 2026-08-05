@@ -17,6 +17,9 @@ commands:
     description: "サブエージェントの作成・管理を Claude に依頼するか、.claude/agents/ または ~/.claude/agents/ のファイルを直接編集するよう促すリマインダーを表示する。旧バージョンでは対話的な管理インターフェースを開いていた"
   - name: artifacts
     description: "公開済み・共有されている Artifacts を一覧表示する。Ctrl+] でも直近の Artifact を開ける"
+  - name: autocompact
+    description: "自動コンパクトのしきい値を設定する。コンテキストウィンドウがどこまで埋まったら Claude Code が自動的にコンパクトを実行するかを指定する。500k のようなサイズを渡すか、`auto` でモデルに合わせた既定値に戻す。指定した値はユーザー設定に保存され、現在のセッションにも即座に適用される。引数なしで実行すると現在のしきい値を表示するダイアログを開く。v2.1.221 以降が必要"
+    argument-hint: "[auto|<tokens>]"
   - name: autofix-pr
     description: 現在のブランチのPRを監視し、CIが失敗したりレビューコメントが付いたら自動で修正をプッシュするClaude Code Webセッションを起動する。チェックアウト中のブランチからオープンなPRを検出するため、gh CLI と Claude Code Web へのアクセスが必要
     argument-hint: "[prompt]"
