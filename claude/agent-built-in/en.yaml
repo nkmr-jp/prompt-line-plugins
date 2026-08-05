@@ -17,6 +17,9 @@ commands:
     description: "Prints a reminder to ask Claude to create or manage subagents, or to edit the .claude/agents/ or ~/.claude/agents/ files directly. Earlier versions opened an interactive management interface"
   - name: artifacts
     description: "Browse your published and shared artifacts. Also reopenable with Ctrl+]"
+  - name: autocompact
+    description: "Set the auto-compact window: how full the context window gets before Claude Code compacts automatically. Pass a size such as 500k, or `auto` to return to the window tuned for your model. The value is saved to user settings and applied to the current session. Without an argument, opens a dialog showing the current window. Requires v2.1.221 or later"
+    argument-hint: "[auto|<tokens>]"
   - name: autofix-pr
     description: Spawn a Claude Code on the web session that watches the current branch's PR and pushes fixes when CI fails or reviewers leave comments. Detects the open PR from the checked-out branch, so it requires the gh CLI and access to Claude Code on the web
     argument-hint: "[prompt]"
