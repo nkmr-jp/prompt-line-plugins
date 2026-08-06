@@ -20,7 +20,8 @@ commands:
   - name: archive
     description: 現在のセッションをアーカイブしてCodexを終了する
   - name: clear
-    description: ターミナルをクリアして新しいチャットを開始する
+    description: ターミナルをクリアして新しいチャットを開始する。名前を指定することもできる
+    argument-hint: "[name]"
   - name: cloud
     description: クラウド実行が利用可能な場合に、チャットをクラウドで実行する
   - name: cloud-environment
@@ -75,7 +76,8 @@ commands:
   - name: model
     description: 使用するモデルと推論レベルを選択する
   - name: new
-    description: 同じCLIセッション内で新しい会話を開始する
+    description: 同じCLIセッション内で新しい会話を開始する。名前を指定することもできる
+    argument-hint: "[name]"
   - name: permissions
     description: "Codexが確認なしで実行できる操作を設定する。エイリアス: /approvals"
   - name: personality

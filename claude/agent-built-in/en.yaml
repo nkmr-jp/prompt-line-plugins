@@ -169,7 +169,7 @@ commands:
     description: "Resume a conversation by ID or name, or open the session picker. Background sessions appear marked bg; a running one cannot be resumed here, so attach to it from claude agents or stop it there first. Alias: /continue"
     argument-hint: "[session]"
   - name: review
-    description: Run a fast, single-pass, read-only review of a GitHub pull request by number. With no arguments, lists open PRs to pick from; text after the PR number becomes additional review instructions. For a multi-agent review at a chosen effort level use /code-review <level> <pr#>; for a cloud-based review see /code-review ultra
+    description: "Alias of /code-review as of v2.1.223: reviews the current diff or a PR. Pass an effort level and PR number as /code-review <level> <pr#>, or /code-review ultra for a deep cloud review. Earlier versions ran a fast, single-pass, read-only review of a GitHub pull request by number"
     argument-hint: "[PR]"
   - name: rewind
     description: "Rewind the conversation and/or code to a previous point, or summarize from a selected message. See checkpointing. Aliases: /checkpoint, /undo"
@@ -216,9 +216,6 @@ commands:
   - name: tui
     description: "Set the terminal UI renderer and relaunch into it with your conversation intact. fullscreen enables the flicker-free alt-screen renderer. Without an argument, prints the active renderer"
     argument-hint: "[default|fullscreen]"
-  - name: ultraplan
-    description: Draft a plan in an ultraplan session, review it in your browser, then execute remotely or send it back to your terminal
-    argument-hint: "<prompt>"
   - name: ultrareview
     description: "Run a deep, multi-agent code review in a cloud sandbox. Pass a PR reference to review that pull request, or a branch name to change the comparison base. The preferred invocation is now /code-review ultra; /ultrareview remains as an alias. Includes 3 free runs on Pro and Max, then requires usage credits"
     argument-hint: "[PR|branch]"
@@ -257,7 +254,7 @@ skills:
   - name: claude-in-chrome
     description: "Automate your Chrome browser to interact with web pages: click elements, fill forms, capture screenshots, read console logs, and navigate sites. Opens pages in new tabs within your existing Chrome session, and requires site-level permissions configured in the extension"
   - name: code-review
-    description: "Review the current diff for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. Pass `--fix` to apply findings to the working tree, or `--comment` to post inline PR comments."
+    description: "Review the current diff for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. With no effort level, reuses the level you typed last. Runs as a background subagent so review work stays out of your conversation. Pass `--fix` to apply findings to the working tree, or `--comment` to post inline PR comments. Alias: /review"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
   - name: code-walkthrough
     description: Generate an interactive walkthrough artifact for code

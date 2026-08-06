@@ -21,7 +21,8 @@ commands:
   - name: archive
     description: Archive the current session and exit Codex
   - name: clear
-    description: Clear the terminal and start a fresh chat
+    description: Clear the terminal and start a fresh chat, optionally naming it
+    argument-hint: "[name]"
   - name: cloud
     description: Run the chat in the cloud, when cloud execution is available
   - name: cloud-environment
@@ -76,7 +77,8 @@ commands:
   - name: model
     description: Choose active model and reasoning effort level
   - name: new
-    description: Start fresh conversation within same CLI session
+    description: Start fresh conversation within same CLI session, optionally naming it
+    argument-hint: "[name]"
   - name: permissions
     description: "Set what Codex can do without asking first. Alias: /approvals"
   - name: personality
