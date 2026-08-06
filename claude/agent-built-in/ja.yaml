@@ -169,7 +169,7 @@ commands:
     description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。バックグラウンドセッションは bg 付きで表示され、実行中のものはここでは再開できないため claude agents からアタッチするか停止する。エイリアス: /continue"
     argument-hint: "[session]"
   - name: review
-    description: GitHub Pull Request を番号で指定し、高速なシングルパスの読み取り専用レビューを実行する。引数なしでオープン中の PR 一覧から選択でき、PR 番号の後ろに書いたテキストは追加のレビュー指示として扱われる。effort レベルを指定したマルチエージェントレビューは /code-review <level> <pr#>、クラウドベースのレビューは /code-review ultra を参照
+    description: "v2.1.223 以降は /code-review のエイリアスで、現在の差分または PR をレビューする。effort レベルと PR 番号は /code-review <level> <pr#>、クラウド上の詳細レビューは /code-review ultra を使う。以前のバージョンでは GitHub Pull Request を番号で指定した高速なシングルパスの読み取り専用レビューだった"
     argument-hint: "[PR]"
   - name: rewind
     description: "会話やコードを以前のポイントに巻き戻す、または選択したメッセージから要約する。チェックポイント機能参照。エイリアス: /checkpoint, /undo"
@@ -216,9 +216,6 @@ commands:
   - name: tui
     description: "ターミナルUIレンダラーを設定し、会話を保ったまま再起動する。fullscreenでフリッカーフリーのalt-screenレンダラーを有効化。引数なしで現在のレンダラーを表示"
     argument-hint: "[default|fullscreen]"
-  - name: ultraplan
-    description: ultraplanセッションでプランを作成し、ブラウザでレビューしてから、リモートで実行するかターミナルに送り返す
-    argument-hint: "<prompt>"
   - name: ultrareview
     description: "クラウドサンドボックス上でマルチエージェント・コードレビューを深く実行する。PR参照を渡すとそのプルリクエストを、ブランチ名を渡すと比較ベースを変更してレビューする。推奨される呼び出しは /code-review ultra となり、/ultrareview はエイリアスとして残る。Pro/Maxプランでは3回まで無料、以降は usage credits が必要"
     argument-hint: "[PR|branch]"
@@ -257,7 +254,7 @@ skills:
   - name: claude-in-chrome
     description: Chrome ブラウザを自動操作して Web ページを操作する。要素のクリック、フォーム入力、スクリーンショット取得、コンソールログの読み取り、ページ遷移に対応。既存の Chrome セッション内の新しいタブでページを開くため、拡張機能側でサイトごとの権限設定が必要
   - name: code-review
-    description: "現在の diff を指定した effort レベルで、正しさのバグと再利用・簡素化・効率化のクリーンアップの観点からレビューする。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。`--fix` で修正を working tree に適用、`--comment` で GitHub PR にインラインコメントとして投稿する"
+    description: "現在の diff を指定した effort レベルで、正しさのバグと再利用・簡素化・効率化のクリーンアップの観点からレビューする。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用する。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub PR にインラインコメントとして投稿する。エイリアス: /review"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
   - name: code-walkthrough
     description: コードのインタラクティブなウォークスルー Artifact を生成する
