@@ -38,7 +38,7 @@ commands:
     description: "Report a bug or share your conversation. You choose how much session history to include and confirm on a consent screen before anything is sent. When signed in to Anthropic on a first-party connection the report goes to Anthropic; on a third-party provider or without Anthropic credentials it is written to a local archive under ~/.claude/feedback-bundles/ that you forward yourself. Alias: /share"
     argument-hint: "[report]"
   - name: cd
-    description: "Move this session to a new working directory. The conversation's prompt cache is preserved and the new directory's CLAUDE.md is appended instead of rebuilding the system prompt. Prompts you to trust the directory if you have not worked in it before, and Cd permission rules can restrict or disable targets. To grant access to an extra directory without moving the session, use /add-dir"
+    description: "Move this session to a new working directory. The conversation's prompt cache is preserved and the new directory's CLAUDE.md is appended instead of rebuilding the system prompt. The session is relocated to the new directory's project storage, so --resume and --continue find it from there; as of v2.1.223 claude --resume <session-id> also finds the moved session from any other directory. Prompts you to trust the directory if you have not worked in it before, and Cd permission rules can restrict or disable targets. To grant access to an extra directory without moving the session, use /add-dir"
     argument-hint: "<path>"
   - name: chrome
     description: Configure Claude in Chrome settings
@@ -89,7 +89,7 @@ commands:
   - name: focus
     description: Toggle the focus view that shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. The selection persists across sessions. Only available in fullscreen rendering
   - name: fork
-    description: "Copy the current conversation into a new background session and keep working here; the two sessions are independent from that point on. As of v2.1.221 the copy runs in a new worktree of its own instead of the original session's checkout. Pass a prompt and the copy starts on it immediately; without one it waits in agent view. To hand a side task to a subagent whose result returns to this conversation, use /subtask; to switch into a copy yourself, use /branch"
+    description: "Copy the current conversation into a new background session and keep working here; the two sessions are independent from that point on. Pass a prompt and the copy starts on it immediately; without one it waits in agent view. Except when the copy edits in place, Claude Code instructs it to create a worktree of its own before making code changes; the isolation instruction requires v2.1.221 or later. To hand a side task to a subagent whose result returns to this conversation, use /subtask; to switch into a copy yourself, use /branch"
     argument-hint: "[prompt]"
   - name: goal
     description: "Set a goal: Claude keeps working across turns until the condition is met. With no argument, shows the current or most recently achieved goal. Pass clear, stop, off, reset, none, or cancel to remove an active goal early. Works in interactive, -p, and Remote Control modes"
@@ -141,7 +141,7 @@ commands:
     description: "Enter plan mode directly from the prompt. Pass an optional description to enter plan mode and immediately start with that task, for example /plan fix the auth bug"
     argument-hint: "[description]"
   - name: plugin
-    description: "Manage Claude Code plugins. Run with no argument to open the plugin menu, or pass a subcommand such as list, install, enable, or disable to act directly. As of v2.1.221, install refreshes a stale marketplace catalog and retries before reporting a plugin not found, and plugins installed here activate immediately when safe instead of always needing /reload-plugins"
+    description: "Manage Claude Code plugins. Run with no argument to open the plugin menu, or pass a subcommand such as list, install, enable, or disable to act directly. Claude Code can activate a plugin during the install; the install summary tells you whether it did or whether to run /reload-plugins"
     argument-hint: "[subcommand]"
   - name: powerup
     description: Discover Claude Code features through quick interactive lessons with animated demos
@@ -169,8 +169,8 @@ commands:
     description: "Resume a conversation by ID or name, or open the session picker. Background sessions appear marked bg; a running one cannot be resumed here, so attach to it from claude agents or stop it there first. Alias: /continue"
     argument-hint: "[session]"
   - name: review
-    description: "Alias of /code-review as of v2.1.223: reviews the current diff or a PR. Pass an effort level and PR number as /code-review <level> <pr#>, or /code-review ultra for a deep cloud review. Earlier versions ran a fast, single-pass, read-only review of a GitHub pull request by number"
-    argument-hint: "[PR]"
+    description: "Alias of /code-review as of v2.1.223: reviews the current diff, or a PR number, branch, or path you pass, such as /review 1234, and takes the same effort levels and flags. For a deep cloud review use /code-review ultra. Earlier versions ran a fast, single-pass, read-only review of a GitHub pull request by number"
+    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
   - name: rewind
     description: "Rewind the conversation and/or code to a previous point, or summarize from a selected message. See checkpointing. Aliases: /checkpoint, /undo"
   - name: sandbox
@@ -254,8 +254,8 @@ skills:
   - name: claude-in-chrome
     description: "Automate your Chrome browser to interact with web pages: click elements, fill forms, capture screenshots, read console logs, and navigate sites. Opens pages in new tabs within your existing Chrome session, and requires site-level permissions configured in the extension"
   - name: code-review
-    description: "Review the current diff for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. With no effort level, reuses the level you typed last. Runs as a background subagent so review work stays out of your conversation. Pass `--fix` to apply findings to the working tree, or `--comment` to post inline PR comments. Alias: /review"
-    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
+    description: "Review the current diff, or a PR number, branch, or path you pass, for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. With no effort level, reuses the level you typed last, falling back to the session's effort level if you have never typed one. Runs as a background subagent so review work stays out of your conversation. Pass `--fix` to apply findings to the working tree, or `--comment` to post inline PR comments. Alias: /review"
+    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
   - name: code-walkthrough
     description: Generate an interactive walkthrough artifact for code
   - name: dataviz

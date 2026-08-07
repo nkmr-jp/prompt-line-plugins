@@ -38,7 +38,7 @@ commands:
     description: "バグを報告する、または会話を共有する。送信前にセッション履歴をどこまで含めるかを選び、同意画面で確認する。ファーストパーティ接続でAnthropicにサインインしている場合はAnthropicへ送信され、サードパーティプロバイダー利用時やAnthropicの認証情報がない場合は ~/.claude/feedback-bundles/ 配下のローカルアーカイブに書き出され、自分で転送する。エイリアス: /share"
     argument-hint: "[report]"
   - name: cd
-    description: "このセッションを新しい作業ディレクトリに移動する。会話のプロンプトキャッシュは保持され、システムプロンプトを再構築する代わりに新ディレクトリのCLAUDE.mdが追加される。未使用のディレクトリでは信頼するかを確認され、移動先は Cd の permission ルールで制限・無効化できる。セッションを移動せず追加ディレクトリへのアクセスを付与するには /add-dir を使用"
+    description: "このセッションを新しい作業ディレクトリに移動する。会話のプロンプトキャッシュは保持され、システムプロンプトを再構築する代わりに新ディレクトリのCLAUDE.mdが追加される。セッションは移動先ディレクトリのプロジェクトストレージに移るため、--resume や --continue はそちらから見つけられる。v2.1.223以降は claude --resume <session-id> で他のどのディレクトリからでも移動後のセッションを見つけられる。未使用のディレクトリでは信頼するかを確認され、移動先は Cd の permission ルールで制限・無効化できる。セッションを移動せず追加ディレクトリへのアクセスを付与するには /add-dir を使用"
     argument-hint: "<path>"
   - name: chrome
     description: Claude in Chromeの設定を行う
@@ -89,7 +89,7 @@ commands:
   - name: focus
     description: フォーカスビューをトグルする。直前のプロンプト、ツール呼び出しのサマリー（編集diffstat付き）、最終レスポンスのみを表示。選択状態はセッション間で保持される。fullscreenレンダリング時のみ利用可能
   - name: fork
-    description: "現在の会話を新しいバックグラウンドセッションにコピーし、この場で作業を続ける。2つのセッションはその時点から独立する。v2.1.221以降、コピー側は元セッションのチェックアウトではなく専用の worktree で動作する。プロンプトを渡すとコピー側がすぐに作業を開始し、渡さない場合は agent view で待機する。結果がこの会話に返るサブエージェントに副タスクを任せるには /subtask を、自分でコピーに切り替えるには /branch を使う"
+    description: "現在の会話を新しいバックグラウンドセッションにコピーし、この場で作業を続ける。2つのセッションはその時点から独立する。プロンプトを渡すとコピー側がすぐに作業を開始し、渡さない場合は agent view で待機する。コピー側がその場で編集する場合を除き、Claude Code はコード変更の前に専用の worktree を作るよう指示する（この隔離指示は v2.1.221 以降）。結果がこの会話に返るサブエージェントに副タスクを任せるには /subtask を、自分でコピーに切り替えるには /branch を使う"
     argument-hint: "[prompt]"
   - name: goal
     description: "ゴールを設定する。Claudeは条件が満たされるまで複数ターンにわたって作業を続ける。引数なしで現在のゴール、または直近に達成したゴールを表示。clear・stop・off・reset・none・cancel のいずれかを渡すと、有効なゴールを早期に解除できる。インタラクティブ・-p・Remote Controlの各モードで動作"
@@ -141,7 +141,7 @@ commands:
     description: "プロンプトからプランモードに直接入る。説明を渡すとそのタスクですぐにプランモードを開始する（例: /plan 認証バグを修正）"
     argument-hint: "[description]"
   - name: plugin
-    description: "Claude Codeプラグインを管理する。引数なしでプラグインメニューを開くか、list・install・enable・disable などのサブコマンドを渡して直接操作する。v2.1.221以降、install は古いmarketplaceカタログを更新して再試行してから「プラグインが見つからない」と報告し、ここでインストールしたプラグインは安全な場合に /reload-plugins なしで即座に有効化される"
+    description: "Claude Codeプラグインを管理する。引数なしでプラグインメニューを開くか、list・install・enable・disable などのサブコマンドを渡して直接操作する。Claude Code はインストール中にプラグインを有効化できる場合があり、有効化されたか /reload-plugins が必要かはインストール結果のサマリーに表示される"
     argument-hint: "[subcommand]"
   - name: powerup
     description: インタラクティブなレッスンとアニメーションデモでClaude Codeの機能を発見する
@@ -169,8 +169,8 @@ commands:
     description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。バックグラウンドセッションは bg 付きで表示され、実行中のものはここでは再開できないため claude agents からアタッチするか停止する。エイリアス: /continue"
     argument-hint: "[session]"
   - name: review
-    description: "v2.1.223 以降は /code-review のエイリアスで、現在の差分または PR をレビューする。effort レベルと PR 番号は /code-review <level> <pr#>、クラウド上の詳細レビューは /code-review ultra を使う。以前のバージョンでは GitHub Pull Request を番号で指定した高速なシングルパスの読み取り専用レビューだった"
-    argument-hint: "[PR]"
+    description: "v2.1.223 以降は /code-review のエイリアスで、現在の差分、または渡した PR 番号・ブランチ・パス（例: /review 1234）をレビューする。effort レベルとフラグも /code-review と同じものが使える。クラウド上の詳細レビューは /code-review ultra を使う。以前のバージョンでは GitHub Pull Request を番号で指定した高速なシングルパスの読み取り専用レビューだった"
+    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
   - name: rewind
     description: "会話やコードを以前のポイントに巻き戻す、または選択したメッセージから要約する。チェックポイント機能参照。エイリアス: /checkpoint, /undo"
   - name: sandbox
@@ -254,8 +254,8 @@ skills:
   - name: claude-in-chrome
     description: Chrome ブラウザを自動操作して Web ページを操作する。要素のクリック、フォーム入力、スクリーンショット取得、コンソールログの読み取り、ページ遷移に対応。既存の Chrome セッション内の新しいタブでページを開くため、拡張機能側でサイトごとの権限設定が必要
   - name: code-review
-    description: "現在の diff を指定した effort レベルで、正しさのバグと再利用・簡素化・効率化のクリーンアップの観点からレビューする。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用する。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub PR にインラインコメントとして投稿する。エイリアス: /review"
-    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [target]"
+    description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグと再利用・簡素化・効率化のクリーンアップの観点からレビューする。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub PR にインラインコメントとして投稿する。エイリアス: /review"
+    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
   - name: code-walkthrough
     description: コードのインタラクティブなウォークスルー Artifact を生成する
   - name: dataviz
