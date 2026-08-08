@@ -21,7 +21,7 @@ commands:
     description: "自動コンパクトのしきい値を設定する。コンテキストウィンドウがどこまで埋まったら Claude Code が自動的にコンパクトを実行するかを指定する。500k のようなサイズを渡すか、`auto` でモデルに合わせた既定値に戻す。指定した値はユーザー設定に保存され、現在のセッションにも即座に適用される。引数なしで実行すると現在のしきい値を表示するダイアログを開く。v2.1.221 以降が必要"
     argument-hint: "[auto|<tokens>]"
   - name: autofix-pr
-    description: 現在のブランチのPRを監視し、CIが失敗したりレビューコメントが付いたら自動で修正をプッシュするClaude Code Webセッションを起動する。チェックアウト中のブランチからオープンなPRを検出するため、gh CLI と Claude Code Web へのアクセスが必要
+    description: 現在のブランチのPRを監視し、CIが失敗したりレビューコメントが付いたら自動で修正をプッシュするClaude Code Webセッションを起動する。チェックアウト中のブランチからオープンなPRを検出するため、別のPRを監視したいときは先にそのブランチへ切り替える。デフォルトではCIの失敗とレビューコメントをすべて修正するよう指示されるが、プロンプトを渡せば別の指示を与えられる。gh CLI と Claude Code Web へのアクセスが必要
     argument-hint: "[prompt]"
   - name: background
     description: "現在のセッションをバックグラウンドエージェントとしてデタッチし、ターミナルを解放する。プロンプトを渡すとデタッチ前に追加の指示を送信できる。エイリアス: /bg"
@@ -95,7 +95,7 @@ commands:
     description: "ゴールを設定する。Claudeは条件が満たされるまで複数ターンにわたって作業を続ける。引数なしで現在のゴール、または直近に達成したゴールを表示。clear・stop・off・reset・none・cancel のいずれかを渡すと、有効なゴールを早期に解除できる。インタラクティブ・-p・Remote Controlの各モードで動作"
     argument-hint: "[condition|clear]"
   - name: heapdump
-    description: メモリ使用量診断用にJavaScriptヒープスナップショットとメモリブレークダウンを ~/Desktop（Desktop フォルダが無い Linux ではホームディレクトリ）に出力する。.heapsnapshot ファイルには会話全体と認証情報が含まれるため共有しないこと
+    description: メモリ使用量診断用にJavaScriptヒープスナップショットとメモリブレークダウンを ~/Desktop（Desktop フォルダが無い Linux ではホームディレクトリ）に出力する。メモリ問題を報告する際は -diagnostics.json のみを添付する。.heapsnapshot ファイルには会話全体と認証情報が含まれるため共有しないこと。コマンドメニューには表示されないため、コマンド名を最後まで入力する必要がある
   - name: help
     description: ヘルプと利用可能なコマンド一覧を表示する
   - name: hooks
@@ -103,10 +103,10 @@ commands:
   - name: ide
     description: IDE連携の管理とステータス表示
   - name: import
-    description: 他の AI コーディングエージェントから設定をインポートする
-    argument-hint: "[codex|gemini] [--dry-run]"
+    description: "自分のマシンにある他のコーディングエージェント（現時点では OpenAI Codex と Google Gemini CLI）の設定を Claude Code に取り込む。指示ファイル・MCPサーバー・コマンド・サブエージェント・スキルが対象。--dry-run で何も書き込まずに内容を確認でき、--yes で対話的な選択画面をスキップできる"
+    argument-hint: "[codex|gemini] [--dry-run] [--yes]"
   - name: init
-    description: "CLAUDE.mdガイドでプロジェクトを初期化する。CLAUDE_CODE_NEW_INIT=1で、スキル・フック・個人メモリファイルの設定も含むインタラクティブフローを使用可能"
+    description: "CLAUDE.mdガイドでプロジェクトを初期化する。CLAUDE_CODE_NEW_INIT=1で、スキル・フック・個人メモリファイルの設定も含むインタラクティブフローを使用可能。/import が対応するコーディングエージェントの設定が見つかった場合は、その引き継ぎを提案する"
   - name: insights
     description: Claude Codeセッションの分析レポートを生成する（プロジェクト領域、インタラクションパターン、摩擦ポイント）
   - name: install-github-app
@@ -115,6 +115,8 @@ commands:
     description: Claude Slackアプリをインストールする。ブラウザを開いてOAuthフローを完了する
   - name: keybindings
     description: キーボードショートカットの設定ファイルを開く
+  - name: list-agents
+    description: "Claude がメッセージを送れるサブエージェントと他の Claude Code セッションを、指定に使う名前とあわせて一覧表示する。agent team のメンバーはチームのロスター経由で到達するため一覧には含まれない。クロスセッションメッセージングが有効なセッションでのみ利用でき、v2.1.224 以降が必要。エイリアス: /peers"
   - name: login
     description: Anthropicアカウントにサインインする
   - name: logout
@@ -241,6 +243,8 @@ skills:
     description: 公開した Artifact ページに付与できるランタイム機能 — ライブデータや接続済みデータの読み取り、閲覧者間での状態共有、ページ自身の更新と再公開など、静的 HTML だけでは実現できない挙動。利用可能な機能一覧と型付きの呼び出し定義を提供する
   - name: artifact-design
     description: Artifacts のデザインガイダンスと基礎知識
+  - name: artifact-diagramming
+    description: Artifacts の図表作成ガイダンス
   - name: artifact-pr-review
     description: テンプレートから PR レビュー用のブリーフィング Artifact を公開する
   - name: batch
@@ -274,7 +278,7 @@ skills:
     description: "リポジトリのReactデザインシステムを変換してClaude Designにアップロードし、デザインで実際のコンポーネントを使えるようにする。デザインシステム名を任意で指定可能。大規模リポジトリでは初回同期に数時間かかることがある。Amazon Bedrock・Google Cloud Agent Platform・Microsoft Foundry・Claude Platform on AWSでは利用不可"
     argument-hint: "[hint]"
   - name: doctor
-    description: "セットアップ全体を点検し、見つかった問題を診断して修正まで行う。インストール状態・PATHの問題・解析できない設定ファイルを確認し、コンテキストコストに見合わない未使用のスキル・MCPサーバー・プラグインを洗い出し、CLAUDE.mdの重複を整理し、遅いフックを検出し、新バージョンの有無も確認する。さらに auto モードをデフォルトにすることや、頻繁に拒否している読み取り専用コマンドの事前承認も提案する。変更前に必ず結果を提示して確認を求める。エイリアス: /checkup"
+    description: "セットアップ全体を点検し、見つかった問題を診断して修正まで行う。インストール状態（重複や残存インストールを含む）・PATHの問題・解析できない設定ファイルを確認し、コンテキストコストに見合わない未使用のスキル・MCPサーバー・プラグインを洗い出し、遅いフックを検出し、リリースチャンネル上の新バージョンの有無も確認する。ローカルのCLAUDE.mdをコミット済みのものと突き合わせて重複を整理し、コードベースから読み取れる内容を削り、残った常時ロードのガイダンスをスキルや必要時にロードされるネストしたCLAUDE.mdへ移す。さらに auto モードをデフォルトにすることや、頻繁に拒否している読み取り専用コマンドの事前承認も提案する。変更前に必ず結果を提示して確認を求める。エイリアス: /checkup"
   - name: fewer-permission-prompts
     description: トランスクリプトから頻出するread-onlyのBashとMCPツール呼び出しをスキャンし、プロジェクトの `.claude/settings.json` に優先度付きのallowlistを追加してパーミッションプロンプトを削減する
   - name: loop
@@ -284,6 +288,8 @@ skills:
     description: 実装計画・設計ドキュメント・RFC を共有可能な Artifact として公開する
   - name: pr-explainer
     description: PR の共有可能なウォークスルー Artifact を生成する。何がどう変わり、なぜそうしたかを、レビュアー向けのビフォー/アフター形式でまとめる
+  - name: prototype
+    description: アイデアを動作する Artifact としてプロトタイプ化する
   - name: run
     description: "プロジェクトのアプリを起動・操作して、変更が動作している様子を実際に確認する。既存のプロジェクト用スキルがあればそれを優先し、なければプロジェクトタイプごとの組み込みパターンにフォールバックする"
   - name: run-skill-generator
@@ -294,7 +300,7 @@ skills:
   - name: update-config
     description: settings.json の設定を変更する。hooks、permissions、環境変数に対応
   - name: verify
-    description: "プロジェクトのアプリをビルドして実行し、実際の挙動を観察することで、コード変更が意図通り動作するかを確認する"
+    description: "テストや型チェックに頼るのではなく、プロジェクトのアプリをビルドして実行し、実際の挙動を観察することで、コード変更が意図通り動作するかを確認する"
   - name: whiteboard
     description: Claude に送り返せるホワイトボード Artifact 上でスケッチする
   - name: workshop
