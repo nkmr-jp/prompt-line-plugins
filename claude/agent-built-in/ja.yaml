@@ -11,7 +11,7 @@ commands:
     description: 現在のセッションにファイルアクセス用の作業ディレクトリを追加する。パスを途中まで入力すると候補が表示され、Tab で確定できる。追加したディレクトリ配下の .claude/ 設定はほとんど読み込まれないが、そのディレクトリから --continue / --resume でセッションを再開できる
     argument-hint: "<path>"
   - name: advisor
-    description: "タスク中の重要な局面で2つ目のモデルに助言を求めるadvisorツールを有効化/無効化する。opus、sonnet、またはフルモデルIDを指定可能（Fable 5 は advisor として提供されない）。引数なしでピッカーを開く"
+    description: "タスク中の重要な局面で2つ目のモデルに助言を求めるadvisorツールを有効化/無効化する。opus、sonnet、またはフルモデルIDを指定可能。Fable 5 は advisor として提供されず、/advisor fable は拒否される。引数なしでピッカーを開く"
     argument-hint: "[model|off]"
   - name: agents
     description: "サブエージェントの作成・管理を Claude に依頼するか、.claude/agents/ または ~/.claude/agents/ のファイルを直接編集するよう促すリマインダーを表示する。旧バージョンでは対話的な管理インターフェースを開いていた"
@@ -32,21 +32,21 @@ commands:
   - name: brief
     description: brief モードを切り替える。通常のアシスタント応答ではなく専用のメッセージツール経由で返答するようになる
   - name: btw
-    description: 会話に追加せずに素早くサイドクエスチョンをする。質問を省略すると、このセッションで直近に尋ねたサイドクエスチョンのオーバーレイを再度開き、過去の回答をたどれる
+    description: 会話に追加せずに素早くサイドクエスチョンをする。質問を省略すると、このセッションで直近に尋ねたサイドクエスチョンのオーバーレイを再度開き、過去の回答をたどれる。まだサイドクエスチョンが無い場合は質問の入力を求められる
     argument-hint: "[question]"
   - name: bug
     description: "バグを報告する、または会話を共有する。送信前にセッション履歴をどこまで含めるかを選び、同意画面で確認する。ファーストパーティ接続でAnthropicにサインインしている場合はAnthropicへ送信され、サードパーティプロバイダー利用時やAnthropicの認証情報がない場合は ~/.claude/feedback-bundles/ 配下のローカルアーカイブに書き出され、自分で転送する。エイリアス: /share"
     argument-hint: "[report]"
   - name: cd
-    description: "このセッションを新しい作業ディレクトリに移動する。会話のプロンプトキャッシュは保持され、システムプロンプトを再構築する代わりに新ディレクトリのCLAUDE.mdが追加される。セッションは移動先ディレクトリのプロジェクトストレージに移るため、--resume や --continue はそちらから見つけられる。v2.1.223以降は claude --resume <session-id> で他のどのディレクトリからでも移動後のセッションを見つけられる。未使用のディレクトリでは信頼するかを確認され、移動先は Cd の permission ルールで制限・無効化できる。セッションを移動せず追加ディレクトリへのアクセスを付与するには /add-dir を使用"
+    description: "このセッションを新しい作業ディレクトリに移動する。会話のプロンプトキャッシュは保持され、システムプロンプトを再構築する代わりに新ディレクトリのCLAUDE.mdが追加される。セッションは移動先ディレクトリのプロジェクトストレージに移るため、--resume や --continue はそちらから見つけられる。v2.1.223以降は claude --resume <session-id> で他のどのディレクトリからでも移動後のセッションを見つけられる。未使用のディレクトリでは信頼するかを確認され、移動先は Cd の permission ルールで制限・無効化できる。パスを途中まで入力すると候補が表示され、Tab で確定できる。セッションを移動せず追加ディレクトリへのアクセスを付与するには /add-dir を使用"
     argument-hint: "<path>"
   - name: chrome
     description: Claude in Chromeの設定を行う
   - name: clear
-    description: "空のコンテキストで新しい会話を開始する。直前の会話は /resume から引き続き利用できる。名前を渡すと直前の会話にラベルを付ける。エイリアス: /reset, /new"
+    description: "空のコンテキストで新しい会話を開始する。直前の会話は /resume から引き続き利用できる。名前を渡すと直前の会話にラベルを付ける。同じ会話を続けたままコンテキストを解放したい場合は /compact を使う。エイリアス: /reset, /new"
     argument-hint: "[name]"
   - name: color
-    description: "現在のセッションのプロンプトバーの色を設定する。使用可能な色: red, blue, green, yellow, purple, orange, pink, cyan。`default` でリセット、引数なしでランダムな色を選択"
+    description: "現在のセッションのプロンプトバーの色を設定する。使用可能な色: red, blue, green, yellow, purple, orange, pink, cyan。`default` でリセット、引数なしでランダムな色を選択。Remote Control 接続中は claude.ai/code にも色が同期される。-p モードでも利用可能"
     argument-hint: "[color|default]"
   - name: compact
     description: これまでの会話を要約してコンテキストを解放する。要約の焦点を絞る指示を任意で渡せる
@@ -71,9 +71,9 @@ commands:
   - name: desktop
     description: "現在のCLIセッションをClaude Code Desktopアプリに引き継ぐ。macOSまたはx64のWindowsとClaudeのサブスクリプションが必要。エイリアス: /app"
   - name: diff
-    description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧
+    description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧。Enterで選択したファイルのdiffを開き、Escでファイル一覧に戻る。diffはgitのblobから直接計算されるため、diff driverやtextconvフィルターは適用されない。ビューアを開いたままセッション外でgitの状態が変わると自動的に再読み込みされる
   - name: effort
-    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く"
+    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く。現在の応答の完了を待たずに即座に反映される"
     argument-hint: "[level|auto]"
   - name: exit
     description: "CLIを終了する。バックグラウンドセッションにアタッチ中の場合はデタッチするだけで、セッションは動き続ける。エイリアス: /quit"
@@ -87,7 +87,7 @@ commands:
     description: Claude Code に関するプロダクトフィードバックを送る。/bug と同じダイアログが開き、同意手順と送信ルールも同じ
     argument-hint: "[report]"
   - name: focus
-    description: フォーカスビューをトグルする。直前のプロンプト、ツール呼び出しのサマリー（編集diffstat付き）、最終レスポンスのみを表示。選択状態はセッション間で保持される。fullscreenレンダリング時のみ利用可能
+    description: フォーカスビューをトグルする。直前のプロンプト、ツール呼び出しのサマリー（編集diffstat付き）、最終レスポンスのみを表示。サマリーにはそのターンで起動したサブエージェント数も含まれ、完了したバックグラウンドタスクの通知は件数1行にまとめられる。選択状態はセッション間で保持され、viewMode 設定で上書きできる。fullscreenレンダリング時のみ利用可能
   - name: fork
     description: "現在の会話を新しいバックグラウンドセッションにコピーし、この場で作業を続ける。2つのセッションはその時点から独立する。プロンプトを渡すとコピー側がすぐに作業を開始し、渡さない場合は agent view で待機する。コピー側がその場で編集する場合を除き、Claude Code はコード変更の前に専用の worktree を作るよう指示する（この隔離指示は v2.1.221 以降）。結果がこの会話に返るサブエージェントに副タスクを任せるには /subtask を、自分でコピーに切り替えるには /branch を使う"
     argument-hint: "[prompt]"
@@ -103,14 +103,14 @@ commands:
   - name: ide
     description: IDE連携の管理とステータス表示
   - name: import
-    description: "自分のマシンにある他のコーディングエージェント（現時点では OpenAI Codex と Google Gemini CLI）の設定を Claude Code に取り込む。指示ファイル・MCPサーバー・コマンド・サブエージェント・スキルが対象。--dry-run で何も書き込まずに内容を確認でき、--yes で対話的な選択画面をスキップできる"
+    description: "自分のマシンにある他のコーディングエージェント（現時点では OpenAI Codex と Google Gemini CLI）の設定を Claude Code に取り込む。指示ファイル・MCPサーバー・コマンド・サブエージェント・スキルが対象。--dry-run で何も書き込まずに内容を確認でき、--yes で対話的な選択画面をスキップできる。-p モードでは検出した内容を一覧表示し、インポートを確定するコマンドを提示する"
     argument-hint: "[codex|gemini] [--dry-run] [--yes]"
   - name: init
     description: "CLAUDE.mdガイドでプロジェクトを初期化する。CLAUDE_CODE_NEW_INIT=1で、スキル・フック・個人メモリファイルの設定も含むインタラクティブフローを使用可能。/import が対応するコーディングエージェントの設定が見つかった場合は、その引き継ぎを提案する"
   - name: insights
     description: Claude Codeセッションの分析レポートを生成する（プロジェクト領域、インタラクションパターン、摩擦ポイント）
   - name: install-github-app
-    description: リポジトリに Claude GitHub App をインストールする。任意で GitHub Actions ワークフローとシークレットのセットアップも行う
+    description: リポジトリに Claude GitHub App をインストールする。任意で GitHub Actions ワークフローとシークレットのセットアップも行う。リポジトリの選択から連携設定まで対話的にガイドされる
   - name: install-slack-app
     description: Claude Slackアプリをインストールする。ブラウザを開いてOAuthフローを完了する
   - name: keybindings
@@ -124,14 +124,14 @@ commands:
   - name: loops
     description: loop の一覧表示・作成・削除を行う
   - name: mcp
-    description: "MCPサーバー接続とOAuth認証を管理する。引数なしで対話的な一覧を開き、`reconnect <server>` で切断された1つのサーバーを再接続、`enable`/`disable` にサーバー名または `all` を渡して有効化/無効化する"
+    description: "MCPサーバー接続とOAuth認証を管理する。引数なしで対話的な一覧を開き、`reconnect <server>` で切断された1つのサーバーを再接続、`enable`/`disable` にサーバー名または `all` を渡して有効化/無効化する。-p モードで引数なしに実行すると、一覧を開く代わりにサーバー状態のテキストサマリーを表示する"
     argument-hint: "[reconnect <server>|enable|disable [<server>|all]]"
   - name: memory
     description: CLAUDE.mdメモリファイルの編集、自動メモリの有効化/無効化、自動メモリエントリの表示を行う
   - name: mobile
     description: "Claudeモバイルアプリのダウンロード用QRコードを表示する。エイリアス: /ios, /android"
   - name: model
-    description: AIモデルを切り替え、新規セッションのデフォルトとして保存する。対応モデルでは左右矢印キーで推論レベルを調整可能。引数なしでピッカーを開き、`s`キーで現在のセッションのみ切り替え。すでに出力のある会話では、次の応答がキャッシュなしで全履歴を読み直すことになるため、ピッカーが確認を求める
+    description: AIモデルを切り替え、新規セッションのデフォルトとして保存する。対応モデルでは左右矢印キーで推論レベルを調整可能。引数なしでピッカーを開き、`s`キーで現在のセッションのみ切り替え。すでに出力のある会話では、次の応答がキャッシュなしで全履歴を読み直すことになるため、ピッカーが確認を求める。確定後は現在の応答の完了を待たずに適用される
     argument-hint: "[model]"
   - name: passes
     description: 友人にClaude Codeの無料1週間パスを共有する。対象アカウントのみ表示
@@ -154,7 +154,7 @@ commands:
   - name: recap
     description: 現在のセッションの1行サマリーをオンデマンドで生成する
   - name: release-notes
-    description: インタラクティブなバージョンピッカーで変更履歴を表示する。特定のバージョンを選んでリリースノートを見るか、全バージョンをまとめて表示できる
+    description: インタラクティブなバージョンピッカーで変更履歴を表示する。特定のバージョンを選んでリリースノートを見るか、全バージョンをまとめて表示できる。表示内容はトランスクリプトに出るだけで、Claude が読む会話には入らない
   - name: reload-plugins
     description: "アクティブなプラグインをすべてリロードし、保留中の変更を再起動なしで適用する。リロードされたコンポーネント数とロードエラーを報告。読み込まれるMCPツールが変化してプロンプトキャッシュが無効化される場合は警告してスキップし、--force を渡すと強制実行する"
     argument-hint: "[--force]"
@@ -165,7 +165,7 @@ commands:
   - name: remote-env
     description: クラウドエージェント用のデフォルト環境を選択する
   - name: rename
-    description: 現在のセッションの名前を変更し、プロンプトバーに表示する。名前未指定時は会話履歴から自動生成
+    description: 現在のセッションの名前を変更し、プロンプトバーに表示する。名前未指定時は会話履歴から自動生成。claude.ai やデスクトップアプリを含むどのリネーム経路でも、制御文字・不可視文字はスペースに置換され、名前は200文字で打ち切られる。不可視文字を除くと空になる名前は拒否される。この正規化と文字数上限は v2.1.221 以降
     argument-hint: "[name]"
   - name: resume
     description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。バックグラウンドセッションは bg 付きで表示され、実行中のものはここでは再開できないため claude agents からアタッチするか停止する。エイリアス: /continue"
@@ -214,7 +214,7 @@ commands:
   - name: terminal-setup
     description: ターミナルのキーバインドを設定する（Shift+Enterなどのショートカット）。VS Code・Cursor・Devin Desktop・Alacritty・Zedなど必要なターミナルでのみ表示
   - name: theme
-    description: "カラーテーマを変更する。ターミナルのダーク/ライトモードに追従するauto、ライト/ダーク、色覚対応（ダルトナイズ）テーマ、ターミナルのパレットを使うANSIテーマ、~/.claude/themes/ やプラグイン由来のカスタムテーマを含む"
+    description: "カラーテーマを変更する。ターミナルのダーク/ライトモードに追従するauto、ライト/ダーク、色覚対応（ダルトナイズ）テーマ、ターミナルのパレットを使うANSIテーマ、~/.claude/themes/ やプラグイン由来のカスタムテーマを含む。`New custom theme…` を選ぶと新しいテーマを作成できる"
   - name: tui
     description: "ターミナルUIレンダラーを設定し、会話を保ったまま再起動する。fullscreenでフリッカーフリーのalt-screenレンダラーを有効化。引数なしで現在のレンダラーを表示"
     argument-hint: "[default|fullscreen]"
@@ -224,7 +224,7 @@ commands:
   - name: update
     description: "会話を維持したまま最新バージョンに切り替える。エイリアス: /restart"
   - name: upgrade
-    description: より高いプランティアに切り替えるためのアップグレードページをブラウザで開く
+    description: より高いプランティアに切り替えるためのアップグレードページをブラウザで開く。ブラウザを開けなかった場合は URL を表示せずサインインプロンプトを表示する
   - name: usage
     description: "セッションコスト、プラン使用制限、アクティビティ統計を表示する。Pro・Max・Team・Enterpriseの各プランでは、スキル・サブエージェント・プラグイン・MCPサーバー別の使用量内訳も表示する。エイリアス: /cost, /stats"
   - name: usage-credits
@@ -263,7 +263,7 @@ skills:
   - name: code-walkthrough
     description: コードのインタラクティブなウォークスルー Artifact を生成する
   - name: dataviz
-    description: "チャート・グラフ・ダッシュボードの設計を支援する。データに合ったチャート形式を選び、役割に応じて色を割り当て、付属スクリプトで色覚多様性への安全性とコントラストを検証し、マーク・インタラクション・アクセシビリティのルールを適用する"
+    description: "チャート・グラフ・ダッシュボードの設計を支援する。データに合ったチャート形式を選び、役割に応じて色を割り当て、付属スクリプトで色覚多様性への安全性とコントラストを検証し、マーク・インタラクション・アクセシビリティのルールを適用する。ブランドニュートラルなプレースホルダーパレットを使うので、自分のブランドカラーに差し替えて使う"
     argument-hint: "[request]"
   - name: debug
     description: 現在のセッションのデバッグログを有効にし、セッションのデバッグログを読んで問題をトラブルシュートする。`claude --debug` で起動していない限りログ出力は無効なため、セッション途中で /debug を実行するとその時点以降のログが記録される。説明を付けて分析の焦点を絞ることも可能
@@ -295,7 +295,7 @@ skills:
   - name: run-skill-generator
     description: "/run と /verify に対し、クリーンな環境からプロジェクトのアプリをビルド・起動・操作する方法を教え込む"
   - name: simplify
-    description: "変更されたコードのクリーンアップ箇所をレビューし、修正を適用する。4つのレビューエージェントが並列で動き、既存ヘルパーの再利用・簡素化・効率化・抽象度の妥当性をカバーする。正しさのバグは探さない（バグ検出は /code-review を使用）"
+    description: "変更されたコードのクリーンアップ箇所をレビューし、修正を適用する。4つのレビューエージェントが並列で動き、既存ヘルパーの再利用・簡素化・効率化・抽象度の妥当性をカバーする。正しさのバグは探さない（バグ検出は /code-review を使用）。パスや PR 参照を渡すと対象を絞ってレビューできる"
     argument-hint: "[target]"
   - name: update-config
     description: settings.json の設定を変更する。hooks、permissions、環境変数に対応
