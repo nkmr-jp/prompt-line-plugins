@@ -15,7 +15,7 @@ commands:
   - name: app
     description: Continue the current session in the desktop app
   - name: approve
-    description: Retry a one-time auto-review denial for the previous command
+    description: Approve one retry of a recent automatic-review denial. Only available while automatic review is active
   - name: apps
     description: Browse apps (connectors) and insert them into your prompt
   - name: archive
@@ -108,7 +108,7 @@ commands:
   - name: resume
     description: Reload a previously saved conversation
   - name: review
-    description: Request Codex analysis of working tree changes
+    description: Start code review mode to review uncommitted changes, or compare against a base branch
   - name: sandbox-add-read-dir
     description: Grant read access to directories outside current roots (Windows only)
     argument-hint: "<absolute_directory_path>"
@@ -120,7 +120,7 @@ commands:
   - name: skills
     description: Browse and apply task-specific skill context
   - name: status
-    description: Display session configuration and token usage
+    description: Show the chat ID, context usage, and rate limits
   - name: statusline
     description: Configure and reorder footer status-line items (model, context, limits, git, tokens, session), persisted in config.toml
   - name: stop

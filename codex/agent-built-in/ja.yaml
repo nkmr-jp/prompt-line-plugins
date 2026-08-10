@@ -14,7 +14,7 @@ commands:
   - name: app
     description: 現在のセッションをデスクトップアプリに引き継ぐ
   - name: approve
-    description: 直前のコマンドに対する自動レビューの拒否を一度だけ再試行する
+    description: 直近の自動レビューによる拒否を一度だけ承認して再試行する。自動レビューが有効な場合のみ利用できる
   - name: apps
     description: アプリ（コネクタ）を閲覧してプロンプトに挿入する
   - name: archive
@@ -107,7 +107,7 @@ commands:
   - name: resume
     description: 以前に保存した会話をリロードする
   - name: review
-    description: ワーキングツリーの変更のCodex分析をリクエストする
+    description: コードレビューモードを開始し、未コミットの変更をレビューするか、ベースブランチとの差分を比較する
   - name: sandbox-add-read-dir
     description: 現在のルート外のディレクトリへの読み取りアクセスを付与する（Windowsのみ）
     argument-hint: "<absolute_directory_path>"
@@ -119,7 +119,7 @@ commands:
   - name: skills
     description: タスクに特化したスキルコンテキストを閲覧・適用する
   - name: status
-    description: セッション設定とトークン使用量を表示する
+    description: チャットID・コンテキスト使用量・レート制限を表示する
   - name: statusline
     description: フッターのステータスライン項目（model・context・limits・git・tokens・session）を設定・並べ替え、config.toml に永続化する
   - name: stop
