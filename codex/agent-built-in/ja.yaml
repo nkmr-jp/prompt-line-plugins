@@ -56,7 +56,7 @@ commands:
   - name: ide-context
     description: 自動IDEコンテキストのオン/オフを切り替える
   - name: import
-    description: Claude Codeの設定をセットアップ内容と最近のチャットとともにインポートする
+    description: Claude CodeまたはCursorのセットアップ・プロジェクトファイル・最近のチャットをインポートする。チャットは直近30日から最大50件が対象
   - name: init
     description: 現在のディレクトリにAGENTS.mdのひな形を生成する
   - name: keymap

@@ -32,7 +32,7 @@ commands:
   - name: brief
     description: "Toggle brief-only mode, where Claude replies through a dedicated message tool instead of normal assistant text"
   - name: btw
-    description: Ask a quick side question without adding to the conversation. Without a question, reopens the overlay on your most recent side question from this session so you can browse earlier answers; with no side questions yet, it asks for one
+    description: Ask a quick side question without adding to the conversation. Without a question, reopens the overlay on your most recent side question from this session so you can browse earlier answers; with no side questions yet, it prints a usage line
     argument-hint: "[question]"
   - name: bug
     description: "Report a bug or share your conversation. You choose how much session history to include and confirm on a consent screen before anything is sent. When signed in to Anthropic on a first-party connection the report goes to Anthropic; on a third-party provider or without Anthropic credentials it is written to a local archive under ~/.claude/feedback-bundles/ that you forward yourself. Alias: /share"
@@ -43,7 +43,7 @@ commands:
   - name: chrome
     description: Configure Claude in Chrome settings
   - name: clear
-    description: "Start a new conversation with empty context. The previous conversation stays available in /resume. Pass a name to label the previous conversation. To free up context while continuing the same conversation, use /compact instead. Aliases: /reset, /new"
+    description: "Start a new conversation with empty context. Pass a name to label the previous conversation in the /resume picker. To free up context while continuing the same conversation, use /compact instead. Resume the previous conversation with /resume, or, within the same Claude Code process, restore it from the rewind menu's previous-session entry. Aliases: /reset, /new"
     argument-hint: "[name]"
   - name: color
     description: "Set the prompt bar color for the current session. Available colors: red, blue, green, yellow, purple, orange, pink, cyan. Use `default` to reset, or run with no argument to pick a random color. When Remote Control is connected the color syncs to claude.ai/code. Also available in -p mode"
@@ -73,7 +73,7 @@ commands:
   - name: diff
     description: Open an interactive diff viewer showing uncommitted changes and per-turn diffs. Use left/right arrows to switch between the current git diff and individual Claude turns, and up/down to browse files. Press Enter to open the selected file's diff and Esc to return to the file list. Diffs come from raw git blob content, so diff drivers and textconv filters do not apply. The open viewer refreshes automatically when the repository's git state changes outside the session
   - name: effort
-    description: "Set the model effort level. Accepts low/medium/high/xhigh/max/ultracode. Available levels depend on the model; max and ultracode are session-only. ultracode combines xhigh reasoning with automatic workflow orchestration. auto resets to the model default. Without an argument, opens an interactive slider. Takes effect immediately without waiting for the current response to finish"
+    description: "Set the model effort level. Accepts low/medium/high/xhigh/max/ultracode. Available levels depend on the model; max and ultracode are session-only. ultracode combines xhigh reasoning with automatic workflow orchestration. auto resets to the model default. Without an argument, opens an interactive slider. Takes effect immediately without waiting for the current response to finish. Also available in -p mode with a level argument, where it applies to the current session only; while the model-default effort hold is in force it reports Not applied, so pass --effort at launch instead"
     argument-hint: "[level|auto]"
   - name: exit
     description: "Exit the CLI. In an attached background session, this detaches and the session keeps running. Alias: /quit"
@@ -81,7 +81,7 @@ commands:
     description: "Export the current conversation as plain text. With a filename, writes directly to that file; without, opens a dialog to copy to clipboard or save to a file"
     argument-hint: "[filename]"
   - name: fast
-    description: Toggle Fast mode on or off
+    description: "Toggle Fast mode on or off. In -p mode it works only in a session launched with fast mode in its --settings value, for example claude -p --settings '{\"fastMode\": true}'; the toggle then applies to that session only and is not saved as your default, and any other non-interactive session reports that fast mode is not available"
     argument-hint: "[on|off]"
   - name: feedback
     description: Send product feedback about Claude Code. Opens the same dialog as /bug, with the same consent step and sending rules
@@ -108,7 +108,7 @@ commands:
   - name: init
     description: "Initialize project with a CLAUDE.md guide. Set CLAUDE_CODE_NEW_INIT=1 for an interactive flow that also walks through skills, hooks, and personal memory files. If it finds configuration from a coding agent that /import supports, it offers to carry that over"
   - name: insights
-    description: Generate an analysis report of Claude Code sessions (project areas, interaction patterns, friction points)
+    description: Generate an HTML report analyzing your recent sessions on this machine (project areas, interaction patterns, friction points, and features to try). Not available in cloud sessions
   - name: install-github-app
     description: Install the Claude GitHub App for a repository, with an optional step to set up GitHub Actions workflows and secrets. Walks you through selecting a repo and configuring the integration
   - name: install-slack-app
@@ -152,7 +152,7 @@ commands:
   - name: radio
     description: Open Claude FM lo-fi radio in your browser. Prints the stream URL when no browser is available. Not available on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, or Claude Platform on AWS
   - name: recap
-    description: Generate a one-line summary of the current session on demand
+    description: Generate a one-line summary of the current session on demand, separately from the automatic session recap that appears after you have been away
   - name: release-notes
     description: View the changelog in an interactive version picker. Select a specific version to see its release notes, or choose to show all versions. The notes appear in your transcript without entering the conversation Claude sees
   - name: reload-plugins
@@ -161,7 +161,7 @@ commands:
   - name: reload-skills
     description: Re-scan skill and command directories so changes on disk become available without restarting the session. Reports how many skills are available and how many were added or removed
   - name: remote-control
-    description: "Make this session available for Remote Control from claude.ai. Alias: /rc"
+    description: "Make this session available for Remote Control from claude.ai. Running it while signed out prints that Remote Control requires a claude.ai subscription and tells you how to sign in. Alias: /rc"
   - name: remote-env
     description: Choose the default environment for cloud agents
   - name: rename
@@ -208,7 +208,7 @@ commands:
   - name: tasks
     description: "View and manage background work in the current session, including subagents that have finished. Alias: /bashes"
   - name: team-onboarding
-    description: Generate a teammate onboarding guide from the past 30 days of sessions, commands, and MCP server usage. claude.ai subscribers also get a share link teammates can open directly in Claude Code
+    description: Generate a teammate onboarding guide from the past 30 days of sessions, commands, and MCP server usage, as a markdown guide a teammate can paste as a first message. claude.ai subscribers on Pro, Max, Team, and Enterprise plans also get a share link teammates can open directly in Claude Code
   - name: teleport
     description: "Pull a Claude Code on the web session into this terminal: opens a picker, then fetches the branch and conversation. Requires a claude.ai subscription. Alias: /tp"
   - name: terminal-setup

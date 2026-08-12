@@ -32,7 +32,7 @@ commands:
   - name: brief
     description: brief モードを切り替える。通常のアシスタント応答ではなく専用のメッセージツール経由で返答するようになる
   - name: btw
-    description: 会話に追加せずに素早くサイドクエスチョンをする。質問を省略すると、このセッションで直近に尋ねたサイドクエスチョンのオーバーレイを再度開き、過去の回答をたどれる。まだサイドクエスチョンが無い場合は質問の入力を求められる
+    description: 会話に追加せずに素早くサイドクエスチョンをする。質問を省略すると、このセッションで直近に尋ねたサイドクエスチョンのオーバーレイを再度開き、過去の回答をたどれる。まだサイドクエスチョンが無い場合は使い方の1行が表示される
     argument-hint: "[question]"
   - name: bug
     description: "バグを報告する、または会話を共有する。送信前にセッション履歴をどこまで含めるかを選び、同意画面で確認する。ファーストパーティ接続でAnthropicにサインインしている場合はAnthropicへ送信され、サードパーティプロバイダー利用時やAnthropicの認証情報がない場合は ~/.claude/feedback-bundles/ 配下のローカルアーカイブに書き出され、自分で転送する。エイリアス: /share"
@@ -43,7 +43,7 @@ commands:
   - name: chrome
     description: Claude in Chromeの設定を行う
   - name: clear
-    description: "空のコンテキストで新しい会話を開始する。直前の会話は /resume から引き続き利用できる。名前を渡すと直前の会話にラベルを付ける。同じ会話を続けたままコンテキストを解放したい場合は /compact を使う。エイリアス: /reset, /new"
+    description: "空のコンテキストで新しい会話を開始する。名前を渡すと /resume ピッカー上で直前の会話にラベルが付く。同じ会話を続けたままコンテキストを解放したい場合は /compact を使う。直前の会話は /resume で再開できるほか、同じ Claude Code プロセス内なら rewind メニューの前セッション項目からも復元できる。エイリアス: /reset, /new"
     argument-hint: "[name]"
   - name: color
     description: "現在のセッションのプロンプトバーの色を設定する。使用可能な色: red, blue, green, yellow, purple, orange, pink, cyan。`default` でリセット、引数なしでランダムな色を選択。Remote Control 接続中は claude.ai/code にも色が同期される。-p モードでも利用可能"
@@ -73,7 +73,7 @@ commands:
   - name: diff
     description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧。Enterで選択したファイルのdiffを開き、Escでファイル一覧に戻る。diffはgitのblobから直接計算されるため、diff driverやtextconvフィルターは適用されない。ビューアを開いたままセッション外でgitの状態が変わると自動的に再読み込みされる
   - name: effort
-    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く。現在の応答の完了を待たずに即座に反映される"
+    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く。現在の応答の完了を待たずに即座に反映される。-p モードでもレベル引数付きで利用でき、その場合は現在のセッションにのみ適用される。モデルデフォルトの effort ホールドが効いている間は Not applied となるため、起動時に --effort を渡す"
     argument-hint: "[level|auto]"
   - name: exit
     description: "CLIを終了する。バックグラウンドセッションにアタッチ中の場合はデタッチするだけで、セッションは動き続ける。エイリアス: /quit"
@@ -81,7 +81,7 @@ commands:
     description: "現在の会話をプレーンテキストとしてエクスポートする。ファイル名を指定するとそのファイルに直接書き込み、指定なしの場合はクリップボードへのコピーまたはファイル保存のダイアログを開く"
     argument-hint: "[filename]"
   - name: fast
-    description: Fastモードのオン/オフを切り替える
+    description: "Fastモードのオン/オフを切り替える。-p モードでは、--settings で Fast モードを有効にして起動したセッション（例: claude -p --settings '{\"fastMode\": true}'）でのみ機能し、切り替えはそのセッション限りでデフォルトには保存されない。それ以外の非対話セッションでは Fast モードが利用できない旨が表示される"
     argument-hint: "[on|off]"
   - name: feedback
     description: Claude Code に関するプロダクトフィードバックを送る。/bug と同じダイアログが開き、同意手順と送信ルールも同じ
@@ -108,7 +108,7 @@ commands:
   - name: init
     description: "CLAUDE.mdガイドでプロジェクトを初期化する。CLAUDE_CODE_NEW_INIT=1で、スキル・フック・個人メモリファイルの設定も含むインタラクティブフローを使用可能。/import が対応するコーディングエージェントの設定が見つかった場合は、その引き継ぎを提案する"
   - name: insights
-    description: Claude Codeセッションの分析レポートを生成する（プロジェクト領域、インタラクションパターン、摩擦ポイント）
+    description: このマシン上の直近のセッションを分析したHTMLレポートを生成する（プロジェクト領域、インタラクションパターン、摩擦ポイント、試すとよい機能）。クラウドセッションでは利用できない
   - name: install-github-app
     description: リポジトリに Claude GitHub App をインストールする。任意で GitHub Actions ワークフローとシークレットのセットアップも行う。リポジトリの選択から連携設定まで対話的にガイドされる
   - name: install-slack-app
@@ -152,7 +152,7 @@ commands:
   - name: radio
     description: Claude FMのlo-fiラジオをブラウザで開く。ブラウザが使えない場合はストリームURLを表示する。Amazon Bedrock・Google Cloud's Agent Platform・Microsoft Foundry・Claude Platform on AWSでは利用不可
   - name: recap
-    description: 現在のセッションの1行サマリーをオンデマンドで生成する
+    description: 現在のセッションの1行サマリーをオンデマンドで生成する。しばらく離席した後に自動表示されるセッションリキャップとは別に、任意のタイミングで実行できる
   - name: release-notes
     description: インタラクティブなバージョンピッカーで変更履歴を表示する。特定のバージョンを選んでリリースノートを見るか、全バージョンをまとめて表示できる。表示内容はトランスクリプトに出るだけで、Claude が読む会話には入らない
   - name: reload-plugins
@@ -161,7 +161,7 @@ commands:
   - name: reload-skills
     description: 再起動せずにスキルとコマンドのディレクトリを再スキャンし、ディスク上の変更を反映する。利用可能なスキル数と追加・削除された数を報告する
   - name: remote-control
-    description: "このセッションをclaude.aiからのRemote Controlに利用可能にする。エイリアス: /rc"
+    description: "このセッションをclaude.aiからのRemote Controlに利用可能にする。サインアウト状態で実行すると、Remote Controlにはclaude.aiのサブスクリプションが必要である旨とサインイン方法が表示される。エイリアス: /rc"
   - name: remote-env
     description: クラウドエージェント用のデフォルト環境を選択する
   - name: rename
@@ -208,7 +208,7 @@ commands:
   - name: tasks
     description: "現在のセッションのバックグラウンド処理を一覧・管理する。完了済みのサブエージェントも含まれる。エイリアス: /bashes"
   - name: team-onboarding
-    description: 直近30日のセッション・コマンド・MCPサーバー利用状況から、チームメイト向けのオンボーディングガイドを生成する。claude.aiのサブスクライバーはチームメイトがClaude Codeで直接開ける共有リンクも取得できる
+    description: 直近30日のセッション・コマンド・MCPサーバー利用状況から、チームメイトが最初のメッセージとして貼り付けられるMarkdown形式のオンボーディングガイドを生成する。Pro/Max/Team/EnterpriseプランのClaude.aiサブスクライバーは、チームメイトがClaude Codeで直接開ける共有リンクも取得できる
   - name: teleport
     description: "Claude Code Webセッションをこのターミナルに引き込む。ピッカーを開いてブランチと会話を取得。claude.aiサブスクリプションが必要。エイリアス: /tp"
   - name: terminal-setup
