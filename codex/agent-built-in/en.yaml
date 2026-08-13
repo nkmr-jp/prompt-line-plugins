@@ -57,7 +57,7 @@ commands:
   - name: ide-context
     description: Turn automatic IDE context on or off
   - name: import
-    description: Import Claude Code configuration with setup and recent chats
+    description: Import Claude Code or Cursor setup, project files, and recent chats. Session discovery covers up to 50 chats from the last 30 days
   - name: init
     description: Generate an AGENTS.md scaffold in the current directory
   - name: keymap
