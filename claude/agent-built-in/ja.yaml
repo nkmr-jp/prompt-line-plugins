@@ -8,10 +8,10 @@ references:
 
 commands:
   - name: add-dir
-    description: 現在のセッションにファイルアクセス用の作業ディレクトリを追加する。パスを途中まで入力すると候補が表示され、Tab で確定できる。追加したディレクトリ配下の .claude/ 設定はほとんど読み込まれないが、そのディレクトリから --continue / --resume でセッションを再開できる
+    description: 現在のセッションにファイルアクセス用の作業ディレクトリを追加する。パスを途中まで入力すると候補が表示され、Tab で確定できる。追加したディレクトリ配下の .claude/ 設定はほとんど読み込まれない。追加に成功すると DirectoryAdded フックが実行される
     argument-hint: "<path>"
   - name: advisor
-    description: "タスク中の重要な局面で2つ目のモデルに助言を求めるadvisorツールを有効化/無効化する。opus、sonnet、またはフルモデルIDを指定可能。Fable 5 は advisor として提供されず、/advisor fable は拒否される。引数なしでピッカーを開く"
+    description: "タスク中の重要な局面で2つ目のモデルに助言を求めるadvisorツールを有効化/無効化する。fable、opus、sonnet、またはフルモデルIDを指定可能。fable の指定には Fable 5 へのアクセス権が必要。引数なしでピッカーを開く"
     argument-hint: "[model|off]"
   - name: agents
     description: "サブエージェントの作成・管理を Claude に依頼するか、.claude/agents/ または ~/.claude/agents/ のファイルを直接編集するよう促すリマインダーを表示する。旧バージョンでは対話的な管理インターフェースを開いていた"
@@ -24,7 +24,7 @@ commands:
     description: 現在のブランチのPRを監視し、CIが失敗したりレビューコメントが付いたら自動で修正をプッシュするClaude Code Webセッションを起動する。チェックアウト中のブランチからオープンなPRを検出するため、別のPRを監視したいときは先にそのブランチへ切り替える。デフォルトではCIの失敗とレビューコメントをすべて修正するよう指示されるが、プロンプトを渡せば別の指示を与えられる。gh CLI と Claude Code Web へのアクセスが必要
     argument-hint: "[prompt]"
   - name: background
-    description: "現在のセッションをバックグラウンドエージェントとしてデタッチし、ターミナルを解放する。プロンプトを渡すとデタッチ前に追加の指示を送信できる。エイリアス: /bg"
+    description: "現在のセッションをバックグラウンドエージェントとしてデタッチし、ターミナルを解放する。プロンプトを渡すとデタッチ前に追加の指示を送信できる。デタッチしたセッションは `claude agents` で監視できる。このセッションを動かしたまま会話を新しいバックグラウンドセッションにコピーするには /fork を使う。エイリアス: /bg"
     argument-hint: "[prompt]"
   - name: branch
     description: 現在の会話のこの時点でブランチを作成し、今の会話を失わずに別の方向を試せるようにする。作成したブランチに切り替わり、元の会話は保持されて /resume から戻れる。自分が切り替わらずにコピーを独立したバックグラウンドセッションとして動かしたい場合は /fork、結果がこの会話に戻ってくるサブエージェントに脇作業を任せたい場合は /subtask を使う
@@ -89,7 +89,7 @@ commands:
   - name: focus
     description: フォーカスビューをトグルする。直前のプロンプト、ツール呼び出しのサマリー（編集diffstat付き）、最終レスポンスのみを表示。サマリーにはそのターンで起動したサブエージェント数も含まれ、完了したバックグラウンドタスクの通知は件数1行にまとめられる。選択状態はセッション間で保持され、viewMode 設定で上書きできる。fullscreenレンダリング時のみ利用可能
   - name: fork
-    description: "現在の会話を新しいバックグラウンドセッションにコピーし、この場で作業を続ける。2つのセッションはその時点から独立する。プロンプトを渡すとコピー側がすぐに作業を開始し、渡さない場合は agent view で待機する。コピー側がその場で編集する場合を除き、Claude Code はコード変更の前に専用の worktree を作るよう指示する（この隔離指示は v2.1.221 以降）。結果がこの会話に返るサブエージェントに副タスクを任せるには /subtask を、自分でコピーに切り替えるには /branch を使う"
+    description: "現在の会話を新しいバックグラウンドセッションにコピーし、この場で作業を続ける。2つのセッションはその時点から独立する。プロンプトを渡すとコピー側がすぐに作業を開始し、渡さない場合は agent view で待機する。コピー側がその場で編集する場合を除き、Claude Code はコード変更の前に専用の worktree を作るよう指示する（この隔離指示は v2.1.221 以降）。結果がこの会話に返るサブエージェントに副タスクを任せるには /subtask を、自分でコピーに切り替えるには /branch を使う。v2.1.212 以降が必要で、それ以前のバージョンや agent view を無効にしている場合はフォーク済みサブエージェントの起動になる"
     argument-hint: "[prompt]"
   - name: goal
     description: "ゴールを設定する。Claudeは条件が満たされるまで複数ターンにわたって作業を続ける。引数なしで現在のゴール、または直近に達成したゴールを表示。clear・stop・off・reset・none・cancel のいずれかを渡すと、有効なゴールを早期に解除できる。インタラクティブ・-p・Remote Controlの各モードで動作"
@@ -103,7 +103,7 @@ commands:
   - name: ide
     description: IDE連携の管理とステータス表示
   - name: import
-    description: "自分のマシンにある他のコーディングエージェント（現時点では OpenAI Codex と Google Gemini CLI）の設定を Claude Code に取り込む。指示ファイル・MCPサーバー・コマンド・サブエージェント・スキルが対象。--dry-run で何も書き込まずに内容を確認でき、--yes で対話的な選択画面をスキップできる。-p モードでは検出した内容を一覧表示し、インポートを確定するコマンドを提示する"
+    description: "自分のマシンにある他のコーディングエージェント（現時点では OpenAI Codex と Google Gemini CLI）の設定を Claude Code に取り込む。指示ファイル・MCPサーバー・コマンド・サブエージェント・スキルが対象。--dry-run で何も書き込まずに内容を確認でき、--yes で対話的な選択画面をスキップできる。-p モードでは検出した内容を一覧表示し、インポートを確定するコマンドを提示する。Amazon Bedrock・Google Cloud の Agent Platform・Microsoft Foundry・Claude Platform on AWS、および feature-flag の取得を無効にしている場合は利用できない。v2.1.213 以降が必要"
     argument-hint: "[codex|gemini] [--dry-run] [--yes]"
   - name: init
     description: "CLAUDE.mdガイドでプロジェクトを初期化する。CLAUDE_CODE_NEW_INIT=1で、スキル・フック・個人メモリファイルの設定も含むインタラクティブフローを使用可能。/import が対応するコーディングエージェントの設定が見つかった場合は、その引き継ぎを提案する"
@@ -178,7 +178,7 @@ commands:
   - name: sandbox
     description: サンドボックスモードを切り替える。対応プラットフォームのみ
   - name: schedule
-    description: "routines（Cloudスケジュールタスク）の作成・更新・一覧・実行を行う。Claudeが対話的にセットアップをガイドする。エイリアス: /routines"
+    description: "routines（Cloudスケジュールタスク）の作成・更新・一覧・実行を行う。Claudeが対話的にセットアップをガイドし、routine の直近の実行状況について尋ねることもできる。エイリアス: /routines"
     argument-hint: "[description]"
   - name: scroll-speed
     description: マウスホイールのスクロール速度を対話的に調整する。ダイアログ表示中にスクロール可能なルーラーで変更をプレビューできる。全画面レンダリング時のみ利用でき、JetBrains IDE のターミナルでは使えない
@@ -203,7 +203,7 @@ commands:
   - name: stop
     description: 現在のバックグラウンドセッションを停止する。バックグラウンドセッションにアタッチ中のみ利用可能。トランスクリプトとworktreeは保持される。停止せずにデタッチしたい場合は /exit か左矢印キーを使う
   - name: subtask
-    description: "フォーク済みサブエージェントを起動する。会話全体を引き継いだバックグラウンドサブエージェントがタスクを実行し、その間も作業を続けられる。完了するとこの会話に結果が返る。会話を別のバックグラウンドセッションにコピーする場合は /fork を使う"
+    description: "フォーク済みサブエージェントを起動する。会話全体を引き継いだバックグラウンドサブエージェントがタスクを実行し、その間も作業を続けられる。完了するとこの会話に結果が返る。会話を別のバックグラウンドセッションにコピーする場合は /fork を使う。v2.1.212 以降が必要で、agent view を無効にしている場合は利用できず、その環境では /fork がフォーク済みサブエージェントの起動を担う"
     argument-hint: "<task>"
   - name: tasks
     description: "現在のセッションのバックグラウンド処理を一覧・管理する。完了済みのサブエージェントも含まれる。エイリアス: /bashes"
@@ -258,7 +258,7 @@ skills:
   - name: claude-in-chrome
     description: Chrome ブラウザを自動操作して Web ページを操作する。要素のクリック、フォーム入力、スクリーンショット取得、コンソールログの読み取り、ページ遷移に対応。既存の Chrome セッション内の新しいタブでページを開くため、拡張機能側でサイトごとの権限設定が必要
   - name: code-review
-    description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグと再利用・簡素化・効率化のクリーンアップの観点からレビューする。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub PR にインラインコメントとして投稿する。エイリアス: /review"
+    description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグと再利用・簡素化・効率化のクリーンアップの観点からレビューする。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub PR にインラインコメントとして投稿する。github.com の PR を対象に `ultra` を使う場合、`--post` を渡すと起動ダイアログで「完了したレビュー結果を PR に投稿する」が事前選択される。エイリアス: /review"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
   - name: code-walkthrough
     description: コードのインタラクティブなウォークスルー Artifact を生成する

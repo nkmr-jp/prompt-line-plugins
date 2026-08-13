@@ -8,10 +8,10 @@ references:
 
 commands:
   - name: add-dir
-    description: Add a working directory for file access during the current session. Typing a partial path shows matching directory suggestions; press Tab to accept one. Most .claude/ configuration is not discovered from the added directory, but you can later resume the session from it with --continue or --resume
+    description: Add a working directory for file access during the current session. Typing a partial path shows matching directory suggestions; press Tab to accept one. Most .claude/ configuration is not discovered from the added directory. A successful add runs your DirectoryAdded hooks
     argument-hint: "<path>"
   - name: advisor
-    description: "Enable or disable the advisor tool, which consults a second model for guidance at key moments during a task. Accepts opus, sonnet, or a full model ID; Fable 5 is not offered as the advisor and /advisor fable is rejected. Without an argument, opens a picker"
+    description: "Enable or disable the advisor tool, which consults a second model for guidance at key moments during a task. Accepts fable, opus, sonnet, or a full model ID; fable requires Fable 5 access. Without an argument, opens a picker"
     argument-hint: "[model|off]"
   - name: agents
     description: "Prints a reminder to ask Claude to create or manage subagents, or to edit the .claude/agents/ or ~/.claude/agents/ files directly. Earlier versions opened an interactive management interface"
@@ -24,7 +24,7 @@ commands:
     description: Spawn a Claude Code on the web session that watches the current branch's PR and pushes fixes when CI fails or reviewers leave comments. Detects the open PR from the checked-out branch, so check out another branch first to watch its PR. By default the cloud session fixes every CI failure and review comment; pass a prompt to give it different instructions. Requires the gh CLI and access to Claude Code on the web
     argument-hint: "[prompt]"
   - name: background
-    description: "Detach the current session to run as a background agent and free this terminal. Pass a prompt to send one more instruction before detaching. Alias: /bg"
+    description: "Detach the current session to run as a background agent and free this terminal. Pass a prompt to send one more instruction before detaching. Monitor the session with `claude agents`. To copy the conversation into a new background session while this one keeps running, use /fork. Alias: /bg"
     argument-hint: "[prompt]"
   - name: branch
     description: Create a branch of the current conversation at this point to try a different direction without losing the conversation as it stands. Switches you into the branch and preserves the original, which you can return to with /resume. To run a copy as a separate background session instead of switching into it, use /fork; to hand a side task to a subagent that reports back into this conversation, use /subtask
@@ -89,7 +89,7 @@ commands:
   - name: focus
     description: Toggle the focus view that shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. The summary also counts the subagents launched in the turn and collapses completed background-task notifications into a single count. The selection persists across sessions and can be overridden with the viewMode setting. Only available in fullscreen rendering
   - name: fork
-    description: "Copy the current conversation into a new background session and keep working here; the two sessions are independent from that point on. Pass a prompt and the copy starts on it immediately; without one it waits in agent view. Except when the copy edits in place, Claude Code instructs it to create a worktree of its own before making code changes; the isolation instruction requires v2.1.221 or later. To hand a side task to a subagent whose result returns to this conversation, use /subtask; to switch into a copy yourself, use /branch"
+    description: "Copy the current conversation into a new background session and keep working here; the two sessions are independent from that point on. Pass a prompt and the copy starts on it immediately; without one it waits in agent view. Except when the copy edits in place, Claude Code instructs it to create a worktree of its own before making code changes; the isolation instruction requires v2.1.221 or later. To hand a side task to a subagent whose result returns to this conversation, use /subtask; to switch into a copy yourself, use /branch. Requires v2.1.212 or later; on earlier versions, and whenever agent view is turned off, /fork starts a forked subagent instead"
     argument-hint: "[prompt]"
   - name: goal
     description: "Set a goal: Claude keeps working across turns until the condition is met. With no argument, shows the current or most recently achieved goal. Pass clear, stop, off, reset, none, or cancel to remove an active goal early. Works in interactive, -p, and Remote Control modes"
@@ -103,7 +103,7 @@ commands:
   - name: ide
     description: Manage IDE integrations and show status
   - name: import
-    description: "Bring configuration from other coding agents on your machine, currently OpenAI Codex and Google Gemini CLI, into Claude Code, including instruction files, MCP servers, commands, subagents, and skills. Add --dry-run to preview without writing anything, or --yes to skip the interactive picker. In -p mode it lists what it found and prints the command that confirms the import"
+    description: "Bring configuration from other coding agents on your machine, currently OpenAI Codex and Google Gemini CLI, into Claude Code, including instruction files, MCP servers, commands, subagents, and skills. Add --dry-run to preview without writing anything, or --yes to skip the interactive picker. In -p mode it lists what it found and prints the command that confirms the import. Not available on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, or Claude Platform on AWS, or when feature-flag fetching is turned off. Requires v2.1.213 or later"
     argument-hint: "[codex|gemini] [--dry-run] [--yes]"
   - name: init
     description: "Initialize project with a CLAUDE.md guide. Set CLAUDE_CODE_NEW_INIT=1 for an interactive flow that also walks through skills, hooks, and personal memory files. If it finds configuration from a coding agent that /import supports, it offers to carry that over"
@@ -178,7 +178,7 @@ commands:
   - name: sandbox
     description: Toggle sandbox mode. Available on supported platforms only
   - name: schedule
-    description: "Create, update, list, or run routines (Cloud scheduled tasks). Claude walks you through the setup conversationally. Alias: /routines"
+    description: "Create, update, list, or run routines (Cloud scheduled tasks). Claude walks you through the setup conversationally, and you can also ask about a routine's recent runs. Alias: /routines"
     argument-hint: "[description]"
   - name: scroll-speed
     description: Adjust mouse wheel scroll speed interactively, with a ruler you can scroll while the dialog is open to preview the change. Available in fullscreen rendering only and not in the JetBrains IDE terminal
@@ -203,7 +203,7 @@ commands:
   - name: stop
     description: Stop the current background session. Only available while attached to a background session; the transcript and any worktree are kept. To detach without stopping, use /exit or press the left arrow key
   - name: subtask
-    description: "Spawn a forked subagent: a background subagent that inherits the full conversation and works on the task while you keep working, returning its result to this conversation when it finishes. To copy the conversation into a separate background session instead, use /fork"
+    description: "Spawn a forked subagent: a background subagent that inherits the full conversation and works on the task while you keep working, returning its result to this conversation when it finishes. To copy the conversation into a separate background session instead, use /fork. Requires v2.1.212 or later, and is unavailable when agent view is turned off, where /fork keeps the forked-subagent behavior"
     argument-hint: "<task>"
   - name: tasks
     description: "View and manage background work in the current session, including subagents that have finished. Alias: /bashes"
@@ -258,7 +258,7 @@ skills:
   - name: claude-in-chrome
     description: "Automate your Chrome browser to interact with web pages: click elements, fill forms, capture screenshots, read console logs, and navigate sites. Opens pages in new tabs within your existing Chrome session, and requires site-level permissions configured in the extension"
   - name: code-review
-    description: "Review the current diff, or a PR number, branch, or path you pass, for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. With no effort level, reuses the level you typed last, falling back to the session's effort level if you have never typed one. Runs as a background subagent so review work stays out of your conversation. Pass `--fix` to apply findings to the working tree, or `--comment` to post inline PR comments. Alias: /review"
+    description: "Review the current diff, or a PR number, branch, or path you pass, for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. With no effort level, reuses the level you typed last, falling back to the session's effort level if you have never typed one. Runs as a background subagent so review work stays out of your conversation. Pass `--fix` to apply findings to the working tree, or `--comment` to post inline PR comments. With `ultra` on a github.com PR target, `--post` preselects posting the finished findings to the PR in the launch dialog. Alias: /review"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
   - name: code-walkthrough
     description: Generate an interactive walkthrough artifact for code
