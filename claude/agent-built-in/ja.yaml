@@ -92,7 +92,7 @@ commands:
     description: "現在の会話を新しいバックグラウンドセッションにコピーし、この場で作業を続ける。2つのセッションはその時点から独立する。プロンプトを渡すとコピー側がすぐに作業を開始し、渡さない場合は agent view で待機する。コピー側がその場で編集する場合を除き、Claude Code はコード変更の前に専用の worktree を作るよう指示する（この隔離指示は v2.1.221 以降）。結果がこの会話に返るサブエージェントに副タスクを任せるには /subtask を、自分でコピーに切り替えるには /branch を使う。v2.1.212 以降が必要で、それ以前のバージョンや agent view を無効にしている場合はフォーク済みサブエージェントの起動になる"
     argument-hint: "[prompt]"
   - name: goal
-    description: "ゴールを設定する。Claudeは条件が満たされるまで複数ターンにわたって作業を続ける。引数なしで現在のゴール、または直近に達成したゴールを表示。clear・stop・off・reset・none・cancel のいずれかを渡すと、有効なゴールを早期に解除できる。インタラクティブ・-p・Remote Controlの各モードで動作"
+    description: "ゴールを設定する。Claudeは条件が満たされるか、達成不可能と判断されるまで複数ターンにわたって作業を続ける。引数なしで現在のゴール、または直近に達成したゴールを表示。clear・stop・off・reset・none・cancel のいずれかを渡すと、有効なゴールを早期に解除できる。インタラクティブ・-p・Remote Controlの各モードで動作"
     argument-hint: "[condition|clear]"
   - name: heapdump
     description: メモリ使用量診断用にJavaScriptヒープスナップショットとメモリブレークダウンを ~/Desktop（Desktop フォルダが無い Linux ではホームディレクトリ）に出力する。メモリ問題を報告する際は -diagnostics.json のみを添付する。.heapsnapshot ファイルには会話全体と認証情報が含まれるため共有しないこと。コマンドメニューには表示されないため、コマンド名を最後まで入力する必要がある
@@ -165,7 +165,7 @@ commands:
   - name: remote-env
     description: クラウドエージェント用のデフォルト環境を選択する
   - name: rename
-    description: 現在のセッションの名前を変更し、プロンプトバーに表示する。名前未指定時は会話履歴から自動生成。claude.ai やデスクトップアプリを含むどのリネーム経路でも、制御文字・不可視文字はスペースに置換され、名前は200文字で打ち切られる。不可視文字を除くと空になる名前は拒否される。この正規化と文字数上限は v2.1.221 以降
+    description: 現在のセッションの名前を変更し、プロンプトバーに表示する。名前未指定時は会話履歴から自動生成。claude.ai やデスクトップアプリを含むどのリネーム経路でも、制御文字・不可視文字はスペースに置換され、名前は200文字で打ち切られる。不可視文字を除くと空になる名前は拒否される。同じマシン上の別の実行中セッションが既に使っている名前を渡した場合は、その変種が代わりに適用される。この正規化と文字数上限は v2.1.221 以降
     argument-hint: "[name]"
   - name: resume
     description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。バックグラウンドセッションは bg 付きで表示され、実行中のものはここでは再開できないため claude agents からアタッチするか停止する。エイリアス: /continue"
@@ -241,6 +241,8 @@ commands:
 skills:
   - name: artifact-capabilities
     description: 公開した Artifact ページに付与できるランタイム機能 — ライブデータや接続済みデータの読み取り、閲覧者間での状態共有、ページ自身の更新と再公開など、静的 HTML だけでは実現できない挙動。利用可能な機能一覧と型付きの呼び出し定義を提供する
+  - name: artifact-components
+    description: 再利用可能なコンポーネントを Artifact に埋め込む
   - name: artifact-design
     description: Artifacts のデザインガイダンスと基礎知識
   - name: artifact-diagramming
@@ -262,6 +264,8 @@ skills:
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
   - name: code-walkthrough
     description: コードのインタラクティブなウォークスルー Artifact を生成する
+  - name: commit
+    description: "git コミットを作成する。ユーザーからの依頼か作業手順の一部かを問わず、コミットを作ろうとしているときは常にこれを使う。git のコンテキストを収集し、規定のコミットワークフロー（メッセージのスタイル、ステージングのルール、attribution）を適用する"
   - name: dataviz
     description: "チャート・グラフ・ダッシュボードの設計を支援する。データに合ったチャート形式を選び、役割に応じて色を割り当て、付属スクリプトで色覚多様性への安全性とコントラストを検証し、マーク・インタラクション・アクセシビリティのルールを適用する。ブランドニュートラルなプレースホルダーパレットを使うので、自分のブランドカラーに差し替えて使う"
     argument-hint: "[request]"
@@ -317,4 +321,4 @@ agents:
   - name: claude-code-guide
     description: Claude Codeの機能について質問する際に使用
   - name: claude
-    description: "エージェントを指定せずに`claude agents`や`claude --bg`からバックグラウンドセッションを起動した際に使用。他のサブエージェントと同様に、Claudeが自ら委譲することもある"
+    description: "サブエージェントが使える全ツールを持つ万能エージェント。より専門的なエージェントが当てはまらないタスクで使用。起動したバックグラウンドセッションのデフォルトエージェントでもあり、開始時のパーミッションモードはセッションの起動方法によって決まる"

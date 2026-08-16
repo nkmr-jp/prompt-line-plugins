@@ -92,7 +92,7 @@ commands:
     description: "Copy the current conversation into a new background session and keep working here; the two sessions are independent from that point on. Pass a prompt and the copy starts on it immediately; without one it waits in agent view. Except when the copy edits in place, Claude Code instructs it to create a worktree of its own before making code changes; the isolation instruction requires v2.1.221 or later. To hand a side task to a subagent whose result returns to this conversation, use /subtask; to switch into a copy yourself, use /branch. Requires v2.1.212 or later; on earlier versions, and whenever agent view is turned off, /fork starts a forked subagent instead"
     argument-hint: "[prompt]"
   - name: goal
-    description: "Set a goal: Claude keeps working across turns until the condition is met. With no argument, shows the current or most recently achieved goal. Pass clear, stop, off, reset, none, or cancel to remove an active goal early. Works in interactive, -p, and Remote Control modes"
+    description: "Set a goal: Claude keeps working across turns until the condition is met or judged impossible. With no argument, shows the current or most recently achieved goal. Pass clear, stop, off, reset, none, or cancel to remove an active goal early. Works in interactive, -p, and Remote Control modes"
     argument-hint: "[condition|clear]"
   - name: heapdump
     description: Write a JavaScript heap snapshot and a memory breakdown to ~/Desktop, or your home directory on Linux without a Desktop folder, for diagnosing high memory usage. Attach only the -diagnostics.json file when reporting a memory issue; the .heapsnapshot file contains your full conversation and credentials, so do not share it. Does not appear in the command menu, so type it in full
@@ -165,7 +165,7 @@ commands:
   - name: remote-env
     description: Choose the default environment for cloud agents
   - name: rename
-    description: Rename the current session and show the name on the prompt bar. Without a name, auto-generates one from conversation history. From every rename surface, control and invisible characters are replaced with spaces and the name is capped at 200 characters; a name that is empty once invisible characters are removed is rejected. Requires v2.1.221 or later for the sanitizing and length cap
+    description: Rename the current session and show the name on the prompt bar. Without a name, auto-generates one from conversation history. From every rename surface, control and invisible characters are replaced with spaces and the name is capped at 200 characters; a name that is empty once invisible characters are removed is rejected. When another live session on this machine already uses the name you pass, a variant of it is applied instead. Requires v2.1.221 or later for the sanitizing and length cap
     argument-hint: "[name]"
   - name: resume
     description: "Resume a conversation by ID or name, or open the session picker. Background sessions appear marked bg; a running one cannot be resumed here, so attach to it from claude agents or stop it there first. Alias: /continue"
@@ -241,6 +241,8 @@ commands:
 skills:
   - name: artifact-capabilities
     description: "Runtime capabilities a published Artifact page can be granted — behavior static HTML cannot provide on its own, such as the page reading live or connected data, keeping state shared across viewers, or updating and republishing itself. Serves this user's live capability roster and the typed call definitions"
+  - name: artifact-components
+    description: Embed reusable components in an Artifact
   - name: artifact-design
     description: Design guidance and fundamentals for Artifacts
   - name: artifact-diagramming
@@ -262,6 +264,8 @@ skills:
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
   - name: code-walkthrough
     description: Generate an interactive walkthrough artifact for code
+  - name: commit
+    description: "Create a git commit. Use whenever you are about to create a commit, whether you asked for one or it is a step in the current task — it gathers git context and applies the required commit workflow (message style, staging rules, attribution)"
   - name: dataviz
     description: "Design guidance for charts, graphs, and dashboards. Picks the chart form for the data, assigns color by role, validates the palette for colorblind safety and contrast with a bundled script, and applies mark, interaction, and accessibility rules. Uses a brand-neutral placeholder palette that you replace with your own."
     argument-hint: "[request]"
@@ -317,4 +321,4 @@ agents:
   - name: claude-code-guide
     description: When you ask questions about Claude Code features
   - name: claude
-    description: When you dispatch a background session from `claude agents` or `claude --bg` without naming an agent. Claude can also delegate to it like any other subagent
+    description: A catch-all with every tool available to subagents, used when a task doesn't fit a more specialized agent. Also the default agent for a dispatched background session, where the starting permission mode depends on how the session was started
