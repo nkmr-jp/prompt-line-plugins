@@ -131,7 +131,7 @@ commands:
   - name: mobile
     description: "Show QR code to download the Claude mobile app. Aliases: /ios, /android"
   - name: model
-    description: Switch the AI model and save it as the default for new sessions. For models that support it, use left/right arrows to adjust effort level. Without an argument, opens a picker; press `s` on a row to switch for the current session only. The picker asks for confirmation when the conversation has prior output, since the next response re-reads the full history without cached context. Once confirmed, the change applies without waiting for the current response to finish
+    description: Switch the AI model and save it as the default for new sessions. For models that support it, use left/right arrows to adjust effort level. Without an argument, opens a picker; press `s` on a row to switch for the current session only. The picker asks for confirmation when the conversation has prior output, since the next response re-reads the full history without cached context. Once confirmed, the change applies without waiting for the current response to finish. Also available in -p mode with a model argument instead of the picker, where it applies to the current session only and is not saved as your default
     argument-hint: "[model]"
   - name: passes
     description: Share a free week of Claude Code with friends. Only visible if your account is eligible
@@ -165,7 +165,7 @@ commands:
   - name: remote-env
     description: Choose the default environment for cloud agents
   - name: rename
-    description: Rename the current session and show the name on the prompt bar. Without a name, auto-generates one from conversation history. From every rename surface, control and invisible characters are replaced with spaces and the name is capped at 200 characters; a name that is empty once invisible characters are removed is rejected. When another live session on this machine already uses the name you pass, a variant of it is applied instead. Requires v2.1.221 or later for the sanitizing and length cap
+    description: Rename the current session and show the name on the prompt bar. Without a name, auto-generates one from conversation history. Also available in -p mode. From every rename surface, control and invisible characters are replaced with spaces and the name is capped at 200 characters; a name that is empty once invisible characters are removed is rejected. When another live session on this machine already uses the name you pass, a variant of it is applied instead. Requires v2.1.221 or later for the sanitizing and length cap
     argument-hint: "[name]"
   - name: resume
     description: "Resume a conversation by ID or name, or open the session picker. Background sessions appear marked bg; a running one cannot be resumed here, so attach to it from claude agents or stop it there first. Alias: /continue"
