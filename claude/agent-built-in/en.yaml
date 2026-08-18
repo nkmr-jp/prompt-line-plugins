@@ -8,7 +8,7 @@ references:
 
 commands:
   - name: add-dir
-    description: Add a working directory for file access during the current session. Typing a partial path shows matching directory suggestions; press Tab to accept one. Most .claude/ configuration is not discovered from the added directory. A successful add runs your DirectoryAdded hooks
+    description: Add a working directory for file access during the current session. Typing a partial path shows matching directory suggestions; press Tab to accept one. Most .claude/ configuration is not discovered from the added directory. A successful add runs your DirectoryAdded hooks. Can also be run while Claude is responding; you confirm the directory right away and Claude's next tool call in the same turn can access it, which requires v2.1.234 or later
     argument-hint: "<path>"
   - name: advisor
     description: "Enable or disable the advisor tool, which consults a second model for guidance at key moments during a task. Accepts fable, opus, sonnet, or a full model ID; fable requires Fable 5 access. Without an argument, opens a picker"
@@ -35,7 +35,7 @@ commands:
     description: Ask a quick side question without adding to the conversation. Without a question, reopens the overlay on your most recent side question from this session so you can browse earlier answers; with no side questions yet, it prints a usage line
     argument-hint: "[question]"
   - name: bug
-    description: "Report a bug or share your conversation. You choose how much session history to include and confirm on a consent screen before anything is sent. When signed in to Anthropic on a first-party connection the report goes to Anthropic; on a third-party provider or without Anthropic credentials it is written to a local archive under ~/.claude/feedback-bundles/ that you forward yourself. In the VS Code extension it opens the extension's own feedback dialog instead, which requires v2.1.229 or later. Alias: /share"
+    description: "Report a bug or share your conversation. You choose how much session history to include and confirm on a consent screen before anything is sent. When signed in to Anthropic on a first-party connection the report goes to Anthropic; on a third-party provider or without Anthropic credentials it is written to a local archive under ~/.claude/feedback-bundles/ that you forward yourself. In the VS Code extension it opens the extension's own feedback dialog instead, which requires v2.1.229 or later. When run while Claude is responding, the dialog opens immediately instead of being queued until the turn finishes, which requires v2.1.232 or later. Alias: /share"
     argument-hint: "[report]"
   - name: cd
     description: "Move this session to a new working directory. The conversation's prompt cache is preserved and the new directory's CLAUDE.md is appended instead of rebuilding the system prompt. The session is relocated to the new directory's project storage, so --resume and --continue find it from there; as of v2.1.223 claude --resume <session-id> also finds the moved session from any other directory. Prompts you to trust the directory if you have not worked in it before, and Cd permission rules can restrict or disable targets. Typing a partial path shows matching directory suggestions; press Tab to accept one. To grant access to an extra directory without moving the session, use /add-dir"
@@ -138,7 +138,7 @@ commands:
   - name: pause-memory
     description: "Pause automemory for this session. Aliases: /memory-pause, /toggle-memory"
   - name: permissions
-    description: "Manage allow, ask, and deny rules for tool permissions. Opens an interactive dialog to view rules by scope, add or remove rules, manage working directories, and review recent auto mode denials. Alias: /allowed-tools"
+    description: "Manage allow, ask, and deny rules for tool permissions. Opens an interactive dialog to view rules by scope, add or remove rules, manage working directories, and review recent auto mode denials. Can also be opened while Claude is responding; the dialog appears immediately and your changes apply starting with Claude's next tool call in the same turn, which requires v2.1.234 or later. Alias: /allowed-tools"
   - name: plan
     description: "Enter plan mode directly from the prompt. Pass an optional description to enter plan mode and immediately start with that task, for example /plan fix the auth bug"
     argument-hint: "[description]"
