@@ -16,7 +16,7 @@ commands:
   - name: agents
     description: "サブエージェントの作成・管理を Claude に依頼するか、.claude/agents/ または ~/.claude/agents/ のファイルを直接編集するよう促すリマインダーを表示する。旧バージョンでは対話的な管理インターフェースを開いていた"
   - name: artifacts
-    description: "公開済み・共有されている Artifacts を一覧表示する。Ctrl+] でも直近の Artifact を開ける"
+    description: "自分が所有する Artifacts と共有された Artifacts を一覧表示し、選んだものをセッションに添付する、ブラウザで開く、リンクをコピーする、といった操作ができる。Artifacts が利用可能な環境でのみ使える。v2.1.208 以降が必要。Enter での添付は v2.1.216 以降が必要"
   - name: autocompact
     description: "自動コンパクトのしきい値を設定する。コンテキストウィンドウがどこまで埋まったら Claude Code が自動的にコンパクトを実行するかを指定する。500k のようなサイズを渡すか、`auto` でモデルに合わせた既定値に戻す。指定した値はユーザー設定に保存され、現在のセッションにも即座に適用される。引数なしで実行すると現在のしきい値を表示するダイアログを開く。v2.1.221 以降が必要"
     argument-hint: "[auto|<tokens>]"
@@ -53,7 +53,7 @@ commands:
     argument-hint: "[instructions]"
   - name: config
     description: "設定インターフェースを開いてテーマ、モデル、出力スタイルなどを調整する。key=value のペア（例: /config thinking=false）を渡すと設定を直接変更でき、/config theme=dark や /config model=sonnet のような短縮キーも使える。`/config --help` で設定可能な全キーと選択肢を表示する。インタラクティブ・-p・Remote Controlの各モードで動作。エイリアス: /settings"
-    argument-hint: "[key=value...]"
+    argument-hint: "[key=value ...]"
   - name: context
     description: 現在のコンテキスト使用量をカラーグリッドで表示する。コンテキスト負荷の高いツール、メモリ膨張、容量警告の最適化提案も表示。会話がコンテキストウィンドウを超えた場合は、超過量と空き容量を確保するコマンドを警告として表示する。`all` を渡すと項目ごとの詳細をフルスクリーンで展開
     argument-hint: "[all]"
@@ -73,8 +73,8 @@ commands:
   - name: diff
     description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧。Enterで選択したファイルのdiffを開き、Escでファイル一覧に戻る。diffはgitのblobから直接計算されるため、diff driverやtextconvフィルターは適用されない。ビューアを開いたままセッション外でgitの状態が変わると自動的に再読み込みされる
   - name: effort
-    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。引数なしで対話的スライダーを開く。現在の応答の完了を待たずに即座に反映される。-p モードでもレベル引数付きで利用でき、その場合は現在のセッションにのみ適用される。モデルデフォルトの effort ホールドが効いている間は Not applied となるため、起動時に --effort を渡す"
-    argument-hint: "[level|auto]"
+    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。statusを渡すと現在のレベルを表示する。引数なしで対話的スライダーを開く。現在の応答の完了を待たずに即座に反映される。-p モードでもレベル引数付きで利用でき、その場合は現在のセッションにのみ適用される。モデルデフォルトの effort ホールドが効いている間は Not applied となるため、起動時に --effort を渡す"
+    argument-hint: "[level|auto|status]"
   - name: exit
     description: "CLIを終了する。バックグラウンドセッションにアタッチ中の場合はデタッチするだけで、セッションは動き続ける。エイリアス: /quit"
   - name: export
@@ -220,7 +220,7 @@ commands:
     argument-hint: "[default|fullscreen]"
   - name: ultrareview
     description: "クラウドサンドボックス上でマルチエージェント・コードレビューを深く実行する。PR参照を渡すとそのプルリクエストを、ブランチ名を渡すと比較ベースを変更してレビューする。推奨される呼び出しは /code-review ultra となり、/ultrareview はエイリアスとして残る。Pro/Maxプランでは3回まで無料、以降は usage credits が必要"
-    argument-hint: "[PR|branch]"
+    argument-hint: "[PR or branch]"
   - name: update
     description: "会話を維持したまま最新バージョンに切り替える。エイリアス: /restart"
   - name: upgrade
