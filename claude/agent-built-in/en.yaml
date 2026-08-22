@@ -16,7 +16,7 @@ commands:
   - name: agents
     description: "Prints a reminder to ask Claude to create or manage subagents, or to edit the .claude/agents/ or ~/.claude/agents/ files directly. Earlier versions opened an interactive management interface"
   - name: artifacts
-    description: "Browse your published and shared artifacts. Also reopenable with Ctrl+]"
+    description: "List the artifacts you own or that are shared with you, then attach one to the session, open it in your browser, or copy its link. Available wherever artifacts are available. Requires v2.1.208 or later; attaching with Enter requires v2.1.216"
   - name: autocompact
     description: "Set the auto-compact window: how full the context window gets before Claude Code compacts automatically. Pass a size such as 500k, or `auto` to return to the window tuned for your model. The value is saved to user settings and applied to the current session. Without an argument, opens a dialog showing the current window. Requires v2.1.221 or later"
     argument-hint: "[auto|<tokens>]"
@@ -53,7 +53,7 @@ commands:
     argument-hint: "[instructions]"
   - name: config
     description: "Open the Settings interface to adjust theme, model, output style, and other preferences. Pass key=value pairs (e.g. /config thinking=false) to set settings directly; named shorthand keys such as /config theme=dark or /config model=sonnet are also accepted. Run `/config --help` to list every settable key with its options. Works in interactive, -p, and Remote Control modes. Alias: /settings"
-    argument-hint: "[key=value...]"
+    argument-hint: "[key=value ...]"
   - name: context
     description: Visualize current context usage as a colored grid. Shows optimization suggestions for context-heavy tools, memory bloat, and capacity warnings. When the conversation exceeds the context window, the output warns how far over the limit you are and which command frees space. Pass `all` to expand the per-item breakdown in fullscreen mode
     argument-hint: "[all]"
@@ -73,8 +73,8 @@ commands:
   - name: diff
     description: Open an interactive diff viewer showing uncommitted changes and per-turn diffs. Use left/right arrows to switch between the current git diff and individual Claude turns, and up/down to browse files. Press Enter to open the selected file's diff and Esc to return to the file list. Diffs come from raw git blob content, so diff drivers and textconv filters do not apply. The open viewer refreshes automatically when the repository's git state changes outside the session
   - name: effort
-    description: "Set the model effort level. Accepts low/medium/high/xhigh/max/ultracode. Available levels depend on the model; max and ultracode are session-only. ultracode combines xhigh reasoning with automatic workflow orchestration. auto resets to the model default. Without an argument, opens an interactive slider. Takes effect immediately without waiting for the current response to finish. Also available in -p mode with a level argument, where it applies to the current session only; while the model-default effort hold is in force it reports Not applied, so pass --effort at launch instead"
-    argument-hint: "[level|auto]"
+    description: "Set the model effort level. Accepts low/medium/high/xhigh/max/ultracode. Available levels depend on the model; max and ultracode are session-only. ultracode combines xhigh reasoning with automatic workflow orchestration. auto resets to the model default. Pass status to print the current level. Without an argument, opens an interactive slider. Takes effect immediately without waiting for the current response to finish. Also available in -p mode with a level argument, where it applies to the current session only; while the model-default effort hold is in force it reports Not applied, so pass --effort at launch instead"
+    argument-hint: "[level|auto|status]"
   - name: exit
     description: "Exit the CLI. In an attached background session, this detaches and the session keeps running. Alias: /quit"
   - name: export
@@ -220,7 +220,7 @@ commands:
     argument-hint: "[default|fullscreen]"
   - name: ultrareview
     description: "Run a deep, multi-agent code review in a cloud sandbox. Pass a PR reference to review that pull request, or a branch name to change the comparison base. The preferred invocation is now /code-review ultra; /ultrareview remains as an alias. Includes 3 free runs on Pro and Max, then requires usage credits"
-    argument-hint: "[PR|branch]"
+    argument-hint: "[PR or branch]"
   - name: update
     description: "Switch to the latest version without losing the conversation. Alias: /restart"
   - name: upgrade
