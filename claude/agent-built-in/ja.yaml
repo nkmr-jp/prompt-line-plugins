@@ -17,6 +17,8 @@ commands:
     description: "サブエージェントの作成・管理を Claude に依頼するか、.claude/agents/ または ~/.claude/agents/ のファイルを直接編集するよう促すリマインダーを表示する。旧バージョンでは対話的な管理インターフェースを開いていた"
   - name: artifacts
     description: "自分が所有する Artifacts と共有された Artifacts を一覧表示し、選んだものをセッションに添付する、ブラウザで開く、リンクをコピーする、といった操作ができる。Artifacts が利用可能な環境でのみ使える。v2.1.208 以降が必要。Enter での添付は v2.1.216 以降が必要"
+  - name: auto-mode-setup
+    description: "プロジェクトと直近のセッションから `autoMode.environment` のエントリを下書きし、内容を確認したうえでユーザー設定に保存する。Pro・Max・Team のいずれかのプランと v2.1.228 以降が必要。Windows ネイティブ環境では v2.1.233 以降が必要"
   - name: autocompact
     description: "自動コンパクトのしきい値を設定する。コンテキストウィンドウがどこまで埋まったら Claude Code が自動的にコンパクトを実行するかを指定する。500k のようなサイズを渡すか、`auto` でモデルに合わせた既定値に戻す。指定した値はユーザー設定に保存され、現在のセッションにも即座に適用される。引数なしで実行すると現在のしきい値を表示するダイアログを開く。v2.1.221 以降が必要"
     argument-hint: "[auto|<tokens>]"
@@ -116,7 +118,7 @@ commands:
   - name: keybindings
     description: キーボードショートカットの設定ファイルを開く
   - name: list-agents
-    description: "Claude がメッセージを送れるサブエージェントと他の Claude Code セッションを、指定に使う名前とあわせて一覧表示する。agent team のメンバーはチームのロスター経由で到達するため一覧には含まれない。クロスセッションメッセージングが有効なセッションでのみ利用でき、v2.1.224 以降が必要。エイリアス: /peers"
+    description: "Claude がメッセージを送れるサブエージェント・agent team のチームメイト・他の Claude Code セッションを、指定に使う名前とあわせて一覧表示する。クロスセッションメッセージングが有効なセッションでのみ利用でき、v2.1.224 以降が必要。チームメイトの行と、このセッション自身の名前を示す先頭行の表示には v2.1.239 以降が必要。エイリアス: /peers"
   - name: login
     description: Anthropicアカウントにサインインする
   - name: logout
@@ -253,8 +255,8 @@ skills:
     description: "大規模な変更を調査・計画し、5〜30の独立したワークツリーエージェントで並列実行して、それぞれがテストを実行しPRを作成する。gitリポジトリが必要"
     argument-hint: "<instruction>"
   - name: claude-api
-    description: "Claude APIとManaged Agentsのリファレンス資料をプロジェクトの言語（Python, TypeScript, Java, Go, Ruby, C#, PHP, cURL）に応じて読み込む。tool use、streaming、batches、structured outputs、よくある落とし穴をカバー。サブコマンド: `migrate` は既存のClaude APIコードを新しいモデル向けに更新、`managed-agents-onboard` はManaged Agentの作成を対話的にガイド、`prompt-audit`（v2.1.221以降）はプロンプトとtool descriptionを古いモデル向けの記述がないか監査する。`anthropic` または `@anthropic-ai/sdk` をインポートすると自動的に有効化"
-    argument-hint: "[migrate|managed-agents-onboard|prompt-audit]"
+    description: "Claude APIとManaged Agentsのリファレンス資料をプロジェクトの言語（Python, TypeScript, Java, Go, Ruby, C#, PHP, cURL）に応じて読み込む。tool use、streaming、batches、structured outputs、よくある落とし穴をカバー。サブコマンド: `migrate` は既存のClaude APIコードを新しいモデル向けに更新、`upgrade` はプロジェクトの Anthropic SDK 依存をメジャーバージョン間で移行（現時点では Python の `anthropic` パッケージを 0.x から 1.x へ）、`managed-agents-onboard` はManaged Agentの作成を対話的にガイド、`prompt-audit` はプロンプト・スキル・tool description に古いモデル向けの記述がないか調べて修正を diff で提案する。`prompt-audit` は v2.1.221 以降、`upgrade` は v2.1.236 以降が必要。`anthropic` または `@anthropic-ai/sdk` をインポートすると自動的に有効化"
+    argument-hint: "[migrate|upgrade|managed-agents-onboard|prompt-audit]"
   - name: claude-code-docs
     description: Claude Code の機能や設定に関する質問に回答する
   - name: claude-in-chrome
