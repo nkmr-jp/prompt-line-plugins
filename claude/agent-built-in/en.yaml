@@ -17,6 +17,8 @@ commands:
     description: "Prints a reminder to ask Claude to create or manage subagents, or to edit the .claude/agents/ or ~/.claude/agents/ files directly. Earlier versions opened an interactive management interface"
   - name: artifacts
     description: "List the artifacts you own or that are shared with you, then attach one to the session, open it in your browser, or copy its link. Available wherever artifacts are available. Requires v2.1.208 or later; attaching with Enter requires v2.1.216"
+  - name: auto-mode-setup
+    description: "Draft `autoMode.environment` entries from your project and recent sessions, then review the draft and save it to your user settings. Requires a Pro, Max, or Team plan and v2.1.228 or later; on native Windows, requires v2.1.233 or later"
   - name: autocompact
     description: "Set the auto-compact window: how full the context window gets before Claude Code compacts automatically. Pass a size such as 500k, or `auto` to return to the window tuned for your model. The value is saved to user settings and applied to the current session. Without an argument, opens a dialog showing the current window. Requires v2.1.221 or later"
     argument-hint: "[auto|<tokens>]"
@@ -116,7 +118,7 @@ commands:
   - name: keybindings
     description: Open your keyboard shortcuts file
   - name: list-agents
-    description: "List the subagents and other Claude Code sessions Claude can message, with the name to use for each. Agent team teammates are not listed, since Claude reaches them through the team's roster. Only available in sessions where cross-session messaging is enabled, and requires v2.1.224 or later. Alias: /peers"
+    description: "List the subagents, agent team teammates, and other Claude Code sessions Claude can message, with the name to use for each. Only available in sessions where cross-session messaging is enabled, and requires v2.1.224 or later; teammate rows and the first line showing this session's own name require v2.1.239 or later. Alias: /peers"
   - name: login
     description: Sign in to your Anthropic account
   - name: logout
@@ -253,8 +255,8 @@ skills:
     description: "Research and plan a large-scale change, then execute it in parallel across 5–30 isolated worktree agents that each run tests and open a PR. Requires a git repository."
     argument-hint: "<instruction>"
   - name: claude-api
-    description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Subcommands: `migrate` upgrades existing Claude API code to a newer model, `managed-agents-onboard` walks through creating a Managed Agent, and `prompt-audit` (v2.1.221 or later) audits prompts and tool descriptions for patterns written for older models. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
-    argument-hint: "[migrate|managed-agents-onboard|prompt-audit]"
+    description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Subcommands: `migrate` upgrades existing Claude API code to a newer model, `upgrade` moves your project's Anthropic SDK dependency across a major version (currently the Python `anthropic` package from 0.x to 1.x), `managed-agents-onboard` walks through creating a Managed Agent, and `prompt-audit` flags instructions written for older models in your prompts, skills, and tool descriptions and proposes fixes as a diff. `prompt-audit` requires v2.1.221 or later and `upgrade` requires v2.1.236 or later. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
+    argument-hint: "[migrate|upgrade|managed-agents-onboard|prompt-audit]"
   - name: claude-code-docs
     description: Answer questions about Claude Code features and settings
   - name: claude-in-chrome
