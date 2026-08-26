@@ -47,6 +47,8 @@ commands:
   - name: clear
     description: "空のコンテキストで新しい会話を開始する。名前を渡すと /resume ピッカー上で直前の会話にラベルが付く。同じ会話を続けたままコンテキストを解放したい場合は /compact を使う。直前の会話は /resume で再開できるほか、同じ Claude Code プロセス内なら rewind メニューの前セッション項目からも復元できる。エイリアス: /reset, /new"
     argument-hint: "[name]"
+  - name: cloud-plugins
+    description: クラウドセッションでこのマシンで有効化されているプラグインを使うかどうかを選択する
   - name: color
     description: "現在のセッションのプロンプトバーの色を設定する。使用可能な色: red, blue, green, yellow, purple, orange, pink, cyan。`default` でリセット、引数なしでランダムな色を選択。Remote Control 接続中は claude.ai/code にも色が同期される。-p モードでも利用可能"
     argument-hint: "[color|default]"
@@ -140,13 +142,16 @@ commands:
   - name: pause-memory
     description: "このセッションの自動メモリ保存を一時停止する。エイリアス: /memory-pause, /toggle-memory"
   - name: permissions
-    description: "ツールパーミッションのallow・ask・denyルールを管理する。対話ダイアログを開き、スコープ別のルール確認、ルールの追加・削除、作業ディレクトリの管理、autoモードでの直近の拒否内容の確認ができる。Claude の応答中にも開くことができ、その場でダイアログが表示され、変更は同じターン内の次のツール呼び出しから適用される（v2.1.234 以降）。エイリアス: /allowed-tools"
+    description: "ツールパーミッションのallow・ask・denyルールを管理する。対話ダイアログを開き、スコープ別のルール確認、ルールの追加・削除、作業ディレクトリの管理、autoモードでの直近の拒否内容の確認ができる。Auto mode タブでは auto モードの分類ルールを確認・編集できる（v2.1.246 以降）。Claude の応答中にも開くことができ、その場でダイアログが表示され、変更は同じターン内の次のツール呼び出しから適用される（v2.1.234 以降）。エイリアス: /allowed-tools"
   - name: plan
     description: "プロンプトからプランモードに直接入る。説明を渡すとそのタスクですぐにプランモードを開始する（例: /plan 認証バグを修正）"
     argument-hint: "[description]"
   - name: plugin
     description: "Claude Codeプラグインを管理する。引数なしでプラグインメニューを開くか、list・install・enable・disable などのサブコマンドを渡して直接操作する。Claude Code はインストール中にプラグインを有効化できる場合があり、有効化されたか /reload-plugins が必要かはインストール結果のサマリーに表示される"
     argument-hint: "[subcommand]"
+  - name: plugin-types
+    description: "claude-code-mcp.d.ts を出力する。接続中の MCP ツールの入力定義を書き出し、このセッションに対してプラグインの型付けを行う"
+    argument-hint: "[dir]"
   - name: powerup
     description: インタラクティブなレッスンとアニメーションデモでClaude Codeの機能を発見する
   - name: privacy-settings
@@ -228,7 +233,7 @@ commands:
   - name: upgrade
     description: より高いプランティアに切り替えるためのアップグレードページをブラウザで開く。ブラウザを開けなかった場合は URL を表示せずサインインプロンプトを表示する
   - name: usage
-    description: "セッションコスト、プラン使用制限、アクティビティ統計を表示する。Pro・Max・Team・Enterpriseの各プランでは、スキル・サブエージェント・プラグイン・MCPサーバー別の使用量内訳も表示する。エイリアス: /cost, /stats"
+    description: "セッションコスト、プラン使用制限、アクティビティ統計を表示する。Pro・Max・Team・Enterpriseの各プランでは、スキル・サブエージェント・プラグイン・MCPサーバー・ループ別の使用量内訳も表示する。ループの内訳ではループごとの実行回数・合計トークン・1回あたりのトークン・最終実行を確認できる（v2.1.243 以降）。エイリアス: /cost, /stats"
   - name: usage-credits
     description: "レート制限に達した際に使用量クレジットを設定する、または管理者にリクエストする。ブラウザで使用量クレジットの請求設定を開くが、請求権限を持たない Team・Enterprise メンバーはダイアログで確認したうえで CLI から管理者へリクエストを送信する。SSH 経由などブラウザを開けない場合は URL を表示する。/extra-usage からリネームされた"
   - name: version

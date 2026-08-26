@@ -47,6 +47,8 @@ commands:
   - name: clear
     description: "Start a new conversation with empty context. Pass a name to label the previous conversation in the /resume picker. To free up context while continuing the same conversation, use /compact instead. Resume the previous conversation with /resume, or, within the same Claude Code process, restore it from the rewind menu's previous-session entry. Aliases: /reset, /new"
     argument-hint: "[name]"
+  - name: cloud-plugins
+    description: Choose whether cloud sessions use the plugins enabled on this machine
   - name: color
     description: "Set the prompt bar color for the current session. Available colors: red, blue, green, yellow, purple, orange, pink, cyan. Use `default` to reset, or run with no argument to pick a random color. When Remote Control is connected the color syncs to claude.ai/code. Also available in -p mode"
     argument-hint: "[color|default]"
@@ -140,13 +142,16 @@ commands:
   - name: pause-memory
     description: "Pause automemory for this session. Aliases: /memory-pause, /toggle-memory"
   - name: permissions
-    description: "Manage allow, ask, and deny rules for tool permissions. Opens an interactive dialog to view rules by scope, add or remove rules, manage working directories, and review recent auto mode denials. Can also be opened while Claude is responding; the dialog appears immediately and your changes apply starting with Claude's next tool call in the same turn, which requires v2.1.234 or later. Alias: /allowed-tools"
+    description: "Manage allow, ask, and deny rules for tool permissions. Opens an interactive dialog to view rules by scope, add or remove rules, manage working directories, and review recent auto mode denials. An Auto mode tab lets you view and edit auto mode classifier rules, which requires v2.1.246 or later. Can also be opened while Claude is responding; the dialog appears immediately and your changes apply starting with Claude's next tool call in the same turn, which requires v2.1.234 or later. Alias: /allowed-tools"
   - name: plan
     description: "Enter plan mode directly from the prompt. Pass an optional description to enter plan mode and immediately start with that task, for example /plan fix the auth bug"
     argument-hint: "[description]"
   - name: plugin
     description: "Manage Claude Code plugins. Run with no argument to open the plugin menu, or pass a subcommand such as list, install, enable, or disable to act directly. Claude Code can activate a plugin during the install; the install summary tells you whether it did or whether to run /reload-plugins"
     argument-hint: "[subcommand]"
+  - name: plugin-types
+    description: "Write claude-code-mcp.d.ts: the inputs of the connected MCP tools, for typing a plugin against this session"
+    argument-hint: "[dir]"
   - name: powerup
     description: Discover Claude Code features through quick interactive lessons with animated demos
   - name: privacy-settings
@@ -228,7 +233,7 @@ commands:
   - name: upgrade
     description: Open the upgrade page in your browser to switch to a higher plan tier. When the browser fails to open, it shows a sign-in prompt without printing the URL
   - name: usage
-    description: "Show session cost, plan usage limits, and activity stats. On Pro, Max, Team, and Enterprise plans, includes a breakdown of usage by skill, subagent, plugin, and MCP server. Aliases: /cost, /stats"
+    description: "Show session cost, plan usage limits, and activity stats. On Pro, Max, Team, and Enterprise plans, includes a breakdown of usage by skill, subagent, plugin, MCP server, and loop; the Loops breakdown shows per-loop run count, total tokens, tokens per run, and last run, and requires v2.1.243 or later. Aliases: /cost, /stats"
   - name: usage-credits
     description: "Configure usage credits, or request them from your admin, when you hit a limit. Opens your usage-credits billing settings in the browser; Team and Enterprise members without billing access instead send a usage-credits request to their admin from the CLI after confirming in a dialog. When no browser can open, for example over SSH, the URL is printed instead. Renamed from /extra-usage"
   - name: version
