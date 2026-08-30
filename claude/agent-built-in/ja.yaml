@@ -88,7 +88,7 @@ commands:
     description: "Fastモードのオン/オフを切り替える。-p モードでは、--settings で Fast モードを有効にして起動したセッション（例: claude -p --settings '{\"fastMode\": true}'）でのみ機能し、切り替えはそのセッション限りでデフォルトには保存されない。それ以外の非対話セッションでは Fast モードが利用できない旨が表示される"
     argument-hint: "[on|off]"
   - name: feedback
-    description: Claude Code に関するプロダクトフィードバックを送る。/bug と同じダイアログが開き、同意手順と送信ルールも同じ
+    description: "Claude Code に関するプロダクトフィードバックを送る。/bug と同じダイアログが開き、同意手順・送信ルール・ターン中の挙動も同じ。Claude がフィードバックを下書きするセッションでは、引数なしで実行するとドラフトキューが開き、Claude が溜めた下書きを確認・編集・送信・破棄できる。キューからダイアログで新規レポートを書くこともできる。引数を渡した場合と /bug は常にダイアログが直接開く。下書き機能は feedbackDrafts 設定で無効化できる"
     argument-hint: "[report]"
   - name: focus
     description: フォーカスビューをトグルする。直前のプロンプト、ツール呼び出しのサマリー（編集diffstat付き）、最終レスポンスのみを表示。サマリーにはそのターンで起動したサブエージェント数も含まれ、完了したバックグラウンドタスクの通知は件数1行にまとめられる。選択状態はセッション間で保持され、viewMode 設定で上書きできる。fullscreenレンダリング時のみ利用可能。VS Code 拡張はコマンドメニューのトグルとして独自の Focus ビューを持ち、拡張機能の設定として保存され viewMode とは独立している
@@ -260,8 +260,8 @@ skills:
     description: "大規模な変更を調査・計画し、5〜30の独立したワークツリーエージェントで並列実行して、それぞれがテストを実行しPRを作成する。gitリポジトリが必要"
     argument-hint: "<instruction>"
   - name: claude-api
-    description: "Claude APIとManaged Agentsのリファレンス資料をプロジェクトの言語（Python, TypeScript, Java, Go, Ruby, C#, PHP, cURL）に応じて読み込む。tool use、streaming、batches、structured outputs、よくある落とし穴をカバー。サブコマンド: `migrate` は既存のClaude APIコードを新しいモデル向けに更新、`upgrade` はプロジェクトの Anthropic SDK 依存をメジャーバージョン間で移行（現時点では Python の `anthropic` パッケージを 0.x から 1.x へ）、`managed-agents-onboard` はManaged Agentの作成を対話的にガイド、`prompt-audit` はプロンプト・スキル・tool description に古いモデル向けの記述がないか調べて修正を diff で提案する。`prompt-audit` は v2.1.221 以降、`upgrade` は v2.1.236 以降が必要。`anthropic` または `@anthropic-ai/sdk` をインポートすると自動的に有効化"
-    argument-hint: "[migrate|upgrade|managed-agents-onboard|prompt-audit]"
+    description: "Claude APIとManaged Agentsのリファレンス資料をプロジェクトの言語（Python, TypeScript, Java, Go, Ruby, C#, PHP, cURL）に応じて読み込む。tool use、streaming、batches、structured outputs、よくある落とし穴をカバー。サブコマンド: `migrate` は既存のClaude APIコードを新しいモデル向けに更新、`upgrade` はプロジェクトの Anthropic SDK 依存をメジャーバージョン間で移行（現時点では Python の `anthropic` パッケージを 0.x から 1.x へ）、`managed-agents-onboard` はManaged Agentの作成を対話的にガイド、`prompt-audit` はプロンプト・スキル・tool description に古いモデル向けの記述がないか調べて修正を diff で提案し、`cost-optimize` は既存プロジェクトの Claude API コストを分析してキャッシュ・トークン整理・batch・effort・モデル選択といったコスト要因を一度に一つずつ計測しながら改善する。Admin API（組織メンバー、招待、ワークスペース、APIキー、レート制限レポート、workload identity federation、CMEK）もカバーする。`prompt-audit` は v2.1.221 以降、`upgrade` は v2.1.236 以降、`cost-optimize` は v2.1.247 以降が必要。`anthropic` または `@anthropic-ai/sdk` をインポートすると自動的に有効化"
+    argument-hint: "[migrate|upgrade|managed-agents-onboard|prompt-audit|cost-optimize]"
   - name: claude-code-docs
     description: Claude Code の機能や設定に関する質問に回答する
   - name: claude-in-chrome
@@ -314,6 +314,10 @@ skills:
     description: "テストや型チェックに頼るのではなく、プロジェクトのアプリをビルドして実行し、実際の挙動を観察することで、コード変更が意図通り動作するかを確認する"
   - name: whiteboard
     description: Claude に送り返せるホワイトボード Artifact 上でスケッチする
+  - name: whiteboard-mp
+    description: Claude も一緒に描き込むライブなホワイトボード Artifact 上で共同スケッチする
+  - name: workflow-authoring
+    description: "dynamic workflow スクリプトを書くためのリファレンスを読み込む。スクリプト API、resume の挙動、品質パターン、実例をカバーする。通常は Claude がスクリプト作成前に自動で読み込むが、保存済みスクリプトを手動で編集する前は自分で実行するとよい。dynamic workflows が有効な場合のみ利用可能で、v2.1.248 以降が必要"
   - name: workshop
     description: Artifact 上で提示される選択を通じてドキュメントを検討・作り込む
 agents:
