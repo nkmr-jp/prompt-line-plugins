@@ -47,6 +47,8 @@ commands:
   - name: clear
     description: "Start a new conversation with empty context. Pass a name to label the previous conversation in the /resume picker. To free up context while continuing the same conversation, use /compact instead. Resume the previous conversation with /resume, or, within the same Claude Code process, restore it from the rewind menu's previous-session entry. Aliases: /reset, /new"
     argument-hint: "[name]"
+  - name: cloud-plugins
+    description: Choose whether cloud sessions use the plugins enabled on this machine
   - name: color
     description: "Set the prompt bar color for the current session. Available colors: red, blue, green, yellow, purple, orange, pink, cyan. Use `default` to reset, or run with no argument to pick a random color. When Remote Control is connected the color syncs to claude.ai/code. Also available in -p mode"
     argument-hint: "[color|default]"
@@ -86,7 +88,7 @@ commands:
     description: "Toggle Fast mode on or off. In -p mode it works only in a session launched with fast mode in its --settings value, for example claude -p --settings '{\"fastMode\": true}'; the toggle then applies to that session only and is not saved as your default, and any other non-interactive session reports that fast mode is not available"
     argument-hint: "[on|off]"
   - name: feedback
-    description: Send product feedback about Claude Code. Opens the same dialog as /bug, with the same consent step and sending rules
+    description: "Send product feedback about Claude Code. Opens the same dialog as /bug, with the same consent step, sending rules, and mid-turn behavior. In sessions where Claude drafts feedback for you, running /feedback with no argument opens the drafts queue instead, where you review, edit, send, or discard the drafts Claude queued; the queue also offers writing a new report in the dialog. With an argument, and for /bug always, the dialog opens directly. Turn the drafts off with the feedbackDrafts setting"
     argument-hint: "[report]"
   - name: focus
     description: Toggle the focus view that shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. The summary also counts the subagents launched in the turn and collapses completed background-task notifications into a single count. The selection persists across sessions and can be overridden with the viewMode setting. Only available in fullscreen rendering. The VS Code extension offers its own Focus view as a command-menu toggle, stored as an extension setting and independent of viewMode
@@ -140,13 +142,16 @@ commands:
   - name: pause-memory
     description: "Pause automemory for this session. Aliases: /memory-pause, /toggle-memory"
   - name: permissions
-    description: "Manage allow, ask, and deny rules for tool permissions. Opens an interactive dialog to view rules by scope, add or remove rules, manage working directories, and review recent auto mode denials. Can also be opened while Claude is responding; the dialog appears immediately and your changes apply starting with Claude's next tool call in the same turn, which requires v2.1.234 or later. Alias: /allowed-tools"
+    description: "Manage allow, ask, and deny rules for tool permissions. Opens an interactive dialog to view rules by scope, add or remove rules, manage working directories, and review recent auto mode denials. An Auto mode tab lets you view and edit auto mode classifier rules, which requires v2.1.246 or later. Can also be opened while Claude is responding; the dialog appears immediately and your changes apply starting with Claude's next tool call in the same turn, which requires v2.1.234 or later. Alias: /allowed-tools"
   - name: plan
     description: "Enter plan mode directly from the prompt. Pass an optional description to enter plan mode and immediately start with that task, for example /plan fix the auth bug"
     argument-hint: "[description]"
   - name: plugin
     description: "Manage Claude Code plugins. Run with no argument to open the plugin menu, or pass a subcommand such as list, install, enable, or disable to act directly. Claude Code can activate a plugin during the install; the install summary tells you whether it did or whether to run /reload-plugins"
     argument-hint: "[subcommand]"
+  - name: plugin-types
+    description: "Write claude-code-mcp.d.ts: the inputs of the connected MCP tools, for typing a plugin against this session"
+    argument-hint: "[dir]"
   - name: powerup
     description: Discover Claude Code features through quick interactive lessons with animated demos
   - name: privacy-settings
@@ -228,7 +233,7 @@ commands:
   - name: upgrade
     description: Open the upgrade page in your browser to switch to a higher plan tier. When the browser fails to open, it shows a sign-in prompt without printing the URL
   - name: usage
-    description: "Show session cost, plan usage limits, and activity stats. On Pro, Max, Team, and Enterprise plans, includes a breakdown of usage by skill, subagent, plugin, and MCP server. Aliases: /cost, /stats"
+    description: "Show session cost, plan usage limits, and activity stats. On Pro, Max, Team, and Enterprise plans, includes a breakdown of usage by skill, subagent, plugin, MCP server, and loop; the Loops breakdown shows per-loop run count, total tokens, tokens per run, and last run, and requires v2.1.243 or later. Aliases: /cost, /stats"
   - name: usage-credits
     description: "Configure usage credits, or request them from your admin, when you hit a limit. Opens your usage-credits billing settings in the browser; Team and Enterprise members without billing access instead send a usage-credits request to their admin from the CLI after confirming in a dialog. When no browser can open, for example over SSH, the URL is printed instead. Renamed from /extra-usage"
   - name: version
@@ -255,8 +260,8 @@ skills:
     description: "Research and plan a large-scale change, then execute it in parallel across 5–30 isolated worktree agents that each run tests and open a PR. Requires a git repository."
     argument-hint: "<instruction>"
   - name: claude-api
-    description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Subcommands: `migrate` upgrades existing Claude API code to a newer model, `upgrade` moves your project's Anthropic SDK dependency across a major version (currently the Python `anthropic` package from 0.x to 1.x), `managed-agents-onboard` walks through creating a Managed Agent, and `prompt-audit` flags instructions written for older models in your prompts, skills, and tool descriptions and proposes fixes as a diff. `prompt-audit` requires v2.1.221 or later and `upgrade` requires v2.1.236 or later. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
-    argument-hint: "[migrate|upgrade|managed-agents-onboard|prompt-audit]"
+    description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Subcommands: `migrate` upgrades existing Claude API code to a newer model, `upgrade` moves your project's Anthropic SDK dependency across a major version (currently the Python `anthropic` package from 0.x to 1.x), `managed-agents-onboard` walks through creating a Managed Agent, `prompt-audit` flags instructions written for older models in your prompts, skills, and tool descriptions and proposes fixes as a diff, and `cost-optimize` profiles an existing project's Claude API spend and works through cost levers (caching, token hygiene, batch, effort, model choice) one measured change at a time. Also covers the Admin API (organization members, invites, workspaces, API keys, rate limit reports, workload identity federation, CMEK). `prompt-audit` requires v2.1.221 or later, `upgrade` requires v2.1.236 or later, and `cost-optimize` requires v2.1.247 or later. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
+    argument-hint: "[migrate|upgrade|managed-agents-onboard|prompt-audit|cost-optimize]"
   - name: claude-code-docs
     description: Answer questions about Claude Code features and settings
   - name: claude-in-chrome
@@ -309,6 +314,10 @@ skills:
     description: "Confirm a code change does what it should by building your project's app, running it, and observing the result, rather than relying on tests or type checks."
   - name: whiteboard
     description: Sketch on a whiteboard Artifact you can send back to Claude
+  - name: whiteboard-mp
+    description: Sketch together on a live whiteboard Artifact that Claude draws on too
+  - name: workflow-authoring
+    description: "Load the reference for writing dynamic workflow scripts: the script API, resume behavior, quality patterns, and worked examples. Claude normally loads it on its own before writing a script; run it yourself before editing a saved script by hand. Available only when dynamic workflows are enabled, and requires v2.1.248 or later"
   - name: workshop
     description: Workshop a document through decisions presented as an Artifact
 agents:
@@ -316,11 +325,11 @@ agents:
     description: A fast, read-only agent optimized for searching and analyzing codebases.
   - name: Plan
     description: A research agent used during plan mode to gather context before presenting a plan.
+  - name: claude
+    description: A catch-all with every tool available to subagents, used when a task doesn't fit a more specialized agent. Also the default agent for a dispatched background session, where the starting permission mode depends on how the session was started
+  - name: claude-code-guide
+    description: When you ask questions about Claude Code features
   - name: general-purpose
     description: A capable agent for complex, multi-step tasks that require both exploration and action.
   - name: statusline-setup
     description: When you run /statusline to configure your status line
-  - name: claude-code-guide
-    description: When you ask questions about Claude Code features
-  - name: claude
-    description: A catch-all with every tool available to subagents, used when a task doesn't fit a more specialized agent. Also the default agent for a dispatched background session, where the starting permission mode depends on how the session was started
