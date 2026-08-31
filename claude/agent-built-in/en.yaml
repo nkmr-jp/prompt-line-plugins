@@ -325,11 +325,11 @@ agents:
     description: A fast, read-only agent optimized for searching and analyzing codebases.
   - name: Plan
     description: A research agent used during plan mode to gather context before presenting a plan.
+  - name: claude
+    description: A catch-all with every tool available to subagents, used when a task doesn't fit a more specialized agent. Also the default agent for a dispatched background session, where the starting permission mode depends on how the session was started
+  - name: claude-code-guide
+    description: When you ask questions about Claude Code features
   - name: general-purpose
     description: A capable agent for complex, multi-step tasks that require both exploration and action.
   - name: statusline-setup
     description: When you run /statusline to configure your status line
-  - name: claude-code-guide
-    description: When you ask questions about Claude Code features
-  - name: claude
-    description: A catch-all with every tool available to subagents, used when a task doesn't fit a more specialized agent. Also the default agent for a dispatched background session, where the starting permission mode depends on how the session was started

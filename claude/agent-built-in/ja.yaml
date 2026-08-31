@@ -325,11 +325,11 @@ agents:
     description: コードベースの検索と分析に最適化された高速な読み取り専用エージェント
   - name: Plan
     description: プランモード中にコンテキストを収集してからプランを提示するリサーチエージェント
+  - name: claude
+    description: "サブエージェントが使える全ツールを持つ万能エージェント。より専門的なエージェントが当てはまらないタスクで使用。起動したバックグラウンドセッションのデフォルトエージェントでもあり、開始時のパーミッションモードはセッションの起動方法によって決まる"
+  - name: claude-code-guide
+    description: Claude Codeの機能について質問する際に使用
   - name: general-purpose
     description: 探索とアクションの両方を必要とする複雑なマルチステップタスク向けの汎用エージェント
   - name: statusline-setup
     description: /statuslineでステータスラインを設定する際に使用
-  - name: claude-code-guide
-    description: Claude Codeの機能について質問する際に使用
-  - name: claude
-    description: "サブエージェントが使える全ツールを持つ万能エージェント。より専門的なエージェントが当てはまらないタスクで使用。起動したバックグラウンドセッションのデフォルトエージェントでもあり、開始時のパーミッションモードはセッションの起動方法によって決まる"
