@@ -85,7 +85,7 @@ commands:
     description: "Export the current conversation as plain text. With a filename, writes directly to that file; without, opens a dialog to copy to clipboard or save to a file"
     argument-hint: "[filename]"
   - name: fast
-    description: "Toggle Fast mode on or off. In -p mode it works only in a session launched with fast mode in its --settings value, for example claude -p --settings '{\"fastMode\": true}'; the toggle then applies to that session only and is not saved as your default, and any other non-interactive session reports that fast mode is not available"
+    description: "Toggle Fast mode on or off. Run it while Claude is responding and Claude Code toggles fast mode without waiting for the turn to end, though the running turn finishes at its original speed. In -p mode it works only in a session launched with fast mode in its --settings value, for example claude -p --settings '{\"fastMode\": true}'; the toggle then applies to that session only and is not saved as your default, and any other non-interactive session reports that fast mode is not available"
     argument-hint: "[on|off]"
   - name: feedback
     description: "Send product feedback about Claude Code. Opens the same dialog as /bug, with the same consent step, sending rules, and mid-turn behavior. In sessions where Claude drafts feedback for you, running /feedback with no argument opens the drafts queue instead, where you review, edit, send, or discard the drafts Claude queued; the queue also offers writing a new report in the dialog. With an argument, and for /bug always, the dialog opens directly. Turn the drafts off with the feedbackDrafts setting"
@@ -158,6 +158,8 @@ commands:
     description: View and update your privacy settings. Only available for Pro and Max plan subscribers
   - name: radio
     description: Open Claude FM lo-fi radio in your browser. Prints the stream URL when no browser is available. Not available on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, or Claude Platform on AWS
+  - name: rate-limit-options
+    description: "Show ways to keep working when a claude.ai usage limit blocks a request: wait and continue automatically when the limit resets, add usage credits, or upgrade your plan. Claude Code can also open this menu on its own when you hit a limit at your own terminal. Requires a claude.ai subscription. Does not appear in the command menu; type it in full"
   - name: recap
     description: Generate a one-line summary of the current session on demand, separately from the automatic session recap that appears after you have been away
   - name: release-notes
@@ -283,8 +285,8 @@ skills:
     description: "Fan out web searches, fetch and cross-check sources, then synthesize a cited research report."
     argument-hint: "<question>"
   - name: design
-    description: "Work with Claude Design (claude.ai/design): create, import, export, sync, and manage agent access"
-    argument-hint: "[consent|revoke]"
+    description: "Draft UI mockups, screen flows, landing pages, or posters as artboards on one canvas, published as an artifact that runs a research preview of Claude Design's editor, for example /design a settings screen for a mobile banking app. Where saving is enabled for your account you edit the artboards and save to publish a new version; otherwise you view the draft and export it as PNG or PDF. Requires a session where artifacts are available. Unavailable on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, and Claude Platform on AWS"
+    argument-hint: "[brief]"
   - name: design-sync
     description: "Convert your repo's React design system and upload it to Claude Design so designs use your real components. Optionally name the design system. A first sync can take a few hours on a large repo. Unavailable on Amazon Bedrock, Google Cloud Agent Platform, Microsoft Foundry, and Claude Platform on AWS."
     argument-hint: "[hint]"

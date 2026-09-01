@@ -85,7 +85,7 @@ commands:
     description: "現在の会話をプレーンテキストとしてエクスポートする。ファイル名を指定するとそのファイルに直接書き込み、指定なしの場合はクリップボードへのコピーまたはファイル保存のダイアログを開く"
     argument-hint: "[filename]"
   - name: fast
-    description: "Fastモードのオン/オフを切り替える。-p モードでは、--settings で Fast モードを有効にして起動したセッション（例: claude -p --settings '{\"fastMode\": true}'）でのみ機能し、切り替えはそのセッション限りでデフォルトには保存されない。それ以外の非対話セッションでは Fast モードが利用できない旨が表示される"
+    description: "Fastモードのオン/オフを切り替える。Claude の応答中に実行するとターンの終了を待たずに切り替わるが、実行中のターンは元の速度のまま完了する。-p モードでは、--settings で Fast モードを有効にして起動したセッション（例: claude -p --settings '{\"fastMode\": true}'）でのみ機能し、切り替えはそのセッション限りでデフォルトには保存されない。それ以外の非対話セッションでは Fast モードが利用できない旨が表示される"
     argument-hint: "[on|off]"
   - name: feedback
     description: "Claude Code に関するプロダクトフィードバックを送る。/bug と同じダイアログが開き、同意手順・送信ルール・ターン中の挙動も同じ。Claude がフィードバックを下書きするセッションでは、引数なしで実行するとドラフトキューが開き、Claude が溜めた下書きを確認・編集・送信・破棄できる。キューからダイアログで新規レポートを書くこともできる。引数を渡した場合と /bug は常にダイアログが直接開く。下書き機能は feedbackDrafts 設定で無効化できる"
@@ -158,6 +158,8 @@ commands:
     description: プライバシー設定を表示・更新する。ProおよびMaxプランのサブスクライバーのみ利用可能
   - name: radio
     description: Claude FMのlo-fiラジオをブラウザで開く。ブラウザが使えない場合はストリームURLを表示する。Amazon Bedrock・Google Cloud's Agent Platform・Microsoft Foundry・Claude Platform on AWSでは利用不可
+  - name: rate-limit-options
+    description: "claude.ai の使用制限でリクエストがブロックされたときの継続方法を表示する: 制限のリセットを待って自動で再開する、使用量クレジットを追加する、プランをアップグレードする。自分のターミナルで制限に達した場合は Claude Code が自動でこのメニューを開くこともある。claude.ai のサブスクリプションが必要。コマンドメニューには表示されないため、全文を入力する"
   - name: recap
     description: 現在のセッションの1行サマリーをオンデマンドで生成する。しばらく離席した後に自動表示されるセッションリキャップとは別に、任意のタイミングで実行できる
   - name: release-notes
@@ -283,8 +285,8 @@ skills:
     description: "Web 検索をファンアウトし、ソースを取得・相互検証してから、引用付きのリサーチレポートを統合する"
     argument-hint: "<question>"
   - name: design
-    description: "Claude Design (claude.ai/design) を操作する: 作成・インポート・エクスポート・同期と、エージェントのアクセス管理"
-    argument-hint: "[consent|revoke]"
+    description: "UIモックアップ・画面フロー・ランディングページ・ポスターを、1つのキャンバス上のアートボードとして下書きする。Claude Design エディタのリサーチプレビューを動作させる artifact として公開される（例: /design a settings screen for a mobile banking app）。アカウントで保存が有効な場合はアートボードを編集して新しいバージョンを公開でき、そうでなければ下書きの閲覧と PNG・PDF へのエクスポートのみ可能。artifacts が利用できるセッションが必要。Amazon Bedrock・Google Cloud's Agent Platform・Microsoft Foundry・Claude Platform on AWS では利用不可"
+    argument-hint: "[brief]"
   - name: design-sync
     description: "リポジトリのReactデザインシステムを変換してClaude Designにアップロードし、デザインで実際のコンポーネントを使えるようにする。デザインシステム名を任意で指定可能。大規模リポジトリでは初回同期に数時間かかることがある。Amazon Bedrock・Google Cloud Agent Platform・Microsoft Foundry・Claude Platform on AWSでは利用不可"
     argument-hint: "[hint]"
