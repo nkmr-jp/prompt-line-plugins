@@ -77,7 +77,7 @@ commands:
   - name: diff
     description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧。Enterで選択したファイルのdiffを開き、Escでファイル一覧に戻る。diffはgitのblobから直接計算されるため、diff driverやtextconvフィルターは適用されない。ビューアを開いたままセッション外でgitの状態が変わると自動的に再読み込みされる
   - name: effort
-    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。statusを渡すと現在のレベルを表示する。引数なしで対話的スライダーを開く。現在の応答の完了を待たずに即座に反映される。-p モードでもレベル引数付きで利用でき、その場合は現在のセッションにのみ適用される。モデルデフォルトの effort ホールドが効いている間は Not applied となるため、起動時に --effort を渡す"
+    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。statusを渡すと現在のレベルを表示する。引数なしで対話的スライダーを開き、スライダー上で `s` を押すと /model のピッカーと同様に現在のセッションにのみ適用できる。現在の応答の完了を待たずに即座に反映される。-p モードでもレベル引数付きで利用でき、その場合は現在のセッションにのみ適用される。モデルデフォルトの effort ホールドが効いている間は Not applied となるため、起動時に --effort を渡す"
     argument-hint: "[level|auto|status]"
   - name: exit
     description: "CLIを終了する。バックグラウンドセッションにアタッチ中の場合はデタッチするだけで、セッションは動き続ける。エイリアス: /quit"
@@ -157,7 +157,7 @@ commands:
   - name: privacy-settings
     description: プライバシー設定を表示・更新する。ProおよびMaxプランのサブスクライバーのみ利用可能
   - name: radio
-    description: Claude FMのlo-fiラジオをブラウザで開く。ブラウザが使えない場合はストリームURLを表示する。Amazon Bedrock・Google Cloud's Agent Platform・Microsoft Foundry・Claude Platform on AWSでは利用不可
+    description: Claude FMのlo-fiラジオをブラウザで開く。ブラウザが使えない場合はストリームURLを表示する
   - name: rate-limit-options
     description: "claude.ai の使用制限でリクエストがブロックされたときの継続方法を表示する: 制限のリセットを待って自動で再開する、使用量クレジットを追加する、プランをアップグレードする。自分のターミナルで制限に達した場合は Claude Code が自動でこのメニューを開くこともある。claude.ai のサブスクリプションが必要。コマンドメニューには表示されないため、全文を入力する"
   - name: recap
@@ -196,13 +196,13 @@ commands:
   - name: session
     description: "クラウドセッションの URL と QR コードを表示する。エイリアス: /remote"
   - name: setup-bedrock
-    description: Amazon Bedrock認証・リージョン・モデルピンをインタラクティブウィザードで設定する。CLAUDE_CODE_USE_BEDROCK=1の場合のみ表示。初回利用時はログイン画面からもこのウィザードを開ける
+    description: "Amazon Bedrock認証・リージョン・モデルピンをインタラクティブウィザードで設定する。CLAUDE_CODE_USE_BEDROCK=1 が設定されるまでコマンドメニューには表示されないため、その場合はフルネームで入力する。初回利用時はログイン画面からもこのウィザードを開ける"
   - name: setup-vertex
-    description: Google Cloud's Agent Platform認証・プロジェクト・リージョン・モデルピンをインタラクティブウィザードで設定する。CLAUDE_CODE_USE_VERTEX=1の場合のみ表示。初回利用時はログイン画面からもこのウィザードを開ける
+    description: "Google Cloud's Agent Platform認証・プロジェクト・リージョン・モデルピンをインタラクティブウィザードで設定する。CLAUDE_CODE_USE_VERTEX=1 が設定されるまでコマンドメニューには表示されないため、その場合はフルネームで入力する。初回利用時はログイン画面からもこのウィザードを開ける"
   - name: skill-doctor
     description: 読み込まれているスキルのうち、使われずにコンテキストを消費しているものを表示する
   - name: skills
-    description: 利用可能なスキルを一覧表示する。入力して名前で絞り込み、`t`キーでトークン数でソート、`Space`キーでClaudeと / メニューへの表示/非表示を切り替え、`Enter`で保存
+    description: "利用可能なスキルを一覧表示する。入力して名前・説明・提供元で絞り込み、`t` でトークン数でソート、`Space` または `Enter` で Claude と / メニューへの表示/非表示を切り替え、`Esc` で保存して閉じる。プラグインのスキル、frontmatter で disable-model-invocation: true を設定したスキル、managed settings や --settings で skillOverrides が指定されたスキルは切り替えられない"
   - name: status
     description: "設定インターフェースを開く（Statusタブ）。バージョン、モデル、アカウント、接続状況を表示。v2.1.221以降はセッション種別（インタラクティブか、attached / unattended のバックグラウンドジョブか）も表示する。Claudeのレスポンス中でも動作"
   - name: statusline
@@ -221,7 +221,7 @@ commands:
   - name: teleport
     description: "Claude Code Webセッションをこのターミナルに引き込む。ピッカーを開いてブランチと会話を取得。claude.aiサブスクリプションが必要。エイリアス: /tp"
   - name: terminal-setup
-    description: ターミナルのキーバインドを設定する（Shift+Enterなどのショートカット）。VS Code・Cursor・Devin Desktop・Alacritty・Zedなど必要なターミナルでのみ表示
+    description: "VS Code・Cursor・Devin Desktop・Alacritty・Zed に、改行用の Shift+Enter キーバインドをインストールする。Apple Terminal では代わりに Option+Enter による改行を有効化し、警告音をオフにする。iTerm2 では /copy が動作するようクリップボードアクセスを有効化する"
   - name: theme
     description: "カラーテーマを変更する。ターミナルのダーク/ライトモードに追従するauto、ライト/ダーク、色覚対応（ダルトナイズ）テーマ、ターミナルのパレットを使うANSIテーマ、~/.claude/themes/ やプラグイン由来のカスタムテーマを含む。`New custom theme…` を選ぶと新しいテーマを作成できる"
   - name: tui
@@ -269,7 +269,7 @@ skills:
   - name: claude-in-chrome
     description: Chrome ブラウザを自動操作して Web ページを操作する。要素のクリック、フォーム入力、スクリーンショット取得、コンソールログの読み取り、ページ遷移に対応。既存の Chrome セッション内の新しいタブでページを開くため、拡張機能側でサイトごとの権限設定が必要
   - name: code-review
-    description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグと再利用・簡素化・効率化のクリーンアップの観点からレビューする。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub PR にインラインコメントとして投稿する。github.com の PR を対象に `ultra` を使う場合、`--post` を渡すと起動ダイアログで「完了したレビュー結果を PR に投稿する」が事前選択される。エイリアス: /review"
+    description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグと再利用・簡素化・効率化のクリーンアップの観点からレビューする。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub の pull request にインラインコメントとして、または GitLab の merge request にノートとして投稿する。github.com の PR を対象に `ultra` を使う場合、`--post` を渡すと起動ダイアログで「完了したレビュー結果を PR に投稿する」が事前選択される。エイリアス: /review"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
   - name: code-walkthrough
     description: コードのインタラクティブなウォークスルー Artifact を生成する

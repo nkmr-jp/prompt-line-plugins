@@ -77,7 +77,7 @@ commands:
   - name: diff
     description: Open an interactive diff viewer showing uncommitted changes and per-turn diffs. Use left/right arrows to switch between the current git diff and individual Claude turns, and up/down to browse files. Press Enter to open the selected file's diff and Esc to return to the file list. Diffs come from raw git blob content, so diff drivers and textconv filters do not apply. The open viewer refreshes automatically when the repository's git state changes outside the session
   - name: effort
-    description: "Set the model effort level. Accepts low/medium/high/xhigh/max/ultracode. Available levels depend on the model; max and ultracode are session-only. ultracode combines xhigh reasoning with automatic workflow orchestration. auto resets to the model default. Pass status to print the current level. Without an argument, opens an interactive slider. Takes effect immediately without waiting for the current response to finish. Also available in -p mode with a level argument, where it applies to the current session only; while the model-default effort hold is in force it reports Not applied, so pass --effort at launch instead"
+    description: "Set the model effort level. Accepts low/medium/high/xhigh/max/ultracode. Available levels depend on the model; max and ultracode are session-only. ultracode combines xhigh reasoning with automatic workflow orchestration. auto resets to the model default. Pass status to print the current level. Without an argument, opens an interactive slider, where pressing `s` on a level applies it to the current session only, matching the /model picker. Takes effect immediately without waiting for the current response to finish. Also available in -p mode with a level argument, where it applies to the current session only; while the model-default effort hold is in force it reports Not applied, so pass --effort at launch instead"
     argument-hint: "[level|auto|status]"
   - name: exit
     description: "Exit the CLI. In an attached background session, this detaches and the session keeps running. Alias: /quit"
@@ -157,7 +157,7 @@ commands:
   - name: privacy-settings
     description: View and update your privacy settings. Only available for Pro and Max plan subscribers
   - name: radio
-    description: Open Claude FM lo-fi radio in your browser. Prints the stream URL when no browser is available. Not available on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, or Claude Platform on AWS
+    description: Open Claude FM lo-fi radio in your browser. Prints the stream URL when no browser is available
   - name: rate-limit-options
     description: "Show ways to keep working when a claude.ai usage limit blocks a request: wait and continue automatically when the limit resets, add usage credits, or upgrade your plan. Claude Code can also open this menu on its own when you hit a limit at your own terminal. Requires a claude.ai subscription. Does not appear in the command menu; type it in full"
   - name: recap
@@ -196,13 +196,13 @@ commands:
   - name: session
     description: "Show cloud session URL and QR code. Alias: /remote"
   - name: setup-bedrock
-    description: Configure Amazon Bedrock authentication, region, and model pins through an interactive wizard. Only visible when CLAUDE_CODE_USE_BEDROCK=1 is set. First-time users can also reach this wizard from the login screen
+    description: "Configure Amazon Bedrock authentication, region, and model pins through an interactive wizard. Hidden from the command menu until CLAUDE_CODE_USE_BEDROCK=1 is set; type it in full. First-time users can also reach this wizard from the login screen"
   - name: setup-vertex
-    description: Configure Google Cloud's Agent Platform authentication, project, region, and model pins through an interactive wizard. Only visible when CLAUDE_CODE_USE_VERTEX=1 is set. First-time users can also reach this wizard from the login screen
+    description: "Configure Google Cloud's Agent Platform authentication, project, region, and model pins through an interactive wizard. Hidden from the command menu until CLAUDE_CODE_USE_VERTEX=1 is set; type it in full. First-time users can also reach this wizard from the login screen"
   - name: skill-doctor
     description: Show which loaded skills are unused and costing context
   - name: skills
-    description: List available skills. Type to filter by name, press `t` to sort by token count, or press `Space` to cycle a skill's visibility to Claude and the / menu, then `Enter` to save
+    description: "List available skills. Type to filter the list by name, description, or source, press `t` to sort by token count, `Space` or `Enter` to cycle a skill's visibility to Claude and the / menu, and `Esc` to save and close. Plugin skills, skills whose frontmatter sets disable-model-invocation: true, and skills with a skillOverrides entry in managed settings or the --settings flag can't be cycled"
   - name: status
     description: "Open the Settings interface (Status tab) showing version, model, account, and connectivity. As of v2.1.221 it also shows the session kind: interactive, or a background job that is attached or unattended. Works while Claude is responding"
   - name: statusline
@@ -221,7 +221,7 @@ commands:
   - name: teleport
     description: "Pull a Claude Code on the web session into this terminal: opens a picker, then fetches the branch and conversation. Requires a claude.ai subscription. Alias: /tp"
   - name: terminal-setup
-    description: Configure terminal keybindings for Shift+Enter and other shortcuts. Only visible in terminals that need it, like VS Code, Cursor, Devin Desktop, Alacritty, or Zed
+    description: "Install a Shift+Enter keybinding for newlines in VS Code, Cursor, Devin Desktop, Alacritty, or Zed. In Apple Terminal, enables Option+Enter for newlines and turns off the audible bell instead. In iTerm2, turns on clipboard access so that /copy works"
   - name: theme
     description: "Change the color theme. Includes an auto option that follows the terminal's dark/light mode, light/dark variants, colorblind-accessible (daltonized) themes, ANSI themes that use the terminal's palette, and custom themes from ~/.claude/themes/ or plugins. Select `New custom theme…` to create one"
   - name: tui
@@ -269,7 +269,7 @@ skills:
   - name: claude-in-chrome
     description: "Automate your Chrome browser to interact with web pages: click elements, fill forms, capture screenshots, read console logs, and navigate sites. Opens pages in new tabs within your existing Chrome session, and requires site-level permissions configured in the extension"
   - name: code-review
-    description: "Review the current diff, or a PR number, branch, or path you pass, for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. With no effort level, reuses the level you typed last, falling back to the session's effort level if you have never typed one. Runs as a background subagent so review work stays out of your conversation. Pass `--fix` to apply findings to the working tree, or `--comment` to post inline PR comments. With `ultra` on a github.com PR target, `--post` preselects posting the finished findings to the PR in the launch dialog. Alias: /review"
+    description: "Review the current diff, or a PR number, branch, or path you pass, for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. With no effort level, reuses the level you typed last, falling back to the session's effort level if you have never typed one. Runs as a background subagent so review work stays out of your conversation. Pass `--fix` to apply findings to the working tree, or `--comment` to post them as inline comments on a GitHub pull request or as notes on a GitLab merge request. With `ultra` on a github.com PR target, `--post` preselects posting the finished findings to the PR in the launch dialog. Alias: /review"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
   - name: code-walkthrough
     description: Generate an interactive walkthrough artifact for code
