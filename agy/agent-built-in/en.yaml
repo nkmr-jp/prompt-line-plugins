@@ -5,6 +5,7 @@ references:
   - https://antigravity.google/docs/cli/reference
   - https://antigravity.google/docs/cli/features
   - https://antigravity.google/docs/skills
+  - https://antigravity.google/changelog
 
 commands:
   - name: add-dir
