@@ -1,0 +1,106 @@
+name: agy
+description: Antigravity CLI (AGY) built-in commands and workflows
+color: indigo  # You can also use hex codes like "#4285F4"
+references:
+  - https://antigravity.google/docs/cli/reference
+  - https://antigravity.google/docs/cli/features
+  - https://antigravity.google/docs/skills
+
+commands:
+  - name: add-dir
+    description: Add a workspace directory for file access during the current session
+    argument-hint: "<path>"
+  - name: agents
+    description: List available custom agents and select an agent for the session
+  - name: artifact
+    description: "Browse, view, or review generated artifacts and walkthroughs. Alias: /artifacts"
+  - name: btw
+    description: "Ask a quick side question without adding to the conversation context. Usage: /btw <question>"
+    argument-hint: "<question>"
+  - name: changelog
+    description: Show release notes and recent changes
+  - name: clear
+    description: "Clear conversation history and start a new session. Aliases: /reset, /new"
+  - name: config
+    description: "Open the interactive settings panel to adjust preferences and configuration. Alias: /settings"
+  - name: context
+    description: View detailed context breakdown, token consumption, and model limits
+  - name: copy
+    description: Copy the latest completed assistant output or response to clipboard
+  - name: credits
+    description: Show remaining G1 credits balance and subscription purchase link
+  - name: diff
+    description: View uncommitted working tree changes and per-turn diffs
+  - name: effort
+    description: "Set the reasoning effort for the current model. Usage: /effort [low|medium|high]"
+    argument-hint: "[low|medium|high]"
+  - name: exit
+    description: "Exit the Antigravity CLI. Alias: /quit"
+  - name: feedback
+    description: "Submit feedback, logs, or bug reports to the Antigravity team. Alias: /bug"
+  - name: fork
+    description: Fork the current conversation into a new thread or branch
+  - name: help
+    description: Show available slash commands, keybindings, and help information
+  - name: hooks
+    description: Manage lifecycle hook configurations for tool and agent events
+  - name: keybindings
+    description: View and configure custom keyboard shortcuts and keybindings
+  - name: logout
+    description: Log out of your Google account or active session
+  - name: mcp
+    description: Manage Model Context Protocol (MCP) server configurations and tools
+  - name: model
+    description: Set or switch the active foundation model for the current session
+    argument-hint: "[model]"
+  - name: open
+    description: "Open a specified file in your configured editor. Usage: /open <file_path>"
+    argument-hint: "<file_path>"
+  - name: permissions
+    description: Manage tool permission rules, approval decisions, and security policies
+  - name: rename
+    description: Rename the current conversation thread
+    argument-hint: "[name]"
+  - name: resume
+    description: Resume a previous conversation by ID or browse conversation history
+    argument-hint: "[conversation-id]"
+  - name: rewind
+    description: Rewind the conversation to a previous turn or checkpoint
+  - name: search
+    description: "Search past conversations and code. Alias: /codesearch"
+    argument-hint: "[-F|--literal] [-p|--paths-only]"
+  - name: skills
+    description: List and manage active ambient, global, and workspace skills
+  - name: statusline
+    description: "Toggle statusline on/off or configure a custom shell command to render the statusline. Usage: /statusline [<command>]"
+    argument-hint: "[<command>]"
+  - name: tasks
+    description: View and manage background subagents, tasks, and worker processes
+  - name: title
+    description: "Set or toggle the terminal title. Usage: /title [on|off]"
+    argument-hint: "[on|off]"
+  - name: usage
+    description: "View model quota usage and rate limits. Alias: /quota"
+  - name: voice
+    description: Dictate a prompt using your microphone (toggle voice dictation)
+
+skills:
+  - name: boost
+    description: Activate high-powered deep thinking, strategic planning, multiple perspectives, and rigorous verification
+  - name: browser
+    description: Automate web browsing, search the web, and interact with web applications via headless browser
+  - name: goal
+    description: Run a long-running autonomous task (e.g., overnight) and not stop until the goal is fully achieved
+    argument-hint: "<goal>"
+  - name: grill-me
+    description: Conduct an interactive interview to align on design decisions and clarify requirements before starting work
+  - name: learn
+    description: Persist user corrections, learned preferences, or complex environment setups for future sessions
+  - name: plan
+    description: Formulate and align on a detailed multi-step implementation plan before executing code changes
+    argument-hint: "[task]"
+  - name: schedule
+    description: Schedule a recurring cron job or one-shot background timer notification
+    argument-hint: "[instruction]"
+  - name: teamwork-preview
+    description: Orchestrate a team of autonomous subagents working collaboratively across pipeline stages

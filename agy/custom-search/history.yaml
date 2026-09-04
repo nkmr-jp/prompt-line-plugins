@@ -1,0 +1,11 @@
+# Antigravity CLI (AGY) prompt history
+sourcePath: "~/.gemini/antigravity-cli/history.jsonl"
+name: "{json@display}"
+icon: history
+color: indigo
+searchPrefix: ar
+orderBy: "{json@timestamp} desc"
+inputFormat: "{json@display}"
+displayTime: "{json@timestamp}"
+tooltip: "{json@display}"
+maxSuggestions: 100

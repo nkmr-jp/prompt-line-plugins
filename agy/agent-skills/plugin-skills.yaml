@@ -1,0 +1,8 @@
+# AGY plugin skills
+# See: https://antigravity.google/docs/plugins
+sourcePath: ~/.gemini/config/plugins/*/skills/**/SKILL.md
+name: "{pathdir:1}:{frontmatter@name}"
+label: "{pathdir:1}"
+description: "{frontmatter@description}"
+argumentHint: "{frontmatter@argument-hint}"
+excludeIf: "{frontmatter@user-invocable}==false"

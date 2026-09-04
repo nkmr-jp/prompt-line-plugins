@@ -1,0 +1,106 @@
+name: agy-ja
+description: Antigravity CLI (AGY) 組み込みコマンドとワークフロー
+color: indigo  # カラーコード（例: "#4285F4"）も指定可能
+references:
+  - https://antigravity.google/docs/cli/reference
+  - https://antigravity.google/docs/cli/features
+  - https://antigravity.google/docs/skills
+
+commands:
+  - name: add-dir
+    description: セッション中のファイルアクセスのために対象の作業ディレクトリを追加
+    argument-hint: "<path>"
+  - name: agents
+    description: 利用可能なカスタムエージェントの一覧を表示し、セッションで使用するエージェントを選択
+  - name: artifact
+    description: "生成された成果物（アーティファクト）やウォークスルーを閲覧・確認。エイリアス: /artifacts"
+  - name: btw
+    description: "会話のコンテキストを消費せずに簡単な補足質問を行う。使い方: /btw <question>"
+    argument-hint: "<question>"
+  - name: changelog
+    description: リリースノートと最新の変更履歴を表示
+  - name: clear
+    description: "会話履歴をクリアして新しいセッションを開始。エイリアス: /reset, /new"
+  - name: config
+    description: "設定パネルを開き、各種環境設定やオプションを管理。エイリアス: /settings"
+  - name: context
+    description: コンテキスト使用状況、トークン消費量、モデル制限の詳細を表示
+  - name: copy
+    description: 最新のアシスタントの応答内容をクリップボードにコピー
+  - name: credits
+    description: 残りの G1 クレジット残高と購入リンクを表示
+  - name: diff
+    description: 未コミットの変更差分およびターンごとの差分を表示
+  - name: effort
+    description: "推論モデルの思考レベル（effort）を設定。使い方: /effort [low|medium|high]"
+    argument-hint: "[low|medium|high]"
+  - name: exit
+    description: "Antigravity CLI を終了。エイリアス: /quit"
+  - name: feedback
+    description: "Antigravity チームにフィードバックやログ、不具合レポートを送信。エイリアス: /bug"
+  - name: fork
+    description: 現在の会話を新しいスレッドまたはブランチにフォーク
+  - name: help
+    description: 利用可能なスラッシュコマンドやキーバインド、ヘルプ情報を表示
+  - name: hooks
+    description: ツールやエージェントイベント用のライフサイクルフック設定を管理
+  - name: keybindings
+    description: カスタムキーボードショートカット（キーバインド）を表示・設定
+  - name: logout
+    description: Google アカウントまたはアクティブセッションからログアウト
+  - name: mcp
+    description: Model Context Protocol (MCP) サーバーの設定とツールを管理
+  - name: model
+    description: セッションで使用する基盤モデルを切り替え・設定
+    argument-hint: "[model]"
+  - name: open
+    description: "指定したファイルを設定されたエディタで開く。使い方: /open <file_path>"
+    argument-hint: "<file_path>"
+  - name: permissions
+    description: ツールのパーミッションルール、承認設定、セキュリティポリシーを管理
+  - name: rename
+    description: 現在の会話スレッドの名前を変更
+    argument-hint: "[name]"
+  - name: resume
+    description: 会話 ID を指定して過去の会話を再開、または会話一覧から選択
+    argument-hint: "[conversation-id]"
+  - name: rewind
+    description: 会話を前のターンまたはチェックポイントに巻き戻す
+  - name: search
+    description: "過去の会話履歴やコードを検索。エイリアス: /codesearch"
+    argument-hint: "[-F|--literal] [-p|--paths-only]"
+  - name: skills
+    description: 有効なアンビエント、グローバル、ワークスペーススキルの一覧を表示
+  - name: statusline
+    description: "ステータスラインの表示切り替え、または描画用のカスタムシェルコマンドを設定。使い方: /statusline [<command>]"
+    argument-hint: "[<command>]"
+  - name: tasks
+    description: バックグラウンドで実行中のサブエージェントやタスクを一覧表示・管理
+  - name: title
+    description: "ターミナルのタイトルを設定または表示切り替え。使い方: /title [on|off]"
+    argument-hint: "[on|off]"
+  - name: usage
+    description: "モデルのクォータ（利用制限）と使用状況を確認。エイリアス: /quota"
+  - name: voice
+    description: マイク音声によるプロンプト入力（音声入力）のオン/オフを切り替え
+
+skills:
+  - name: boost
+    description: 高度な深い思考、戦略的計画、多角的な検証を有効化して複雑な課題を解決
+  - name: browser
+    description: ヘッドレスブラウザによるWebブラウジング、情報収集、Webアプリの自動操作を実行
+  - name: goal
+    description: 目標が完全に達成されるまで停止せずに自律的にタスクを完遂する長時間実行モードを開始
+    argument-hint: "<goal>"
+  - name: grill-me
+    description: 実装開始前に設計上の論点や要件を深掘りし、対話形式で意思決定をすり合わせる
+  - name: learn
+    description: ユーザーからの指示や設定手順を学習し、今後のセッションで再利用できるように永続化
+  - name: plan
+    description: コード変更に着手する前に、ステップバイステップの実装計画を立案・合意
+    argument-hint: "[task]"
+  - name: schedule
+    description: 定期的な cron ジョブまたはワンショットのタイマー通知をスケジュール
+    argument-hint: "[instruction]"
+  - name: teamwork-preview
+    description: 複数の自律型サブエージェントが協調して大規模タスクを実行するチームワーク機能

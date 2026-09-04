@@ -1,0 +1,8 @@
+# AGY builtin skills
+# See: https://antigravity.google/docs/skills
+sourcePath: ~/.gemini/antigravity-cli/builtin/skills/**/SKILL.md
+name: "{frontmatter@name}"
+label: builtin
+description: "{frontmatter@description}"
+argumentHint: "{frontmatter@argument-hint}"
+excludeIf: "{frontmatter@user-invocable}==false"
