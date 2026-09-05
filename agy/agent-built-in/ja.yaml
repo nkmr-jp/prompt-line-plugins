@@ -63,7 +63,7 @@ commands:
     description: 現在の会話スレッドの名前を変更
     argument-hint: "[name]"
   - name: resume
-    description: 会話 ID を指定して過去の会話を再開、または会話一覧から選択
+    description: 会話 ID を指定して過去の会話を再開、または会話一覧から選択。Ctrl+F でフラット表示とワークスペースディレクトリ別のグループ表示を切り替えられる
     argument-hint: "[conversation-id]"
   - name: rewind
     description: 会話を前のターンまたはチェックポイントに巻き戻す

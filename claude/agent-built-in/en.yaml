@@ -11,7 +11,7 @@ commands:
     description: Add a working directory for file access during the current session. Typing a partial path shows matching directory suggestions; press Tab to accept one. Most .claude/ configuration is not discovered from the added directory. A successful add runs your DirectoryAdded hooks. Can also be run while Claude is responding; you confirm the directory right away and Claude's next tool call in the same turn can access it, which requires v2.1.234 or later
     argument-hint: "<path>"
   - name: advisor
-    description: "Enable or disable the advisor tool, which consults a second model for guidance at key moments during a task. Accepts fable, opus, sonnet, or a full model ID; fable requires Fable 5 access. Without an argument, opens a picker"
+    description: "Enable or disable the advisor tool, which consults a second model for guidance at key moments during a task. Accepts fable, opus, sonnet, or a full model ID; fable requires Fable 5 access. Without an argument, opens a picker. A text form (/advisor, /advisor <model>, /advisor off) is also available in the desktop app, Remote Control, and other headless (-p / Agent SDK) sessions, and requires v2.1.260 or later"
     argument-hint: "[model|off]"
   - name: agents
     description: "Prints a reminder to ask Claude to create or manage subagents, or to edit the .claude/agents/ or ~/.claude/agents/ files directly. Earlier versions opened an interactive management interface"
@@ -59,7 +59,7 @@ commands:
     description: "Open the Settings interface to adjust theme, model, output style, and other preferences. Pass key=value pairs (e.g. /config thinking=false) to set settings directly; named shorthand keys such as /config theme=dark or /config model=sonnet are also accepted. Run `/config --help` to list every settable key with its options. Works in interactive, -p, and Remote Control modes. Alias: /settings"
     argument-hint: "[key=value ...]"
   - name: context
-    description: Visualize current context usage as a colored grid. Shows optimization suggestions for context-heavy tools, memory bloat, and capacity warnings. When the conversation exceeds the context window, the output warns how far over the limit you are and which command frees space. Pass `all` to expand the per-item breakdown in fullscreen mode
+    description: Visualize current context usage as a colored grid. Shows optimization suggestions for context-heavy tools, memory bloat, and capacity warnings. When the conversation exceeds the context window, the output warns how far over the limit you are and which command frees space. Pass `all` to expand the per-item breakdown in fullscreen mode. When the token-counting API is unavailable, token counting falls back to a local estimate instead of extra small-model requests, which requires v2.1.261 or later
     argument-hint: "[all]"
   - name: copy
     description: "Copy the last assistant response to clipboard. Pass a number N to copy the Nth-latest response (e.g. /copy 2). When code blocks are present, shows an interactive picker to select individual blocks or the full response. Press `w` in the picker to write the selection to a file instead of the clipboard, which is useful over SSH"
@@ -75,7 +75,7 @@ commands:
   - name: desktop
     description: "Continue the current session in the Claude Code Desktop app. Requires macOS or x64 Windows and a Claude subscription. Alias: /app"
   - name: diff
-    description: Open an interactive diff viewer showing uncommitted changes and per-turn diffs. Use left/right arrows to switch between the current git diff and individual Claude turns, and up/down to browse files. Press Enter to open the selected file's diff and Esc to return to the file list. Diffs come from raw git blob content, so diff drivers and textconv filters do not apply. The open viewer refreshes automatically when the repository's git state changes outside the session
+    description: Open an interactive diff viewer showing uncommitted changes and per-turn diffs. Use left/right arrows to switch between the current git diff and individual Claude turns, and up/down to browse files. Press Enter to open the selected file's diff and Esc to return to the file list. Diffs come from raw git blob content, so diff drivers and textconv filters do not apply. The open viewer refreshes automatically when the repository's git state changes outside the session. In fullscreen mode, /diff also toggles a diff panel that opens beside the conversation and shows your uncommitted changes as Claude edits, which requires v2.1.260 or later
   - name: effort
     description: "Set the model effort level. Accepts low/medium/high/xhigh/max/ultracode. Available levels depend on the model; max and ultracode are session-only. ultracode combines xhigh reasoning with automatic workflow orchestration. auto resets to the model default. Pass status to print the current level. Without an argument, opens an interactive slider, where pressing `s` on a level applies it to the current session only, matching the /model picker. Takes effect immediately without waiting for the current response to finish. Also available in -p mode with a level argument, where it applies to the current session only; while the model-default effort hold is in force it reports Not applied, so pass --effort at launch instead"
     argument-hint: "[level|auto|status]"
@@ -135,7 +135,7 @@ commands:
   - name: mobile
     description: "Show QR code to download the Claude mobile app. Aliases: /ios, /android"
   - name: model
-    description: Switch the AI model and save it as the default for new sessions. For models that support it, use left/right arrows to adjust effort level. Without an argument, opens a picker; press `s` on a row to switch for the current session only. The picker asks for confirmation when the conversation has prior output, since the next response re-reads the full history without cached context. Once confirmed, the change applies without waiting for the current response to finish. Also available in -p mode with a model argument instead of the picker, where it applies to the current session only and is not saved as your default
+    description: Switch the AI model and save it as the default for new sessions. For models that support it, use left/right arrows to adjust effort level. Without an argument, opens a picker; press `s` on a row to switch for the current session only. The picker asks for confirmation when the conversation has prior output, since the next response re-reads the full history without cached context. Once confirmed, the change applies without waiting for the current response to finish. Also available in -p mode with a model argument instead of the picker, where it applies to the current session only and is not saved as your default. The picker shows a model's name instead of its raw Bedrock, Vertex AI, or LLM gateway ID when Claude Code recognizes it, which requires v2.1.261 or later
     argument-hint: "[model]"
   - name: passes
     description: Share a free week of Claude Code with friends. Only visible if your account is eligible
@@ -165,7 +165,7 @@ commands:
   - name: release-notes
     description: View the changelog in an interactive version picker. Select a specific version to see its release notes, or choose to show all versions. The notes appear in your transcript without entering the conversation Claude sees
   - name: reload-plugins
-    description: "Reload all active plugins to apply pending changes without restarting. Reports counts for each reloaded component and flags any load errors. When the reload would change which MCP tools are loaded and invalidate the prompt cache, it warns and skips unless you pass --force"
+    description: "Reload all active plugins to apply pending changes without restarting. Reports counts for each reloaded component and flags any load errors. When the reload would change which MCP tools are loaded and invalidate the prompt cache, it warns and skips unless you pass --force. Also available in headless sessions, so it appears in the Claude Code Desktop and SDK command lists, which requires v2.1.260 or later"
     argument-hint: "[--force]"
   - name: reload-skills
     description: Re-scan skill and command directories so changes on disk become available without restarting the session. Reports how many skills are available and how many were added or removed
@@ -200,11 +200,11 @@ commands:
   - name: setup-vertex
     description: "Configure Google Cloud's Agent Platform authentication, project, region, and model pins through an interactive wizard. Hidden from the command menu until CLAUDE_CODE_USE_VERTEX=1 is set; type it in full. First-time users can also reach this wizard from the login screen"
   - name: skill-doctor
-    description: Show which loaded skills are unused and costing context
+    description: Show which loaded skills go unused and what they cost in context, so you can prune them. Requires v2.1.261 or later
   - name: skills
     description: "List available skills. Type to filter the list by name, description, or source, press `t` to sort by token count, `Space` or `Enter` to cycle a skill's visibility to Claude and the / menu, and `Esc` to save and close. Plugin skills, skills whose frontmatter sets disable-model-invocation: true, and skills with a skillOverrides entry in managed settings or the --settings flag can't be cycled"
   - name: status
-    description: "Open the Settings interface (Status tab) showing version, model, account, and connectivity. As of v2.1.221 it also shows the session kind: interactive, or a background job that is attached or unattended. Works while Claude is responding"
+    description: "Open the Settings interface (Status tab) showing version, model, account, and connectivity. As of v2.1.221 it also shows the session kind: interactive, or a background job that is attached or unattended. An Organization policy line says why your organization's policy could not be loaded, such as a proxy not passing the endpoint through, and requires v2.1.261 or later. Works while Claude is responding"
   - name: statusline
     description: "Configure Claude Code's status line. Describe what you want, or run without arguments to auto-configure from your shell prompt"
   - name: stickers
@@ -235,7 +235,7 @@ commands:
   - name: upgrade
     description: Open the upgrade page in your browser to switch to a higher plan tier. When the browser fails to open, it shows a sign-in prompt without printing the URL
   - name: usage
-    description: "Show session cost, plan usage limits, and activity stats. On Pro, Max, Team, and Enterprise plans, includes a breakdown of usage by skill, subagent, plugin, MCP server, and loop; the Loops breakdown shows per-loop run count, total tokens, tokens per run, and last run, and requires v2.1.243 or later. Aliases: /cost, /stats"
+    description: "Show session cost, plan usage limits, and activity stats. On Pro, Max, Team, and Enterprise plans, includes a breakdown of usage by skill, subagent, plugin, MCP server, and loop; the Loops breakdown shows per-loop run count, total tokens, tokens per run, and last run, and requires v2.1.243 or later. /cost also shows a likely cause for prompt-cache misses, such as changed tool definitions or idling past the cache TTL, and requires v2.1.260 or later. Aliases: /cost, /stats"
   - name: usage-credits
     description: "Configure usage credits, or request them from your admin, when you hit a limit. Opens your usage-credits billing settings in the browser; Team and Enterprise members without billing access instead send a usage-credits request to their admin from the CLI after confirming in a dialog. When no browser can open, for example over SSH, the URL is printed instead. Renamed from /extra-usage"
   - name: version
