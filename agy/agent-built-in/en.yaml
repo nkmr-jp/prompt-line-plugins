@@ -63,7 +63,7 @@ commands:
     description: Rename the current conversation thread
     argument-hint: "[name]"
   - name: resume
-    description: Resume a previous conversation by ID or browse conversation history
+    description: Resume a previous conversation by ID or browse conversation history. Ctrl+F toggles between a flat list and conversations grouped by workspace directory
     argument-hint: "[conversation-id]"
   - name: rewind
     description: Rewind the conversation to a previous turn or checkpoint
