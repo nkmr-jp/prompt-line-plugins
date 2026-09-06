@@ -200,7 +200,7 @@ commands:
   - name: setup-vertex
     description: "Configure Google Cloud's Agent Platform authentication, project, region, and model pins through an interactive wizard. Hidden from the command menu until CLAUDE_CODE_USE_VERTEX=1 is set; type it in full. First-time users can also reach this wizard from the login screen"
   - name: skill-doctor
-    description: Show which loaded skills go unused and what they cost in context, so you can prune them. Requires v2.1.261 or later
+    description: Show what each of your skills costs in context and how often it gets used, so you can find skills to turn off. Requires v2.1.252 or later and feature-flag fetching
   - name: skills
     description: "List available skills. Type to filter the list by name, description, or source, press `t` to sort by token count, `Space` or `Enter` to cycle a skill's visibility to Claude and the / menu, and `Esc` to save and close. Plugin skills, skills whose frontmatter sets disable-model-invocation: true, and skills with a skillOverrides entry in managed settings or the --settings flag can't be cycled"
   - name: status

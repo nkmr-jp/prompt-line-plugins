@@ -200,7 +200,7 @@ commands:
   - name: setup-vertex
     description: "Google Cloud's Agent Platform認証・プロジェクト・リージョン・モデルピンをインタラクティブウィザードで設定する。CLAUDE_CODE_USE_VERTEX=1 が設定されるまでコマンドメニューには表示されないため、その場合はフルネームで入力する。初回利用時はログイン画面からもこのウィザードを開ける"
   - name: skill-doctor
-    description: 読み込まれているスキルのうち、使われていないものとそのコンテキストコストを表示し、整理の判断に使える（v2.1.261 以降）
+    description: 各スキルがコンテキストをどれだけ消費し、どのくらいの頻度で使われているかを表示し、オフにするスキルを見極められる。v2.1.252 以降と feature-flag の取得が必要
   - name: skills
     description: "利用可能なスキルを一覧表示する。入力して名前・説明・提供元で絞り込み、`t` でトークン数でソート、`Space` または `Enter` で Claude と / メニューへの表示/非表示を切り替え、`Esc` で保存して閉じる。プラグインのスキル、frontmatter で disable-model-invocation: true を設定したスキル、managed settings や --settings で skillOverrides が指定されたスキルは切り替えられない"
   - name: status
