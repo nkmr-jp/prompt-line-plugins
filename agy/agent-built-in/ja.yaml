@@ -40,7 +40,7 @@ commands:
   - name: feedback
     description: "Antigravity チームにフィードバックやログ、不具合レポートを送信。エイリアス: /bug"
   - name: fork
-    description: 現在の会話を新しいスレッドまたはブランチにフォーク
+    description: "現在の会話を新しいスレッドまたはブランチにフォーク。エイリアス: /branch"
   - name: help
     description: 利用可能なスラッシュコマンドやキーバインド、ヘルプ情報を表示
   - name: hooks
@@ -63,10 +63,10 @@ commands:
     description: 現在の会話スレッドの名前を変更
     argument-hint: "[name]"
   - name: resume
-    description: 会話 ID を指定して過去の会話を再開、または会話一覧から選択。Ctrl+F でフラット表示とワークスペースディレクトリ別のグループ表示を切り替えられる
+    description: "会話 ID を指定して過去の会話を再開、または会話一覧から選択。Ctrl+F でフラット表示とワークスペースディレクトリ別のグループ表示を切り替えられる。エイリアス: /switch, /conversation"
     argument-hint: "[conversation-id]"
   - name: rewind
-    description: 会話を前のターンまたはチェックポイントに巻き戻す
+    description: "会話を前のターンまたはチェックポイントに巻き戻す。エイリアス: /undo"
   - name: search
     description: "過去の会話履歴やコードを検索。エイリアス: /codesearch"
     argument-hint: "[-F|--literal] [-p|--paths-only]"
@@ -83,7 +83,7 @@ commands:
   - name: usage
     description: "モデルのクォータ（利用制限）と使用状況を確認。エイリアス: /quota"
   - name: voice
-    description: マイク音声によるプロンプト入力（音声入力）のオン/オフを切り替え
+    description: "マイク音声によるプロンプト入力（音声入力）のオン/オフを切り替え。エイリアス: /record"
 
 skills:
   - name: boost
@@ -104,4 +104,4 @@ skills:
     description: 定期的な cron ジョブまたはワンショットのタイマー通知をスケジュール
     argument-hint: "[instruction]"
   - name: teamwork-preview
-    description: 複数の自律型サブエージェントが協調して大規模タスクを実行するチームワーク機能
+    description: "複数の自律型サブエージェントが協調して大規模タスクを実行するチームワーク機能。エイリアス: /teamwork"

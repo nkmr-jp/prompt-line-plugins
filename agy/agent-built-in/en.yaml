@@ -40,7 +40,7 @@ commands:
   - name: feedback
     description: "Submit feedback, logs, or bug reports to the Antigravity team. Alias: /bug"
   - name: fork
-    description: Fork the current conversation into a new thread or branch
+    description: "Fork the current conversation into a new thread or branch. Alias: /branch"
   - name: help
     description: Show available slash commands, keybindings, and help information
   - name: hooks
@@ -63,10 +63,10 @@ commands:
     description: Rename the current conversation thread
     argument-hint: "[name]"
   - name: resume
-    description: Resume a previous conversation by ID or browse conversation history. Ctrl+F toggles between a flat list and conversations grouped by workspace directory
+    description: "Resume a previous conversation by ID or browse conversation history. Ctrl+F toggles between a flat list and conversations grouped by workspace directory. Aliases: /switch, /conversation"
     argument-hint: "[conversation-id]"
   - name: rewind
-    description: Rewind the conversation to a previous turn or checkpoint
+    description: "Rewind the conversation to a previous turn or checkpoint. Alias: /undo"
   - name: search
     description: "Search past conversations and code. Alias: /codesearch"
     argument-hint: "[-F|--literal] [-p|--paths-only]"
@@ -83,7 +83,7 @@ commands:
   - name: usage
     description: "View model quota usage and rate limits. Alias: /quota"
   - name: voice
-    description: Dictate a prompt using your microphone (toggle voice dictation)
+    description: "Dictate a prompt using your microphone (toggle voice dictation). Alias: /record"
 
 skills:
   - name: boost
@@ -104,4 +104,4 @@ skills:
     description: Schedule a recurring cron job or one-shot background timer notification
     argument-hint: "[instruction]"
   - name: teamwork-preview
-    description: Orchestrate a team of autonomous subagents working collaboratively across pipeline stages
+    description: "Orchestrate a team of autonomous subagents working collaboratively across pipeline stages. Alias: /teamwork"
