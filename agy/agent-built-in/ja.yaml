@@ -52,7 +52,7 @@ commands:
   - name: mcp
     description: Model Context Protocol (MCP) サーバーの設定とツールを管理
   - name: model
-    description: セッションで使用する基盤モデルを切り替え・設定
+    description: セッションで使用する基盤モデルを切り替え・設定する。別のモデルで1回だけプロンプトを実行し、終わったら元のモデルに戻すこともできる
     argument-hint: "[model]"
   - name: open
     description: "指定したファイルを設定されたエディタで開く。使い方: /open <file_path>"
@@ -63,7 +63,7 @@ commands:
     description: 現在の会話スレッドの名前を変更
     argument-hint: "[name]"
   - name: resume
-    description: "会話 ID を指定して過去の会話を再開、または会話一覧から選択。Ctrl+F でフラット表示とワークスペースディレクトリ別のグループ表示を切り替えられる。エイリアス: /switch, /conversation"
+    description: "会話 ID を指定して過去の会話を再開、または会話一覧から選択。Ctrl+F でフラット表示とワークスペースディレクトリ別のグループ表示を切り替えられ、既定の表示は pickerGrouping 設定で指定できる。エイリアス: /switch, /conversation"
     argument-hint: "[conversation-id]"
   - name: rewind
     description: "会話を前のターンまたはチェックポイントに巻き戻す。エイリアス: /undo"

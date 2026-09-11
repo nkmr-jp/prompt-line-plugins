@@ -52,7 +52,7 @@ commands:
   - name: mcp
     description: Manage Model Context Protocol (MCP) server configurations and tools
   - name: model
-    description: Set or switch the active foundation model for the current session
+    description: Set or switch the active foundation model for the current session, or run a single prompt on another model and then return the session to the model it was using
     argument-hint: "[model]"
   - name: open
     description: "Open a specified file in your configured editor. Usage: /open <file_path>"
@@ -63,7 +63,7 @@ commands:
     description: Rename the current conversation thread
     argument-hint: "[name]"
   - name: resume
-    description: "Resume a previous conversation by ID or browse conversation history. Ctrl+F toggles between a flat list and conversations grouped by workspace directory. Aliases: /switch, /conversation"
+    description: "Resume a previous conversation by ID or browse conversation history. Ctrl+F toggles between a flat list and conversations grouped by workspace directory; the pickerGrouping setting sets the default view. Aliases: /switch, /conversation"
     argument-hint: "[conversation-id]"
   - name: rewind
     description: "Rewind the conversation to a previous turn or checkpoint. Alias: /undo"
