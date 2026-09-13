@@ -8,10 +8,10 @@ references:
 
 commands:
   - name: add-dir
-    description: Add a working directory for file access during the current session. Typing a partial path shows matching directory suggestions; press Tab to accept one. Most .claude/ configuration is not discovered from the added directory. A successful add runs your DirectoryAdded hooks. Can also be run while Claude is responding; you confirm the directory right away and Claude's next tool call in the same turn can access it, which requires v2.1.234 or later
+    description: Add a working directory for file access during the current session. Typing a partial path shows matching directory suggestions; press Tab to accept one. Most .claude/ configuration is not discovered from the added directory. Most network paths, such as UNC shares, cannot be added. A successful add runs your DirectoryAdded hooks. Can also be run while Claude is responding; you confirm the directory right away and Claude's next tool call in the same turn can access it, which requires v2.1.234 or later
     argument-hint: "<path>"
   - name: advisor
-    description: "Enable or disable the advisor tool, which consults a second model for guidance at key moments during a task. Accepts fable, opus, sonnet, or a full model ID; fable requires Fable 5 access. Without an argument, opens a picker. A text form (/advisor, /advisor <model>, /advisor off) is also available in the desktop app, Remote Control, and other headless (-p / Agent SDK) sessions, and requires v2.1.260 or later"
+    description: "Enable or disable the advisor tool, which consults a second model for guidance at key moments during a task. Accepts fable, opus, sonnet, or a full model ID; fable requires Fable 5 access. Without an argument, opens a picker. In a session without an interactive terminal, or over Remote Control, pass the model or off as an argument; with no argument there, it prints the current advisor as text. These forms require v2.1.260 or later"
     argument-hint: "[model|off]"
   - name: agents
     description: "Prints a reminder to ask Claude to create or manage subagents, or to edit the .claude/agents/ or ~/.claude/agents/ files directly. Earlier versions opened an interactive management interface"
@@ -56,7 +56,7 @@ commands:
     description: Free up context by summarizing the conversation so far. Optionally pass focus instructions for the summary
     argument-hint: "[instructions]"
   - name: config
-    description: "Open the Settings interface to adjust theme, model, output style, and other preferences. Pass key=value pairs (e.g. /config thinking=false) to set settings directly; named shorthand keys such as /config theme=dark or /config model=sonnet are also accepted. Run `/config --help` to list every settable key with its options. Works in interactive, -p, and Remote Control modes. Alias: /settings"
+    description: "Open the Settings interface to adjust theme, model, output style, and other preferences. Pass key=value pairs (e.g. /config thinking=false) to set settings directly; named shorthand keys such as /config theme=dark or /config model=sonnet are also accepted. The key=value form can turn off, but not turn on, a setting that needs your confirmation in the panel, such as autoContinueAtUsageLimit. Run `/config --help` to list every settable key with its options. Works in interactive, -p, and Remote Control modes. Alias: /settings"
     argument-hint: "[key=value ...]"
   - name: context
     description: Visualize current context usage as a colored grid. Shows optimization suggestions for context-heavy tools, memory bloat, and capacity warnings. When the conversation exceeds the context window, the output warns how far over the limit you are and which command frees space. Pass `all` to expand the per-item breakdown in fullscreen mode. When the token-counting API is unavailable, token counting falls back to a local estimate instead of extra small-model requests, which requires v2.1.261 or later
@@ -77,7 +77,7 @@ commands:
   - name: diff
     description: Open an interactive diff viewer showing uncommitted changes and per-turn diffs. Use left/right arrows to switch between the current git diff and individual Claude turns, and up/down to browse files. Press Enter to open the selected file's diff and Esc to return to the file list. Diffs come from raw git blob content, so diff drivers and textconv filters do not apply. The open viewer refreshes automatically when the repository's git state changes outside the session. In fullscreen mode, /diff also toggles a diff panel that opens beside the conversation and shows your uncommitted changes as Claude edits, which requires v2.1.260 or later
   - name: effort
-    description: "Set the model effort level. Accepts low/medium/high/xhigh/max/ultracode. Available levels depend on the model; max and ultracode are session-only. ultracode combines xhigh reasoning with automatic workflow orchestration. auto resets to the model default. Pass status to print the current level. Without an argument, opens an interactive slider, where pressing `s` on a level applies it to the current session only, matching the /model picker. Takes effect immediately without waiting for the current response to finish. Also available in -p mode with a level argument, where it applies to the current session only; while the model-default effort hold is in force it reports Not applied, so pass --effort at launch instead"
+    description: "Set the model effort level. Accepts low/medium/high/xhigh/max/ultracode. Available levels depend on the model; max and ultracode are session-only. ultracode combines xhigh reasoning with automatic workflow orchestration. auto resets to the model default. Pass status to print the current level. Without an argument, opens an interactive slider, where pressing `s` on a level applies it to the current session only, matching the /model picker. When run while Claude is responding, the new level applies to the next request in that turn, after you confirm the cache warning if one is shown. Also available in -p mode with a level argument, where it applies to the current session only; while the model-default effort hold is in force it reports Not applied, so pass --effort at launch instead"
     argument-hint: "[level|auto|status]"
   - name: exit
     description: "Exit the CLI. In an attached background session, this detaches and the session keeps running. Alias: /quit"
@@ -107,14 +107,14 @@ commands:
   - name: ide
     description: Manage IDE integrations and show status
   - name: import
-    description: "Bring configuration from other coding agents on your machine, currently OpenAI Codex and Google Gemini CLI, into Claude Code, including instruction files, MCP servers, commands, subagents, and skills. Add --dry-run to preview without writing anything, or --yes to skip the interactive picker. In -p mode it lists what it found and prints the command that confirms the import. Not available on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, or Claude Platform on AWS, or when feature-flag fetching is turned off. Requires v2.1.213 or later"
-    argument-hint: "[codex|gemini] [--dry-run] [--yes]"
+    description: "Bring configuration from OpenAI Codex, Google Gemini CLI, or Cursor on your machine into Claude Code, including instruction files, MCP servers, commands, subagents, and skills. Add --dry-run to preview without writing anything, or --yes to skip the interactive picker. In -p mode it lists what it found and prints the command that confirms the import. Not available on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, or Claude Platform on AWS, or when feature-flag fetching is turned off. Requires v2.1.213 or later; importing from Cursor requires v2.1.265 or later"
+    argument-hint: "[codex|gemini|cursor] [--dry-run] [--yes]"
   - name: init
     description: "Initialize project with a CLAUDE.md guide. Set CLAUDE_CODE_NEW_INIT=1 for an interactive flow that also walks through skills, hooks, and personal memory files. If it finds configuration from a coding agent that /import supports, it offers to carry that over"
   - name: insights
     description: Generate an HTML report analyzing your recent sessions on this machine (project areas, interaction patterns, friction points, and features to try). Not available in cloud sessions
   - name: install-github-app
-    description: Install the Claude GitHub App for a repository, with an optional step to set up GitHub Actions workflows and secrets. Walks you through selecting a repo and configuring the integration
+    description: Install the Claude GitHub App for a repository, with an optional step to set up GitHub Actions workflows and secrets. Walks you through selecting a repo and configuring the integration. Works only with github.com repositories; when the git remote is on gitlab.com or bitbucket.org, it prints a notice and exits instead of starting setup
   - name: install-slack-app
     description: Install the Claude Slack app. Opens a browser to complete the OAuth flow
   - name: keybindings
@@ -137,6 +137,9 @@ commands:
   - name: model
     description: Switch the AI model and save it as the default for new sessions. For models that support it, use left/right arrows to adjust effort level. Without an argument, opens a picker; press `s` on a row to switch for the current session only. The picker asks for confirmation when the conversation has prior output, since the next response re-reads the full history without cached context. Once confirmed, the change applies without waiting for the current response to finish. Also available in -p mode with a model argument instead of the picker, where it applies to the current session only and is not saved as your default. The picker shows a model's name instead of its raw Bedrock, Vertex AI, or LLM gateway ID when Claude Code recognizes it, which requires v2.1.261 or later
     argument-hint: "[model]"
+  - name: output-style
+    description: "List the available output styles or switch to one, including over Remote Control and in cloud and other headless sessions. Requires v2.1.269 or later"
+    argument-hint: "[name]"
   - name: passes
     description: Share a free week of Claude Code with friends. Only visible if your account is eligible
   - name: pause-memory
@@ -159,13 +162,13 @@ commands:
   - name: radio
     description: Open Claude FM lo-fi radio in your browser. Prints the stream URL when no browser is available
   - name: rate-limit-options
-    description: "Show ways to keep working when a claude.ai usage limit blocks a request: wait and continue automatically when the limit resets, add usage credits, or upgrade your plan. Claude Code can also open this menu on its own when you hit a limit at your own terminal. Requires a claude.ai subscription. Does not appear in the command menu; type it in full"
+    description: "Show ways to keep working when a claude.ai usage limit blocks a request: wait and continue automatically when the limit resets, add usage credits, or upgrade your plan. Claude Code can also open this menu on its own when you hit a limit at your own terminal. Requires a claude.ai subscription. Does not appear in the command menu; type it in full. The wait-and-continue rows require v2.1.234 or later"
   - name: recap
     description: Generate a one-line summary of the current session on demand, separately from the automatic session recap that appears after you have been away
   - name: release-notes
     description: View the changelog in an interactive version picker. Select a specific version to see its release notes, or choose to show all versions. The notes appear in your transcript without entering the conversation Claude sees
   - name: reload-plugins
-    description: "Reload all active plugins to apply pending changes without restarting. Reports counts for each reloaded component and flags any load errors. When the reload would change which MCP tools are loaded and invalidate the prompt cache, it warns and skips unless you pass --force. Also available in headless sessions, so it appears in the Claude Code Desktop and SDK command lists, which requires v2.1.260 or later"
+    description: "Reload all active plugins to apply pending changes without restarting. Reports counts for each reloaded component and flags any load errors. When the reload would change which MCP tools are loaded and invalidate the prompt cache, it warns and skips unless you pass --force. Also available in -p mode, the Agent SDK, and the desktop app, where it runs only on input typed directly into the session and does not apply plugin MCP server changes; requires v2.1.260 or later"
     argument-hint: "[--force]"
   - name: reload-skills
     description: Re-scan skill and command directories so changes on disk become available without restarting the session. Reports how many skills are available and how many were added or removed
@@ -228,7 +231,7 @@ commands:
     description: "Set the terminal UI renderer and relaunch into it with your conversation intact. fullscreen enables the flicker-free alt-screen renderer. Without an argument, prints the active renderer"
     argument-hint: "[default|fullscreen]"
   - name: ultrareview
-    description: "Run a deep, multi-agent code review in a cloud sandbox. Pass a PR reference to review that pull request, or a branch name to change the comparison base. The preferred invocation is now /code-review ultra; /ultrareview remains as an alias. Includes 3 free runs on Pro and Max, then requires usage credits"
+    description: "Run a deep, multi-agent code review in a cloud sandbox. Pass a PR reference to review that pull request, or a branch name to change the comparison base. The preferred invocation is now /code-review ultra; /ultrareview remains as an alias. With --post, the PR comment is posted directly as soon as the findings arrive and the comment link is printed, instead of starting a second cloud session to post it, which requires v2.1.269 or later. Includes 3 free runs on Pro and Max, then requires usage credits"
     argument-hint: "[PR or branch]"
   - name: update
     description: "Switch to the latest version without losing the conversation. Alias: /restart"
@@ -262,14 +265,14 @@ skills:
     description: "Research and plan a large-scale change, then execute it in parallel across 5–30 isolated worktree agents that each run tests and open a PR. Requires a git repository."
     argument-hint: "<instruction>"
   - name: claude-api
-    description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Subcommands: `migrate` upgrades existing Claude API code to a newer model, `upgrade` moves your project's Anthropic SDK dependency across a major version (currently the Python `anthropic` package from 0.x to 1.x), `managed-agents-onboard` walks through creating a Managed Agent, `prompt-audit` flags instructions written for older models in your prompts, skills, and tool descriptions and proposes fixes as a diff, and `cost-optimize` profiles an existing project's Claude API spend and works through cost levers (caching, token hygiene, batch, effort, model choice) one measured change at a time. Also covers the Admin API (organization members, invites, workspaces, API keys, rate limit reports, workload identity federation, CMEK). `prompt-audit` requires v2.1.221 or later, `upgrade` requires v2.1.236 or later, and `cost-optimize` requires v2.1.247 or later. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
-    argument-hint: "[migrate|upgrade|managed-agents-onboard|prompt-audit|cost-optimize]"
+    description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Subcommands: `migrate` upgrades existing Claude API code to a newer model, `upgrade` moves your project's Anthropic SDK dependency across a major version (currently the Python `anthropic` package from 0.x to 1.x), `managed-agents-onboard` walks through creating a Managed Agent, `prompt-audit` flags instructions written for older models in your prompts, skills, and tool descriptions and proposes fixes as a diff, and `cost-optimize` profiles an existing project's Claude API spend and works through cost levers (caching, token hygiene, batch, effort, model choice) one measured change at a time, `build-eval` builds an eval set for your Claude-powered app, and `hillclimb` iteratively improves the app against an existing eval. Also covers the Admin API (organization members, invites, workspaces, API keys, rate limit reports, workload identity federation, CMEK). `prompt-audit` requires v2.1.221 or later, `upgrade` requires v2.1.236 or later, `cost-optimize` requires v2.1.247 or later, and `build-eval` and `hillclimb` require v2.1.259 or later. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
+    argument-hint: "[migrate|upgrade|managed-agents-onboard|prompt-audit|cost-optimize|build-eval|hillclimb]"
   - name: claude-code-docs
     description: Answer questions about Claude Code features and settings
   - name: claude-in-chrome
     description: "Automate your Chrome browser to interact with web pages: click elements, fill forms, capture screenshots, read console logs, and navigate sites. Opens pages in new tabs within your existing Chrome session, and requires site-level permissions configured in the extension"
   - name: code-review
-    description: "Review the current diff, or a PR number, branch, or path you pass, for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. With no effort level, reuses the level you typed last, falling back to the session's effort level if you have never typed one. Runs as a background subagent so review work stays out of your conversation. Pass `--fix` to apply findings to the working tree, or `--comment` to post them as inline comments on a GitHub pull request or as notes on a GitLab merge request. With `ultra` on a github.com PR target, `--post` preselects posting the finished findings to the PR in the launch dialog. Alias: /review"
+    description: "Review the current diff, or a PR number, branch, or path you pass, for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. With no effort level, reuses the level you typed last, falling back to the session's effort level if you have never typed one. Runs as a background subagent so review work stays out of your conversation. Pass `--fix` to apply findings to the working tree, or `--comment` to post them as inline comments on a GitHub pull request or as notes on a GitLab merge request (GitLab requires v2.1.257 or later). With `ultra` on a github.com PR target, `--post` preselects posting the finished findings to the PR in the launch dialog, which requires v2.1.227 or later. Alias: /review"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
   - name: code-walkthrough
     description: Generate an interactive walkthrough artifact for code
@@ -291,7 +294,7 @@ skills:
     description: "Convert your repo's React design system and upload it to Claude Design so designs use your real components. Optionally name the design system. A first sync can take a few hours on a large repo. Unavailable on Amazon Bedrock, Google Cloud Agent Platform, Microsoft Foundry, and Claude Platform on AWS."
     argument-hint: "[hint]"
   - name: doctor
-    description: "Run a setup checkup that diagnoses issues and can fix them. Checks installation health, including duplicate or leftover installs, PATH problems, and unparseable settings, finds unused skills, MCP servers, and plugins versus their context cost, flags slow hooks, and checks for a newer version on your release channel. Deduplicates local CLAUDE.md files against checked-in ones, trims content Claude could derive from the codebase, and moves the always-loaded guidance that remains into skills and nested CLAUDE.md files that load on demand. Also offers to make auto mode your default and to pre-approve frequently denied read-only commands. Reports findings first and asks for confirmation before changing anything. Alias: /checkup"
+    description: "Run a setup checkup that diagnoses issues and can fix them. Checks installation health, including duplicate or leftover installs, PATH problems, and unparseable settings, finds unused skills, MCP servers, and plugins versus their context cost, flags slow hooks, and checks for a newer version on your release channel. Deduplicates local CLAUDE.md files against checked-in ones, trims content Claude could derive from the codebase, and moves the always-loaded guidance that remains into skills and nested CLAUDE.md files that load on demand. Also offers to make auto mode your default and to pre-approve frequently denied read-only commands. Reports findings first and asks for confirmation before changing anything. From the terminal, `claude doctor` prints read-only installation diagnostics without starting a session. Alias: /checkup"
   - name: fewer-permission-prompts
     description: Scan your transcripts for common read-only Bash and MCP tool calls, then add a prioritized allowlist to project `.claude/settings.json` to reduce permission prompts.
   - name: loop

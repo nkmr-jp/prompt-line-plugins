@@ -22,6 +22,9 @@ commands:
     description: Show release notes and recent changes
   - name: clear
     description: "Clear conversation history and start a new session. Aliases: /reset, /new"
+  - name: codesearch
+    description: "Open a fullscreen Code Search panel that searches the code in your workspace without leaving the session, showing matches grouped by file with surrounding context; press Enter to open a result in the file viewer at the matching line, or Ctrl+G in your external editor, and comment on specific lines to send line-level feedback to the agent. Queries are regular expressions with smart case by default; add -F (or --literal) for fixed-string matching, and filter by path with f:<glob> (aliases file:, path:), prefixed with - to exclude. Aliases: /cs, /search"
+    argument-hint: "<query> [-F|--literal] [f:glob]"
   - name: config
     description: "Open the interactive settings panel to adjust preferences and configuration. Alias: /settings"
   - name: context
@@ -52,7 +55,7 @@ commands:
   - name: mcp
     description: Manage Model Context Protocol (MCP) server configurations and tools
   - name: model
-    description: Set or switch the active foundation model for the current session
+    description: Set or switch the active foundation model for the current session, or run a single prompt on another model and then return the session to the model it was using
     argument-hint: "[model]"
   - name: open
     description: "Open a specified file in your configured editor. Usage: /open <file_path>"
@@ -63,13 +66,10 @@ commands:
     description: Rename the current conversation thread
     argument-hint: "[name]"
   - name: resume
-    description: "Resume a previous conversation by ID or browse conversation history. Ctrl+F toggles between a flat list and conversations grouped by workspace directory. Aliases: /switch, /conversation"
+    description: "Resume a previous conversation by ID or browse conversation history. Ctrl+F toggles between a flat list and conversations grouped by workspace directory; the pickerGrouping setting sets the default view. Aliases: /switch, /conversation"
     argument-hint: "[conversation-id]"
   - name: rewind
     description: "Rewind the conversation to a previous turn or checkpoint. Alias: /undo"
-  - name: search
-    description: "Search past conversations and code. Alias: /codesearch"
-    argument-hint: "[-F|--literal] [-p|--paths-only]"
   - name: skills
     description: List and manage active ambient, global, and workspace skills
   - name: statusline

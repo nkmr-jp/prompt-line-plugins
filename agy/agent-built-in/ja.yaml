@@ -22,6 +22,9 @@ commands:
     description: リリースノートと最新の変更履歴を表示
   - name: clear
     description: "会話履歴をクリアして新しいセッションを開始。エイリアス: /reset, /new"
+  - name: codesearch
+    description: "全画面の Code Search パネルを開き、セッションを離れずにワークスペース内のコードを検索する。結果はファイルごとにグループ化され前後の文脈付きで表示される。Enter で該当行のファイルビューア、Ctrl+G で外部エディタを開き、特定の行にコメントを付けて行単位のフィードバックをエージェントへ送れる。クエリは既定で正規表現かつ smart case で解釈され、-F（--literal）を付けるとリテラル一致になる。f:<glob>（file:、path: も可）でパスを絞り込み、先頭に - を付けると除外になる。エイリアス: /cs, /search"
+    argument-hint: "<query> [-F|--literal] [f:glob]"
   - name: config
     description: "設定パネルを開き、各種環境設定やオプションを管理。エイリアス: /settings"
   - name: context
@@ -52,7 +55,7 @@ commands:
   - name: mcp
     description: Model Context Protocol (MCP) サーバーの設定とツールを管理
   - name: model
-    description: セッションで使用する基盤モデルを切り替え・設定
+    description: セッションで使用する基盤モデルを切り替え・設定する。別のモデルで1回だけプロンプトを実行し、終わったら元のモデルに戻すこともできる
     argument-hint: "[model]"
   - name: open
     description: "指定したファイルを設定されたエディタで開く。使い方: /open <file_path>"
@@ -63,13 +66,10 @@ commands:
     description: 現在の会話スレッドの名前を変更
     argument-hint: "[name]"
   - name: resume
-    description: "会話 ID を指定して過去の会話を再開、または会話一覧から選択。Ctrl+F でフラット表示とワークスペースディレクトリ別のグループ表示を切り替えられる。エイリアス: /switch, /conversation"
+    description: "会話 ID を指定して過去の会話を再開、または会話一覧から選択。Ctrl+F でフラット表示とワークスペースディレクトリ別のグループ表示を切り替えられ、既定の表示は pickerGrouping 設定で指定できる。エイリアス: /switch, /conversation"
     argument-hint: "[conversation-id]"
   - name: rewind
     description: "会話を前のターンまたはチェックポイントに巻き戻す。エイリアス: /undo"
-  - name: search
-    description: "過去の会話履歴やコードを検索。エイリアス: /codesearch"
-    argument-hint: "[-F|--literal] [-p|--paths-only]"
   - name: skills
     description: 有効なアンビエント、グローバル、ワークスペーススキルの一覧を表示
   - name: statusline

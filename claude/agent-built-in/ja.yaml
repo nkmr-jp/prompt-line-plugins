@@ -8,10 +8,10 @@ references:
 
 commands:
   - name: add-dir
-    description: 現在のセッションにファイルアクセス用の作業ディレクトリを追加する。パスを途中まで入力すると候補が表示され、Tab で確定できる。追加したディレクトリ配下の .claude/ 設定はほとんど読み込まれない。追加に成功すると DirectoryAdded フックが実行される。Claude の応答中にも実行でき、その場でディレクトリを確認すると同じターン内の次のツール呼び出しから参照できる（v2.1.234 以降）
+    description: 現在のセッションにファイルアクセス用の作業ディレクトリを追加する。パスを途中まで入力すると候補が表示され、Tab で確定できる。追加したディレクトリ配下の .claude/ 設定はほとんど読み込まれない。UNC 共有などのネットワークパスはほとんど追加できない。追加に成功すると DirectoryAdded フックが実行される。Claude の応答中にも実行でき、その場でディレクトリを確認すると同じターン内の次のツール呼び出しから参照できる（v2.1.234 以降）
     argument-hint: "<path>"
   - name: advisor
-    description: "タスク中の重要な局面で2つ目のモデルに助言を求めるadvisorツールを有効化/無効化する。fable、opus、sonnet、またはフルモデルIDを指定可能。fable の指定には Fable 5 へのアクセス権が必要。引数なしでピッカーを開く。デスクトップアプリ、Remote Control、その他のヘッドレス（-p / Agent SDK）セッションではテキスト形式（/advisor、/advisor <model>、/advisor off）も利用できる（v2.1.260 以降）"
+    description: "タスク中の重要な局面で2つ目のモデルに助言を求めるadvisorツールを有効化/無効化する。fable、opus、sonnet、またはフルモデルIDを指定可能。fable の指定には Fable 5 へのアクセス権が必要。引数なしでピッカーを開く。対話ターミナルの無いセッションや Remote Control 経由では、モデルまたは off を引数として渡す。そこで引数なしに実行すると、現在の advisor をテキストで表示する。これらの形式は v2.1.260 以降が必要"
     argument-hint: "[model|off]"
   - name: agents
     description: "サブエージェントの作成・管理を Claude に依頼するか、.claude/agents/ または ~/.claude/agents/ のファイルを直接編集するよう促すリマインダーを表示する。旧バージョンでは対話的な管理インターフェースを開いていた"
@@ -56,7 +56,7 @@ commands:
     description: これまでの会話を要約してコンテキストを解放する。要約の焦点を絞る指示を任意で渡せる
     argument-hint: "[instructions]"
   - name: config
-    description: "設定インターフェースを開いてテーマ、モデル、出力スタイルなどを調整する。key=value のペア（例: /config thinking=false）を渡すと設定を直接変更でき、/config theme=dark や /config model=sonnet のような短縮キーも使える。`/config --help` で設定可能な全キーと選択肢を表示する。インタラクティブ・-p・Remote Controlの各モードで動作。エイリアス: /settings"
+    description: "設定インターフェースを開いてテーマ、モデル、出力スタイルなどを調整する。key=value のペア（例: /config thinking=false）を渡すと設定を直接変更でき、/config theme=dark や /config model=sonnet のような短縮キーも使える。autoContinueAtUsageLimit のようにパネルでの確認が必要な設定は、key=value 形式でオフにはできるがオンにはできない。`/config --help` で設定可能な全キーと選択肢を表示する。インタラクティブ・-p・Remote Controlの各モードで動作。エイリアス: /settings"
     argument-hint: "[key=value ...]"
   - name: context
     description: 現在のコンテキスト使用量をカラーグリッドで表示する。コンテキスト負荷の高いツール、メモリ膨張、容量警告の最適化提案も表示。会話がコンテキストウィンドウを超えた場合は、超過量と空き容量を確保するコマンドを警告として表示する。`all` を渡すと項目ごとの詳細をフルスクリーンで展開。トークンカウント API が利用できない場合は、小型モデルへの追加リクエストではなくローカル推定にフォールバックする（v2.1.261 以降）
@@ -77,7 +77,7 @@ commands:
   - name: diff
     description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧。Enterで選択したファイルのdiffを開き、Escでファイル一覧に戻る。diffはgitのblobから直接計算されるため、diff driverやtextconvフィルターは適用されない。ビューアを開いたままセッション外でgitの状態が変わると自動的に再読み込みされる。フルスクリーンモードでは、Claudeの編集に合わせて未コミットの変更を会話の横に表示するdiffパネルの表示/非表示も /diff で切り替えられる（v2.1.260 以降）
   - name: effort
-    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。statusを渡すと現在のレベルを表示する。引数なしで対話的スライダーを開き、スライダー上で `s` を押すと /model のピッカーと同様に現在のセッションにのみ適用できる。現在の応答の完了を待たずに即座に反映される。-p モードでもレベル引数付きで利用でき、その場合は現在のセッションにのみ適用される。モデルデフォルトの effort ホールドが効いている間は Not applied となるため、起動時に --effort を渡す"
+    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。statusを渡すと現在のレベルを表示する。引数なしで対話的スライダーを開き、スライダー上で `s` を押すと /model のピッカーと同様に現在のセッションにのみ適用できる。Claude の応答中に実行した場合、キャッシュに関する警告が表示されればそれを確認したうえで、同じターン内の次のリクエストから新しいレベルが適用される。-p モードでもレベル引数付きで利用でき、その場合は現在のセッションにのみ適用される。モデルデフォルトの effort ホールドが効いている間は Not applied となるため、起動時に --effort を渡す"
     argument-hint: "[level|auto|status]"
   - name: exit
     description: "CLIを終了する。バックグラウンドセッションにアタッチ中の場合はデタッチするだけで、セッションは動き続ける。エイリアス: /quit"
@@ -107,14 +107,14 @@ commands:
   - name: ide
     description: IDE連携の管理とステータス表示
   - name: import
-    description: "自分のマシンにある他のコーディングエージェント（現時点では OpenAI Codex と Google Gemini CLI）の設定を Claude Code に取り込む。指示ファイル・MCPサーバー・コマンド・サブエージェント・スキルが対象。--dry-run で何も書き込まずに内容を確認でき、--yes で対話的な選択画面をスキップできる。-p モードでは検出した内容を一覧表示し、インポートを確定するコマンドを提示する。Amazon Bedrock・Google Cloud の Agent Platform・Microsoft Foundry・Claude Platform on AWS、および feature-flag の取得を無効にしている場合は利用できない。v2.1.213 以降が必要"
-    argument-hint: "[codex|gemini] [--dry-run] [--yes]"
+    description: "自分のマシンにある OpenAI Codex・Google Gemini CLI・Cursor の設定を Claude Code に取り込む。指示ファイル・MCPサーバー・コマンド・サブエージェント・スキルが対象。--dry-run で何も書き込まずに内容を確認でき、--yes で対話的な選択画面をスキップできる。-p モードでは検出した内容を一覧表示し、インポートを確定するコマンドを提示する。Amazon Bedrock・Google Cloud の Agent Platform・Microsoft Foundry・Claude Platform on AWS、および feature-flag の取得を無効にしている場合は利用できない。v2.1.213 以降が必要で、Cursor からのインポートは v2.1.265 以降が必要"
+    argument-hint: "[codex|gemini|cursor] [--dry-run] [--yes]"
   - name: init
     description: "CLAUDE.mdガイドでプロジェクトを初期化する。CLAUDE_CODE_NEW_INIT=1で、スキル・フック・個人メモリファイルの設定も含むインタラクティブフローを使用可能。/import が対応するコーディングエージェントの設定が見つかった場合は、その引き継ぎを提案する"
   - name: insights
     description: このマシン上の直近のセッションを分析したHTMLレポートを生成する（プロジェクト領域、インタラクションパターン、摩擦ポイント、試すとよい機能）。クラウドセッションでは利用できない
   - name: install-github-app
-    description: リポジトリに Claude GitHub App をインストールする。任意で GitHub Actions ワークフローとシークレットのセットアップも行う。リポジトリの選択から連携設定まで対話的にガイドされる
+    description: リポジトリに Claude GitHub App をインストールする。任意で GitHub Actions ワークフローとシークレットのセットアップも行う。リポジトリの選択から連携設定まで対話的にガイドされる。github.com のリポジトリでのみ動作し、git リモートが gitlab.com や bitbucket.org の場合はセットアップを始めずに通知を表示して終了する
   - name: install-slack-app
     description: Claude Slackアプリをインストールする。ブラウザを開いてOAuthフローを完了する
   - name: keybindings
@@ -137,6 +137,9 @@ commands:
   - name: model
     description: AIモデルを切り替え、新規セッションのデフォルトとして保存する。対応モデルでは左右矢印キーで推論レベルを調整可能。引数なしでピッカーを開き、`s`キーで現在のセッションのみ切り替え。すでに出力のある会話では、次の応答がキャッシュなしで全履歴を読み直すことになるため、ピッカーが確認を求める。確定後は現在の応答の完了を待たずに適用される。-p モードではピッカーの代わりにモデル引数を渡して利用でき、その場合は現在のセッションにのみ適用され、デフォルトとしては保存されない。Claude Codeが認識できるモデルについては、ピッカーに Bedrock・Vertex AI・LLMゲートウェイの生のIDではなくモデル名が表示される（v2.1.261 以降）
     argument-hint: "[model]"
+  - name: output-style
+    description: "利用可能な output style を一覧表示、または指定したスタイルに切り替える。Remote Control 経由やクラウド・ヘッドレスセッションでも利用できる（v2.1.269 以降）"
+    argument-hint: "[name]"
   - name: passes
     description: 友人にClaude Codeの無料1週間パスを共有する。対象アカウントのみ表示
   - name: pause-memory
@@ -159,13 +162,13 @@ commands:
   - name: radio
     description: Claude FMのlo-fiラジオをブラウザで開く。ブラウザが使えない場合はストリームURLを表示する
   - name: rate-limit-options
-    description: "claude.ai の使用制限でリクエストがブロックされたときの継続方法を表示する: 制限のリセットを待って自動で再開する、使用量クレジットを追加する、プランをアップグレードする。自分のターミナルで制限に達した場合は Claude Code が自動でこのメニューを開くこともある。claude.ai のサブスクリプションが必要。コマンドメニューには表示されないため、全文を入力する"
+    description: "claude.ai の使用制限でリクエストがブロックされたときの継続方法を表示する: 制限のリセットを待って自動で再開する、使用量クレジットを追加する、プランをアップグレードする。自分のターミナルで制限に達した場合は Claude Code が自動でこのメニューを開くこともある。claude.ai のサブスクリプションが必要。コマンドメニューには表示されないため、全文を入力する。制限のリセットを待って再開する項目は v2.1.234 以降が必要"
   - name: recap
     description: 現在のセッションの1行サマリーをオンデマンドで生成する。しばらく離席した後に自動表示されるセッションリキャップとは別に、任意のタイミングで実行できる
   - name: release-notes
     description: インタラクティブなバージョンピッカーで変更履歴を表示する。特定のバージョンを選んでリリースノートを見るか、全バージョンをまとめて表示できる。表示内容はトランスクリプトに出るだけで、Claude が読む会話には入らない
   - name: reload-plugins
-    description: "アクティブなプラグインをすべてリロードし、保留中の変更を再起動なしで適用する。リロードされたコンポーネント数とロードエラーを報告。読み込まれるMCPツールが変化してプロンプトキャッシュが無効化される場合は警告してスキップし、--force を渡すと強制実行する。ヘッドレスセッションでも利用でき、Claude Code Desktop や SDK のコマンド一覧にも表示される（v2.1.260 以降）"
+    description: "アクティブなプラグインをすべてリロードし、保留中の変更を再起動なしで適用する。リロードされたコンポーネント数とロードエラーを報告。読み込まれるMCPツールが変化してプロンプトキャッシュが無効化される場合は警告してスキップし、--force を渡すと強制実行する。-p モード・Agent SDK・デスクトップアプリでも利用できるが、その場合はセッションに直接入力したときのみ実行され、プラグインの MCP サーバーの変更は適用されない（v2.1.260 以降）"
     argument-hint: "[--force]"
   - name: reload-skills
     description: 再起動せずにスキルとコマンドのディレクトリを再スキャンし、ディスク上の変更を反映する。利用可能なスキル数と追加・削除された数を報告する
@@ -228,7 +231,7 @@ commands:
     description: "ターミナルUIレンダラーを設定し、会話を保ったまま再起動する。fullscreenでフリッカーフリーのalt-screenレンダラーを有効化。引数なしで現在のレンダラーを表示"
     argument-hint: "[default|fullscreen]"
   - name: ultrareview
-    description: "クラウドサンドボックス上でマルチエージェント・コードレビューを深く実行する。PR参照を渡すとそのプルリクエストを、ブランチ名を渡すと比較ベースを変更してレビューする。推奨される呼び出しは /code-review ultra となり、/ultrareview はエイリアスとして残る。Pro/Maxプランでは3回まで無料、以降は usage credits が必要"
+    description: "クラウドサンドボックス上でマルチエージェント・コードレビューを深く実行する。PR参照を渡すとそのプルリクエストを、ブランチ名を渡すと比較ベースを変更してレビューする。推奨される呼び出しは /code-review ultra となり、/ultrareview はエイリアスとして残る。--post を付けた場合、投稿用に別のクラウドセッションを立ち上げるのではなく、結果が出た時点で直接 PR にコメントを投稿し、そのコメントのリンクを表示する（v2.1.269 以降）。Pro/Maxプランでは3回まで無料、以降は usage credits が必要"
     argument-hint: "[PR or branch]"
   - name: update
     description: "会話を維持したまま最新バージョンに切り替える。エイリアス: /restart"
@@ -262,14 +265,14 @@ skills:
     description: "大規模な変更を調査・計画し、5〜30の独立したワークツリーエージェントで並列実行して、それぞれがテストを実行しPRを作成する。gitリポジトリが必要"
     argument-hint: "<instruction>"
   - name: claude-api
-    description: "Claude APIとManaged Agentsのリファレンス資料をプロジェクトの言語（Python, TypeScript, Java, Go, Ruby, C#, PHP, cURL）に応じて読み込む。tool use、streaming、batches、structured outputs、よくある落とし穴をカバー。サブコマンド: `migrate` は既存のClaude APIコードを新しいモデル向けに更新、`upgrade` はプロジェクトの Anthropic SDK 依存をメジャーバージョン間で移行（現時点では Python の `anthropic` パッケージを 0.x から 1.x へ）、`managed-agents-onboard` はManaged Agentの作成を対話的にガイド、`prompt-audit` はプロンプト・スキル・tool description に古いモデル向けの記述がないか調べて修正を diff で提案し、`cost-optimize` は既存プロジェクトの Claude API コストを分析してキャッシュ・トークン整理・batch・effort・モデル選択といったコスト要因を一度に一つずつ計測しながら改善する。Admin API（組織メンバー、招待、ワークスペース、APIキー、レート制限レポート、workload identity federation、CMEK）もカバーする。`prompt-audit` は v2.1.221 以降、`upgrade` は v2.1.236 以降、`cost-optimize` は v2.1.247 以降が必要。`anthropic` または `@anthropic-ai/sdk` をインポートすると自動的に有効化"
-    argument-hint: "[migrate|upgrade|managed-agents-onboard|prompt-audit|cost-optimize]"
+    description: "Claude APIとManaged Agentsのリファレンス資料をプロジェクトの言語（Python, TypeScript, Java, Go, Ruby, C#, PHP, cURL）に応じて読み込む。tool use、streaming、batches、structured outputs、よくある落とし穴をカバー。サブコマンド: `migrate` は既存のClaude APIコードを新しいモデル向けに更新、`upgrade` はプロジェクトの Anthropic SDK 依存をメジャーバージョン間で移行（現時点では Python の `anthropic` パッケージを 0.x から 1.x へ）、`managed-agents-onboard` はManaged Agentの作成を対話的にガイド、`prompt-audit` はプロンプト・スキル・tool description に古いモデル向けの記述がないか調べて修正を diff で提案し、`cost-optimize` は既存プロジェクトの Claude API コストを分析してキャッシュ・トークン整理・batch・effort・モデル選択といったコスト要因を一度に一つずつ計測しながら改善する。`build-eval` は Claude を使ったアプリの eval セットを構築し、`hillclimb` は既存の eval に対してアプリを反復的に改善する。Admin API（組織メンバー、招待、ワークスペース、APIキー、レート制限レポート、workload identity federation、CMEK）もカバーする。`prompt-audit` は v2.1.221 以降、`upgrade` は v2.1.236 以降、`cost-optimize` は v2.1.247 以降、`build-eval` と `hillclimb` は v2.1.259 以降が必要。`anthropic` または `@anthropic-ai/sdk` をインポートすると自動的に有効化"
+    argument-hint: "[migrate|upgrade|managed-agents-onboard|prompt-audit|cost-optimize|build-eval|hillclimb]"
   - name: claude-code-docs
     description: Claude Code の機能や設定に関する質問に回答する
   - name: claude-in-chrome
     description: Chrome ブラウザを自動操作して Web ページを操作する。要素のクリック、フォーム入力、スクリーンショット取得、コンソールログの読み取り、ページ遷移に対応。既存の Chrome セッション内の新しいタブでページを開くため、拡張機能側でサイトごとの権限設定が必要
   - name: code-review
-    description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグと再利用・簡素化・効率化のクリーンアップの観点からレビューする。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub の pull request にインラインコメントとして、または GitLab の merge request にノートとして投稿する。github.com の PR を対象に `ultra` を使う場合、`--post` を渡すと起動ダイアログで「完了したレビュー結果を PR に投稿する」が事前選択される。エイリアス: /review"
+    description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグと再利用・簡素化・効率化のクリーンアップの観点からレビューする。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub の pull request にインラインコメントとして、または GitLab の merge request にノートとして投稿する（GitLab への投稿は v2.1.257 以降）。github.com の PR を対象に `ultra` を使う場合、`--post` を渡すと起動ダイアログで「完了したレビュー結果を PR に投稿する」が事前選択される（v2.1.227 以降）。エイリアス: /review"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
   - name: code-walkthrough
     description: コードのインタラクティブなウォークスルー Artifact を生成する
@@ -291,7 +294,7 @@ skills:
     description: "リポジトリのReactデザインシステムを変換してClaude Designにアップロードし、デザインで実際のコンポーネントを使えるようにする。デザインシステム名を任意で指定可能。大規模リポジトリでは初回同期に数時間かかることがある。Amazon Bedrock・Google Cloud Agent Platform・Microsoft Foundry・Claude Platform on AWSでは利用不可"
     argument-hint: "[hint]"
   - name: doctor
-    description: "セットアップ全体を点検し、見つかった問題を診断して修正まで行う。インストール状態（重複や残存インストールを含む）・PATHの問題・解析できない設定ファイルを確認し、コンテキストコストに見合わない未使用のスキル・MCPサーバー・プラグインを洗い出し、遅いフックを検出し、リリースチャンネル上の新バージョンの有無も確認する。ローカルのCLAUDE.mdをコミット済みのものと突き合わせて重複を整理し、コードベースから読み取れる内容を削り、残った常時ロードのガイダンスをスキルや必要時にロードされるネストしたCLAUDE.mdへ移す。さらに auto モードをデフォルトにすることや、頻繁に拒否している読み取り専用コマンドの事前承認も提案する。変更前に必ず結果を提示して確認を求める。エイリアス: /checkup"
+    description: "セットアップ全体を点検し、見つかった問題を診断して修正まで行う。インストール状態（重複や残存インストールを含む）・PATHの問題・解析できない設定ファイルを確認し、コンテキストコストに見合わない未使用のスキル・MCPサーバー・プラグインを洗い出し、遅いフックを検出し、リリースチャンネル上の新バージョンの有無も確認する。ローカルのCLAUDE.mdをコミット済みのものと突き合わせて重複を整理し、コードベースから読み取れる内容を削り、残った常時ロードのガイダンスをスキルや必要時にロードされるネストしたCLAUDE.mdへ移す。さらに auto モードをデフォルトにすることや、頻繁に拒否している読み取り専用コマンドの事前承認も提案する。変更前に必ず結果を提示して確認を求める。ターミナルから `claude doctor` を実行すると、セッションを開始せずに読み取り専用のインストール診断を表示する。エイリアス: /checkup"
   - name: fewer-permission-prompts
     description: トランスクリプトから頻出するread-onlyのBashとMCPツール呼び出しをスキャンし、プロジェクトの `.claude/settings.json` に優先度付きのallowlistを追加してパーミッションプロンプトを削減する
   - name: loop
