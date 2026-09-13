@@ -22,6 +22,9 @@ commands:
     description: Show release notes and recent changes
   - name: clear
     description: "Clear conversation history and start a new session. Aliases: /reset, /new"
+  - name: codesearch
+    description: "Open a fullscreen Code Search panel that searches the code in your workspace without leaving the session, showing matches grouped by file with surrounding context; press Enter to open a result in the file viewer at the matching line, or Ctrl+G in your external editor, and comment on specific lines to send line-level feedback to the agent. Queries are regular expressions with smart case by default; add -F (or --literal) for fixed-string matching, and filter by path with f:<glob> (aliases file:, path:), prefixed with - to exclude. Aliases: /cs, /search"
+    argument-hint: "<query> [-F|--literal] [f:glob]"
   - name: config
     description: "Open the interactive settings panel to adjust preferences and configuration. Alias: /settings"
   - name: context
@@ -67,9 +70,6 @@ commands:
     argument-hint: "[conversation-id]"
   - name: rewind
     description: "Rewind the conversation to a previous turn or checkpoint. Alias: /undo"
-  - name: search
-    description: "Search past conversations and code. Alias: /codesearch"
-    argument-hint: "[-F|--literal] [-p|--paths-only]"
   - name: skills
     description: List and manage active ambient, global, and workspace skills
   - name: statusline

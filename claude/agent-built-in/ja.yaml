@@ -137,6 +137,9 @@ commands:
   - name: model
     description: AIモデルを切り替え、新規セッションのデフォルトとして保存する。対応モデルでは左右矢印キーで推論レベルを調整可能。引数なしでピッカーを開き、`s`キーで現在のセッションのみ切り替え。すでに出力のある会話では、次の応答がキャッシュなしで全履歴を読み直すことになるため、ピッカーが確認を求める。確定後は現在の応答の完了を待たずに適用される。-p モードではピッカーの代わりにモデル引数を渡して利用でき、その場合は現在のセッションにのみ適用され、デフォルトとしては保存されない。Claude Codeが認識できるモデルについては、ピッカーに Bedrock・Vertex AI・LLMゲートウェイの生のIDではなくモデル名が表示される（v2.1.261 以降）
     argument-hint: "[model]"
+  - name: output-style
+    description: "利用可能な output style を一覧表示、または指定したスタイルに切り替える。Remote Control 経由やクラウド・ヘッドレスセッションでも利用できる（v2.1.269 以降）"
+    argument-hint: "[name]"
   - name: passes
     description: 友人にClaude Codeの無料1週間パスを共有する。対象アカウントのみ表示
   - name: pause-memory
@@ -228,7 +231,7 @@ commands:
     description: "ターミナルUIレンダラーを設定し、会話を保ったまま再起動する。fullscreenでフリッカーフリーのalt-screenレンダラーを有効化。引数なしで現在のレンダラーを表示"
     argument-hint: "[default|fullscreen]"
   - name: ultrareview
-    description: "クラウドサンドボックス上でマルチエージェント・コードレビューを深く実行する。PR参照を渡すとそのプルリクエストを、ブランチ名を渡すと比較ベースを変更してレビューする。推奨される呼び出しは /code-review ultra となり、/ultrareview はエイリアスとして残る。Pro/Maxプランでは3回まで無料、以降は usage credits が必要"
+    description: "クラウドサンドボックス上でマルチエージェント・コードレビューを深く実行する。PR参照を渡すとそのプルリクエストを、ブランチ名を渡すと比較ベースを変更してレビューする。推奨される呼び出しは /code-review ultra となり、/ultrareview はエイリアスとして残る。--post を付けた場合、投稿用に別のクラウドセッションを立ち上げるのではなく、結果が出た時点で直接 PR にコメントを投稿し、そのコメントのリンクを表示する（v2.1.269 以降）。Pro/Maxプランでは3回まで無料、以降は usage credits が必要"
     argument-hint: "[PR or branch]"
   - name: update
     description: "会話を維持したまま最新バージョンに切り替える。エイリアス: /restart"

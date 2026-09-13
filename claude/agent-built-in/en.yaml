@@ -137,6 +137,9 @@ commands:
   - name: model
     description: Switch the AI model and save it as the default for new sessions. For models that support it, use left/right arrows to adjust effort level. Without an argument, opens a picker; press `s` on a row to switch for the current session only. The picker asks for confirmation when the conversation has prior output, since the next response re-reads the full history without cached context. Once confirmed, the change applies without waiting for the current response to finish. Also available in -p mode with a model argument instead of the picker, where it applies to the current session only and is not saved as your default. The picker shows a model's name instead of its raw Bedrock, Vertex AI, or LLM gateway ID when Claude Code recognizes it, which requires v2.1.261 or later
     argument-hint: "[model]"
+  - name: output-style
+    description: "List the available output styles or switch to one, including over Remote Control and in cloud and other headless sessions. Requires v2.1.269 or later"
+    argument-hint: "[name]"
   - name: passes
     description: Share a free week of Claude Code with friends. Only visible if your account is eligible
   - name: pause-memory
@@ -228,7 +231,7 @@ commands:
     description: "Set the terminal UI renderer and relaunch into it with your conversation intact. fullscreen enables the flicker-free alt-screen renderer. Without an argument, prints the active renderer"
     argument-hint: "[default|fullscreen]"
   - name: ultrareview
-    description: "Run a deep, multi-agent code review in a cloud sandbox. Pass a PR reference to review that pull request, or a branch name to change the comparison base. The preferred invocation is now /code-review ultra; /ultrareview remains as an alias. Includes 3 free runs on Pro and Max, then requires usage credits"
+    description: "Run a deep, multi-agent code review in a cloud sandbox. Pass a PR reference to review that pull request, or a branch name to change the comparison base. The preferred invocation is now /code-review ultra; /ultrareview remains as an alias. With --post, the PR comment is posted directly as soon as the findings arrive and the comment link is printed, instead of starting a second cloud session to post it, which requires v2.1.269 or later. Includes 3 free runs on Pro and Max, then requires usage credits"
     argument-hint: "[PR or branch]"
   - name: update
     description: "Switch to the latest version without losing the conversation. Alias: /restart"
