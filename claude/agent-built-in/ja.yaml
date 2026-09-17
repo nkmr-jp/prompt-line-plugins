@@ -23,7 +23,7 @@ commands:
     description: "自動コンパクトのしきい値を設定する。コンテキストウィンドウがどこまで埋まったら Claude Code が自動的にコンパクトを実行するかを指定する。500k のようなサイズを渡すか、`auto` でモデルに合わせた既定値に戻す。指定した値はユーザー設定に保存され、現在のセッションにも即座に適用される。引数なしで実行すると現在のしきい値を表示するダイアログを開く。v2.1.221 以降が必要"
     argument-hint: "[auto|<tokens>]"
   - name: autofix-pr
-    description: 現在のブランチのPRを監視し、CIが失敗したりレビューコメントが付いたら自動で修正をプッシュするClaude Code Webセッションを起動する。チェックアウト中のブランチからオープンなPRを検出するため、別のPRを監視したいときは先にそのブランチへ切り替える。デフォルトではCIの失敗とレビューコメントをすべて修正するよう指示されるが、プロンプトを渡せば別の指示を与えられる。gh CLI と Claude Code Web へのアクセスが必要
+    description: 現在のブランチのPRを監視し、CIが失敗したりレビューコメントが付いたら自動で修正をプッシュするクラウドセッションを起動する。チェックアウト中のブランチからオープンなPRを gh pr view で検出するため、別のPRを監視したいときは先にそのブランチへ切り替える。デフォルトではCIの失敗とレビューコメントをすべて修正するよう指示されるが、プロンプトを渡せば別の指示を与えられる（例: /autofix-pr only fix lint and type errors）。gh CLI とクラウドセッションへのアクセスが必要
     argument-hint: "[prompt]"
   - name: background
     description: "現在のセッションをバックグラウンドエージェントとしてデタッチし、ターミナルを解放する。プロンプトを渡すとデタッチ前に追加の指示を送信できる。デタッチしたセッションは `claude agents` で監視できる。このセッションを動かしたまま会話を新しいバックグラウンドセッションにコピーするには /fork を使う。エイリアス: /bg"
@@ -175,7 +175,7 @@ commands:
   - name: remote-control
     description: "このセッションをclaude.aiからのRemote Controlに利用可能にする。サインアウト状態で実行すると、Remote Controlにはclaude.aiのサブスクリプションが必要である旨とサインイン方法が表示される。エイリアス: /rc"
   - name: remote-env
-    description: クラウドエージェント用のデフォルト環境を選択する
+    description: CLI から開始するクラウドセッションのデフォルトのクラウド環境を選択する
   - name: rename
     description: 現在のセッションの名前を変更し、プロンプトバーに表示する。名前未指定時は会話履歴から自動生成。-p モードでも利用可能。claude.ai やデスクトップアプリを含むどのリネーム経路でも、制御文字・不可視文字はスペースに置換され、名前は200文字で打ち切られる。不可視文字を除くと空になる名前は拒否される。同じマシン上の別の実行中セッションが既に使っている名前を渡した場合は、その変種が代わりに適用される。この正規化と文字数上限は v2.1.221 以降
     argument-hint: "[name]"
@@ -222,7 +222,7 @@ commands:
   - name: team-onboarding
     description: 直近30日のセッション・コマンド・MCPサーバー利用状況から、チームメイトが最初のメッセージとして貼り付けられるMarkdown形式のオンボーディングガイドを生成する。Pro/Max/Team/EnterpriseプランのClaude.aiサブスクライバーは、チームメイトがClaude Codeで直接開ける共有リンクも取得できる
   - name: teleport
-    description: "Claude Code Webセッションをこのターミナルに引き込む。ピッカーを開いてブランチと会話を取得。claude.aiサブスクリプションが必要。エイリアス: /tp"
+    description: "クラウドセッションをこのターミナルに引き込む。ピッカーを開いてブランチと会話を取得。claude.aiサブスクリプションが必要。エイリアス: /tp"
   - name: terminal-setup
     description: "VS Code・Cursor・Devin Desktop・Alacritty・Zed に、改行用の Shift+Enter キーバインドをインストールする。Apple Terminal では代わりに Option+Enter による改行を有効化し、警告音をオフにする。iTerm2 では /copy が動作するようクリップボードアクセスを有効化する"
   - name: theme
@@ -247,7 +247,7 @@ commands:
     description: 音声入力を切り替える、または特定のモードで有効化する。Claude.aiアカウントが必要
     argument-hint: "[hold|tap|off]"
   - name: web-setup
-    description: ローカルのgh CLI認証情報を使用してClaude Code WebにGitHubアカウントを接続する。GitHub未接続の場合は /schedule が自動的に接続を促す
+    description: ローカルのgh CLI認証情報を使用して、クラウドセッション用にGitHubアカウントを接続する。GitHub未接続の場合は /schedule が自動的に接続を促す
   - name: workflows
     description: ワークフロー進捗ビューを開き、実行中および完了したワークフローの監視・一時停止・再開・保存を行う
 skills:

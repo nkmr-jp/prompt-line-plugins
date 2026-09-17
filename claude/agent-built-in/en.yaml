@@ -23,7 +23,7 @@ commands:
     description: "Set the auto-compact window: how full the context window gets before Claude Code compacts automatically. Pass a size such as 500k, or `auto` to return to the window tuned for your model. The value is saved to user settings and applied to the current session. Without an argument, opens a dialog showing the current window. Requires v2.1.221 or later"
     argument-hint: "[auto|<tokens>]"
   - name: autofix-pr
-    description: Spawn a Claude Code on the web session that watches the current branch's PR and pushes fixes when CI fails or reviewers leave comments. Detects the open PR from the checked-out branch, so check out another branch first to watch its PR. By default the cloud session fixes every CI failure and review comment; pass a prompt to give it different instructions. Requires the gh CLI and access to Claude Code on the web
+    description: Spawn a cloud session that watches the current branch's PR and pushes fixes when CI fails or reviewers leave comments. Detects the open PR from the checked-out branch with gh pr view, so check out another branch first to watch its PR. By default the cloud session fixes every CI failure and review comment; pass a prompt to give it different instructions, for example /autofix-pr only fix lint and type errors. Requires the gh CLI and access to cloud sessions
     argument-hint: "[prompt]"
   - name: background
     description: "Detach the current session to run as a background agent and free this terminal. Pass a prompt to send one more instruction before detaching. Monitor the session with `claude agents`. To copy the conversation into a new background session while this one keeps running, use /fork. Alias: /bg"
@@ -175,7 +175,7 @@ commands:
   - name: remote-control
     description: "Make this session available for Remote Control from claude.ai. Running it while signed out prints that Remote Control requires a claude.ai subscription and tells you how to sign in. Alias: /rc"
   - name: remote-env
-    description: Choose the default environment for cloud agents
+    description: Choose the default cloud environment for cloud sessions you start from the CLI
   - name: rename
     description: Rename the current session and show the name on the prompt bar. Without a name, auto-generates one from conversation history. Also available in -p mode. From every rename surface, control and invisible characters are replaced with spaces and the name is capped at 200 characters; a name that is empty once invisible characters are removed is rejected. When another live session on this machine already uses the name you pass, a variant of it is applied instead. Requires v2.1.221 or later for the sanitizing and length cap
     argument-hint: "[name]"
@@ -222,7 +222,7 @@ commands:
   - name: team-onboarding
     description: Generate a teammate onboarding guide from the past 30 days of sessions, commands, and MCP server usage, as a markdown guide a teammate can paste as a first message. claude.ai subscribers on Pro, Max, Team, and Enterprise plans also get a share link teammates can open directly in Claude Code
   - name: teleport
-    description: "Pull a Claude Code on the web session into this terminal: opens a picker, then fetches the branch and conversation. Requires a claude.ai subscription. Alias: /tp"
+    description: "Pull a cloud session into this terminal: opens a picker, then fetches the branch and conversation. Requires a claude.ai subscription. Alias: /tp"
   - name: terminal-setup
     description: "Install a Shift+Enter keybinding for newlines in VS Code, Cursor, Devin Desktop, Alacritty, or Zed. In Apple Terminal, enables Option+Enter for newlines and turns off the audible bell instead. In iTerm2, turns on clipboard access so that /copy works"
   - name: theme
@@ -247,7 +247,7 @@ commands:
     description: Toggle voice dictation, or enable it in a specific mode. Requires a Claude.ai account
     argument-hint: "[hold|tap|off]"
   - name: web-setup
-    description: Connect GitHub account to Claude Code on the web using local gh CLI credentials. /schedule prompts for this automatically if GitHub is not connected
+    description: Connect your GitHub account for cloud sessions using your local gh CLI credentials. /schedule prompts for this automatically if GitHub is not connected
   - name: workflows
     description: Open the workflow progress view to watch, pause, resume, or save running and completed workflows
 skills:
