@@ -23,7 +23,7 @@ commands:
     description: "自動コンパクトのしきい値を設定する。コンテキストウィンドウがどこまで埋まったら Claude Code が自動的にコンパクトを実行するかを指定する。500k のようなサイズを渡すか、`auto` でモデルに合わせた既定値に戻す。指定した値はユーザー設定に保存され、現在のセッションにも即座に適用される。引数なしで実行すると現在のしきい値を表示するダイアログを開く。v2.1.221 以降が必要"
     argument-hint: "[auto|<tokens>]"
   - name: autofix-pr
-    description: 現在のブランチのPRを監視し、CIが失敗したりレビューコメントが付いたら自動で修正をプッシュするClaude Code Webセッションを起動する。チェックアウト中のブランチからオープンなPRを検出するため、別のPRを監視したいときは先にそのブランチへ切り替える。デフォルトではCIの失敗とレビューコメントをすべて修正するよう指示されるが、プロンプトを渡せば別の指示を与えられる。gh CLI と Claude Code Web へのアクセスが必要
+    description: 現在のブランチのPRを監視し、CIが失敗したりレビューコメントが付いたら自動で修正をプッシュするクラウドセッションを起動する。チェックアウト中のブランチからオープンなPRを gh pr view で検出するため、別のPRを監視したいときは先にそのブランチへ切り替える。デフォルトではCIの失敗とレビューコメントをすべて修正するよう指示されるが、プロンプトを渡せば別の指示を与えられる（例: /autofix-pr only fix lint and type errors）。gh CLI とクラウドセッションへのアクセスが必要
     argument-hint: "[prompt]"
   - name: background
     description: "現在のセッションをバックグラウンドエージェントとしてデタッチし、ターミナルを解放する。プロンプトを渡すとデタッチ前に追加の指示を送信できる。デタッチしたセッションは `claude agents` で監視できる。このセッションを動かしたまま会話を新しいバックグラウンドセッションにコピーするには /fork を使う。エイリアス: /bg"
@@ -56,7 +56,7 @@ commands:
     description: これまでの会話を要約してコンテキストを解放する。要約の焦点を絞る指示を任意で渡せる
     argument-hint: "[instructions]"
   - name: config
-    description: "設定インターフェースを開いてテーマ、モデル、出力スタイルなどを調整する。key=value のペア（例: /config thinking=false）を渡すと設定を直接変更でき、/config theme=dark や /config model=sonnet のような短縮キーも使える。autoContinueAtUsageLimit のようにパネルでの確認が必要な設定は、key=value 形式でオフにはできるがオンにはできない。`/config --help` で設定可能な全キーと選択肢を表示する。インタラクティブ・-p・Remote Controlの各モードで動作。エイリアス: /settings"
+    description: "設定インターフェースを開いてテーマ、モデル、出力スタイルなどを調整する。key=value のペア（例: /config thinking=false）を渡すと設定を直接変更でき、/config theme=dark や /config model=sonnet のような短縮キーも使える。autoContinueAtUsageLimit のようにパネルでの確認が必要な設定は、key=value 形式でオフにはできるがオンにはできない。`/config --help` で設定可能な全キーと選択肢を表示する。インタラクティブ・-p・Remote Controlの各モードで動作。フルスクリーンモードではパネルがマウス操作にも対応し、ホイールで設定一覧をスクロール、値のクリックで変更、ポインタ位置の行がハイライトされる（v2.1.271 以降が必要）。エイリアス: /settings"
     argument-hint: "[key=value ...]"
   - name: context
     description: 現在のコンテキスト使用量をカラーグリッドで表示する。コンテキスト負荷の高いツール、メモリ膨張、容量警告の最適化提案も表示。会話がコンテキストウィンドウを超えた場合は、超過量と空き容量を確保するコマンドを警告として表示する。`all` を渡すと項目ごとの詳細をフルスクリーンで展開。トークンカウント API が利用できない場合は、小型モデルへの追加リクエストではなくローカル推定にフォールバックする（v2.1.261 以降）
@@ -85,7 +85,7 @@ commands:
     description: "現在の会話をプレーンテキストとしてエクスポートする。ファイル名を指定するとそのファイルに直接書き込み、指定なしの場合はクリップボードへのコピーまたはファイル保存のダイアログを開く"
     argument-hint: "[filename]"
   - name: fast
-    description: "Fastモードのオン/オフを切り替える。Claude の応答中に実行するとターンの終了を待たずに切り替わるが、実行中のターンは元の速度のまま完了する。-p モードでは、--settings で Fast モードを有効にして起動したセッション（例: claude -p --settings '{\"fastMode\": true}'）でのみ機能し、切り替えはそのセッション限りでデフォルトには保存されない。それ以外の非対話セッションでは Fast モードが利用できない旨が表示される"
+    description: "Fastモードのオン/オフを切り替える。Claude の応答中に実行するとターンの終了を待たずに切り替わるが、実行中のターンは元の速度のまま完了する。クラウドセッション以外の -p モードでは、--settings で Fast モードを有効にして起動したセッション（例: claude -p --settings '{\"fastMode\": true}'）でのみ機能し、切り替えはそのセッション限りでデフォルトには保存されない。それ以外の非対話セッションでは Fast モードが利用できない旨が表示される。Fast モードはクラウドセッション（Anthropic 管理のインフラでもセルフホストランナーでも）でもアカウントで利用可能なら動作し、Claude Code Remote セッションでは組織が許可している範囲で、ホスト側の Fast モード設定またはセッション内で入力した /fast が適用される。クラウドと Remote での対応にはセッション環境が v2.1.271 以降である必要がある"
     argument-hint: "[on|off]"
   - name: feedback
     description: "Claude Code に関するプロダクトフィードバックを送る。/bug と同じダイアログが開き、同意手順・送信ルール・ターン中の挙動も同じ。Claude がフィードバックを下書きするセッションでは、引数なしで実行するとドラフトキューが開き、Claude が溜めた下書きを確認・編集・送信・破棄できる。キューからダイアログで新規レポートを書くこともできる。引数を渡した場合と /bug は常にダイアログが直接開く。下書き機能は feedbackDrafts 設定で無効化できる"
@@ -133,7 +133,7 @@ commands:
   - name: memory
     description: CLAUDE.mdメモリファイルの編集、自動メモリの有効化/無効化、自動メモリエントリの表示を行う
   - name: mobile
-    description: "Claudeモバイルアプリのダウンロード用QRコードを表示する。エイリアス: /ios, /android"
+    description: "Claudeモバイルアプリのダウンロード用QRコードを表示する。v2.1.271 以降は claude.ai/mobile への単一のQRコードになり、スキャンした端末に応じたアプリストアが開く。エイリアス: /ios, /android"
   - name: model
     description: AIモデルを切り替え、新規セッションのデフォルトとして保存する。対応モデルでは左右矢印キーで推論レベルを調整可能。引数なしでピッカーを開き、`s`キーで現在のセッションのみ切り替え。すでに出力のある会話では、次の応答がキャッシュなしで全履歴を読み直すことになるため、ピッカーが確認を求める。確定後は現在の応答の完了を待たずに適用される。-p モードではピッカーの代わりにモデル引数を渡して利用でき、その場合は現在のセッションにのみ適用され、デフォルトとしては保存されない。Claude Codeが認識できるモデルについては、ピッカーに Bedrock・Vertex AI・LLMゲートウェイの生のIDではなくモデル名が表示される（v2.1.261 以降）
     argument-hint: "[model]"
@@ -175,7 +175,7 @@ commands:
   - name: remote-control
     description: "このセッションをclaude.aiからのRemote Controlに利用可能にする。サインアウト状態で実行すると、Remote Controlにはclaude.aiのサブスクリプションが必要である旨とサインイン方法が表示される。エイリアス: /rc"
   - name: remote-env
-    description: クラウドエージェント用のデフォルト環境を選択する
+    description: CLI から開始するクラウドセッションのデフォルトのクラウド環境を選択する
   - name: rename
     description: 現在のセッションの名前を変更し、プロンプトバーに表示する。名前未指定時は会話履歴から自動生成。-p モードでも利用可能。claude.ai やデスクトップアプリを含むどのリネーム経路でも、制御文字・不可視文字はスペースに置換され、名前は200文字で打ち切られる。不可視文字を除くと空になる名前は拒否される。同じマシン上の別の実行中セッションが既に使っている名前を渡した場合は、その変種が代わりに適用される。この正規化と文字数上限は v2.1.221 以降
     argument-hint: "[name]"
@@ -222,7 +222,7 @@ commands:
   - name: team-onboarding
     description: 直近30日のセッション・コマンド・MCPサーバー利用状況から、チームメイトが最初のメッセージとして貼り付けられるMarkdown形式のオンボーディングガイドを生成する。Pro/Max/Team/EnterpriseプランのClaude.aiサブスクライバーは、チームメイトがClaude Codeで直接開ける共有リンクも取得できる
   - name: teleport
-    description: "Claude Code Webセッションをこのターミナルに引き込む。ピッカーを開いてブランチと会話を取得。claude.aiサブスクリプションが必要。エイリアス: /tp"
+    description: "クラウドセッションをこのターミナルに引き込む。ピッカーを開いてブランチと会話を取得。claude.aiサブスクリプションが必要。エイリアス: /tp"
   - name: terminal-setup
     description: "VS Code・Cursor・Devin Desktop・Alacritty・Zed に、改行用の Shift+Enter キーバインドをインストールする。Apple Terminal では代わりに Option+Enter による改行を有効化し、警告音をオフにする。iTerm2 では /copy が動作するようクリップボードアクセスを有効化する"
   - name: theme
@@ -247,7 +247,7 @@ commands:
     description: 音声入力を切り替える、または特定のモードで有効化する。Claude.aiアカウントが必要
     argument-hint: "[hold|tap|off]"
   - name: web-setup
-    description: ローカルのgh CLI認証情報を使用してClaude Code WebにGitHubアカウントを接続する。GitHub未接続の場合は /schedule が自動的に接続を促す
+    description: ローカルのgh CLI認証情報を使用して、クラウドセッション用にGitHubアカウントを接続する。GitHub未接続の場合は /schedule が自動的に接続を促す
   - name: workflows
     description: ワークフロー進捗ビューを開き、実行中および完了したワークフローの監視・一時停止・再開・保存を行う
 skills:
