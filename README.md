@@ -41,6 +41,14 @@ prompt-line-plugin install github.com/nkmr-jp/prompt-line-plugins
 - `codex/custom-search/history@cr` — Prompt history
 - `codex/custom-search/sessions@cs` — Thread sessions
 
+### Devin CLI
+- `devin/agent-built-in/en` — Devin CLI built-in commands, skills, agents (English)
+- `devin/agent-built-in/ja` — Devin CLI built-in commands, skills, agents (Japanese)
+- `devin/agent-skills/skills` — Global skills (`~/.config/devin/skills/**/*/SKILL.md`)
+- `devin/agent-skills/plugin-skills` — Plugin skills (`~/.local/share/devin/cli/plugins/cache/*/{latest}/**/SKILL.md`)
+- `devin/custom-search/history@dr` — Prompt history (`~/.local/share/devin/cli/sessions.db`)
+- `devin/custom-search/sessions@ds` — Sessions (`~/.local/share/devin/cli/sessions.db`)
+
 ### Git & Path
 - `git/custom-search/git-log@gl` — Git commit history for active project
 - `path/custom-search/ghq@ghq` — Search local git repos with ghq
@@ -66,4 +74,9 @@ plugins:
     # Codex CLI
     - codex/agent-built-in/ja
     - codex/custom-search/history@cr
+
+    # Devin CLI
+    - devin/agent-built-in/ja
+    - devin/agent-skills/skills
+    - devin/custom-search/history@dr
 ```

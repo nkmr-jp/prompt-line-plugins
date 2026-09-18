@@ -1,0 +1,8 @@
+# Devin CLI plugin skills
+# See: https://docs.devin.ai/cli/extensibility/plugins/overview
+sourcePath: ~/.local/share/devin/cli/plugins/cache/*/{latest}/**/SKILL.md
+name: "{frontmatter@name}"
+label: "{pathdir:1}"
+description: "{frontmatter@description}"
+argumentHint: "{frontmatter@argument-hint}"
+excludeIf: "{frontmatter@user-invocable}==false"
