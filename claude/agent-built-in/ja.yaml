@@ -23,7 +23,7 @@ commands:
     description: "自動コンパクトのしきい値を設定する。コンテキストウィンドウがどこまで埋まったら Claude Code が自動的にコンパクトを実行するかを指定する。500k のようなサイズを渡すか、`auto` でモデルに合わせた既定値に戻す。指定した値はユーザー設定に保存され、現在のセッションにも即座に適用される。引数なしで実行すると現在のしきい値を表示するダイアログを開く。v2.1.221 以降が必要"
     argument-hint: "[auto|<tokens>]"
   - name: autofix-pr
-    description: 現在のブランチのPRを監視し、CIが失敗したりレビューコメントが付いたら自動で修正をプッシュするクラウドセッションを起動する。チェックアウト中のブランチからオープンなPRを gh pr view で検出するため、別のPRを監視したいときは先にそのブランチへ切り替える。デフォルトではCIの失敗とレビューコメントをすべて修正するよう指示されるが、プロンプトを渡せば別の指示を与えられる（例: /autofix-pr only fix lint and type errors）。gh CLI とクラウドセッションへのアクセスが必要
+    description: "現在のブランチのPRを監視し、CIが失敗したりレビューコメントが付いたら自動で修正をプッシュするクラウドセッションを起動する。チェックアウト中のブランチからオープンなPRを gh pr view で検出するため、別のPRを監視したいときは先にそのブランチへ切り替える。デフォルトではCIの失敗とレビューコメントをすべて修正するよう指示されるが、プロンプトを渡せば別の指示を与えられる（例: /autofix-pr only fix lint and type errors）。gh CLI とクラウドセッションへのアクセスが必要"
     argument-hint: "[prompt]"
   - name: background
     description: "現在のセッションをバックグラウンドエージェントとしてデタッチし、ターミナルを解放する。プロンプトを渡すとデタッチ前に追加の指示を送信できる。デタッチしたセッションは `claude agents` で監視できる。このセッションを動かしたまま会話を新しいバックグラウンドセッションにコピーするには /fork を使う。エイリアス: /bg"
@@ -124,7 +124,7 @@ commands:
   - name: login
     description: Anthropicアカウントにサインインする
   - name: logout
-    description: Anthropicアカウントからサインアウトする
+    description: "Anthropicアカウントからサインアウトする。Claude apps gateway でサインインした場合、トークン失効に対応した gateway ではセッションも終了させる（v2.1.275 以降）"
   - name: loops
     description: loop の一覧表示・作成・削除を行う
   - name: mcp
@@ -139,7 +139,7 @@ commands:
     argument-hint: "[model]"
   - name: output-style
     description: "利用可能な output style を一覧表示、または指定したスタイルに切り替える。Remote Control 経由やクラウド・ヘッドレスセッションでも利用できる（v2.1.269 以降）"
-    argument-hint: "[name]"
+    argument-hint: "[style]"
   - name: passes
     description: 友人にClaude Codeの無料1週間パスを共有する。対象アカウントのみ表示
   - name: pause-memory
@@ -150,7 +150,7 @@ commands:
     description: "プロンプトからプランモードに直接入る。説明を渡すとそのタスクですぐにプランモードを開始する（例: /plan 認証バグを修正）"
     argument-hint: "[description]"
   - name: plugin
-    description: "Claude Codeプラグインを管理する。引数なしでプラグインメニューを開くか、list・install・enable・disable などのサブコマンドを渡して直接操作する。Claude Code はインストール中にプラグインを有効化できる場合があり、有効化されたか /reload-plugins が必要かはインストール結果のサマリーに表示される"
+    description: "Claude Codeプラグインを管理する。引数なしでプラグインメニューを開くか、list・install・enable・disable などのサブコマンドを渡して直接操作する。install は --marketplace <source> を受け付け、プラグインをインストールする前にそのマーケットプレイスの追加を提案する（v2.1.275 以降）。Claude Code はインストール中にプラグインを有効化できる場合があり、有効化されたか /reload-plugins が必要かはインストール結果のサマリーに表示される"
     argument-hint: "[subcommand]"
   - name: plugin-types
     description: "claude-code-mcp.d.ts を出力する。接続中の MCP ツールの入力定義を書き出し、このセッションに対してプラグインの型付けを行う"
@@ -207,7 +207,7 @@ commands:
   - name: skills
     description: "利用可能なスキルを一覧表示する。入力して名前・説明・提供元で絞り込み、`t` でトークン数でソート、`Space` または `Enter` で Claude と / メニューへの表示/非表示を切り替え、`Esc` で保存して閉じる。プラグインのスキル、frontmatter で disable-model-invocation: true を設定したスキル、managed settings や --settings で skillOverrides が指定されたスキルは切り替えられない"
   - name: status
-    description: "設定インターフェースを開く（Statusタブ）。バージョン、モデル、アカウント、接続状況を表示。v2.1.221以降はセッション種別（インタラクティブか、attached / unattended のバックグラウンドジョブか）も表示する。組織のポリシーを読み込めなかった場合は、その理由（プロキシがエンドポイントを通していない等）を示す「Organization policy」行が表示される（v2.1.261 以降）。Claudeのレスポンス中でも動作"
+    description: "設定インターフェースを開く（Statusタブ）。バージョン、モデル、アカウント、接続状況を表示。v2.1.221以降はセッション種別（インタラクティブか、attached / unattended のバックグラウンドジョブか）も表示する。組織のポリシーを読み込めなかった場合は、その理由（プロキシがエンドポイントを通していない等）を示す「Organization policy」行が表示される（v2.1.261 以降）。Claude apps gateway でサインインした場合は、gateway が提示しユーザーが確認したアカウントも表示される（v2.1.275 以降）。Claudeのレスポンス中でも動作"
   - name: statusline
     description: "Claude Codeのステータスラインを設定する。表示内容を指定するか、引数なしでシェルプロンプトから自動設定"
   - name: stickers
