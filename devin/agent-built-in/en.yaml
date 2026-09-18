@@ -1,0 +1,172 @@
+# Devin CLI built-in
+#
+# Color property supports both named colors and hex color codes:
+# - Named colors: grey, darkGrey, slate, stone, red, rose, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink
+# - Hex codes: #RGB or #RRGGBB (e.g., #00CC66, #0C6)
+
+name: devin
+description: Devin CLI built-in commands, skills, agents
+color: teal  # You can also use hex codes like "#00CC66"
+references:
+  - https://docs.devin.ai/cli/reference/commands
+  - https://docs.devin.ai/cli/essential-commands
+  - https://docs.devin.ai/cli/handoff
+  - https://docs.devin.ai/cli/fusion
+  - https://docs.devin.ai/cli/subagents
+  - https://docs.devin.ai/cli/changelog/stable
+
+commands:
+  - name: accept-edits
+    description: Switch to Accept Edits mode (auto-approve file edits in workspace)
+  - name: add-dir
+    description: Add an additional workspace directory
+    argument-hint: "<path>"
+  - name: ask
+    description: Ask a question without making code changes (oneshot)
+    argument-hint: "<question>"
+  - name: autonomous
+    description: Switch to Autonomous mode (sandbox-enforced; requires --sandbox)
+  - name: btw
+    description: Ask a quick side question. Runs a sidechain using the current conversation context and prints the answer in a box, without adding the question to the main conversation
+    argument-hint: "<prompt>"
+  - name: bug
+    description: Report a bug to the Devin CLI developers
+    argument-hint: "[description]"
+  - name: bypass
+    description: "Switch to Bypass mode (auto-approve all actions). Aliases: /yolo, /dangerous"
+  - name: clear
+    description: "Clear conversation history and start a new session. Alias: /new"
+  - name: cloud
+    description: Switch this session to run in Devin cloud
+  - name: cloud-attach
+    description: Attach to an existing cloud Devin session with full TUI rendering (tool calls, messages, plans, file edits)
+    argument-hint: "<session-id>"
+  - name: cloud-sessions
+    description: Open an interactive picker of your recent cloud Devin sessions. Use arrow keys to navigate, type to filter, Enter to select, Esc to cancel. Pass --all for org-wide sessions (insiders only)
+    argument-hint: "[--all]"
+  - name: compact
+    description: Force conversation compaction
+  - name: config
+    description: Open the interactive config editor
+  - name: context
+    description: Show context window usage
+  - name: continue
+    description: Resume the most recent session, or a specific session by ID
+    argument-hint: "[session-id]"
+  - name: copy
+    description: Copy the last response to the clipboard
+  - name: debug
+    description: Show debug information and link to the upload page for viewing a debug export
+  - name: exit
+    description: "Exit the application. Alias: /quit. You can also type exit or quit without the / prefix"
+  - name: export
+    description: Show export info. Use the --export CLI flag to enable conversation export
+  - name: fast
+    description: Switch to the fastest model available to you (SWE-1.6 Fast), or run a prompt with it
+    argument-hint: "[prompt]"
+  - name: feedback
+    description: Rate the last response
+    argument-hint: "<up|down>"
+  - name: fork
+    description: Fork the current session to a new session. Optionally fork from a specific step (see /steps)
+    argument-hint: "[step]"
+  - name: fusion
+    description: Open the Fusion model picker to choose your lead, effort, and sidekick (same as /model fusion)
+  - name: handoff
+    description: Hand off the current session to a cloud Devin session with its own VM, browser, and full repo access. Packages up the conversation context, current git branch, and uncommitted diff. Without a task description the cloud session continues from where you left off. Typing & on an empty prompt is a shortcut
+    argument-hint: "[task description]"
+  - name: help
+    description: Show available slash commands
+  - name: hooks
+    description: List all loaded hooks with their IDs, event types, and source paths
+  - name: login
+    description: "Authenticate with your account. Alias: /log-in"
+    argument-hint: "[api-key]"
+  - name: login-status
+    description: Show login and authentication status (advertised to ACP hosts as /status)
+  - name: logout
+    description: Clear stored credentials and exit
+  - name: loop
+    description: Run a prompt then auto-review the diff in a loop (requires clean git state to start)
+    argument-hint: "<prompt>"
+  - name: ls
+    description: "List recent sessions (current directory only by default). Pass --all for all sessions across all directories. Alias: /list-sessions"
+    argument-hint: "[--all]"
+  - name: mcp
+    description: List configured MCP servers and their status
+  - name: mode
+    description: Show or switch the current mode (autonomous is available in sandbox sessions)
+    argument-hint: "[normal|accept-edits|smart|plan|bypass]"
+  - name: model
+    description: Show or change the current model. Accepts fuzzy names (family slug, alias, or partial name)
+    argument-hint: "[name]"
+  - name: models
+    description: Interactively choose a model, or specify one directly
+    argument-hint: "[name]"
+  - name: mouse
+    description: Toggle mouse event capture (click/hover/scroll in menus)
+  - name: normal
+    description: Switch to Normal mode (default)
+  - name: open
+    description: Open this cloud session in the web app or Devin Desktop
+    argument-hint: "<web|desktop>"
+  - name: org
+    description: Select your Devin organization
+  - name: plan
+    description: Switch to Plan mode (read-only planning), or plan with a prompt
+    argument-hint: "[prompt]"
+  - name: platform
+    description: Pick the platform (OS) for this cloud session
+  - name: recap
+    description: Catch up on the session with a short agent-generated summary of what was worked on, key decisions, and where things stand
+  - name: remove-dir
+    description: "Remove a workspace directory. Alias: /undo-add-dir"
+    argument-hint: "<path>"
+  - name: rename
+    description: "Rename the current session. Aliases: /rename-session, /title"
+    argument-hint: "<new title>"
+  - name: resume
+    description: Open the interactive session picker, or resume a specific session by ID
+    argument-hint: "[session-id]"
+  - name: revert
+    description: Revert file changes from a specific step onwards and rewind the conversation to before that step
+    argument-hint: "<step>"
+  - name: rm-session
+    description: Irreversibly delete a session and all its data
+    argument-hint: "<session-id>"
+  - name: session-stats
+    description: "Show session statistics: every usage dimension the server reports (credits, ACUs, agent messages, turn continuations, token usage) and the model that actually served the billed turns. Totals persist across resume. Alias: /stats"
+  - name: share
+    description: Share this conversation with your team on Devin and display the share URL
+  - name: shortcuts
+    description: Browse keyboard shortcuts in an interactive, searchable list grouped by category. Press Enter on a row to rebind it, and see each action's context.action identifier
+  - name: smart
+    description: Switch to Smart mode (auto-approve actions a fast model judges safe). Rolling out gradually
+  - name: steps
+    description: List conversation steps (use with /fork and /revert)
+  - name: theme
+    description: Switch between themes (dark, light, terminal dark, terminal light, no color)
+    argument-hint: "[dark|light|terminal-dark|terminal-light|no-color]"
+  - name: update
+    description: Check for and install updates. Pass --force to re-install even when already on the latest version. Homebrew installs are directed to brew upgrade devin instead
+    argument-hint: "[--force]"
+  - name: upgrade
+    description: Upgrade your subscription plan
+  - name: usage
+    description: Show estimated credit/ACU usage for the session, including usage from previous openings of a resumed session
+  - name: workspace
+    description: "List workspace directories. Alias: /workspaces"
+
+skills:
+  - name: declarative-repo-setup
+    description: Generate and verify a working environment.yaml (Devin snapshot-setup blueprint) for a repo
+  - name: devin-cli
+    description: Look up Devin CLI documentation (skills, extensibility, configuration, commands, models, troubleshooting)
+  - name: upload-secrets
+    description: Securely upload local secrets (dotenv files, env vars, API keys) to the Devin Cloud secrets manager. Values never enter the conversation
+
+agents:
+  - name: subagent_explore
+    description: Read-only codebase exploration and research. Read-only codebase tools plus web search; cannot edit files or fetch arbitrary URLs. Runs on the default subagent model (SWE-1.6 by default)
+  - name: subagent_general
+    description: General-purpose tasks including code changes. Full tool access in the foreground, pre-approved tools only in the background. Runs on the same model as the parent agent

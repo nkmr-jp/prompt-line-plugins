@@ -1,0 +1,11 @@
+# Devin CLI prompt history (from ~/.local/share/devin/cli/sessions.db)
+sourceCommand: "bash sessions-db.sh history"
+name: "{json@content}"
+icon: history
+color: teal
+searchPrefix: dr
+orderBy: "{json@timestamp} desc"
+inputFormat: "{json@content}"
+displayTime: "{json@timestamp}"
+tooltip: "{json@content}"
+maxSuggestions: 100

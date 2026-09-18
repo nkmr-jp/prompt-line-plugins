@@ -1,0 +1,172 @@
+# Devin CLI 組み込みスラッシュコマンド
+#
+# color プロパティは名前付きカラーと16進カラーコードの両方に対応:
+# - 名前付きカラー: grey, darkGrey, slate, stone, red, rose, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink
+# - 16進コード: #RGB or #RRGGBB (例: #00CC66, #0C6)
+
+name: devin
+description: Devin CLI 組み込みコマンド・スキル・エージェント
+color: teal  # 16進コードも使用可能 例: "#00CC66"
+references:
+  - https://docs.devin.ai/cli/reference/commands
+  - https://docs.devin.ai/cli/essential-commands
+  - https://docs.devin.ai/cli/handoff
+  - https://docs.devin.ai/cli/fusion
+  - https://docs.devin.ai/cli/subagents
+  - https://docs.devin.ai/cli/changelog/stable
+
+commands:
+  - name: accept-edits
+    description: Accept Editsモードに切り替える（ワークスペース内のファイル編集を自動承認）
+  - name: add-dir
+    description: ワークスペースにディレクトリを追加する
+    argument-hint: "<path>"
+  - name: ask
+    description: コード変更をせずに質問する（ワンショット）
+    argument-hint: "<question>"
+  - name: autonomous
+    description: Autonomousモードに切り替える（sandboxで強制。--sandbox が必要）
+  - name: btw
+    description: 簡単なサイド質問をする。現在の会話コンテキストを使ってsidechainを実行し、回答をボックス表示する。メインの会話には質問を追加しない
+    argument-hint: "<prompt>"
+  - name: bug
+    description: Devin CLIの開発者にバグを報告する
+    argument-hint: "[description]"
+  - name: bypass
+    description: "Bypassモードに切り替える（すべての操作を自動承認）。エイリアス: /yolo, /dangerous"
+  - name: clear
+    description: "会話履歴をクリアして新しいセッションを開始する。エイリアス: /new"
+  - name: cloud
+    description: このセッションをDevin cloudで実行するように切り替える
+  - name: cloud-attach
+    description: 既存のcloud DevinセッションにフルTUIレンダリング（tool呼び出し・メッセージ・プラン・ファイル編集）でアタッチする
+    argument-hint: "<session-id>"
+  - name: cloud-sessions
+    description: 最近のcloud Devinセッションの対話的ピッカーを開く。矢印キーで移動、入力でフィルタ、Enterで選択、Escでキャンセル。--all で組織全体のセッションを表示（insiderのみ）
+    argument-hint: "[--all]"
+  - name: compact
+    description: 会話のコンパクトを強制実行する
+  - name: config
+    description: 対話的な設定エディタを開く
+  - name: context
+    description: コンテキストウィンドウの使用状況を表示する
+  - name: continue
+    description: 直近のセッションを再開する。IDを指定して特定のセッションを再開することもできる
+    argument-hint: "[session-id]"
+  - name: copy
+    description: 最後の応答をクリップボードにコピーする
+  - name: debug
+    description: デバッグ情報と、デバッグエクスポートを表示するアップロードページへのリンクを表示する
+  - name: exit
+    description: "アプリケーションを終了する。エイリアス: /quit。/ プレフィックスなしで exit または quit と入力しても終了できる"
+  - name: export
+    description: エクスポート情報を表示する。会話のエクスポートは --export CLIフラグで有効化する
+  - name: fast
+    description: 利用可能な最速モデル（SWE-1.6 Fast）に切り替える。またはそのモデルでプロンプトを実行する
+    argument-hint: "[prompt]"
+  - name: feedback
+    description: 最後の応答を評価する
+    argument-hint: "<up|down>"
+  - name: fork
+    description: 現在のセッションを新しいセッションにフォークする。特定のステップからフォークすることもできる（/steps 参照）
+    argument-hint: "[step]"
+  - name: fusion
+    description: Fusionモデルピッカーを開いてlead・effort・sidekickを選択する（/model fusion と同じ）
+  - name: handoff
+    description: 現在のセッションを、専用のVM・ブラウザ・完全なrepoアクセスを持つcloud Devinセッションに引き継ぐ。会話コンテキスト・現在のgitブランチ・未コミットのdiffをパッケージする。タスク説明がなければcloudセッションは中断したところから続行する。空のプロンプトで & と入力するのがショートカット
+    argument-hint: "[task description]"
+  - name: help
+    description: 利用可能なスラッシュコマンドを表示する
+  - name: hooks
+    description: 読み込まれているすべてのフックをID・イベントタイプ・ソースパスとともに一覧表示する
+  - name: login
+    description: "アカウントで認証する。エイリアス: /log-in"
+    argument-hint: "[api-key]"
+  - name: login-status
+    description: ログインと認証のステータスを表示する（ACPホストには /status として公開）
+  - name: logout
+    description: 保存済みの認証情報をクリアして終了する
+  - name: loop
+    description: プロンプトを実行してdiffを自動レビューするループを回す（開始にはクリーンなgit状態が必要）
+    argument-hint: "<prompt>"
+  - name: ls
+    description: "最近のセッションを一覧表示する（デフォルトは現在のディレクトリのみ）。--all で全ディレクトリのセッションを表示。エイリアス: /list-sessions"
+    argument-hint: "[--all]"
+  - name: mcp
+    description: 設定済みのMCPサーバーとそのステータスを一覧表示する
+  - name: mode
+    description: 現在のモードを表示または切り替える（autonomousはsandboxセッションで利用可能）
+    argument-hint: "[normal|accept-edits|smart|plan|bypass]"
+  - name: model
+    description: 現在のモデルを表示または変更する。あいまいな名前（ファミリースラッグ・エイリアス・部分名）を受け付ける
+    argument-hint: "[name]"
+  - name: models
+    description: 対話的にモデルを選択する。または直接指定する
+    argument-hint: "[name]"
+  - name: mouse
+    description: マウスイベントキャプチャ（メニューでのクリック・ホバー・スクロール）を切り替える
+  - name: normal
+    description: Normalモードに切り替える（デフォルト）
+  - name: open
+    description: このcloudセッションをWebアプリまたはDevin Desktopで開く
+    argument-hint: "<web|desktop>"
+  - name: org
+    description: Devin組織を選択する
+  - name: plan
+    description: Planモード（読み取り専用のプランニング）に切り替える。またはプロンプトを渡してプランする
+    argument-hint: "[prompt]"
+  - name: platform
+    description: このcloudセッションのプラットフォーム（OS）を選択する
+  - name: recap
+    description: 作業内容・主要な決定・現在の状況について、エージェント生成の短いサマリーでセッションに追いつく
+  - name: remove-dir
+    description: "ワークスペースディレクトリを削除する。エイリアス: /undo-add-dir"
+    argument-hint: "<path>"
+  - name: rename
+    description: "現在のセッションをリネームする。エイリアス: /rename-session, /title"
+    argument-hint: "<new title>"
+  - name: resume
+    description: 対話的なセッションピッカーを開く。またはIDを指定して特定のセッションを再開する
+    argument-hint: "[session-id]"
+  - name: revert
+    description: 指定したステップ以降のファイル変更を戻し、そのステップの前まで会話を巻き戻す
+    argument-hint: "<step>"
+  - name: rm-session
+    description: セッションとそのすべてのデータを不可逆に削除する
+    argument-hint: "<session-id>"
+  - name: session-stats
+    description: "セッション統計を表示する: サーバーが報告するすべての使用量ディメンション（credits・ACU・エージェントメッセージ・ターン継続・トークン使用量）と、課金対象ターンを実際に処理したモデル。合計はresumeをまたいで持続する。エイリアス: /stats"
+  - name: share
+    description: この会話をDevin上のチームと共有して共有URLを表示する
+  - name: shortcuts
+    description: カテゴリ別にグループ化された対話的・検索可能なリストでキーボードショートカットを閲覧する。行でEnterを押すと再バインドでき、各アクションのcontext.action識別子を確認できる
+  - name: smart
+    description: Smartモードに切り替える（高速モデルが安全と判断した操作を自動承認）。段階的にロールアウト中
+  - name: steps
+    description: 会話ステップを一覧表示する（/fork や /revert と併用）
+  - name: theme
+    description: テーマを切り替える（dark・light・terminal dark・terminal light・no color）
+    argument-hint: "[dark|light|terminal-dark|terminal-light|no-color]"
+  - name: update
+    description: 更新を確認してインストールする。--force で最新版でも再インストールする。Homebrewインストールは brew upgrade devin に誘導される
+    argument-hint: "[--force]"
+  - name: upgrade
+    description: サブスクリプションプランをアップグレードする
+  - name: usage
+    description: セッションの推定credit/ACU使用量を表示する。再開したセッションの以前のオープン分の使用量も含む
+  - name: workspace
+    description: "ワークスペースディレクトリを一覧表示する。エイリアス: /workspaces"
+
+skills:
+  - name: declarative-repo-setup
+    description: repo用の動作する environment.yaml（Devin snapshot-setupブループリント）を生成・検証する
+  - name: devin-cli
+    description: Devin CLIのドキュメント（スキル・拡張性・設定・コマンド・モデル・トラブルシューティング）を調べる
+  - name: upload-secrets
+    description: ローカルのsecrets（dotenvファイル・環境変数・APIキー）をDevin Cloud secrets managerに安全にアップロードする。値は会話に入らない
+
+agents:
+  - name: subagent_explore
+    description: 読み取り専用のコードベース探索と調査。読み取り専用のコードベースツールとWeb検索が使える。ファイル編集や任意URLのfetchはできない。デフォルトのサブエージェントモデル（デフォルトはSWE-1.6）で実行される
+  - name: subagent_general
+    description: コード変更を含む汎用タスク。フォアグラウンドでは全ツールにアクセスでき、バックグラウンドでは事前承認済みツールのみ使える。親エージェントと同じモデルで実行される

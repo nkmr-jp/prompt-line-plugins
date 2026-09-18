@@ -1,0 +1,12 @@
+# Devin CLI sessions (from ~/.local/share/devin/cli/sessions.db)
+sourceCommand: "bash sessions-db.sh sessions"
+name: "{json@title}"
+description: "{json@working_directory}"
+icon: comment-discussion
+color: teal
+searchPrefix: ds
+orderBy: "{json@last_activity_at} desc"
+inputFormat: "{json@id}"
+displayTime: "{json@last_activity_at}"
+tooltip: "{json@id}\n{json@working_directory}"
+maxSuggestions: 50

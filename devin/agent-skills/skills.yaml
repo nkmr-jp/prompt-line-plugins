@@ -1,0 +1,8 @@
+# Devin CLI global skills
+# See: https://docs.devin.ai/cli/extensibility/skills/overview
+sourcePath: ~/.config/devin/skills/**/*/SKILL.md
+name: "{frontmatter@name}"
+label: global
+description: "{frontmatter@description}"
+argumentHint: "{frontmatter@argument-hint}"
+excludeIf: "{frontmatter@user-invocable}==false"
