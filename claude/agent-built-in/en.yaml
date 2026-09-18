@@ -124,7 +124,7 @@ commands:
   - name: login
     description: Sign in to your Anthropic account
   - name: logout
-    description: Sign out from your Anthropic account
+    description: "Sign out from your Anthropic account. For a Claude apps gateway sign-in, it also ends the session on gateways that advertise token revocation, which requires v2.1.275 or later"
   - name: loops
     description: "List, create, and delete loops"
   - name: mcp
@@ -139,7 +139,7 @@ commands:
     argument-hint: "[model]"
   - name: output-style
     description: "List the available output styles or switch to one, including over Remote Control and in cloud and other headless sessions. Requires v2.1.269 or later"
-    argument-hint: "[name]"
+    argument-hint: "[style]"
   - name: passes
     description: Share a free week of Claude Code with friends. Only visible if your account is eligible
   - name: pause-memory
@@ -150,7 +150,7 @@ commands:
     description: "Enter plan mode directly from the prompt. Pass an optional description to enter plan mode and immediately start with that task, for example /plan fix the auth bug"
     argument-hint: "[description]"
   - name: plugin
-    description: "Manage Claude Code plugins. Run with no argument to open the plugin menu, or pass a subcommand such as list, install, enable, or disable to act directly. Claude Code can activate a plugin during the install; the install summary tells you whether it did or whether to run /reload-plugins"
+    description: "Manage Claude Code plugins. Run with no argument to open the plugin menu, or pass a subcommand such as list, install, enable, or disable to act directly. install accepts --marketplace <source>, which offers to add that marketplace before installing the plugin and requires v2.1.275 or later. Claude Code can activate a plugin during the install; the install summary tells you whether it did or whether to run /reload-plugins"
     argument-hint: "[subcommand]"
   - name: plugin-types
     description: "Write claude-code-mcp.d.ts: the inputs of the connected MCP tools, for typing a plugin against this session"
@@ -207,7 +207,7 @@ commands:
   - name: skills
     description: "List available skills. Type to filter the list by name, description, or source, press `t` to sort by token count, `Space` or `Enter` to cycle a skill's visibility to Claude and the / menu, and `Esc` to save and close. Plugin skills, skills whose frontmatter sets disable-model-invocation: true, and skills with a skillOverrides entry in managed settings or the --settings flag can't be cycled"
   - name: status
-    description: "Open the Settings interface (Status tab) showing version, model, account, and connectivity. As of v2.1.221 it also shows the session kind: interactive, or a background job that is attached or unattended. An Organization policy line says why your organization's policy could not be loaded, such as a proxy not passing the endpoint through, and requires v2.1.261 or later. Works while Claude is responding"
+    description: "Open the Settings interface (Status tab) showing version, model, account, and connectivity. As of v2.1.221 it also shows the session kind: interactive, or a background job that is attached or unattended. An Organization policy line says why your organization's policy could not be loaded, such as a proxy not passing the endpoint through, and requires v2.1.261 or later. For a Claude apps gateway sign-in, the account the gateway named and you confirmed is also shown, which requires v2.1.275 or later. Works while Claude is responding"
   - name: statusline
     description: "Configure Claude Code's status line. Describe what you want, or run without arguments to auto-configure from your shell prompt"
   - name: stickers

@@ -5,6 +5,7 @@
 # - 16進コード: #RGB or #RRGGBB (例: #00CC66, #0C6)
 
 name: codex
+description: Codex CLI 組み込みコマンド
 color: sky  # 16進コードも使用可能 例: "#00CC66"
 reference: https://learn.chatgpt.com/docs/developer-commands?surface=cli
 
