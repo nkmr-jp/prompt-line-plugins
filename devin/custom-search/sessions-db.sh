@@ -20,7 +20,12 @@ esac
 db="${DEVIN_CLI_DIR:-$HOME/.local/share/devin/cli}/sessions.db"
 [ -f "$db" ] || exit 0
 
-sqlite3 -readonly -json "$db" "$sql" | python3 -c "
+# Wait for Devin's write lock instead of failing immediately with "database is locked"
+json=$(sqlite3 -readonly -cmd ".timeout 2000" -json "$db" "$sql")
+# sqlite3 -json prints nothing for zero rows, which json.load cannot parse
+[ -n "$json" ] || exit 0
+
+printf '%s' "$json" | python3 -c "
 import sys, json
 for item in json.load(sys.stdin):
     print(json.dumps(item, ensure_ascii=False))
