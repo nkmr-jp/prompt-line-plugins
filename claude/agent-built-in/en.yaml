@@ -238,7 +238,7 @@ commands:
   - name: upgrade
     description: Open the upgrade page in your browser to switch to a higher plan tier. When the browser fails to open, it shows a sign-in prompt without printing the URL
   - name: usage
-    description: "Show session cost, plan usage limits, and activity stats. On Pro, Max, Team, and Enterprise plans, includes a breakdown of usage by skill, subagent, plugin, MCP server, and loop; the Loops breakdown shows per-loop run count, total tokens, tokens per run, and last run, and requires v2.1.243 or later. /cost also shows a likely cause for prompt-cache misses, such as changed tool definitions or idling past the cache TTL, and requires v2.1.260 or later. Aliases: /cost, /stats"
+    description: "Show session cost, plan usage limits, and activity stats. On Pro, Max, Team, and Enterprise plans, includes a breakdown of usage by skill, subagent, plugin, MCP server, and loop; the Loops breakdown shows per-loop run count, total tokens, tokens per run, and last run, and requires v2.1.243 or later. /cost also shows a likely cause for prompt-cache misses, such as changed tool definitions, thinking mode or thinking display changes, or idling past the cache TTL, and requires v2.1.260 or later; naming thinking changes requires v2.1.280 or later. Aliases: /cost, /stats"
   - name: usage-credits
     description: "Configure usage credits, or request them from your admin, when you hit a limit. Opens your usage-credits billing settings in the browser; Team and Enterprise members without billing access instead send a usage-credits request to their admin from the CLI after confirming in a dialog. When no browser can open, for example over SSH, the URL is printed instead. Renamed from /extra-usage"
   - name: version
