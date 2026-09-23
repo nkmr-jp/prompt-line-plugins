@@ -62,6 +62,9 @@ commands:
     argument-hint: "<file_path>"
   - name: permissions
     description: ツールのパーミッションルール、承認設定、セキュリティポリシーを管理
+  - name: remote-control
+    description: "現在のターミナルセッションの Remote Control を切り替える。セッション単位の接続を作成し、別のデバイスからセッションを追跡・操作できるようにする。有効化するとセッションのホスト名と会話へのリンクが表示される。トンネルは CLI インスタンスが開いている間だけ維持され、/remote-control off の実行またはセッションの終了で切断される。起動時の --remote-control と同等。マシン全体で常時接続するには agy remote-control start を使う"
+    argument-hint: "[on|off]"
   - name: rename
     description: 現在の会話スレッドの名前を変更
     argument-hint: "[name]"

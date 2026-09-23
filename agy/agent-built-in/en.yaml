@@ -62,6 +62,9 @@ commands:
     argument-hint: "<file_path>"
   - name: permissions
     description: Manage tool permission rules, approval decisions, and security policies
+  - name: remote-control
+    description: "Toggle Remote Control for the active terminal session: creates a session-scoped connection so you can follow and control the session from another device, printing the session's hostname and a link to the conversation. The tunnel lasts only while the CLI instance is open; /remote-control off or exiting the session tears it down. Equivalent to launching with --remote-control; for an always-on machine-wide connection use agy remote-control start"
+    argument-hint: "[on|off]"
   - name: rename
     description: Rename the current conversation thread
     argument-hint: "[name]"
