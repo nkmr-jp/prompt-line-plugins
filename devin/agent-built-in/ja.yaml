@@ -21,6 +21,8 @@ commands:
   - name: add-dir
     description: ワークスペースにディレクトリを追加する
     argument-hint: "<path>"
+  - name: archive
+    description: このcloudセッションをアーカイブする
   - name: ask
     description: コード変更をせずに質問する（ワンショット）
     argument-hint: "<question>"
@@ -37,7 +39,7 @@ commands:
   - name: clear
     description: "会話履歴をクリアして新しいセッションを開始する。エイリアス: /new"
   - name: cloud
-    description: このセッションをDevin cloudで実行するように切り替える
+    description: 新しいローカルセッションをDevin Cloudで実行するように切り替える（最初のメッセージの前に実行する。それ以外の場合は先に /clear を実行する）
   - name: cloud-attach
     description: 既存のcloud DevinセッションにフルTUIレンダリング（tool呼び出し・メッセージ・プラン・ファイル編集）でアタッチする
     argument-hint: "<session-id>"
@@ -73,8 +75,8 @@ commands:
   - name: fusion
     description: Fusionモデルピッカーを開いてlead・effort・sidekickを選択する（/model fusion と同じ）
   - name: handoff
-    description: 現在のセッションを、専用のVM・ブラウザ・完全なrepoアクセスを持つcloud Devinセッションに引き継ぐ。会話コンテキスト・現在のgitブランチ・未コミットのdiffをパッケージする。タスク説明がなければcloudセッションは中断したところから続行する。空のプロンプトで & と入力するのがショートカット
-    argument-hint: "[task description]"
+    description: ローカルセッションでは、専用のVM・ブラウザ・完全なrepoアクセスを持つcloud Devinセッションにタスクを引き継ぐ。会話コンテキスト・現在のgitブランチ・未コミットのdiffをパッケージする。タスク説明がなければcloudセッションは中断したところから続行する。空のプロンプトで & と入力するのがショートカット。cloudセッションでは、セッションのプルリクエストのブランチを取得してチェックアウトし、ローカルセッションで作業を続ける
+    argument-hint: "[task]"
   - name: help
     description: 利用可能なスラッシュコマンドを表示する
   - name: hooks
@@ -108,10 +110,12 @@ commands:
   - name: normal
     description: Normalモードに切り替える（デフォルト）
   - name: open
-    description: このcloudセッションをWebアプリまたはDevin Desktopで開く
-    argument-hint: "<web|desktop>"
+    description: このcloudセッションをWebアプリ（デフォルト）またはDevin Desktopで開く
+    argument-hint: "[web|desktop]"
   - name: org
     description: Devin組織を選択する
+  - name: pickup
+    description: このcloudセッションのプルリクエストのブランチをチェックアウトし、ローカルで作業を続ける（cloudセッションでの /handoff と同じ）
   - name: plan
     description: Planモード（読み取り専用のプランニング）に切り替える。またはプロンプトを渡してプランする
     argument-hint: "[prompt]"
@@ -123,8 +127,10 @@ commands:
     description: "ワークスペースディレクトリを削除する。エイリアス: /undo-add-dir"
     argument-hint: "<path>"
   - name: rename
-    description: "現在のセッションをリネームする。エイリアス: /rename-session, /title"
+    description: "現在のセッションをリネームする。cloudセッションではcloudセッション名を変更する。エイリアス: /rename-session, /title"
     argument-hint: "<new title>"
+  - name: repo
+    description: このcloudセッションで使うリポジトリを選択する
   - name: resume
     description: 対話的なセッションピッカーを開く。またはIDを指定して特定のセッションを再開する
     argument-hint: "[session-id]"
@@ -142,6 +148,8 @@ commands:
     description: カテゴリ別にグループ化された対話的・検索可能なリストでキーボードショートカットを閲覧する。行でEnterを押すと再バインドでき、各アクションのcontext.action識別子を確認できる
   - name: smart
     description: Smartモードに切り替える（高速モデルが安全と判断した操作を自動承認）。段階的にロールアウト中
+  - name: ssh
+    description: Devin SSH gateway 経由でこのcloudセッションのVMにSSH接続する。ログイン済みの認証情報で接続を承認するため、ブラウザを経由する必要がない
   - name: steps
     description: 会話ステップを一覧表示する（/fork や /revert と併用）
   - name: theme

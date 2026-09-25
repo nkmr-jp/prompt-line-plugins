@@ -21,6 +21,8 @@ commands:
   - name: add-dir
     description: Add an additional workspace directory
     argument-hint: "<path>"
+  - name: archive
+    description: Archive this cloud session
   - name: ask
     description: Ask a question without making code changes (oneshot)
     argument-hint: "<question>"
@@ -37,7 +39,7 @@ commands:
   - name: clear
     description: "Clear conversation history and start a new session. Alias: /new"
   - name: cloud
-    description: Switch this session to run in Devin cloud
+    description: Switch a fresh local session to run in Devin Cloud (before the first message; run /clear first otherwise)
   - name: cloud-attach
     description: Attach to an existing cloud Devin session with full TUI rendering (tool calls, messages, plans, file edits)
     argument-hint: "<session-id>"
@@ -73,8 +75,8 @@ commands:
   - name: fusion
     description: Open the Fusion model picker to choose your lead, effort, and sidekick (same as /model fusion)
   - name: handoff
-    description: Hand off the current session to a cloud Devin session with its own VM, browser, and full repo access. Packages up the conversation context, current git branch, and uncommitted diff. Without a task description the cloud session continues from where you left off. Typing & on an empty prompt is a shortcut
-    argument-hint: "[task description]"
+    description: "In a local session, hand off the task to a cloud Devin session with its own VM, browser, and full repo access. Packages up the conversation context, current git branch, and uncommitted diff. Without a task description the cloud session continues from where you left off. Typing & on an empty prompt is a shortcut. In a cloud session, fetch the session's pull request branch, switch your checkout to it, and continue in a local session"
+    argument-hint: "[task]"
   - name: help
     description: Show available slash commands
   - name: hooks
@@ -108,10 +110,12 @@ commands:
   - name: normal
     description: Switch to Normal mode (default)
   - name: open
-    description: Open this cloud session in the web app or Devin Desktop
-    argument-hint: "<web|desktop>"
+    description: Open this cloud session in the web app (default) or Devin Desktop
+    argument-hint: "[web|desktop]"
   - name: org
     description: Select your Devin organization
+  - name: pickup
+    description: Check out this cloud session's pull request branch and continue locally (same as /handoff in a cloud session)
   - name: plan
     description: Switch to Plan mode (read-only planning), or plan with a prompt
     argument-hint: "[prompt]"
@@ -123,8 +127,10 @@ commands:
     description: "Remove a workspace directory. Alias: /undo-add-dir"
     argument-hint: "<path>"
   - name: rename
-    description: "Rename the current session. Aliases: /rename-session, /title"
+    description: "Rename the current session; in a cloud session, rename the cloud session. Aliases: /rename-session, /title"
     argument-hint: "<new title>"
+  - name: repo
+    description: Pick the repositories for this cloud session
   - name: resume
     description: Open the interactive session picker, or resume a specific session by ID
     argument-hint: "[session-id]"
@@ -142,6 +148,8 @@ commands:
     description: Browse keyboard shortcuts in an interactive, searchable list grouped by category. Press Enter on a row to rebind it, and see each action's context.action identifier
   - name: smart
     description: Switch to Smart mode (auto-approve actions a fast model judges safe). Rolling out gradually
+  - name: ssh
+    description: SSH into this cloud session's VM through the Devin SSH gateway, approving the connection with your logged-in credentials so no browser round-trip is needed
   - name: steps
     description: List conversation steps (use with /fork and /revert)
   - name: theme

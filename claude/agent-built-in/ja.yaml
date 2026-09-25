@@ -16,7 +16,7 @@ commands:
   - name: agents
     description: "サブエージェントの作成・管理を Claude に依頼するか、.claude/agents/ または ~/.claude/agents/ のファイルを直接編集するよう促すリマインダーを表示する。旧バージョンでは対話的な管理インターフェースを開いていた"
   - name: artifacts
-    description: "自分が所有する Artifacts と共有された Artifacts を一覧表示し、選んだものをセッションに添付する、ブラウザで開く、リンクをコピーする、といった操作ができる。Artifacts が利用可能な環境でのみ使える。v2.1.208 以降が必要。Enter での添付は v2.1.216 以降が必要。このセッションの Artifacts が先頭に表示され（v2.1.281 以降）、プロンプト下のフッターにある Artifacts のピルからもこの一覧を開ける"
+    description: "自分が所有する Artifacts と共有された Artifacts を一覧表示し、選んだものをセッションに添付する、ブラウザで開く、リンクをコピーする、といった操作ができる。Artifacts が利用可能な環境でのみ使える。v2.1.208 以降が必要。Enter での添付は v2.1.216 以降が必要。このセッションの Artifacts が先頭に表示され（v2.1.281 以降）、プロンプト下のフッターにある Artifacts のピルからもこの一覧を開ける。タイトルは1列に揃い、一覧は PgUp/PgDn、Home/End、マウスホイール、クリックで操作できる（v2.1.282 以降）"
   - name: auto-mode-setup
     description: "プロジェクトと直近のセッションから `autoMode.environment` のエントリを下書きし、内容を確認したうえでユーザー設定に保存する。Pro・Max・Team のいずれかのプランと v2.1.228 以降が必要。Windows ネイティブ環境では v2.1.233 以降が必要"
   - name: autocompact
@@ -207,7 +207,7 @@ commands:
   - name: skills
     description: "利用可能なスキルを一覧表示する。入力して名前・説明・提供元で絞り込み、`t` でトークン数でソート、`Space` または `Enter` で Claude と / メニューへの表示/非表示を切り替え、`Esc` で保存して閉じる。プラグインのスキル、frontmatter で disable-model-invocation: true を設定したスキル、managed settings や --settings で skillOverrides が指定されたスキルは切り替えられない"
   - name: status
-    description: "設定インターフェースを開く（Statusタブ）。バージョン、モデル、アカウント、接続状況を表示。v2.1.221以降はセッション種別（インタラクティブか、attached / unattended のバックグラウンドジョブか）も表示する。組織のポリシーを読み込めなかった場合は、その理由（プロキシがエンドポイントを通していない等）を示す「Organization policy」行が表示される（v2.1.261 以降）。Claude apps gateway でサインインした場合は、gateway が提示しユーザーが確認したアカウントも表示される（v2.1.275 以降）。このセッションの auto mode 分類器がサーバー側で動作しているかを示す「Auto mode server」行も表示される（v2.1.278 以降）。Claudeのレスポンス中でも動作"
+    description: "設定インターフェースを開く（Statusタブ）。バージョン、モデル、アカウント、接続状況を表示。v2.1.221以降はセッション種別（インタラクティブか、attached / unattended のバックグラウンドジョブか）も表示する。組織のポリシーを読み込めなかった場合は、その理由（プロキシがエンドポイントを通していない等）を示す「Organization policy」行が表示される（v2.1.261 以降）。Claude apps gateway でサインインした場合は、gateway が提示しユーザーが確認したアカウントも表示される（v2.1.275 以降）。このセッションの auto mode 分類器がサーバー側で動作しているかを示す「Auto mode server」行も表示される（v2.1.278 以降）。プロジェクトの設定ファイルにある telemetry 変数のうち、無視されたものや telemetry を無効にしたものも一覧表示される（v2.1.282 以降）。Claudeのレスポンス中でも動作"
   - name: statusline
     description: "Claude Codeのステータスラインを設定する。表示内容を指定するか、引数なしでシェルプロンプトから自動設定"
   - name: stickers
