@@ -26,7 +26,7 @@ commands:
     description: "Open a fullscreen Code Search panel that searches the code in your workspace without leaving the session, showing matches grouped by file with surrounding context; press Enter to open a result in the file viewer at the matching line, or Ctrl+G in your external editor, and comment on specific lines to send line-level feedback to the agent. Queries are regular expressions with smart case by default; add -F (or --literal) for fixed-string matching, and filter by path with f:<glob> (aliases file:, path:), prefixed with - to exclude. Aliases: /cs, /search"
     argument-hint: "<query> [-F|--literal] [f:glob]"
   - name: config
-    description: "Open the interactive settings panel to adjust preferences and configuration. Alias: /settings"
+    description: "Open the interactive settings panel to adjust preferences and configuration. Verbosity offers high, medium, and low; medium groups related tool calls and thoughts into concise summaries such as `Explored N files` while keeping commands and responses visible. Alias: /settings"
   - name: context
     description: View detailed context breakdown, token consumption, and model limits
   - name: copy
@@ -36,7 +36,7 @@ commands:
   - name: diff
     description: View uncommitted working tree changes and per-turn diffs
   - name: effort
-    description: "Set the reasoning effort for the current model. Usage: /effort [low|medium|high]"
+    description: "Set the reasoning effort for the current model from an effort gauge that reflects the levels each model supports; the gauge is also available in /model. Usage: /effort [low|medium|high]"
     argument-hint: "[low|medium|high]"
   - name: exit
     description: "Exit the Antigravity CLI. Alias: /quit"
