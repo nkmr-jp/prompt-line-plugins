@@ -26,7 +26,7 @@ commands:
     description: "全画面の Code Search パネルを開き、セッションを離れずにワークスペース内のコードを検索する。結果はファイルごとにグループ化され前後の文脈付きで表示される。Enter で該当行のファイルビューア、Ctrl+G で外部エディタを開き、特定の行にコメントを付けて行単位のフィードバックをエージェントへ送れる。クエリは既定で正規表現かつ smart case で解釈され、-F（--literal）を付けるとリテラル一致になる。f:<glob>（file:、path: も可）でパスを絞り込み、先頭に - を付けると除外になる。エイリアス: /cs, /search"
     argument-hint: "<query> [-F|--literal] [f:glob]"
   - name: config
-    description: "設定パネルを開き、各種環境設定やオプションを管理。エイリアス: /settings"
+    description: "設定パネルを開き、各種環境設定やオプションを管理。Verbosity は high・medium・low から選べ、medium では関連するツール呼び出しや思考を `Explored N files` のような簡潔な要約にまとめつつ、コマンドと応答は表示したままにする。エイリアス: /settings"
   - name: context
     description: コンテキスト使用状況、トークン消費量、モデル制限の詳細を表示
   - name: copy
@@ -36,7 +36,7 @@ commands:
   - name: diff
     description: 未コミットの変更差分およびターンごとの差分を表示
   - name: effort
-    description: "推論モデルの思考レベル（effort）を設定。使い方: /effort [low|medium|high]"
+    description: "推論モデルの思考レベル（effort）を、モデルごとに対応するレベルを反映したゲージで設定する。ゲージは /model からも使える。使い方: /effort [low|medium|high]"
     argument-hint: "[low|medium|high]"
   - name: exit
     description: "Antigravity CLI を終了。エイリアス: /quit"
