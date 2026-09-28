@@ -295,7 +295,7 @@ skills:
     argument-hint: "[hint]"
   - name: doctor
     description: "Run a setup checkup that diagnoses issues and can fix them. Checks installation health, including duplicate or leftover installs, PATH problems, and unparseable settings, finds unused skills, MCP servers, and plugins versus their context cost, flags slow hooks, and checks for a newer version on your release channel. Deduplicates local CLAUDE.md files against checked-in ones, trims content Claude could derive from the codebase, and moves the always-loaded guidance that remains into skills and nested CLAUDE.md files that load on demand. Also offers to make auto mode your default and to pre-approve frequently denied read-only commands. Reports findings first and asks for confirmation before changing anything. From the terminal, `claude doctor` prints read-only installation diagnostics without starting a session. Pass `prompt-audit` to audit your CLAUDE.md files, skills, agents, and commands for prompting patterns written for older models, with stale paths, stale commands, and contradicting instruction files leading the report (v2.1.283 or later). Alias: /checkup"
-    argument-hint: "[prompt-audit]"
+    argument-hint: "[prompt-audit [path]]"
   - name: fewer-permission-prompts
     description: Scan your transcripts for common read-only Bash and MCP tool calls, then add a prioritized allowlist to project `.claude/settings.json` to reduce permission prompts.
   - name: loop
@@ -316,6 +316,7 @@ skills:
     argument-hint: "[target]"
   - name: update-config
     description: "Change settings in settings.json: hooks, permissions, and environment variables"
+    argument-hint: "[request]"
   - name: verify
     description: "Confirm a code change does what it should by building your project's app, running it, and observing the result, rather than relying on tests or type checks."
   - name: whiteboard

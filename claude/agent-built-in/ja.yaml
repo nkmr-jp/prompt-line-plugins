@@ -295,7 +295,7 @@ skills:
     argument-hint: "[hint]"
   - name: doctor
     description: "セットアップ全体を点検し、見つかった問題を診断して修正まで行う。インストール状態（重複や残存インストールを含む）・PATHの問題・解析できない設定ファイルを確認し、コンテキストコストに見合わない未使用のスキル・MCPサーバー・プラグインを洗い出し、遅いフックを検出し、リリースチャンネル上の新バージョンの有無も確認する。ローカルのCLAUDE.mdをコミット済みのものと突き合わせて重複を整理し、コードベースから読み取れる内容を削り、残った常時ロードのガイダンスをスキルや必要時にロードされるネストしたCLAUDE.mdへ移す。さらに auto モードをデフォルトにすることや、頻繁に拒否している読み取り専用コマンドの事前承認も提案する。変更前に必ず結果を提示して確認を求める。ターミナルから `claude doctor` を実行すると、セッションを開始せずに読み取り専用のインストール診断を表示する。`prompt-audit` を渡すと、CLAUDE.md・スキル・エージェント・コマンドに旧世代モデル向けのプロンプト記法が残っていないかを監査し、古いパス・古いコマンド・矛盾する指示ファイルをレポートの先頭に示す（v2.1.283 以降）。エイリアス: /checkup"
-    argument-hint: "[prompt-audit]"
+    argument-hint: "[prompt-audit [path]]"
   - name: fewer-permission-prompts
     description: トランスクリプトから頻出するread-onlyのBashとMCPツール呼び出しをスキャンし、プロジェクトの `.claude/settings.json` に優先度付きのallowlistを追加してパーミッションプロンプトを削減する
   - name: loop
@@ -316,6 +316,7 @@ skills:
     argument-hint: "[target]"
   - name: update-config
     description: settings.json の設定を変更する。hooks、permissions、環境変数に対応
+    argument-hint: "[request]"
   - name: verify
     description: "テストや型チェックに頼るのではなく、プロジェクトのアプリをビルドして実行し、実際の挙動を観察することで、コード変更が意図通り動作するかを確認する"
   - name: whiteboard
