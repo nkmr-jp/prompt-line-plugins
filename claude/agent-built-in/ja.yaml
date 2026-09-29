@@ -77,8 +77,8 @@ commands:
   - name: diff
     description: コミットされていない変更とターンごとのdiffを対話的に表示する。左右矢印キーでgit diffとClaudeの各ターンを切り替え、上下キーでファイルを閲覧。Enterで選択したファイルのdiffを開き、Escでファイル一覧に戻る。diffはgitのblobから直接計算されるため、diff driverやtextconvフィルターは適用されない。ビューアを開いたままセッション外でgitの状態が変わると自動的に再読み込みされる。フルスクリーンモードでは、Claudeの編集に合わせて未コミットの変更を会話の横に表示するdiffパネルの表示/非表示も /diff で切り替えられる（v2.1.260 以降）
   - name: effort
-    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/max/ultracodeを指定可能。利用可能なレベルはモデル依存。maxとultracodeは現在のセッションのみ。ultracodeはxhighの推論と自動ワークフローオーケストレーションを組み合わせる。autoでモデルのデフォルトにリセット。statusを渡すと現在のレベルを表示する。引数なしで対話的スライダーを開き、スライダー上で `s` を押すと /model のピッカーと同様に現在のセッションにのみ適用できる。Claude の応答中に実行した場合、キャッシュに関する警告が表示されればそれを確認したうえで、同じターン内の次のリクエストから新しいレベルが適用される。-p モードでもレベル引数付きで利用でき、その場合は現在のセッションにのみ適用される。モデルデフォルトの effort ホールドが効いている間は Not applied となるため、起動時に --effort を渡す"
-    argument-hint: "[level|auto|status]"
+    description: "モデルの推論レベルを設定する。low/medium/high/xhigh/maxを指定可能。利用可能なレベルはモデル依存。maxは現在のセッションのみ。`ultracode` または `ultracode on` で現在の推論レベルのまま ultracode をセッションで有効にし、`ultracode off` で無効にする。ultracode 設定で永続化できる（on/off と現在のレベルの維持は v2.1.284 以降）。autoでモデルのデフォルトにリセット。statusを渡すと現在のレベルを表示する。引数なしで対話的スライダーを開き、スライダー上で `s` を押すと /model のピッカーと同様に現在のセッションにのみ適用できる。Claude の応答中に実行した場合、キャッシュに関する警告が表示されればそれを確認したうえで、同じターン内の次のリクエストから新しいレベルが適用される。-p モードでもレベル引数付きで利用でき、その場合は現在のセッションにのみ適用される。モデルデフォルトの effort ホールドが効いている間は Not applied となるため、起動時に --effort を渡す"
+    argument-hint: "[level|auto|status|ultracode [on|off]]"
   - name: exit
     description: "CLIを終了する。バックグラウンドセッションにアタッチ中の場合はデタッチするだけで、セッションは動き続ける。エイリアス: /quit"
   - name: export
@@ -314,6 +314,9 @@ skills:
   - name: simplify
     description: "変更されたコードのクリーンアップ箇所をレビューし、修正を適用する。4つのレビューエージェントが並列で動き、既存ヘルパーの再利用・簡素化・効率化・抽象度の妥当性をカバーする。正しさのバグは探さない（バグ検出は /code-review を使用）。パスや PR 参照を渡すと対象を絞ってレビューできる"
     argument-hint: "[target]"
+  - name: slides
+    description: "ブリーフの内容をもとに、新しいプレゼンテーションを Claude Slides のアーティファクトとして作成する（例: `/slides a quarterly review of the platform team`）。アーティファクトが使えるセッションで、Slides テンプレートが使えるアカウントでのみ表示される。Amazon Bedrock、Google Cloud の Agent Platform、Microsoft Foundry、Claude Platform on AWS では利用できない"
+    argument-hint: "[brief]"
   - name: update-config
     description: settings.json の設定を変更する。hooks、permissions、環境変数に対応
     argument-hint: "[request]"
