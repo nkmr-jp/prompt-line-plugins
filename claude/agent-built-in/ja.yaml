@@ -103,7 +103,7 @@ commands:
   - name: help
     description: ヘルプと利用可能なコマンド一覧を表示する
   - name: hooks
-    description: ツールイベント用のフック設定を表示する
+    description: "ツールイベント用のフック設定を表示する。設定済みのフックをイベントごとにまとめた1つの一覧で開くため、Enter 1回でフックを表示できる（v2.1.286 以降）"
   - name: ide
     description: IDE連携の管理とステータス表示
   - name: import
@@ -180,7 +180,7 @@ commands:
     description: 現在のセッションの名前を変更し、プロンプトバーに表示する。名前未指定時は会話履歴から自動生成。-p モードでも利用可能。claude.ai やデスクトップアプリを含むどのリネーム経路でも、制御文字・不可視文字はスペースに置換され、名前は200文字で打ち切られる。不可視文字を除くと空になる名前は拒否される。同じマシン上の別の実行中セッションが既に使っている名前を渡した場合は、その変種が代わりに適用される。この正規化と文字数上限は v2.1.221 以降
     argument-hint: "[name]"
   - name: resume
-    description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。バックグラウンドセッションは bg 付きで表示され、実行中のものはここでは再開できないため claude agents からアタッチするか停止する。エイリアス: /continue"
+    description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。バックグラウンドセッションは bg 付きで表示される。実行中のセッションをピッカーまたは ID・名前で再開するとそのセッションが開き、現在の会話はバックグラウンドへ移ってこのターミナルが実行中のセッションにアタッチする。空のプロンプトで ← を押すとエージェントビューに戻り、離れた会話もそこに一覧表示される。v2.1.285 より前は再開を拒否し、claude attach で開くか先に停止するよう案内していた。エイリアス: /continue"
     argument-hint: "[session]"
   - name: review
     description: "v2.1.223 以降は /code-review のエイリアスで、現在の差分、または渡した PR 番号・ブランチ・パス（例: /review 1234）をレビューする。effort レベルとフラグも /code-review と同じものが使える。クラウド上の詳細レビューは /code-review ultra を使う。以前のバージョンでは GitHub Pull Request を番号で指定した高速なシングルパスの読み取り専用レビューだった"
@@ -218,7 +218,7 @@ commands:
     description: "フォーク済みサブエージェントを起動する。会話全体を引き継いだバックグラウンドサブエージェントがタスクを実行し、その間も作業を続けられる。完了するとこの会話に結果が返る。会話を別のバックグラウンドセッションにコピーする場合は /fork を使う。v2.1.212 以降が必要で、agent view を無効にしている場合は利用できず、その環境では /fork がフォーク済みサブエージェントの起動を担う"
     argument-hint: "<task>"
   - name: tasks
-    description: "現在のセッションのバックグラウンド処理を一覧・管理する。完了済みのサブエージェントも含まれる。各行にステータスアイコンが表示され、ページキー・マウスホイール・クリックで一覧を操作できる（v2.1.283 以降）。エイリアス: /bashes"
+    description: "現在のセッションのバックグラウンド処理を一覧・管理する。完了済みのサブエージェントも含まれる。各行にステータスアイコンが表示され、ページキー・マウスホイール・クリックで一覧を操作できる（v2.1.283 以降）。Claude Code が自身のために実行するバックグラウンド処理は「System tasks」の1行にまとめられ、Enter で中身を表示する（v2.1.285 以降）。エイリアス: /bashes"
   - name: team-onboarding
     description: 直近30日のセッション・コマンド・MCPサーバー利用状況から、チームメイトが最初のメッセージとして貼り付けられるMarkdown形式のオンボーディングガイドを生成する。Pro/Max/Team/EnterpriseプランのClaude.aiサブスクライバーは、チームメイトがClaude Codeで直接開ける共有リンクも取得できる
   - name: teleport
@@ -252,13 +252,13 @@ commands:
     description: ワークフロー進捗ビューを開き、実行中および完了したワークフローの監視・一時停止・再開・保存を行う
 skills:
   - name: artifact-capabilities
-    description: 公開した Artifact ページに付与できるランタイム機能 — ライブデータや接続済みデータの読み取り、閲覧者間での状態共有、ページ自身の更新と再公開など、静的 HTML だけでは実現できない挙動。利用可能な機能一覧と型付きの呼び出し定義を提供する
+    description: "公開した Artifact が使えるランタイム機能のリファレンスを読み込む。コネクタの呼び出しやファイルダウンロードの提供などが対象で、自分のアカウントで使える機能もわかる。そうした機能を使うページを作る前に Claude が通常は自動で読み込む。Artifacts が使える環境で利用可能"
   - name: artifact-components
     description: 再利用可能なコンポーネントを Artifact に埋め込む
   - name: artifact-design
     description: Artifacts のデザインガイダンスと基礎知識
   - name: artifact-diagramming
-    description: Artifacts の図表作成ガイダンス
+    description: "Artifacts 内で Claude が従う図表作成ガイダンスを読み込む。図が役立つ場面、何を描くか、ライト・ダークどちらのテーマでも読みやすいインライン SVG の書き方を扱う。Claude Code v2.1.221 以降が必要"
   - name: artifact-pr-review
     description: テンプレートから PR レビュー用のブリーフィング Artifact を公開する
   - name: batch
@@ -270,7 +270,8 @@ skills:
   - name: claude-code-docs
     description: Claude Code の機能や設定に関する質問に回答する
   - name: claude-in-chrome
-    description: Chrome ブラウザを自動操作して Web ページを操作する。要素のクリック、フォーム入力、スクリーンショット取得、コンソールログの読み取り、ページ遷移に対応。既存の Chrome セッション内の新しいタブでページを開くため、拡張機能側でサイトごとの権限設定が必要
+    description: "Claude in Chrome を通じて、ページのテスト、フォーム入力、コンソールログの読み取りなどのタスクを Claude にブラウザ上で実行させる。claude --chrome で起動した場合など、セッションで Chrome 連携が有効なとき、または Claude Code が拡張機能のインストールを提案できるときに利用可能"
+    argument-hint: "[task]"
   - name: code-review
     description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグと再利用・簡素化・効率化のクリーンアップの観点からレビューする。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub の pull request にインラインコメントとして、または GitLab の merge request にノートとして投稿する（GitLab への投稿は v2.1.257 以降）。github.com の PR を対象に `ultra` を使う場合、`--post` を渡すと起動ダイアログで「完了したレビュー結果を PR に投稿する」が事前選択される（v2.1.227 以降）。エイリアス: /review"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
@@ -318,7 +319,7 @@ skills:
     description: "ブリーフの内容をもとに、新しいプレゼンテーションを Claude Slides のアーティファクトとして作成する（例: `/slides a quarterly review of the platform team`）。アーティファクトが使えるセッションで、Slides テンプレートが使えるアカウントでのみ表示される。Amazon Bedrock、Google Cloud の Agent Platform、Microsoft Foundry、Claude Platform on AWS では利用できない"
     argument-hint: "[brief]"
   - name: update-config
-    description: settings.json の設定を変更する。hooks、permissions、環境変数に対応
+    description: "許可するコマンド、環境変数の設定、フックの追加などの設定変更を説明すると、Claude が該当する settings.json を編集する。テーマやモデルなどの項目は /config を使う"
     argument-hint: "[request]"
   - name: verify
     description: "テストや型チェックに頼るのではなく、プロジェクトのアプリをビルドして実行し、実際の挙動を観察することで、コード変更が意図通り動作するかを確認する"
