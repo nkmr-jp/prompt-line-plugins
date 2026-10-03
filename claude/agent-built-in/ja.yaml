@@ -128,8 +128,8 @@ commands:
   - name: loops
     description: loop の一覧表示・作成・削除を行う
   - name: mcp
-    description: "MCPサーバー接続とOAuth認証を管理する。引数なしで対話的な一覧を開き、`reconnect <server>` で切断された1つのサーバーを再接続、`enable`/`disable` にサーバー名または `all` を渡して有効化/無効化する。-p モードで引数なしに実行すると、一覧を開く代わりにサーバー状態のテキストサマリーを表示する。ツール一覧は一度に多くのツールを表示し、ページキーやマウスでスクロールでき、組織がブロックしたツールには警告アイコンが付く（v2.1.283 以降）"
-    argument-hint: "[reconnect <server>|enable|disable [<server>|all]]"
+    description: "MCPサーバー接続とOAuth認証を管理する。引数なしで対話的な一覧を開き、`reconnect`・`enable`・`disable` にサーバー名または `all` を渡すと、一覧を開かずに接続状態を変更できる。`reconnect all` は接続に失敗したサーバーや認証が必要なサーバーをまとめて再試行する。-p モードで引数なしに実行すると、一覧を開く代わりにサーバー状態のテキストサマリーを表示する。ツール一覧は一度に多くのツールを表示し、ページキーやマウスでスクロールでき、組織がブロックしたツールには警告アイコンが付く（v2.1.283 以降）"
+    argument-hint: "[reconnect (<server>|all)|enable|disable [<server>|all]]"
   - name: memory
     description: CLAUDE.mdメモリファイルの編集、自動メモリの有効化/無効化、自動メモリエントリの表示を行う
   - name: mobile
@@ -184,7 +184,7 @@ commands:
     argument-hint: "[session]"
   - name: review
     description: "v2.1.223 以降は /code-review のエイリアスで、現在の差分、または渡した PR 番号・ブランチ・パス（例: /review 1234）をレビューする。effort レベルとフラグも /code-review と同じものが使える。クラウド上の詳細レビューは /code-review ultra を使う。以前のバージョンでは GitHub Pull Request を番号で指定した高速なシングルパスの読み取り専用レビューだった"
-    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
+    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [--max-findings n|all|default] [pr#|branch|path]"
   - name: rewind
     description: "会話やコードを以前のポイントに巻き戻す、または選択したメッセージから要約する。チェックポイント機能参照。エイリアス: /checkpoint, /undo"
   - name: sandbox
@@ -273,8 +273,8 @@ skills:
     description: "Claude in Chrome を通じて、ページのテスト、フォーム入力、コンソールログの読み取りなどのタスクを Claude にブラウザ上で実行させる。claude --chrome で起動した場合など、セッションで Chrome 連携が有効なとき、または Claude Code が拡張機能のインストールを提案できるときに利用可能"
     argument-hint: "[task]"
   - name: code-review
-    description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグと再利用・簡素化・効率化のクリーンアップの観点からレビューする。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub の pull request にインラインコメントとして、または GitLab の merge request にノートとして投稿する（GitLab への投稿は v2.1.257 以降）。github.com の PR を対象に `ultra` を使う場合、`--post` を渡すと起動ダイアログで「完了したレビュー結果を PR に投稿する」が事前選択される（v2.1.227 以降）。エイリアス: /review"
-    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
+    description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグの観点からレビューする。モデルと effort レベルによってはクリーンアップの余地も指摘する。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub の pull request にインラインコメントとして、または GitLab の merge request にノートとして投稿する（GitLab への投稿は v2.1.257 以降）。github.com の PR を対象に `ultra` を使う場合、`--post` を渡すと起動ダイアログで「完了したレビュー結果を PR に投稿する」が事前選択される（v2.1.227 以降）。`--max-findings <n>` または `all` で通常の上限より多く・少なく指摘を報告でき、この指定は `--max-findings default` を渡すまで再利用される（v2.1.288 以降）。エイリアス: /review"
+    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [--max-findings n|all|default] [pr#|branch|path]"
   - name: code-walkthrough
     description: コードのインタラクティブなウォークスルー Artifact を生成する
   - name: commit
@@ -304,6 +304,8 @@ skills:
     argument-hint: "[interval] [prompt]"
   - name: plan-artifact
     description: 実装計画・設計ドキュメント・RFC を共有可能な Artifact として公開する
+  - name: plugin-authoring
+    description: "Claude が mod を書くときに参照するリファレンスを読み込む。mod の作成を頼むと Claude が自動で読み込むこともある。組み込みプラグインのスキルで、/plugin で無効化できる。v2.1.287 以降が必要"
   - name: pr-explainer
     description: PR の共有可能なウォークスルー Artifact を生成する。何がどう変わり、なぜそうしたかを、レビュアー向けのビフォー/アフター形式でまとめる
   - name: prototype
