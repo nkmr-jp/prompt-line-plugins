@@ -91,7 +91,7 @@ commands:
     description: "Send product feedback about Claude Code. Opens the same dialog as /bug, with the same consent step, sending rules, and mid-turn behavior. In sessions where Claude drafts feedback for you, running /feedback with no argument opens the drafts queue instead, where you review, edit, send, or discard the drafts Claude queued; the queue also offers writing a new report in the dialog. With an argument, and for /bug always, the dialog opens directly. Turn the drafts off with the feedbackDrafts setting"
     argument-hint: "[report]"
   - name: focus
-    description: Toggle the focus view that shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. The summary also counts the subagents launched in the turn and collapses completed background-task notifications into a single count. The selection persists across sessions and can be overridden with the viewMode setting. Only available in fullscreen rendering. The VS Code extension offers its own Focus view as a command-menu toggle, stored as an extension setting and independent of viewMode
+    description: Toggle the focus view that shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. The summary also counts the subagents launched in the turn and collapses completed background-task notifications into a single count. The selection persists across sessions and can be overridden with the viewMode setting. Only available in fullscreen rendering. From a Remote Control client, /focus [on|off] turns the focus view on or off for the current session only, without changing your saved selection (v2.1.281 or later). The VS Code extension offers its own Focus view as a command-menu toggle, stored as an extension setting and independent of viewMode
   - name: fork
     description: "Copy the current conversation into a new background session and keep working here; the two sessions are independent from that point on. Pass a prompt and the copy starts on it immediately; without one it waits in agent view. Except when the copy edits in place, Claude Code instructs it to create a worktree of its own before making code changes; the isolation instruction requires v2.1.221 or later. To hand a side task to a subagent whose result returns to this conversation, use /subtask; to switch into a copy yourself, use /branch. Requires v2.1.212 or later; on earlier versions, and whenever agent view is turned off, /fork starts a forked subagent instead"
     argument-hint: "[prompt]"
@@ -107,7 +107,7 @@ commands:
   - name: ide
     description: Manage IDE integrations and show status
   - name: import
-    description: "Bring configuration from OpenAI Codex, Google Gemini CLI, or Cursor on your machine into Claude Code, including instruction files, MCP servers, commands, subagents, and skills. Add --dry-run to preview without writing anything, or --yes to skip the interactive picker. In -p mode it lists what it found and prints the command that confirms the import. Not available on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, or Claude Platform on AWS, or when feature-flag fetching is turned off. Requires v2.1.213 or later; importing from Cursor requires v2.1.265 or later"
+    description: "Bring configuration from OpenAI Codex, Google Gemini CLI, or Cursor on your machine into Claude Code, including instruction files, MCP servers, commands, subagents, and skills. Add --dry-run to preview without writing anything, or --yes to skip the interactive picker. In -p mode it lists what it found and prints the command that confirms the import. Not available on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, or Claude Platform on AWS, through a Claude apps gateway, or when feature-flag fetching is turned off. Requires v2.1.213 or later; importing from Cursor requires v2.1.265 or later"
     argument-hint: "[codex|gemini|cursor] [--dry-run] [--yes]"
   - name: init
     description: "Initialize project with a CLAUDE.md guide. Set CLAUDE_CODE_NEW_INIT=1 for an interactive flow that also walks through skills, hooks, and personal memory files. If it finds configuration from a coding agent that /import supports, it offers to carry that over"
@@ -128,8 +128,8 @@ commands:
   - name: loops
     description: "List, create, and delete loops"
   - name: mcp
-    description: "Manage MCP server connections and OAuth authentication. Run with no argument for the interactive list, `reconnect <server>` to reconnect one disconnected server, or `enable`/`disable` with a server name or `all`. In -p mode, running it with no argument prints a text summary of server status instead of opening the list. The tool list shows more tools at once, scrolls with the page keys and mouse, and marks tools your organization blocked with a warning icon (v2.1.283 or later)"
-    argument-hint: "[reconnect <server>|enable|disable [<server>|all]]"
+    description: "Manage MCP server connections and OAuth authentication. Run with no argument for the interactive list, `reconnect`, `enable`, or `disable` with a server name or `all` to change connection state without opening it; `reconnect all` retries every server that failed or needs authentication. In -p mode, running it with no argument prints a text summary of server status instead of opening the list. The tool list shows more tools at once, scrolls with the page keys and mouse, and marks tools your organization blocked with a warning icon (v2.1.283 or later)"
+    argument-hint: "[reconnect (<server>|all)|enable|disable [<server>|all]]"
   - name: memory
     description: Edit CLAUDE.md memory files, enable or disable auto-memory, and view auto-memory entries
   - name: mobile
@@ -184,7 +184,7 @@ commands:
     argument-hint: "[session]"
   - name: review
     description: "Alias of /code-review as of v2.1.223: reviews the current diff, or a PR number, branch, or path you pass, such as /review 1234, and takes the same effort levels and flags. For a deep cloud review use /code-review ultra. Earlier versions ran a fast, single-pass, read-only review of a GitHub pull request by number"
-    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
+    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [--max-findings n|all|default] [pr#|branch|path]"
   - name: rewind
     description: "Rewind the conversation and/or code to a previous point, or summarize from a selected message. See checkpointing. Aliases: /checkpoint, /undo"
   - name: sandbox
@@ -213,7 +213,7 @@ commands:
   - name: stickers
     description: Order Claude Code stickers
   - name: stop
-    description: Stop the current background session. Only available while attached to a background session; the transcript and any worktree are kept. To detach without stopping, use /exit or press the left arrow key
+    description: Stop the background session you're attached to, or the one you send it to as a peek reply; the transcript and any worktree are kept. To detach without stopping, use /exit or press the left arrow key
   - name: subtask
     description: "Spawn a forked subagent: a background subagent that inherits the full conversation and works on the task while you keep working, returning its result to this conversation when it finishes. To copy the conversation into a separate background session instead, use /fork. Requires v2.1.212 or later, and is unavailable when agent view is turned off, where /fork keeps the forked-subagent behavior"
     argument-hint: "<task>"
@@ -265,16 +265,16 @@ skills:
     description: "Research and plan a large-scale change, then execute it in parallel across 5–30 isolated worktree agents that each run tests and publish their change. Requires a git repository, or a WorktreeCreate hook that provides the agent worktrees (v2.1.281 or later)."
     argument-hint: "<instruction>"
   - name: claude-api
-    description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Subcommands: `migrate` upgrades existing Claude API code to a newer model, `upgrade` moves your project's Anthropic SDK dependency across a major version (currently the Python `anthropic` package from 0.x to 1.x), `managed-agents-onboard` walks through creating a Managed Agent, `prompt-audit` flags instructions written for older models in your prompts, skills, and tool descriptions and proposes fixes as a diff, and `cost-optimize` profiles an existing project's Claude API spend and works through cost levers (caching, token hygiene, batch, effort, model choice) one measured change at a time, `build-eval` builds an eval set for your Claude-powered app, and `hillclimb` iteratively improves the app against an existing eval. Also covers the Admin API (organization members, invites, workspaces, API keys, rate limit reports, workload identity federation, CMEK). `prompt-audit` requires v2.1.221 or later, `upgrade` requires v2.1.236 or later, `cost-optimize` requires v2.1.247 or later, and `build-eval` and `hillclimb` require v2.1.259 or later. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
-    argument-hint: "[migrate|upgrade|managed-agents-onboard|prompt-audit|cost-optimize|build-eval|hillclimb]"
+    description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Subcommands: `migrate` upgrades existing Claude API code to a newer model, `upgrade` moves your project's Anthropic SDK dependency across a major version (currently the Python `anthropic` package from 0.x to 1.x), `managed-agents-onboard` walks through creating a Managed Agent (from v2.1.290 it also accepts a page URL, setting up the Managed Agents pattern that page describes as `ant apply` files, or a Console quickstart name such as `deep-researcher`, building that template with the `ant` CLI), `prompt-audit` flags instructions written for older models in your prompts, skills, and tool descriptions and proposes fixes as a diff, and `cost-optimize` profiles an existing project's Claude API spend and works through cost levers (caching, token hygiene, batch, effort, model choice) one measured change at a time, `build-eval` builds an eval set for your Claude-powered app, `hillclimb` iteratively improves the app against an existing eval, and `preserved-thinking-migration` finds the edits your integration makes to earlier turns, its system prompt, or its tool list that invalidate preserved thinking blocks, measures how much reasoning each one drops, and proposes fixes one at a time, re-measuring after each change. Also covers the Admin API (organization members, invites, workspaces, API keys, rate limit reports, workload identity federation, CMEK). `prompt-audit` requires v2.1.221 or later, `upgrade` requires v2.1.236 or later, `cost-optimize` requires v2.1.247 or later, `build-eval` and `hillclimb` require v2.1.259 or later, and `preserved-thinking-migration` requires v2.1.282 or later. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
+    argument-hint: "[migrate|upgrade|managed-agents-onboard|prompt-audit|cost-optimize|build-eval|hillclimb|preserved-thinking-migration]"
   - name: claude-code-docs
     description: Answer questions about Claude Code features and settings
   - name: claude-in-chrome
     description: "Have Claude carry out a task in your browser, such as testing a page, filling a form, or reading console logs, through Claude in Chrome. Available when Chrome integration is enabled for the session, for example with claude --chrome, or when Claude Code can offer to install the extension"
     argument-hint: "[task]"
   - name: code-review
-    description: "Review the current diff, or a PR number, branch, or path you pass, for correctness bugs and reuse/simplification/efficiency cleanups at the given effort level. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. With no effort level, reuses the level you typed last, falling back to the session's effort level if you have never typed one. Runs as a background subagent so review work stays out of your conversation. Pass `--fix` to apply findings to the working tree, or `--comment` to post them as inline comments on a GitHub pull request or as notes on a GitLab merge request (GitLab requires v2.1.257 or later). With `ultra` on a github.com PR target, `--post` preselects posting the finished findings to the PR in the launch dialog, which requires v2.1.227 or later. Alias: /review"
-    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [pr#|branch|path]"
+    description: "Review the current diff, or a PR number, branch, or path you pass, for correctness bugs at the given effort level; depending on your model and effort level, the review also covers cleanup opportunities. Lower effort returns fewer, higher-confidence findings; high through max give broader coverage; `ultra` runs a deep multi-agent cloud review. With no effort level, reuses the level you typed last, falling back to the session's effort level if you have never typed one. Runs as a background subagent so review work stays out of your conversation. Pass `--fix` to apply findings to the working tree, or `--comment` to post them as inline comments on a GitHub pull request or as notes on a GitLab merge request (GitLab requires v2.1.257 or later). With `ultra` on a github.com PR target, `--post` preselects posting the finished findings to the PR in the launch dialog, which requires v2.1.227 or later. Pass `--max-findings <n>` or `all` to report more or fewer findings than the usual limit; the choice is reused until you pass `--max-findings default` (v2.1.288 or later). Alias: /review"
+    argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [--max-findings n|all|default] [pr#|branch|path]"
   - name: code-walkthrough
     description: Generate an interactive walkthrough artifact for code
   - name: commit
@@ -304,6 +304,8 @@ skills:
     argument-hint: "[interval] [prompt]"
   - name: plan-artifact
     description: "Publish an implementation plan, design doc, or RFC as a shareable Artifact"
+  - name: plugin-authoring
+    description: "Load the reference Claude works from to write a mod. Claude can load it on its own when you ask for a mod. This is a skill from a built-in plugin, which you can turn off in /plugin. Requires v2.1.287 or later"
   - name: pr-explainer
     description: "Generate a shareable walkthrough artifact for a pull request: what changed, why, and a reviewer-oriented before/after narrative"
   - name: prototype
