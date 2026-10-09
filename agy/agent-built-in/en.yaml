@@ -63,7 +63,7 @@ commands:
   - name: permissions
     description: Manage tool permission rules, approval decisions, and security policies
   - name: plugin
-    description: Manage, discover, install, uninstall, enable, and disable plugins
+    description: "Interactive manager for the official Antigravity plugin marketplace: browse and install plugins that bundle skills, MCP servers, subagents, rules, and hooks, install one from a local directory, fill in any settings a plugin needs before it turns on, and manage installed plugins with /plugin install, uninstall, enable, disable, and list"
   - name: remote-control
     description: "Toggle Remote Control for the active terminal session: creates a session-scoped connection so you can follow and control the session from another device, printing the session's hostname and a link to the conversation. The tunnel lasts only while the CLI instance is open; /remote-control off or exiting the session tears it down. Equivalent to launching with --remote-control; for an always-on machine-wide connection use agy remote-control start"
     argument-hint: "[on|off]"

@@ -63,7 +63,7 @@ commands:
   - name: permissions
     description: ツールのパーミッションルール、承認設定、セキュリティポリシーを管理
   - name: plugin
-    description: プラグインの検索・インストール・アンインストール・有効化・無効化を管理
+    description: "公式 Antigravity プラグインマーケットプレイスの対話型マネージャー。skills・MCP サーバー・サブエージェント・ルール・hooks をまとめたプラグインを閲覧・インストールでき、ローカルディレクトリからのインストールにも対応する。プラグインに必要な設定は有効化前にフォームで入力でき、インストール済みプラグインは /plugin install, uninstall, enable, disable, list で管理する"
   - name: remote-control
     description: "現在のターミナルセッションの Remote Control を切り替える。セッション単位の接続を作成し、別のデバイスからセッションを追跡・操作できるようにする。有効化するとセッションのホスト名と会話へのリンクが表示される。トンネルは CLI インスタンスが開いている間だけ維持され、/remote-control off の実行またはセッションの終了で切断される。起動時の --remote-control と同等。マシン全体で常時接続するには agy remote-control start を使う"
     argument-hint: "[on|off]"
