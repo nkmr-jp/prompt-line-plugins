@@ -10,8 +10,8 @@ color: sky  # You can also use hex codes like "#00CC66"
 reference: https://learn.chatgpt.com/docs/developer-commands?surface=cli
 
 commands:
-  - name: agent
-    description: "Switch between active agent threads to inspect subagent work. Alias: /subagents"
+  - name: agents
+    description: "Open the agent command center: an overview of chats on the connected server where you can inspect their status and switch between them. Requires a shared local or remote server; run codex agents to open it directly from your terminal"
   - name: app
     description: Continue the current session in the desktop app
   - name: approve
@@ -20,6 +20,9 @@ commands:
     description: Browse apps (connectors) and insert them into your prompt
   - name: archive
     description: Archive the current session and exit Codex
+  - name: cd
+    description: "Change the session's working directory and continue the chat there; without a path, uses your home directory. Requires an idle primary session with no queued input or background terminals"
+    argument-hint: "[path]"
   - name: clear
     description: Clear the terminal and start a fresh chat, optionally naming it
     argument-hint: "[name]"
@@ -31,6 +34,8 @@ commands:
     description: Summarize the visible conversation to free tokens
   - name: copy
     description: Copy the latest completed Codex output
+  - name: daemon
+    description: "Open background server controls: review the server connection, then install the latest public stable release or use the current CLI build for the local background server. Confirming an update exits Codex and may interrupt active work. For a remote connection, manage the server on its host"
   - name: debug-config
     description: Print config layer and requirements diagnostics
   - name: delete
@@ -39,6 +44,9 @@ commands:
     description: Show the Git diff, including files Git isn't tracking yet
   - name: experimental
     description: Toggle experimental features
+  - name: export
+    description: "Export the complete conversation as Markdown, copying it to the clipboard or saving it to a file (for example /export session.md). Wait for the current turn to finish before exporting"
+    argument-hint: "[file]"
   - name: fast
     description: Toggle Fast mode for supported models
     argument-hint: "[on|off|status]"
@@ -95,6 +103,8 @@ commands:
     description: Choose a project for new chats
   - name: ps
     description: Display background terminals and recent output
+  - name: pwd
+    description: "Show the working directory the active session uses. Alias: /cwd"
   - name: quit
     description: "Exit the CLI immediately. Alias: /exit"
   - name: raw
@@ -102,6 +112,8 @@ commands:
     argument-hint: "[on|off]"
   - name: reasoning
     description: Choose the reasoning effort for the current chat
+  - name: recap
+    description: "Generate a summary of the current conversation without compacting its context, even if tui.auto_recap = false. Run it while Codex is idle; use /compact to free context space"
   - name: rename
     description: Rename the current session
     argument-hint: "[name]"
@@ -125,14 +137,20 @@ commands:
     description: Configure and reorder footer status-line items (model, context, limits, git, tokens, session), persisted in config.toml
   - name: stop
     description: "Cancel all background terminals for the current session. Alias: /clean"
+  - name: subagents
+    description: "Switch the active subagent thread to inspect or continue that agent's work. Formerly /agent"
   - name: theme
     description: Preview and persist a terminal syntax-highlighting theme
   - name: title
     description: Configure terminal window or tab title fields interactively, picking and reordering items such as project, status, thread, branch, model, and task progress
+  - name: tui
+    description: "Choose the terminal mode (scrollback or fullscreen) for the next launch; restart Codex to apply it. Launch overrides such as --no-alt-screen still apply"
   - name: usage
     description: View account token usage, or use a rate-limit reset
     argument-hint: "[daily|weekly|cumulative]"
   - name: vim
     description: Toggle Vim mode for composer editing
+  - name: warnings
+    description: "View retained warnings and their diagnostic details"
   - name: worktree
-    description: Run the chat in a new Git worktree
+    description: "Start a new chat or continue the current conversation in a managed Git worktree. Browse worktrees finds existing worktrees and their owner chats. Requires local worktree support and is unavailable while a task is running"

@@ -10,8 +10,8 @@ color: sky  # 16進コードも使用可能 例: "#00CC66"
 reference: https://learn.chatgpt.com/docs/developer-commands?surface=cli
 
 commands:
-  - name: agent
-    description: "アクティブなエージェントスレッドを切り替えてサブエージェントの作業を確認する。エイリアス: /subagents"
+  - name: agents
+    description: "エージェントのコマンドセンターを開く。接続中のサーバー上のチャットを一覧し、状態を確認して切り替えられる。共有のローカルまたはリモートサーバーが必要。ターミナルから直接開くには codex agents を実行する"
   - name: app
     description: 現在のセッションをデスクトップアプリに引き継ぐ
   - name: approve
@@ -20,6 +20,9 @@ commands:
     description: アプリ（コネクタ）を閲覧してプロンプトに挿入する
   - name: archive
     description: 現在のセッションをアーカイブしてCodexを終了する
+  - name: cd
+    description: "セッションの作業ディレクトリを変更し、そのディレクトリでチャットを続ける。パスを省略するとホームディレクトリを使う。キュー済みの入力やバックグラウンドターミナルが無い、アイドル状態のプライマリセッションでのみ実行できる"
+    argument-hint: "[path]"
   - name: clear
     description: ターミナルをクリアして新しいチャットを開始する。名前を指定することもできる
     argument-hint: "[name]"
@@ -31,6 +34,8 @@ commands:
     description: 表示中の会話を要約してトークンを解放する
   - name: copy
     description: 最新の完了済みCodex出力をクリップボードにコピーする
+  - name: daemon
+    description: "バックグラウンドサーバーの管理画面を開く。サーバー接続を確認し、ローカルのバックグラウンドサーバーに最新の公開安定版をインストールするか、現在の CLI ビルドを使うかを選べる。更新を確定すると Codex が終了し、実行中の作業が中断されることがある。リモート接続の場合はサーバーのホスト側で管理する"
   - name: debug-config
     description: 設定レイヤーと要件の診断情報を表示する
   - name: delete
@@ -39,6 +44,9 @@ commands:
     description: Git未追跡ファイルを含むGit diffを表示する
   - name: experimental
     description: 実験的機能を切り替える
+  - name: export
+    description: "会話全体を Markdown としてエクスポートする。クリップボードへのコピーかファイルへの保存（例: /export session.md）を選べる。現在のターンが終わってから実行する"
+    argument-hint: "[file]"
   - name: fast
     description: 対応モデルのFastモードを切り替える
     argument-hint: "[on|off|status]"
@@ -95,6 +103,8 @@ commands:
     description: 新しいチャット用のプロジェクトを選択する
   - name: ps
     description: バックグラウンドターミナルと最新の出力を表示する
+  - name: pwd
+    description: "アクティブなセッションが使っている作業ディレクトリを表示する。エイリアス: /cwd"
   - name: quit
     description: "CLIを即座に終了する。エイリアス: /exit"
   - name: raw
@@ -102,6 +112,8 @@ commands:
     argument-hint: "[on|off]"
   - name: reasoning
     description: 現在のチャットの推論レベルを選択する
+  - name: recap
+    description: "現在の会話の要約を生成する。コンテキストは圧縮せず、tui.auto_recap = false でも実行できる。Codex がアイドル状態のときに使う。コンテキストを空けたい場合は /compact を使う"
   - name: rename
     description: 現在のセッションの名前を変更する
     argument-hint: "[name]"
@@ -125,14 +137,20 @@ commands:
     description: フッターのステータスライン項目（model・context・limits・git・tokens・session）を設定・並べ替え、config.toml に永続化する
   - name: stop
     description: "現在のセッションのバックグラウンドターミナルをすべてキャンセルする。エイリアス: /clean"
+  - name: subagents
+    description: "アクティブなサブエージェントのスレッドを切り替え、そのエージェントの作業を確認・継続する。旧名称は /agent"
   - name: theme
     description: ターミナルのシンタックスハイライトテーマをプレビューして永続化する
   - name: title
     description: ターミナルウィンドウ／タブのタイトル項目を対話的に設定する。project・status・thread・branch・model・タスク進捗などの項目を選択・並べ替えできる
+  - name: tui
+    description: "次回起動時のターミナルモード（スクロールバックまたはフルスクリーン）を選ぶ。反映には Codex の再起動が必要。--no-alt-screen などの起動時オプションは引き続き優先される"
   - name: usage
     description: アカウントのトークン使用量を表示する、またはレート制限のリセットを使う
     argument-hint: "[daily|weekly|cumulative]"
   - name: vim
     description: コンポーザー編集用のVimモードを切り替える
+  - name: warnings
+    description: "保持されている警告とその診断詳細を表示する"
   - name: worktree
-    description: 新しいGit worktreeでチャットを実行する
+    description: "管理対象の Git worktree で新しいチャットを始めるか、現在の会話をそこで続ける。Browse worktrees で既存の worktree とその持ち主のチャットを探せる。ローカルの worktree サポートが必要で、タスク実行中は使えない"
