@@ -29,7 +29,7 @@ commands:
     description: "会話をその場で要約してコンテキストウィンドウを空ける。引数なしでは会話を要約してターンを終え、メッセージを付けると要約したうえでそのメッセージに回答する。実行中は Compacting conversation... と表示され Esc で中断でき、完了すると要約したステップ数とコンテキストの縮小量を表示する（1.3.5 以降）"
     argument-hint: "[message]"
   - name: config
-    description: "設定パネルを開き、各種環境設定やオプションを管理。Agent Mode では Auto モード（1.3.5 以降・Linux / macOS）を選べ、ファイル編集や安全なコマンドは確認なしで承認し、取り消せない操作の前には確認を求める。Verbosity は high・medium・low から選べ（1.3.0 以降のデフォルトは medium。すべてのツール呼び出し・コマンド・思考を省略せず表示したい場合は high に戻す）、medium では関連するツール呼び出しや思考を `Explored N files` のような簡潔な要約にまとめつつ、コマンドと応答は表示したままにする。Queued Messages では、追加メッセージを現在のターン終了まで保留する（Queue、デフォルト）か、エージェントに割り込ませる（Send Immediately）かを選べ、settings.json の \"queuedMessages\": \"send-immediately\" でも設定できる。選択中の設定項目で ←/→ を押すと、ドロップダウンを開かずに前後の値へ切り替えてすぐ保存できる（1.2.16 以降）。エイリアス: /settings"
+    description: "設定パネルを開き、各種環境設定やオプションを管理。Agent Mode では Auto モード（1.3.5 以降・Linux / macOS）を選べ、ファイル編集や安全なコマンドは確認なしで承認し、取り消せない操作の前には確認を求める。Verbosity は high・medium・low から選べ（1.3.0 以降のデフォルトは medium。すべてのツール呼び出し・コマンド・思考を省略せず表示したい場合は high に戻す）、medium では関連するツール呼び出しや思考を `Explored N files` のような簡潔な要約にまとめつつ、コマンドと応答は表示したままにする。Queued Messages では、追加メッセージを現在のターン終了まで保留する（Queue、デフォルト）か、エージェントに割り込ませる（Send Immediately）かを選べ、settings.json の \"queuedMessages\": \"send-immediately\" でも設定できる。alt+m を押すとこの設定と逆の挙動でメッセージを送れる（1.4.0 以降）。選択中の設定項目で ←/→ を押すと、ドロップダウンを開かずに前後の値へ切り替えてすぐ保存できる（1.2.16 以降）。エイリアス: /settings"
   - name: context
     description: コンテキスト使用状況、トークン消費量、モデル制限の詳細を表示
   - name: copy

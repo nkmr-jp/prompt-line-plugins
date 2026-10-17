@@ -56,7 +56,7 @@ commands:
     description: これまでの会話を要約してコンテキストを解放する。要約の焦点を絞る指示を任意で渡せる
     argument-hint: "[instructions]"
   - name: config
-    description: "設定インターフェースを開いてテーマ、モデル、出力スタイルなどを調整する。key=value のペア（例: /config thinking=false）を渡すと設定を直接変更でき、/config theme=dark や /config model=sonnet のような短縮キーも使える。autoContinueAtUsageLimit のようにパネルでの確認が必要な設定は、key=value 形式でオフにはできるがオンにはできない。`/config --help` で設定可能な全キーと選択肢を表示する。インタラクティブ・-p・Remote Controlの各モードで動作。フルスクリーンモードではパネルがマウス操作にも対応し、ホイールで設定一覧をスクロール、値のクリックで変更、ポインタ位置の行がハイライトされる（v2.1.271 以降が必要）。CLAUDE.mdのないプロジェクトではAGENTS.mdが代わりに読み込まれ、この挙動は「Project instructions」から変更できる（v2.1.277 以降）。エイリアス: /settings"
+    description: "設定インターフェースを開いてテーマ、モデル、出力スタイルなどを調整する。key=value のペア（例: /config thinking=false）を渡すと設定を直接変更でき、/config theme=dark や /config model=sonnet のような短縮キーも使える。autoContinueAtUsageLimit のようにパネルでの確認が必要な設定は、key=value 形式でオフにはできるがオンにはできない。`/config --help` で設定可能な全キーと選択肢を表示する。インタラクティブ・-p・Remote Controlの各モードで動作。フルスクリーンモードではパネルがマウス操作にも対応し、ホイールで設定一覧をスクロール、値のクリックで変更、ポインタ位置の行がハイライトされる（v2.1.271 以降が必要）。CLAUDE.mdのないプロジェクトではAGENTS.mdが代わりに読み込まれ、この挙動は「Project instructions」から変更できる（v2.1.277 以降）。「Idle compaction」の行でアイドル時の自動コンパクトをオフ／オンに切り替えられる（v2.1.302 以降）。エイリアス: /settings"
     argument-hint: "[key=value ...]"
   - name: context
     description: 現在のコンテキスト使用量をカラーグリッドで表示する。コンテキスト負荷の高いツール、メモリ膨張、容量警告の最適化提案も表示。会話がコンテキストウィンドウを超えた場合は、超過量と空き容量を確保するコマンドを警告として表示する。`all` を渡すと項目ごとの詳細をフルスクリーンで展開。MCP サーバーの instructions も独立した行として表示され、合計に算入される（v2.1.283 以降）。トークンカウント API が利用できない場合は、小型モデルへの追加リクエストではなくローカル推定にフォールバックする（v2.1.261 以降）
