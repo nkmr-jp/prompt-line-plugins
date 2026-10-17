@@ -25,8 +25,11 @@ commands:
   - name: codesearch
     description: "Open a fullscreen Code Search panel that searches the code in your workspace without leaving the session, showing matches grouped by file with surrounding context; press Enter to open a result in the file viewer at the matching line, or Ctrl+G in your external editor, and comment on specific lines to send line-level feedback to the agent. Queries are regular expressions with smart case by default; add -F (or --literal) for fixed-string matching, and filter by path with f:<glob> (aliases file:, path:), prefixed with - to exclude. Aliases: /cs, /search"
     argument-hint: "<query> [-F|--literal] [f:glob]"
+  - name: compact
+    description: "Compact the conversation on demand to free up the context window. On its own it summarizes the conversation and ends the turn; with a message it summarizes and then answers that message. Shows a Compacting conversation... progress label you can cancel with Esc, then reports how many steps were summarized and how much smaller the context became (1.3.5 or later)"
+    argument-hint: "[message]"
   - name: config
-    description: "Open the interactive settings panel to adjust preferences and configuration. Verbosity offers high, medium, and low (medium is the default since 1.3.0; set it back to high to see every tool call, command, and thought in full); medium groups related tool calls and thoughts into concise summaries such as `Explored N files` while keeping commands and responses visible. Queued Messages chooses whether follow-up messages wait until the current turn ends (Queue, the default) or interrupt the agent (Send Immediately); also settable with \"queuedMessages\": \"send-immediately\" in settings.json. On a highlighted setting, ←/→ switch to the previous or next value and save it right away without opening the dropdown (1.2.16 or later). Alias: /settings"
+    description: "Open the interactive settings panel to adjust preferences and configuration. Agent Mode includes Auto mode (1.3.5 or later; Linux and macOS), which approves file edits and safe commands without asking but still prompts before irreversible actions. Verbosity offers high, medium, and low (medium is the default since 1.3.0; set it back to high to see every tool call, command, and thought in full); medium groups related tool calls and thoughts into concise summaries such as `Explored N files` while keeping commands and responses visible. Queued Messages chooses whether follow-up messages wait until the current turn ends (Queue, the default) or interrupt the agent (Send Immediately); also settable with \"queuedMessages\": \"send-immediately\" in settings.json; press alt+m to send a message with the opposite of this setting (1.4.0 or later). On a highlighted setting, ←/→ switch to the previous or next value and save it right away without opening the dropdown (1.2.16 or later). Alias: /settings"
   - name: context
     description: View detailed context breakdown, token consumption, and model limits
   - name: copy
@@ -34,7 +37,7 @@ commands:
   - name: credits
     description: Show remaining G1 credits balance and subscription purchase link
   - name: diff
-    description: View uncommitted working tree changes and per-turn diffs
+    description: "View uncommitted working tree changes and per-turn diffs. The file view has syntax highlighting and folds unchanged lines: each hunk header shows how many lines are hidden, Ctrl+O expands or collapses the nearest fold, and f toggles between changes only and the whole file (1.3.5 or later)"
   - name: effort
     description: "Set the reasoning effort for the current model from an effort gauge that reflects the levels each model supports; the gauge is also available in /model. Usage: /effort [low|medium|high]"
     argument-hint: "[low|medium|high]"
