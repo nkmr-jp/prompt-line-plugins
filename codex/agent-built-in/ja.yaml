@@ -75,8 +75,8 @@ commands:
   - name: logout
     description: 現在のユーザーのローカル認証情報をクリアする
   - name: mcp
-    description: 利用可能なModel Context Protocolツールを一覧表示する
-    argument-hint: "[verbose]"
+    description: "利用可能なModel Context Protocolツールを一覧表示する。`/mcp login <name>` で設定済みのMCPサーバーにサインインする"
+    argument-hint: "[verbose|login <name>]"
   - name: memories
     description: メモリの注入や生成を含む、メモリの利用方法を設定する
   - name: mention
