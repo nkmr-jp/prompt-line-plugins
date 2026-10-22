@@ -75,8 +75,8 @@ commands:
   - name: logout
     description: Clear local credentials for current user
   - name: mcp
-    description: List available Model Context Protocol tools
-    argument-hint: "[verbose]"
+    description: "List available Model Context Protocol tools. Use `/mcp login <name>` to sign in to a configured MCP server"
+    argument-hint: "[verbose|login <name>]"
   - name: memories
     description: Configure memory use, including memory injection and generation
   - name: mention

@@ -25,8 +25,11 @@ commands:
   - name: codesearch
     description: "全画面の Code Search パネルを開き、セッションを離れずにワークスペース内のコードを検索する。結果はファイルごとにグループ化され前後の文脈付きで表示される。Enter で該当行のファイルビューア、Ctrl+G で外部エディタを開き、特定の行にコメントを付けて行単位のフィードバックをエージェントへ送れる。クエリは既定で正規表現かつ smart case で解釈され、-F（--literal）を付けるとリテラル一致になる。f:<glob>（file:、path: も可）でパスを絞り込み、先頭に - を付けると除外になる。エイリアス: /cs, /search"
     argument-hint: "<query> [-F|--literal] [f:glob]"
+  - name: compact
+    description: "会話をその場で要約してコンテキストウィンドウを空ける。引数なしでは会話を要約してターンを終え、メッセージを付けると要約したうえでそのメッセージに回答する。実行中は Compacting conversation... と表示され Esc で中断でき、完了すると要約したステップ数とコンテキストの縮小量を表示する（1.3.5 以降）"
+    argument-hint: "[message]"
   - name: config
-    description: "設定パネルを開き、各種環境設定やオプションを管理。Verbosity は high・medium・low から選べ（1.3.0 以降のデフォルトは medium。すべてのツール呼び出し・コマンド・思考を省略せず表示したい場合は high に戻す）、medium では関連するツール呼び出しや思考を `Explored N files` のような簡潔な要約にまとめつつ、コマンドと応答は表示したままにする。Queued Messages では、追加メッセージを現在のターン終了まで保留する（Queue、デフォルト）か、エージェントに割り込ませる（Send Immediately）かを選べ、settings.json の \"queuedMessages\": \"send-immediately\" でも設定できる。選択中の設定項目で ←/→ を押すと、ドロップダウンを開かずに前後の値へ切り替えてすぐ保存できる（1.2.16 以降）。エイリアス: /settings"
+    description: "設定パネルを開き、各種環境設定やオプションを管理。Agent Mode では Auto モード（1.3.5 以降・Linux / macOS）を選べ、ファイル編集や安全なコマンドは確認なしで承認し、取り消せない操作の前には確認を求める。Verbosity は high・medium・low から選べ（1.3.0 以降のデフォルトは medium。すべてのツール呼び出し・コマンド・思考を省略せず表示したい場合は high に戻す）、medium では関連するツール呼び出しや思考を `Explored N files` のような簡潔な要約にまとめつつ、コマンドと応答は表示したままにする。Queued Messages では、追加メッセージを現在のターン終了まで保留する（Queue、デフォルト）か、エージェントに割り込ませる（Send Immediately）かを選べ、settings.json の \"queuedMessages\": \"send-immediately\" でも設定できる。alt+m を押すとこの設定と逆の挙動でメッセージを送れる（1.4.0 以降）。選択中の設定項目で ←/→ を押すと、ドロップダウンを開かずに前後の値へ切り替えてすぐ保存できる（1.2.16 以降）。エイリアス: /settings"
   - name: context
     description: コンテキスト使用状況、トークン消費量、モデル制限の詳細を表示
   - name: copy
@@ -34,7 +37,7 @@ commands:
   - name: credits
     description: 残りの G1 クレジット残高と購入リンクを表示
   - name: diff
-    description: 未コミットの変更差分およびターンごとの差分を表示
+    description: "未コミットの変更差分およびターンごとの差分を表示。ファイル表示はシンタックスハイライト付きで、変更のない行は折りたたまれる。各 hunk ヘッダーに隠れている行数が表示され、Ctrl+O でカーソルに最も近い折りたたみを開閉し、f で変更箇所のみとファイル全体の表示を切り替える（1.3.5 以降）。ファイル一覧とファイル表示では / で検索でき、入力に合わせて一致箇所がハイライトされ、Enter で最初の一致へ移動し、n/N で全ファイルをまたいで一致箇所を順に移動する（1.4.3 以降）"
   - name: effort
     description: "推論モデルの思考レベル（effort）を、モデルごとに対応するレベルを反映したゲージで設定する。ゲージは /model からも使える。使い方: /effort [low|medium|high]"
     argument-hint: "[low|medium|high]"
