@@ -69,7 +69,7 @@ commands:
   - name: design-consent
     description: Grant Claude agent access to your Design projects
   - name: design-login
-    description: Authorize design-system access for /design-sync with your claude.ai account
+    description: "Authorize design-system access for /design-sync with your claude.ai account. Sign in whenever /design-sync or /design consent tells you to. This sign-in is for the standalone Claude Design site at claude.ai/design, which closes by December 14, 2026"
   - name: design-revoke
     description: Revoke Claude agent access to your Design projects
   - name: desktop
@@ -190,7 +190,7 @@ commands:
   - name: sandbox
     description: Toggle sandbox mode. Available on supported platforms only
   - name: schedule
-    description: "Create, update, list, or run routines (Cloud scheduled tasks). Claude walks you through the setup conversationally, and you can also ask about a routine's recent runs. Alias: /routines"
+    description: "Create, update, list, or run Cloud scheduled tasks, formerly routines. Claude walks you through the setup conversationally, and you can also ask about a scheduled task's recent runs. Alias: /routines"
     argument-hint: "[description]"
   - name: scroll-speed
     description: Adjust mouse wheel scroll speed interactively, with a ruler you can scroll while the dialog is open to preview the change. Available in fullscreen rendering only and not in the JetBrains IDE terminal
@@ -292,7 +292,7 @@ skills:
     description: "Draft UI mockups, screen flows, landing pages, or posters as artboards on one canvas, published as an artifact that runs a research preview of Claude Design's editor, for example /design a settings screen for a mobile banking app. Where saving is enabled for your account you edit the artboards and save to publish a new version; otherwise you view the draft and export it as PNG or PDF. Requires a session where artifacts are available. Unavailable on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, and Claude Platform on AWS"
     argument-hint: "[brief]"
   - name: design-sync
-    description: "Convert your repo's React design system and upload it to Claude Design so designs use your real components. Optionally name the design system. A first sync can take a few hours on a large repo. Unavailable on Amazon Bedrock, Google Cloud Agent Platform, Microsoft Foundry, and Claude Platform on AWS."
+    description: "Convert your repo's React design system and upload it to Claude Design so designs use your real components. Optionally name the design system. A first-time sync verifies every component and can take a few hours on a large repo. Unavailable on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, and Claude Platform on AWS, or through a Claude apps gateway. It uploads to the standalone claude.ai/design site, which closes by December 14, 2026"
     argument-hint: "[hint]"
   - name: doctor
     description: "Run a setup checkup that diagnoses issues and can fix them. Checks installation health, including duplicate or leftover installs, PATH problems, and unparseable settings, finds unused skills, MCP servers, and plugins versus their context cost, flags slow hooks, and checks for a newer version on your release channel. Deduplicates local CLAUDE.md files against checked-in ones, trims content Claude could derive from the codebase, and moves the always-loaded guidance that remains into skills and nested CLAUDE.md files that load on demand. Also offers to make auto mode your default and to pre-approve frequently denied read-only commands. Reports findings first and asks for confirmation before changing anything. From the terminal, `claude doctor` prints read-only installation diagnostics without starting a session. Pass `prompt-audit` to audit your CLAUDE.md files, skills, agents, and commands for prompting patterns written for older models, with stale paths, stale commands, and contradicting instruction files leading the report (v2.1.283 or later). Alias: /checkup"

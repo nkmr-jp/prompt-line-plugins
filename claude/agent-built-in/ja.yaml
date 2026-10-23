@@ -69,7 +69,7 @@ commands:
   - name: design-consent
     description: Claude エージェントに Design プロジェクトへのアクセスを許可する
   - name: design-login
-    description: /design-sync 用のデザインシステムアクセスを claude.ai アカウントで認可する
+    description: "/design-sync 用のデザインシステムアクセスを claude.ai アカウントで認可する。/design-sync や /design consent にサインインを求められたら実行する。このサインインは claude.ai/design のスタンドアロン版 Claude Design サイト向けで、同サイトは 2026年12月14日までに閉鎖される"
   - name: design-revoke
     description: Claude エージェントの Design プロジェクトへのアクセスを取り消す
   - name: desktop
@@ -190,7 +190,7 @@ commands:
   - name: sandbox
     description: サンドボックスモードを切り替える。対応プラットフォームのみ
   - name: schedule
-    description: "routines（Cloudスケジュールタスク）の作成・更新・一覧・実行を行う。Claudeが対話的にセットアップをガイドし、routine の直近の実行状況について尋ねることもできる。エイリアス: /routines"
+    description: "Cloudスケジュールタスク（旧 routines）の作成・更新・一覧・実行を行う。Claudeが対話的にセットアップをガイドし、スケジュールタスクの直近の実行状況について尋ねることもできる。エイリアス: /routines"
     argument-hint: "[description]"
   - name: scroll-speed
     description: マウスホイールのスクロール速度を対話的に調整する。ダイアログ表示中にスクロール可能なルーラーで変更をプレビューできる。全画面レンダリング時のみ利用でき、JetBrains IDE のターミナルでは使えない
@@ -292,7 +292,7 @@ skills:
     description: "UIモックアップ・画面フロー・ランディングページ・ポスターを、1つのキャンバス上のアートボードとして下書きする。Claude Design エディタのリサーチプレビューを動作させる artifact として公開される（例: /design a settings screen for a mobile banking app）。アカウントで保存が有効な場合はアートボードを編集して新しいバージョンを公開でき、そうでなければ下書きの閲覧と PNG・PDF へのエクスポートのみ可能。artifacts が利用できるセッションが必要。Amazon Bedrock・Google Cloud's Agent Platform・Microsoft Foundry・Claude Platform on AWS では利用不可"
     argument-hint: "[brief]"
   - name: design-sync
-    description: "リポジトリのReactデザインシステムを変換してClaude Designにアップロードし、デザインで実際のコンポーネントを使えるようにする。デザインシステム名を任意で指定可能。大規模リポジトリでは初回同期に数時間かかることがある。Amazon Bedrock・Google Cloud Agent Platform・Microsoft Foundry・Claude Platform on AWSでは利用不可"
+    description: "リポジトリのReactデザインシステムを変換してClaude Designにアップロードし、デザインで実際のコンポーネントを使えるようにする。デザインシステム名を任意で指定可能。初回同期では全コンポーネントを検証するため、大規模リポジトリでは数時間かかることがある。Amazon Bedrock・Google Cloud's Agent Platform・Microsoft Foundry・Claude Platform on AWS、および Claude apps gateway 経由では利用不可。アップロード先はスタンドアロン版の claude.ai/design サイトで、同サイトは 2026年12月14日までに閉鎖される"
     argument-hint: "[hint]"
   - name: doctor
     description: "セットアップ全体を点検し、見つかった問題を診断して修正まで行う。インストール状態（重複や残存インストールを含む）・PATHの問題・解析できない設定ファイルを確認し、コンテキストコストに見合わない未使用のスキル・MCPサーバー・プラグインを洗い出し、遅いフックを検出し、リリースチャンネル上の新バージョンの有無も確認する。ローカルのCLAUDE.mdをコミット済みのものと突き合わせて重複を整理し、コードベースから読み取れる内容を削り、残った常時ロードのガイダンスをスキルや必要時にロードされるネストしたCLAUDE.mdへ移す。さらに auto モードをデフォルトにすることや、頻繁に拒否している読み取り専用コマンドの事前承認も提案する。変更前に必ず結果を提示して確認を求める。ターミナルから `claude doctor` を実行すると、セッションを開始せずに読み取り専用のインストール診断を表示する。`prompt-audit` を渡すと、CLAUDE.md・スキル・エージェント・コマンドに旧世代モデル向けのプロンプト記法が残っていないかを監査し、古いパス・古いコマンド・矛盾する指示ファイルをレポートの先頭に示す（v2.1.283 以降）。エイリアス: /checkup"
