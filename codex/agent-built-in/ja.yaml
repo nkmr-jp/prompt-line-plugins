@@ -83,12 +83,14 @@ commands:
     description: 特定のファイルやフォルダを会話にアタッチする
     argument-hint: "<file_path>"
   - name: model
-    description: 使用するモデルと推論レベルを選択する
+    description: "使用するモデルと推論レベルを選択する。引数なしではピッカーを開く。モデル・--reasoning <level>・--speed <tier> を渡すと（スペース区切り・= 区切りどちらも可）保存済みのデフォルトを変えずに現在のセッションだけを変更でき、モデルを省略すると現在のモデルに設定を適用する（0.164.0 以降）"
+    argument-hint: "[model] [--reasoning <level>] [--speed <tier>]"
   - name: new
     description: 同じCLIセッション内で新しい会話を開始する。名前を指定することもできる
     argument-hint: "[name]"
   - name: permissions
-    description: "Codexが確認なしで実行できる操作を設定する。エイリアス: /approvals"
+    description: "Codexが確認なしで実行できる操作を設定する。引数なしではピッカーを開く。組み込みまたはカスタムの権限プロファイル ID を渡すと直接選択でき（例: /permissions :read-only）、:ask-for-approval と :approve-for-me も指定できる（0.164.0 以降）。エイリアス: /approvals"
+    argument-hint: "[profile-id]"
   - name: personality
     description: コミュニケーションスタイルを選択する（friendly, pragmatic, none）
   - name: pets

@@ -83,12 +83,14 @@ commands:
     description: Attach specific files or folders to conversation
     argument-hint: "<file_path>"
   - name: model
-    description: Choose active model and reasoning effort level
+    description: "Choose active model and reasoning effort level. Without arguments, opens the picker; pass a model, --reasoning <level>, and --speed <tier> (space-separated or with =) to change the current session without changing saved defaults, and omit the model to apply the settings to the current model (0.164.0 or later)"
+    argument-hint: "[model] [--reasoning <level>] [--speed <tier>]"
   - name: new
     description: Start fresh conversation within same CLI session, optionally naming it
     argument-hint: "[name]"
   - name: permissions
-    description: "Set what Codex can do without asking first. Alias: /approvals"
+    description: "Set what Codex can do without asking first. Without arguments, opens the picker; pass a built-in or custom permission profile ID to select it directly, for example /permissions :read-only, with :ask-for-approval and :approve-for-me also accepted (0.164.0 or later). Alias: /approvals"
+    argument-hint: "[profile-id]"
   - name: personality
     description: Select communication style (friendly, pragmatic, none)
   - name: pets
