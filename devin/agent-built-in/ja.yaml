@@ -74,8 +74,11 @@ commands:
     argument-hint: "[step]"
   - name: fusion
     description: Fusionモデルピッカーを開いてlead・effort・sidekickを選択する（/model fusion と同じ）
+  - name: goal
+    description: "完了するまでエージェントが取り組み続けるゴールを設定する。ターンが終わるたびに自動で続行し、ゴールの完了またはブロックを報告するまで作業する。引数なしの /goal で状態を表示し、/goal resume で中断後に再開、/goal clear でゴールを破棄する。50 ターンで自動的に一時停止する。プロンプトベースのプランでは利用不可。/loop の後継"
+    argument-hint: "[<objective>|resume|clear]"
   - name: handoff
-    description: ローカルセッションでは、専用のVM・ブラウザ・完全なrepoアクセスを持つcloud Devinセッションにタスクを引き継ぐ。会話コンテキスト・現在のgitブランチ・未コミットのdiffをパッケージする。タスク説明がなければcloudセッションは中断したところから続行する。空のプロンプトで & と入力するのがショートカット。cloudセッションでは、セッションのプルリクエストのブランチを取得してチェックアウトし、ローカルセッションで作業を続ける
+    description: ローカルセッションでは、専用のVM・ブラウザ・完全なrepoアクセスを持つcloud Devinセッションにタスクを引き継ぐ。会話コンテキスト・現在のgitブランチ・未コミットのdiffをパッケージする。タスク説明がなければcloudセッションは中断したところから続行する。空のプロンプトで & と入力するのがショートカット。cloudセッションでは、セッションのプルリクエストのブランチを取得してチェックアウトし、cloudセッションの要約を背景コンテキストとして受け取ったローカルセッションで作業を続ける
     argument-hint: "[task]"
   - name: help
     description: 利用可能なスラッシュコマンドを表示する
@@ -88,9 +91,6 @@ commands:
     description: ログインと認証のステータスを表示する（ACPホストには /status として公開）
   - name: logout
     description: 保存済みの認証情報をクリアして終了する
-  - name: loop
-    description: プロンプトを実行してdiffを自動レビューするループを回す（開始にはクリーンなgit状態が必要）
-    argument-hint: "<prompt>"
   - name: ls
     description: "最近のセッションを一覧表示する（デフォルトは現在のディレクトリのみ）。--all で全ディレクトリのセッションを表示。エイリアス: /list-sessions"
     argument-hint: "[--all]"
@@ -115,7 +115,7 @@ commands:
   - name: org
     description: Devin組織を選択する
   - name: pickup
-    description: このcloudセッションのプルリクエストのブランチをチェックアウトし、ローカルで作業を続ける（cloudセッションでの /handoff と同じ）
+    description: このcloudセッションのプルリクエストのブランチをチェックアウトし、ローカルで作業を続ける（cloudセッションでの /handoff と同じ）。新しいローカルセッションはcloudセッションの要約を背景コンテキストとして受け取る
   - name: plan
     description: Planモード（読み取り専用のプランニング）に切り替える。またはプロンプトを渡してプランする
     argument-hint: "[prompt]"
@@ -127,12 +127,12 @@ commands:
     description: "ワークスペースディレクトリを削除する。エイリアス: /undo-add-dir"
     argument-hint: "<path>"
   - name: rename
-    description: "現在のセッションをリネームする。cloudセッションではcloudセッション名を変更する。エイリアス: /rename-session, /title"
-    argument-hint: "<new title>"
+    description: "現在のセッションをリネームする。cloudセッションではcloudセッション名を変更する。タイトルを省略すると、ここまでの会話からタイトルを生成する。エイリアス: /rename-session, /title"
+    argument-hint: "[new title]"
   - name: repo
     description: このcloudセッションで使うリポジトリを選択する
   - name: resume
-    description: 対話的なセッションピッカーを開く。またはIDを指定して特定のセッションを再開する
+    description: 対話的なセッションピッカーを開く。またはIDを指定して特定のセッションを再開する。IDを省略すると、実行中のセッションの上にピッカーが開く
     argument-hint: "[session-id]"
   - name: revert
     description: 指定したステップ以降のファイル変更を戻し、そのステップの前まで会話を巻き戻す

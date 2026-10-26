@@ -74,8 +74,11 @@ commands:
     argument-hint: "[step]"
   - name: fusion
     description: Open the Fusion model picker to choose your lead, effort, and sidekick (same as /model fusion)
+  - name: goal
+    description: "Set a goal the agent keeps working on until it is done: Devin continues automatically each time a turn ends, until it reports the goal complete or blocked. /goal alone shows its status, /goal resume continues after an interrupt, and /goal clear drops it. A run pauses itself after 50 turns. Not available on prompt-based plans. Replaces /loop"
+    argument-hint: "[<objective>|resume|clear]"
   - name: handoff
-    description: "In a local session, hand off the task to a cloud Devin session with its own VM, browser, and full repo access. Packages up the conversation context, current git branch, and uncommitted diff. Without a task description the cloud session continues from where you left off. Typing & on an empty prompt is a shortcut. In a cloud session, fetch the session's pull request branch, switch your checkout to it, and continue in a local session"
+    description: "In a local session, hand off the task to a cloud Devin session with its own VM, browser, and full repo access. Packages up the conversation context, current git branch, and uncommitted diff. Without a task description the cloud session continues from where you left off. Typing & on an empty prompt is a shortcut. In a cloud session, fetch the session's pull request branch, switch your checkout to it, and continue in a local session that gets a summary of the cloud session as background context"
     argument-hint: "[task]"
   - name: help
     description: Show available slash commands
@@ -88,9 +91,6 @@ commands:
     description: Show login and authentication status (advertised to ACP hosts as /status)
   - name: logout
     description: Clear stored credentials and exit
-  - name: loop
-    description: Run a prompt then auto-review the diff in a loop (requires clean git state to start)
-    argument-hint: "<prompt>"
   - name: ls
     description: "List recent sessions (current directory only by default). Pass --all for all sessions across all directories. Alias: /list-sessions"
     argument-hint: "[--all]"
@@ -115,7 +115,7 @@ commands:
   - name: org
     description: Select your Devin organization
   - name: pickup
-    description: Check out this cloud session's pull request branch and continue locally (same as /handoff in a cloud session)
+    description: Check out this cloud session's pull request branch and continue locally (same as /handoff in a cloud session). The new local session gets a summary of the cloud session as background context
   - name: plan
     description: Switch to Plan mode (read-only planning), or plan with a prompt
     argument-hint: "[prompt]"
@@ -127,12 +127,12 @@ commands:
     description: "Remove a workspace directory. Alias: /undo-add-dir"
     argument-hint: "<path>"
   - name: rename
-    description: "Rename the current session; in a cloud session, rename the cloud session. Aliases: /rename-session, /title"
-    argument-hint: "<new title>"
+    description: "Rename the current session; in a cloud session, rename the cloud session. With no title, generates one from the conversation so far. Aliases: /rename-session, /title"
+    argument-hint: "[new title]"
   - name: repo
     description: Pick the repositories for this cloud session
   - name: resume
-    description: Open the interactive session picker, or resume a specific session by ID
+    description: Open the interactive session picker, or resume a specific session by ID. With no ID, the picker opens over the running session
     argument-hint: "[session-id]"
   - name: revert
     description: Revert file changes from a specific step onwards and rewind the conversation to before that step
