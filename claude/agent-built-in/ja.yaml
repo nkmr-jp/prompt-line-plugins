@@ -289,7 +289,7 @@ skills:
     description: "Web 検索をファンアウトし、ソースを取得・相互検証してから、引用付きのリサーチレポートを統合する"
     argument-hint: "<question>"
   - name: design
-    description: "UIモックアップ・画面フロー・ランディングページ・ポスターを、1つのキャンバス上のアートボードとして下書きする。Claude Design エディタのリサーチプレビューを動作させる artifact として公開される（例: /design a settings screen for a mobile banking app）。アカウントで保存が有効な場合はアートボードを編集して新しいバージョンを公開でき、そうでなければ下書きの閲覧と PNG・PDF へのエクスポートのみ可能。artifacts が利用できるセッションが必要。Amazon Bedrock・Google Cloud's Agent Platform・Microsoft Foundry・Claude Platform on AWS では利用不可"
+    description: "UIモックアップ・画面フロー・ランディングページ・ポスターを、1つのキャンバス上のアートボードとして下書きし、Claude Design の artifact として公開する（例: /design a settings screen for a mobile banking app）。アートボードはデスクトップのブラウザで編集でき、編集内容は自動で保存される。各アートボードは PNG・PDF にエクスポートできる。v2.1.265 以降、artifacts が利用できるセッション、Design テンプレートが使えるアカウントが必要で、組織がこのテンプレートを無効にしている場合 /design はデザインを下書きしない。Amazon Bedrock・Google Cloud's Agent Platform・Microsoft Foundry・Claude Platform on AWS では利用不可"
     argument-hint: "[brief]"
   - name: design-sync
     description: "リポジトリのReactデザインシステムを変換してClaude Designにアップロードし、デザインで実際のコンポーネントを使えるようにする。デザインシステム名を任意で指定可能。初回同期では全コンポーネントを検証するため、大規模リポジトリでは数時間かかることがある。Amazon Bedrock・Google Cloud's Agent Platform・Microsoft Foundry・Claude Platform on AWS、および Claude apps gateway 経由では利用不可。アップロード先はスタンドアロン版の claude.ai/design サイトで、同サイトは 2026年12月14日までに閉鎖される"
