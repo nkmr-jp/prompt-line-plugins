@@ -28,6 +28,9 @@ commands:
     argument-hint: "<question>"
   - name: autonomous
     description: Autonomousモードに切り替える（sandboxで強制。--sandbox が必要）
+  - name: billing
+    description: "アカウントのプロバイダー課金を表示する。ChatGPT プランなどのプロバイダープランでそのプロバイダーのモデル料金を支払えるアカウントでは、モデルピッカーで該当モデルにアスタリスクが付く。引数なしの /billing でパネルを開いて選択し、/billing on または /billing off で直接オン／オフを切り替える。モデルピッカーで Ctrl+S を押しても同じ操作ができる"
+    argument-hint: "[on|off]"
   - name: btw
     description: 簡単なサイド質問をする。現在の会話コンテキストを使ってsidechainを実行し、回答をボックス表示する。メインの会話には質問を追加しない
     argument-hint: "<prompt>"

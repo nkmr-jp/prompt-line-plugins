@@ -28,6 +28,9 @@ commands:
     argument-hint: "<question>"
   - name: autonomous
     description: Switch to Autonomous mode (sandbox-enforced; requires --sandbox)
+  - name: billing
+    description: "Show provider billing for your account. When your account can pay for a provider's models with a provider plan, such as your ChatGPT plan, the model picker marks those models with an asterisk; /billing alone opens a panel to choose, and /billing on or /billing off switches the plan on or off directly. Ctrl+S in the model picker does the same"
+    argument-hint: "[on|off]"
   - name: btw
     description: Ask a quick side question. Runs a sidechain using the current conversation context and prints the answer in a box, without adding the question to the main conversation
     argument-hint: "<prompt>"
