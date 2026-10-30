@@ -179,6 +179,8 @@ commands:
   - name: rename
     description: Rename the current session and show the name on the prompt bar. Without a name, auto-generates one from conversation history. Also available in -p mode. From every rename surface, control and invisible characters are replaced with spaces and the name is capped at 200 characters; a name that is empty once invisible characters are removed is rejected. When another live session on this machine already uses the name you pass, a variant of it is applied instead. Requires v2.1.221 or later for the sanitizing and length cap
     argument-hint: "[name]"
+  - name: restart
+    description: "Restart Claude Code and resume this session, which applies an installed update. Run it when the footer offers it after an update installs. Requires a Pro or Max plan and a native install on macOS or Linux, not WSL. Requires v2.1.288 or later. Alias: /update"
   - name: resume
     description: "Resume a conversation by ID or name, or open the session picker. Background sessions appear marked bg. Resuming one that is still running, from the picker or by ID or name, opens that session: your current conversation moves to the background and this terminal attaches to the running one. Press ← on an empty prompt to return to agent view, which also lists the conversation you left. Before v2.1.285, Claude Code refused and told you to open the session with claude attach or stop it first. Alias: /continue"
     argument-hint: "[session]"
@@ -233,8 +235,6 @@ commands:
   - name: ultrareview
     description: "Run a deep, multi-agent code review in a cloud sandbox. Pass a PR reference to review that pull request, or a base branch or commit to change the comparison base. The preferred invocation is now /code-review ultra; /ultrareview remains as an alias. With --post, the PR comment is posted directly as soon as the findings arrive and the comment link is printed, instead of starting a second cloud session to post it, which requires v2.1.269 or later. When there is nothing to review, the message says which case you are in and offers a command that reviews your latest commit, and a new repository's first commit is reviewed in full; in non-interactive sessions it refuses when the repository has no base branch or shared history, both of which require v2.1.277 or later. Includes 3 free runs on Pro and Max, then requires usage credits"
     argument-hint: "[PR or branch]"
-  - name: update
-    description: "Switch to the latest version without losing the conversation. Alias: /restart"
   - name: upgrade
     description: Open the upgrade page in your browser to switch to a higher plan tier. When the browser fails to open, it shows a sign-in prompt without printing the URL
   - name: usage
