@@ -135,7 +135,7 @@ commands:
   - name: repo
     description: このcloudセッションで使うリポジトリを選択する
   - name: resume
-    description: 対話的なセッションピッカーを開く。またはIDを指定して特定のセッションを再開する。IDを省略すると、実行中のセッションの上にピッカーが開く
+    description: 対話的なセッションピッカーを開く（全セッションを新しい順に表示し、Alt+G で現在のディレクトリのセッションに絞り込める）。またはIDを指定して特定のセッションを再開する。IDを省略すると、実行中のセッションの上にピッカーが開く
     argument-hint: "[session-id]"
   - name: revert
     description: 指定したステップ以降のファイル変更を戻し、そのステップの前まで会話を巻き戻す

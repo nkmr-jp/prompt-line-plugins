@@ -66,7 +66,7 @@ commands:
   - name: permissions
     description: ツールのパーミッションルール、承認設定、セキュリティポリシーを管理
   - name: plugin
-    description: "公式 Antigravity プラグインマーケットプレイスの対話型マネージャー。skills・MCP サーバー・サブエージェント・ルール・hooks をまとめたプラグインを閲覧・インストールでき、ローカルディレクトリからのインストールにも対応する。プラグインに必要な設定は有効化前にフォームで入力でき、インストール済みプラグインは /plugin install, uninstall, enable, disable, list で管理する。インストール済みプラグインには Configure MCP servers... の行があり、無効化・再有効化せずにいつでも MCP サーバーの変数を設定・変更できる。値が不足しているプラグインには ⚠ needs setup と表示され、保存すると有効なプラグインのサーバーが再起動する（1.4.6 以降）。Discover タブではマーケットプレイスのプラグインが Antigravity プラグインマーケットプレイスと同じセクションに分けて表示され、複数のセクションに属するプラグインはそれぞれに表示される（1.4.9 以降）"
+    description: "公式 Antigravity プラグインマーケットプレイスの対話型マネージャー。skills・MCP サーバー・サブエージェント・ルール・hooks をまとめたプラグインを閲覧・インストールでき、ローカルディレクトリからのインストールにも対応する。プラグインに必要な設定は有効化前にフォームで入力でき、インストール済みプラグインは /plugin install, uninstall, enable, disable, list で管理する。インストール済みプラグインには Configure MCP servers... の行があり、無効化・再有効化せずにいつでも MCP サーバーの変数を設定・変更できる。値が不足しているプラグインには ⚠ needs setup と表示され、保存すると有効なプラグインのサーバーが再起動する（1.4.6 以降）。Discover タブではマーケットプレイスのプラグインが Antigravity プラグインマーケットプレイスと同じセクションに分けて表示され、複数のセクションに属するプラグインはそれぞれに表示される（1.4.9 以降）。長いシェルフは先頭 6 件のあとに ⋯ N more — enter to show の行が表示され、Ctrl+E でカーソル位置のシェルフを展開・折りたたみ、[ と ] で前後のシェルフへ移動できる（1.4.11 以降）"
   - name: remote-control
     description: "現在のターミナルセッションの Remote Control を切り替える。セッション単位の接続を作成し、別のデバイスからセッションを追跡・操作できるようにする。有効化するとセッションのホスト名と会話へのリンクが表示される。トンネルは CLI インスタンスが開いている間だけ維持され、/remote-control off の実行またはセッションの終了で切断される。起動時の --remote-control と同等。マシン全体で常時接続するには agy remote-control start を使う。Application Default Credentials（AGY_ADC_AUTH）でサインインしている場合は Remote Control が未対応のため表示されない"
     argument-hint: "[on|off]"

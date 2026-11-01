@@ -135,7 +135,7 @@ commands:
   - name: repo
     description: Pick the repositories for this cloud session
   - name: resume
-    description: Open the interactive session picker, or resume a specific session by ID. With no ID, the picker opens over the running session
+    description: Open the interactive session picker (all sessions, newest first; Alt+G narrows it to the current directory), or resume a specific session by ID. With no ID, the picker opens over the running session
     argument-hint: "[session-id]"
   - name: revert
     description: Revert file changes from a specific step onwards and rewind the conversation to before that step
