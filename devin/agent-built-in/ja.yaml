@@ -49,8 +49,13 @@ commands:
   - name: cloud-sessions
     description: 最近のcloud Devinセッションの対話的ピッカーを開く。矢印キーで移動、入力でフィルタ、Enterで選択、Escでキャンセル。--all で組織全体のセッションを表示（insiderのみ）
     argument-hint: "[--all]"
+  - name: code
+    description: Codeモード（コードの作成・編集）に切り替える。またはプロンプトを渡してCodeモードで実行する
+    argument-hint: "[prompt]"
   - name: compact
     description: 会話のコンパクトを強制実行する
+  - name: confetti
+    description: 紙吹雪を舞わせてお祝いする
   - name: config
     description: 対話的な設定エディタを開く
   - name: context

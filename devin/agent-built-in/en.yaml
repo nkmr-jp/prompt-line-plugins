@@ -49,8 +49,13 @@ commands:
   - name: cloud-sessions
     description: Open an interactive picker of your recent cloud Devin sessions. Use arrow keys to navigate, type to filter, Enter to select, Esc to cancel. Pass --all for org-wide sessions (insiders only)
     argument-hint: "[--all]"
+  - name: code
+    description: Switch to Code mode (write and edit code), or run a prompt in it
+    argument-hint: "[prompt]"
   - name: compact
     description: Force conversation compaction
+  - name: confetti
+    description: Celebrate with a burst of confetti
   - name: config
     description: Open the interactive config editor
   - name: context
