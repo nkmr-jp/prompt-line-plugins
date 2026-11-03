@@ -32,10 +32,14 @@ commands:
     description: Choose the cloud environment for the chat
   - name: compact
     description: Summarize the visible conversation to free tokens
+  - name: config
+    description: Search and change terminal preferences such as the theme, notifications, keyboard shortcuts, or text selection. Browse settings by group or press / to search; changes are saved automatically
   - name: copy
-    description: Copy the latest completed Codex output
+    description: "Copy a response, code block, or quote. In scrollback mode, choose the whole latest completed response, a code block, or a quote; in fullscreen mode, select a block in the transcript. After /status, copies the full status or an individual field. Ctrl+O copies the latest completed response directly"
   - name: daemon
-    description: "Open background server controls: review the server connection, then install the latest public stable release or use the current CLI build for the local background server. Confirming an update exits Codex and may interrupt active work. For a remote connection, manage the server on its host"
+    description: "Open background server controls: review the server connection, then install the latest public stable release or use the current CLI build for the local background server. Confirming an update exits Codex and may interrupt active work. Choose Restart background server to restart a managed local server; Codex reconnects automatically, though the restart may interrupt active or queued work in other chats. For a remote connection, manage the server on its host"
+  - name: daybreak
+    description: Toggle Daybreak (an approved cyber access program) on or off when you use the OpenAI provider and your account and model are eligible. Applies to the current chat and is saved as the default for future chats
   - name: debug-config
     description: Print config layer and requirements diagnostics
   - name: delete
@@ -65,7 +69,7 @@ commands:
   - name: ide-context
     description: Turn automatic IDE context on or off
   - name: import
-    description: Import Claude Code or Cursor setup, project files, and recent chats. Session discovery covers up to 50 chats from the last 30 days
+    description: Import Claude Code or Cursor setup, project files, and recent chats. Session discovery covers up to 50 chats from the last 30 days. When connected to a local daemon or remote server, files are read and imported on the machine running it. Wait until the current task finishes before importing
   - name: init
     description: Generate an AGENTS.md scaffold in the current directory
   - name: keymap
@@ -89,8 +93,8 @@ commands:
     description: Start fresh conversation within same CLI session, optionally naming it
     argument-hint: "[name]"
   - name: permissions
-    description: "Set what Codex can do without asking first. Without arguments, opens the picker; pass a built-in or custom permission profile ID to select it directly, for example /permissions :read-only, with :ask-for-approval and :approve-for-me also accepted (0.164.0 or later). Alias: /approvals"
-    argument-hint: "[profile-id]"
+    description: "Set what Codex can do without asking first. Without arguments, opens the picker; pass a built-in or custom permission profile ID to select it directly, for example /permissions :read-only, with :ask-for-approval and :approve-for-me also accepted (0.164.0 or later). Add --approval-policy=<policy> and --reviewer=user|auto_review to set how approval requests are handled for this session. Alias: /approvals"
+    argument-hint: "[profile-id] [--approval-policy=<policy>] [--reviewer=user|auto_review]"
   - name: personality
     description: Select communication style (friendly, pragmatic, none)
   - name: pets
@@ -101,6 +105,8 @@ commands:
     argument-hint: "[prompt]"
   - name: plugins
     description: Inspect installed and discoverable plugins with their tools
+  - name: presets
+    description: "Save and run prompts or slash commands. Press n to save a prompt or slash command in a numbered slot, s to create a preset from the current model, permissions, terminal title, or status line, and a preset's number to run it"
   - name: project
     description: Choose a project for new chats
   - name: ps
@@ -120,7 +126,7 @@ commands:
     description: Rename the current session
     argument-hint: "[name]"
   - name: resume
-    description: Reload a previously saved conversation
+    description: "Reload a previously saved conversation. The picker offers search scopes: Cwd (current directory), Repo (includes linked local worktrees, when available), and All (across directories)"
   - name: review
     description: Start code review mode to review uncommitted changes, or compare against a base branch
   - name: sandbox-add-read-dir
@@ -136,7 +142,8 @@ commands:
   - name: status
     description: Show the chat ID, context usage, and rate limits
   - name: statusline
-    description: Configure and reorder footer status-line items (model, context, limits, git, tokens, session), persisted in config.toml
+    description: Configure and reorder footer status-line items (model, context, limits, git, tokens, session), persisted in config.toml. List items in display order to set the footer for this session only (for example, /statusline model project-name), or use --clear to hide all items for the session
+    argument-hint: "[items...|--clear]"
   - name: stop
     description: "Cancel all background terminals for the current session. Alias: /clean"
   - name: subagents
@@ -144,7 +151,8 @@ commands:
   - name: theme
     description: Preview and persist a terminal syntax-highlighting theme
   - name: title
-    description: Configure terminal window or tab title fields interactively, picking and reordering items such as project, status, thread, branch, model, and task progress
+    description: Configure terminal window or tab title fields interactively, picking and reordering items such as project, status, thread, branch, model, and task progress. List items in display order to set the title for this session only (for example, /title project-name model), or use --clear to clear the session's title items
+    argument-hint: "[items...|--clear]"
   - name: tui
     description: "Choose the terminal mode (scrollback or fullscreen) for the next launch; restart Codex to apply it. Launch overrides such as --no-alt-screen still apply"
   - name: usage
@@ -152,6 +160,9 @@ commands:
     argument-hint: "[daily|weekly|cumulative]"
   - name: vim
     description: Toggle Vim mode for composer editing
+  - name: voice
+    description: "Start or stop a voice conversation when your CLI build and session support voice (also F8). /voice mute turns the microphone on or off, /voice stop ends the conversation, and /voice settings chooses a voice for future conversations"
+    argument-hint: "[mute|stop|settings]"
   - name: warnings
     description: "View retained warnings and their diagnostic details"
   - name: worktree

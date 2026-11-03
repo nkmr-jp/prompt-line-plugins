@@ -49,8 +49,13 @@ commands:
   - name: cloud-sessions
     description: Open an interactive picker of your recent cloud Devin sessions. Use arrow keys to navigate, type to filter, Enter to select, Esc to cancel. Pass --all for org-wide sessions (insiders only)
     argument-hint: "[--all]"
+  - name: code
+    description: Switch to Code mode (write and edit code), or run a prompt in it
+    argument-hint: "[prompt]"
   - name: compact
     description: Force conversation compaction
+  - name: confetti
+    description: Celebrate with a burst of confetti
   - name: config
     description: Open the interactive config editor
   - name: context
@@ -135,7 +140,7 @@ commands:
   - name: repo
     description: Pick the repositories for this cloud session
   - name: resume
-    description: Open the interactive session picker, or resume a specific session by ID. With no ID, the picker opens over the running session
+    description: Open the interactive session picker (all sessions, newest first; Alt+G narrows it to the current directory), or resume a specific session by ID. With no ID, the picker opens over the running session
     argument-hint: "[session-id]"
   - name: revert
     description: Revert file changes from a specific step onwards and rewind the conversation to before that step

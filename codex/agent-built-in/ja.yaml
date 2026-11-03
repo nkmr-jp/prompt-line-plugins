@@ -32,10 +32,14 @@ commands:
     description: チャットで使用するクラウド環境を選択する
   - name: compact
     description: 表示中の会話を要約してトークンを解放する
+  - name: config
+    description: テーマ・通知・キーボードショートカット・テキスト選択などのターミナル設定を検索・変更する。グループ別に閲覧するか / キーで検索でき、変更は自動保存される
   - name: copy
-    description: 最新の完了済みCodex出力をクリップボードにコピーする
+    description: "応答・コードブロック・引用をコピーする。スクロールバックモードでは最新の完了済み応答全体・コードブロック・引用から選び、フルスクリーンモードではトランスクリプト内のブロックを選択する。/status の後に使うとステータス全体または個別の項目をコピーできる。最新の完了済み応答は Ctrl+O で直接コピーできる"
   - name: daemon
-    description: "バックグラウンドサーバーの管理画面を開く。サーバー接続を確認し、ローカルのバックグラウンドサーバーに最新の公開安定版をインストールするか、現在の CLI ビルドを使うかを選べる。更新を確定すると Codex が終了し、実行中の作業が中断されることがある。リモート接続の場合はサーバーのホスト側で管理する"
+    description: "バックグラウンドサーバーの管理画面を開く。サーバー接続を確認し、ローカルのバックグラウンドサーバーに最新の公開安定版をインストールするか、現在の CLI ビルドを使うかを選べる。更新を確定すると Codex が終了し、実行中の作業が中断されることがある。管理対象のローカルサーバーは「Restart background server」で再起動でき、Codex は自動で再接続する（他のチャットの実行中・キュー中の作業が中断されることがある）。リモート接続の場合はサーバーのホスト側で管理する"
+  - name: daybreak
+    description: OpenAI プロバイダーを使用し、アカウントとモデルが対象の場合に Daybreak（承認制のサイバーアクセスプログラム）のオン／オフを切り替える。現在のチャットに適用され、以降のチャットのデフォルトとしても保存される
   - name: debug-config
     description: 設定レイヤーと要件の診断情報を表示する
   - name: delete
@@ -65,7 +69,7 @@ commands:
   - name: ide-context
     description: 自動IDEコンテキストのオン/オフを切り替える
   - name: import
-    description: Claude CodeまたはCursorのセットアップ・プロジェクトファイル・最近のチャットをインポートする。チャットは直近30日から最大50件が対象
+    description: Claude CodeまたはCursorのセットアップ・プロジェクトファイル・最近のチャットをインポートする。チャットは直近30日から最大50件が対象。ローカルデーモンやリモートサーバーに接続中は、そのサーバーが動くマシン上のファイルを読み込んでインポートする。実行中のタスクが終わってから開始すること
   - name: init
     description: 現在のディレクトリにAGENTS.mdのひな形を生成する
   - name: keymap
@@ -89,8 +93,8 @@ commands:
     description: 同じCLIセッション内で新しい会話を開始する。名前を指定することもできる
     argument-hint: "[name]"
   - name: permissions
-    description: "Codexが確認なしで実行できる操作を設定する。引数なしではピッカーを開く。組み込みまたはカスタムの権限プロファイル ID を渡すと直接選択でき（例: /permissions :read-only）、:ask-for-approval と :approve-for-me も指定できる（0.164.0 以降）。エイリアス: /approvals"
-    argument-hint: "[profile-id]"
+    description: "Codexが確認なしで実行できる操作を設定する。引数なしではピッカーを開く。組み込みまたはカスタムの権限プロファイル ID を渡すと直接選択でき（例: /permissions :read-only）、:ask-for-approval と :approve-for-me も指定できる（0.164.0 以降）。--approval-policy=<policy> と --reviewer=user|auto_review を付けると、このセッションでの承認リクエストの扱いも設定できる。エイリアス: /approvals"
+    argument-hint: "[profile-id] [--approval-policy=<policy>] [--reviewer=user|auto_review]"
   - name: personality
     description: コミュニケーションスタイルを選択する（friendly, pragmatic, none）
   - name: pets
@@ -101,6 +105,8 @@ commands:
     argument-hint: "[prompt]"
   - name: plugins
     description: インストール済みおよび発見可能なプラグインとそのツールを表示する
+  - name: presets
+    description: "プロンプトやスラッシュコマンドを保存・実行する。n キーでプロンプトやスラッシュコマンドを番号付きスロットに保存し、s キーで現在のモデル・権限・ターミナルタイトル・ステータスラインからプリセットを作成する。プリセットの番号を押すと実行できる"
   - name: project
     description: 新しいチャット用のプロジェクトを選択する
   - name: ps
@@ -120,7 +126,7 @@ commands:
     description: 現在のセッションの名前を変更する
     argument-hint: "[name]"
   - name: resume
-    description: 以前に保存した会話をリロードする
+    description: "以前に保存した会話をリロードする。ピッカーでは検索範囲を選べる: Cwd（現在のディレクトリ）、Repo（利用可能な場合、リンクされたローカル worktree も含む）、All（全ディレクトリ）"
   - name: review
     description: コードレビューモードを開始し、未コミットの変更をレビューするか、ベースブランチとの差分を比較する
   - name: sandbox-add-read-dir
@@ -136,7 +142,8 @@ commands:
   - name: status
     description: チャットID・コンテキスト使用量・レート制限を表示する
   - name: statusline
-    description: フッターのステータスライン項目（model・context・limits・git・tokens・session）を設定・並べ替え、config.toml に永続化する
+    description: "フッターのステータスライン項目（model・context・limits・git・tokens・session）を設定・並べ替え、config.toml に永続化する。項目を表示順に並べて渡すとこのセッションだけのフッターを設定でき（例: /statusline model project-name）、--clear でセッション中の全項目を非表示にする"
+    argument-hint: "[items...|--clear]"
   - name: stop
     description: "現在のセッションのバックグラウンドターミナルをすべてキャンセルする。エイリアス: /clean"
   - name: subagents
@@ -144,7 +151,8 @@ commands:
   - name: theme
     description: ターミナルのシンタックスハイライトテーマをプレビューして永続化する
   - name: title
-    description: ターミナルウィンドウ／タブのタイトル項目を対話的に設定する。project・status・thread・branch・model・タスク進捗などの項目を選択・並べ替えできる
+    description: "ターミナルウィンドウ／タブのタイトル項目を対話的に設定する。project・status・thread・branch・model・タスク進捗などの項目を選択・並べ替えできる。項目を表示順に並べて渡すとこのセッションだけのタイトルを設定でき（例: /title project-name model）、--clear でセッションのタイトル項目をクリアする"
+    argument-hint: "[items...|--clear]"
   - name: tui
     description: "次回起動時のターミナルモード（スクロールバックまたはフルスクリーン）を選ぶ。反映には Codex の再起動が必要。--no-alt-screen などの起動時オプションは引き続き優先される"
   - name: usage
@@ -152,6 +160,9 @@ commands:
     argument-hint: "[daily|weekly|cumulative]"
   - name: vim
     description: コンポーザー編集用のVimモードを切り替える
+  - name: voice
+    description: "CLI ビルドとセッションが音声に対応している場合に、音声会話を開始・停止する（F8 でも可）。/voice mute でマイクのオン／オフ、/voice stop で会話の終了、/voice settings で今後の会話で使う声を選ぶ"
+    argument-hint: "[mute|stop|settings]"
   - name: warnings
     description: "保持されている警告とその診断詳細を表示する"
   - name: worktree
