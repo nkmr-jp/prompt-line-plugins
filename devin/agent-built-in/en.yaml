@@ -140,7 +140,7 @@ commands:
   - name: repo
     description: Pick the repositories for this cloud session
   - name: resume
-    description: Open the interactive session picker (all sessions, newest first; Alt+G narrows it to the current directory), or resume a specific session by ID. With no ID, the picker opens over the running session
+    description: Open the interactive session picker (all sessions, newest first, with each session's project and age; search by project name, or press Alt+G to switch between the current directory and all projects, ordered by last activity), or resume a specific session by ID. With no ID, the picker opens over the running session
     argument-hint: "[session-id]"
   - name: revert
     description: Revert file changes from a specific step onwards and rewind the conversation to before that step
@@ -170,6 +170,8 @@ commands:
     description: Upgrade your subscription plan
   - name: usage
     description: Show estimated credit/ACU usage for the session, including usage from previous openings of a resumed session
+  - name: vim
+    description: Turn on Vim editing in the prompt box. Press Esc for Normal mode to navigate by word, edit text objects, or select text in Visual mode
   - name: workspace
     description: "List workspace directories. Alias: /workspaces"
 

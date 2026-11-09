@@ -12,7 +12,7 @@ commands:
     description: Add a workspace directory for file access during the current session
     argument-hint: "<path>"
   - name: agents
-    description: List available custom agents and select an agent for the session
+    description: "List available custom agents and select an agent for the session. Subagent rows show each subagent's model next to its name (hidden on narrow terminals); press Enter on a subagent to view details, including its full model and effort (1.5.3 or later)"
   - name: artifact
     description: "Browse, view, or review generated artifacts and walkthroughs. Alias: /artifacts"
   - name: btw
@@ -81,7 +81,7 @@ commands:
   - name: rewind
     description: "Rewind the conversation to a previous turn or checkpoint. Alias: /undo"
   - name: skills
-    description: List and manage active ambient, global, and workspace skills
+    description: "List and manage active ambient, global, and workspace skills. In --remote-agent sessions, skills from cloud plugins connected with /plugin are listed grouped by plugin under Remote agent skills, and /skills reload lists them again (1.5.2 or later)"
   - name: statusline
     description: "Toggle statusline on/off or configure a custom shell command to render the statusline. Usage: /statusline [<command>]"
     argument-hint: "[<command>]"

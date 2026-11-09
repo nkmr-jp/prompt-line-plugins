@@ -140,7 +140,7 @@ commands:
   - name: repo
     description: このcloudセッションで使うリポジトリを選択する
   - name: resume
-    description: 対話的なセッションピッカーを開く（全セッションを新しい順に表示し、Alt+G で現在のディレクトリのセッションに絞り込める）。またはIDを指定して特定のセッションを再開する。IDを省略すると、実行中のセッションの上にピッカーが開く
+    description: 対話的なセッションピッカーを開く（全セッションを新しい順に、各セッションのプロジェクトと経過時間つきで表示する。プロジェクト名で検索でき、Alt+G で現在のディレクトリと全プロジェクト（最終アクティビティ順）を切り替えられる）。またはIDを指定して特定のセッションを再開する。IDを省略すると、実行中のセッションの上にピッカーが開く
     argument-hint: "[session-id]"
   - name: revert
     description: 指定したステップ以降のファイル変更を戻し、そのステップの前まで会話を巻き戻す
@@ -170,6 +170,8 @@ commands:
     description: サブスクリプションプランをアップグレードする
   - name: usage
     description: セッションの推定credit/ACU使用量を表示する。再開したセッションの以前のオープン分の使用量も含む
+  - name: vim
+    description: プロンプト入力欄で Vim 編集を有効にする。Esc で Normal モードに入り、単語単位の移動、テキストオブジェクトの編集、Visual モードでのテキスト選択ができる
   - name: workspace
     description: "ワークスペースディレクトリを一覧表示する。エイリアス: /workspaces"
 

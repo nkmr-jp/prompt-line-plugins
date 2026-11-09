@@ -12,7 +12,7 @@ commands:
     description: セッション中のファイルアクセスのために対象の作業ディレクトリを追加
     argument-hint: "<path>"
   - name: agents
-    description: 利用可能なカスタムエージェントの一覧を表示し、セッションで使用するエージェントを選択
+    description: 利用可能なカスタムエージェントの一覧を表示し、セッションで使用するエージェントを選択。サブエージェントの行には名前の横にモデルが表示され（狭いターミナルでは非表示）、サブエージェントで Enter を押すとモデルと effort を含む詳細を表示できる（1.5.3 以降）
   - name: artifact
     description: "生成された成果物（アーティファクト）やウォークスルーを閲覧・確認。エイリアス: /artifacts"
   - name: btw
@@ -81,7 +81,7 @@ commands:
   - name: rewind
     description: "会話を前のターンまたはチェックポイントに巻き戻す。エイリアス: /undo"
   - name: skills
-    description: 有効なアンビエント、グローバル、ワークスペーススキルの一覧を表示
+    description: 有効なアンビエント、グローバル、ワークスペーススキルの一覧を表示。--remote-agent セッションでは /plugin で接続したクラウドプラグインのスキルが Remote agent skills の下にプラグインごとにまとめて表示され、/skills reload で再表示できる（1.5.2 以降）
   - name: statusline
     description: "ステータスラインの表示切り替え、または描画用のカスタムシェルコマンドを設定。使い方: /statusline [<command>]"
     argument-hint: "[<command>]"
