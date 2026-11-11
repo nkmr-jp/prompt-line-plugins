@@ -120,7 +120,7 @@ commands:
   - name: keybindings
     description: Open your keyboard shortcuts file
   - name: list-agents
-    description: "List the subagents, agent team teammates, and other Claude Code sessions Claude can message, with the name to use for each. Only available in sessions where cross-session messaging is enabled, and requires v2.1.224 or later; teammate rows and the first line showing this session's own name require v2.1.239 or later. Alias: /peers"
+    description: "List the subagents, agent team teammates, and other Claude Code sessions Claude can message, with the name to use for each. Only available in sessions where cross-session messaging is enabled; teammate rows and the first line showing this session's own name require v2.1.239 or later. Alias: /peers"
   - name: login
     description: Sign in to your Anthropic account
   - name: logout
@@ -185,7 +185,7 @@ commands:
     description: "Resume a conversation by ID or name, or open the session picker. Background sessions appear marked bg. Resuming one that is still running, from the picker or by ID or name, opens that session: your current conversation moves to the background and this terminal attaches to the running one. Press ← on an empty prompt to return to agent view, which also lists the conversation you left. Before v2.1.285, Claude Code refused and told you to open the session with claude attach or stop it first. Alias: /continue"
     argument-hint: "[session]"
   - name: review
-    description: "Alias of /code-review as of v2.1.223: reviews the current diff, or a PR number, branch, or path you pass, such as /review 1234, and takes the same effort levels and flags. For a deep cloud review use /code-review ultra. Earlier versions ran a fast, single-pass, read-only review of a GitHub pull request by number"
+    description: "Alias of /code-review: reviews the current diff, or a PR number, branch, or path you pass, such as /review 1234, and takes the same effort levels and flags. With no level given, it reuses the last low through max level you typed. For a deep cloud review use /code-review ultra"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [--max-findings n|all|default] [pr#|branch|path]"
   - name: rewind
     description: "Rewind the conversation and/or code to a previous point, or summarize from a selected message. See checkpointing. Aliases: /checkpoint, /undo"

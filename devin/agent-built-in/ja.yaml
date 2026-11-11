@@ -19,8 +19,8 @@ commands:
   - name: accept-edits
     description: Accept Editsモードに切り替える（ワークスペース内のファイル編集を自動承認）
   - name: add-dir
-    description: ワークスペースにディレクトリを追加する
-    argument-hint: "<path>"
+    description: ワークスペースにディレクトリを追加する。パスを省略すると追加済みのディレクトリを一覧表示する
+    argument-hint: "[path]"
   - name: archive
     description: このcloudセッションをアーカイブする
   - name: ask
@@ -143,8 +143,8 @@ commands:
     description: 対話的なセッションピッカーを開く（全セッションを新しい順に、各セッションのプロジェクトと経過時間つきで表示する。プロジェクト名で検索でき、Alt+G で現在のディレクトリと全プロジェクト（最終アクティビティ順）を切り替えられる）。またはIDを指定して特定のセッションを再開する。IDを省略すると、実行中のセッションの上にピッカーが開く
     argument-hint: "[session-id]"
   - name: revert
-    description: 指定したステップ以降のファイル変更を戻し、そのステップの前まで会話を巻き戻す
-    argument-hint: "<step>"
+    description: 対話式のステップピッカーを開く。ステップを指定すると、そのステップ以降のファイル変更を戻し、そのステップの前まで会話を巻き戻す（/steps を参照）
+    argument-hint: "[step]"
   - name: rm-session
     description: セッションとそのすべてのデータを不可逆に削除する
     argument-hint: "<session-id>"

@@ -120,7 +120,7 @@ commands:
   - name: keybindings
     description: キーボードショートカットの設定ファイルを開く
   - name: list-agents
-    description: "Claude がメッセージを送れるサブエージェント・agent team のチームメイト・他の Claude Code セッションを、指定に使う名前とあわせて一覧表示する。クロスセッションメッセージングが有効なセッションでのみ利用でき、v2.1.224 以降が必要。チームメイトの行と、このセッション自身の名前を示す先頭行の表示には v2.1.239 以降が必要。エイリアス: /peers"
+    description: "Claude がメッセージを送れるサブエージェント・agent team のチームメイト・他の Claude Code セッションを、指定に使う名前とあわせて一覧表示する。クロスセッションメッセージングが有効なセッションでのみ利用できる。チームメイトの行と、このセッション自身の名前を示す先頭行の表示には v2.1.239 以降が必要。エイリアス: /peers"
   - name: login
     description: Anthropicアカウントにサインインする
   - name: logout
@@ -185,7 +185,7 @@ commands:
     description: "IDまたは名前で会話を再開するか、セッションピッカーを開く。バックグラウンドセッションは bg 付きで表示される。実行中のセッションをピッカーまたは ID・名前で再開するとそのセッションが開き、現在の会話はバックグラウンドへ移ってこのターミナルが実行中のセッションにアタッチする。空のプロンプトで ← を押すとエージェントビューに戻り、離れた会話もそこに一覧表示される。v2.1.285 より前は再開を拒否し、claude attach で開くか先に停止するよう案内していた。エイリアス: /continue"
     argument-hint: "[session]"
   - name: review
-    description: "v2.1.223 以降は /code-review のエイリアスで、現在の差分、または渡した PR 番号・ブランチ・パス（例: /review 1234）をレビューする。effort レベルとフラグも /code-review と同じものが使える。クラウド上の詳細レビューは /code-review ultra を使う。以前のバージョンでは GitHub Pull Request を番号で指定した高速なシングルパスの読み取り専用レビューだった"
+    description: "/code-review のエイリアスで、現在の差分、または渡した PR 番号・ブランチ・パス（例: /review 1234）をレビューする。effort レベルとフラグも /code-review と同じものが使える。レベルを指定しない場合は、前回入力した low〜max のレベルを再利用する。クラウド上の詳細レビューは /code-review ultra を使う"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [--max-findings n|all|default] [pr#|branch|path]"
   - name: rewind
     description: "会話やコードを以前のポイントに巻き戻す、または選択したメッセージから要約する。チェックポイント機能参照。エイリアス: /checkpoint, /undo"

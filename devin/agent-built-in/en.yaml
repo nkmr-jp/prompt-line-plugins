@@ -19,8 +19,8 @@ commands:
   - name: accept-edits
     description: Switch to Accept Edits mode (auto-approve file edits in workspace)
   - name: add-dir
-    description: Add an additional workspace directory
-    argument-hint: "<path>"
+    description: Add an additional workspace directory. With no path, list the directories you have added
+    argument-hint: "[path]"
   - name: archive
     description: Archive this cloud session
   - name: ask
@@ -143,8 +143,8 @@ commands:
     description: Open the interactive session picker (all sessions, newest first, with each session's project and age; search by project name, or press Alt+G to switch between the current directory and all projects, ordered by last activity), or resume a specific session by ID. With no ID, the picker opens over the running session
     argument-hint: "[session-id]"
   - name: revert
-    description: Revert file changes from a specific step onwards and rewind the conversation to before that step
-    argument-hint: "<step>"
+    description: Open the interactive step picker, or revert file changes from a specific step onwards and rewind the conversation to before that step (see /steps)
+    argument-hint: "[step]"
   - name: rm-session
     description: Irreversibly delete a session and all its data
     argument-hint: "<session-id>"
