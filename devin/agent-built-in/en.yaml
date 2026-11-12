@@ -19,8 +19,8 @@ commands:
   - name: accept-edits
     description: Switch to Accept Edits mode (auto-approve file edits in workspace)
   - name: add-dir
-    description: Add an additional workspace directory
-    argument-hint: "<path>"
+    description: Add an additional workspace directory. With no path, list the directories you have added
+    argument-hint: "[path]"
   - name: archive
     description: Archive this cloud session
   - name: ask
@@ -38,7 +38,8 @@ commands:
     description: Report a bug to the Devin CLI developers
     argument-hint: "[description]"
   - name: bypass
-    description: "Switch to Bypass mode (auto-approve all actions). Aliases: /yolo, /dangerous"
+    description: "Switch to Bypass mode (auto-approve all actions), or run a prompt in it. Aliases: /yolo, /dangerous"
+    argument-hint: "[prompt]"
   - name: clear
     description: "Clear conversation history and start a new session. Alias: /new"
   - name: cloud
@@ -140,11 +141,11 @@ commands:
   - name: repo
     description: Pick the repositories for this cloud session
   - name: resume
-    description: Open the interactive session picker (all sessions, newest first; Alt+G narrows it to the current directory), or resume a specific session by ID. With no ID, the picker opens over the running session
+    description: Open the interactive session picker (all sessions, newest first, with each session's project and age; search by project name, or press Alt+G to switch between the current directory and all projects, ordered by last activity), or resume a specific session by ID. With no ID, the picker opens over the running session
     argument-hint: "[session-id]"
   - name: revert
-    description: Revert file changes from a specific step onwards and rewind the conversation to before that step
-    argument-hint: "<step>"
+    description: Open the interactive step picker, or revert file changes from a specific step onwards and rewind the conversation to before that step (see /steps)
+    argument-hint: "[step]"
   - name: rm-session
     description: Irreversibly delete a session and all its data
     argument-hint: "<session-id>"
@@ -155,7 +156,8 @@ commands:
   - name: shortcuts
     description: Browse keyboard shortcuts in an interactive, searchable list grouped by category. Press Enter on a row to rebind it, and see each action's context.action identifier
   - name: smart
-    description: Switch to Smart mode (auto-approve actions a fast model judges safe). Rolling out gradually
+    description: Switch to Smart mode (auto-approve actions a fast model judges safe), or run a prompt in it. Rolling out gradually
+    argument-hint: "[prompt]"
   - name: ssh
     description: SSH into this cloud session's VM through the Devin SSH gateway, approving the connection with your logged-in credentials so no browser round-trip is needed
   - name: steps
@@ -170,6 +172,8 @@ commands:
     description: Upgrade your subscription plan
   - name: usage
     description: Show estimated credit/ACU usage for the session, including usage from previous openings of a resumed session
+  - name: vim
+    description: Turn on Vim editing in the prompt box. Press Esc for Normal mode to navigate by word, edit text objects, or select text in Visual mode
   - name: workspace
     description: "List workspace directories. Alias: /workspaces"
 

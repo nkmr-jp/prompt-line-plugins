@@ -19,8 +19,8 @@ commands:
   - name: accept-edits
     description: Accept Editsモードに切り替える（ワークスペース内のファイル編集を自動承認）
   - name: add-dir
-    description: ワークスペースにディレクトリを追加する
-    argument-hint: "<path>"
+    description: ワークスペースにディレクトリを追加する。パスを省略すると追加済みのディレクトリを一覧表示する
+    argument-hint: "[path]"
   - name: archive
     description: このcloudセッションをアーカイブする
   - name: ask
@@ -38,7 +38,8 @@ commands:
     description: Devin CLIの開発者にバグを報告する
     argument-hint: "[description]"
   - name: bypass
-    description: "Bypassモードに切り替える（すべての操作を自動承認）。エイリアス: /yolo, /dangerous"
+    description: "Bypassモードに切り替える（すべての操作を自動承認）。プロンプトを指定するとそのモードで実行する。エイリアス: /yolo, /dangerous"
+    argument-hint: "[prompt]"
   - name: clear
     description: "会話履歴をクリアして新しいセッションを開始する。エイリアス: /new"
   - name: cloud
@@ -140,11 +141,11 @@ commands:
   - name: repo
     description: このcloudセッションで使うリポジトリを選択する
   - name: resume
-    description: 対話的なセッションピッカーを開く（全セッションを新しい順に表示し、Alt+G で現在のディレクトリのセッションに絞り込める）。またはIDを指定して特定のセッションを再開する。IDを省略すると、実行中のセッションの上にピッカーが開く
+    description: 対話的なセッションピッカーを開く（全セッションを新しい順に、各セッションのプロジェクトと経過時間つきで表示する。プロジェクト名で検索でき、Alt+G で現在のディレクトリと全プロジェクト（最終アクティビティ順）を切り替えられる）。またはIDを指定して特定のセッションを再開する。IDを省略すると、実行中のセッションの上にピッカーが開く
     argument-hint: "[session-id]"
   - name: revert
-    description: 指定したステップ以降のファイル変更を戻し、そのステップの前まで会話を巻き戻す
-    argument-hint: "<step>"
+    description: 対話式のステップピッカーを開く。ステップを指定すると、そのステップ以降のファイル変更を戻し、そのステップの前まで会話を巻き戻す（/steps を参照）
+    argument-hint: "[step]"
   - name: rm-session
     description: セッションとそのすべてのデータを不可逆に削除する
     argument-hint: "<session-id>"
@@ -155,7 +156,8 @@ commands:
   - name: shortcuts
     description: カテゴリ別にグループ化された対話的・検索可能なリストでキーボードショートカットを閲覧する。行でEnterを押すと再バインドでき、各アクションのcontext.action識別子を確認できる
   - name: smart
-    description: Smartモードに切り替える（高速モデルが安全と判断した操作を自動承認）。段階的にロールアウト中
+    description: Smartモードに切り替える（高速モデルが安全と判断した操作を自動承認）。プロンプトを指定するとそのモードで実行する。段階的にロールアウト中
+    argument-hint: "[prompt]"
   - name: ssh
     description: Devin SSH gateway 経由でこのcloudセッションのVMにSSH接続する。ログイン済みの認証情報で接続を承認するため、ブラウザを経由する必要がない
   - name: steps
@@ -170,6 +172,8 @@ commands:
     description: サブスクリプションプランをアップグレードする
   - name: usage
     description: セッションの推定credit/ACU使用量を表示する。再開したセッションの以前のオープン分の使用量も含む
+  - name: vim
+    description: プロンプト入力欄で Vim 編集を有効にする。Esc で Normal モードに入り、単語単位の移動、テキストオブジェクトの編集、Visual モードでのテキスト選択ができる
   - name: workspace
     description: "ワークスペースディレクトリを一覧表示する。エイリアス: /workspaces"
 

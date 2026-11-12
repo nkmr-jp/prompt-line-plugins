@@ -12,11 +12,11 @@ commands:
     description: セッション中のファイルアクセスのために対象の作業ディレクトリを追加
     argument-hint: "<path>"
   - name: agents
-    description: 利用可能なカスタムエージェントの一覧を表示し、セッションで使用するエージェントを選択
+    description: 利用可能なカスタムエージェントの一覧を表示し、セッションで使用するエージェントを選択。サブエージェントの行には名前の横にモデルが表示され（狭いターミナルでは非表示）、サブエージェントで Enter を押すとモデルと effort を含む詳細を表示できる（1.5.3 以降）
   - name: artifact
     description: "生成された成果物（アーティファクト）やウォークスルーを閲覧・確認。エイリアス: /artifacts"
   - name: btw
-    description: "会話のコンテキストを消費せずに簡単な補足質問を行う。使い方: /btw <question>"
+    description: "会話のコンテキストを消費せずに簡単な補足質問を行う。補足質問ではファイルの読み取りや検索などのツールを呼び出せ、各呼び出しは /btw カードにリアルタイムで表示され、回答後に Called N tools の要約が出る。パーミッション確認が必要になるツール呼び出しは自動的に拒否される（1.5.0 以降）。使い方: /btw <question>"
     argument-hint: "<question>"
   - name: changelog
     description: リリースノートと最新の変更履歴を表示
@@ -29,7 +29,7 @@ commands:
     description: "会話をその場で要約してコンテキストウィンドウを空ける。引数なしでは会話を要約してターンを終え、メッセージを付けると要約したうえでそのメッセージに回答する。実行中は Compacting conversation... と表示され Esc で中断でき、完了すると要約したステップ数とコンテキストの縮小量を表示する（1.3.5 以降）。添付した画像・PDF などのファイルは要約後も残り、エージェントが引き続き参照できる（1.4.6 以降）"
     argument-hint: "[message]"
   - name: config
-    description: "設定パネルを開き、各種環境設定やオプションを管理。Agent Mode では Auto モード（Linux / macOS は 1.3.5 以降、Windows 11 バージョン 24H2 以降の個人用 Google アカウントは 1.4.4 以降）を選べ、ファイル編集や安全なコマンドは確認なしで承認し、取り消せない操作の前には確認を求める。Verbosity は high・medium・low から選べ（1.3.0 以降のデフォルトは medium。すべてのツール呼び出し・コマンド・思考を省略せず表示したい場合は high に戻す）、medium では関連するツール呼び出しや思考を `Explored N files` のような簡潔な要約にまとめつつ、コマンドと応答は表示したままにする。Queued Messages では、追加メッセージを現在のターン終了まで保留する（Queue、デフォルト）か、エージェントに割り込ませる（Send Immediately）かを選べ、settings.json の \"queuedMessages\": \"send-immediately\" でも設定できる。alt+m を押すとこの設定と逆の挙動でメッセージを送れる（1.4.0 以降）。選択中の設定項目で ←/→ を押すと、ドロップダウンを開かずに前後の値へ切り替えてすぐ保存できる（1.2.16 以降）。エイリアス: /settings"
+    description: "設定パネルを開き、各種環境設定やオプションを管理。Agent Mode では Auto モード（Linux / macOS は 1.3.5 以降、Windows 11 バージョン 24H2 以降の個人用 Google アカウントは 1.4.4 以降）を選べ、ファイル編集や安全なコマンドは確認なしで承認し、取り消せない操作の前には確認を求める。Verbosity は high・medium・low から選べ（1.3.0 以降のデフォルトは medium。すべてのツール呼び出し・コマンド・思考を省略せず表示したい場合は high に戻す）、medium では関連するツール呼び出しや思考を `Explored N files` のような簡潔な要約にまとめつつ、コマンドと応答は表示したままにする。Queued Messages では、追加メッセージを現在のターン終了まで保留する（Queue、デフォルト）か、エージェントに割り込ませる（Send Immediately）かを選べ、settings.json の \"queuedMessages\": \"send-immediately\" でも設定できる。alt+m を押すとこの設定と逆の挙動でメッセージを送れる（1.4.0 以降）。選択中の設定項目で ←/→ を押すと、ドロップダウンを開かずに前後の値へ切り替えてすぐ保存できる（1.2.16 以降）。`--remote-agent` セッションではタブが `TUI` と `Remote Agent` になる（以前は `Local` と `Remote`。1.5.1 以降）。エイリアス: /settings"
   - name: context
     description: コンテキスト使用状況、トークン消費量、モデル制限の詳細を表示
   - name: copy
@@ -66,7 +66,9 @@ commands:
   - name: permissions
     description: ツールのパーミッションルール、承認設定、セキュリティポリシーを管理
   - name: plugin
-    description: "公式 Antigravity プラグインマーケットプレイスの対話型マネージャー。skills・MCP サーバー・サブエージェント・ルール・hooks をまとめたプラグインを閲覧・インストールでき、ローカルディレクトリからのインストールにも対応する。プラグインに必要な設定は有効化前にフォームで入力でき、インストール済みプラグインは /plugin install, uninstall, enable, disable, list で管理する。インストール済みプラグインには Configure MCP servers... の行があり、無効化・再有効化せずにいつでも MCP サーバーの変数を設定・変更できる。値が不足しているプラグインには ⚠ needs setup と表示され、保存すると有効なプラグインのサーバーが再起動する（1.4.6 以降）。Discover タブではマーケットプレイスのプラグインが Antigravity プラグインマーケットプレイスと同じセクションに分けて表示され、複数のセクションに属するプラグインはそれぞれに表示される（1.4.9 以降）。長いシェルフは先頭 6 件のあとに ⋯ N more — enter to show の行が表示され、Ctrl+E でカーソル位置のシェルフを展開・折りたたみ、[ と ] で前後のシェルフへ移動できる（1.4.11 以降）"
+    description: "公式 Antigravity プラグインマーケットプレイスの対話型マネージャー。skills・MCP サーバー・サブエージェント・ルール・hooks をまとめたプラグインを閲覧・インストールでき、ローカルディレクトリからのインストールにも対応する。プラグインに必要な設定は有効化前にフォームで入力でき、インストール済みプラグインは /plugin install, uninstall, enable, disable, list で管理する。インストール済みプラグインには Configure MCP servers... の行があり、無効化・再有効化せずにいつでも MCP サーバーの変数を設定・変更できる。値が不足しているプラグインには ⚠ needs setup と表示され、保存すると有効なプラグインのサーバーが再起動する（1.4.6 以降）。Discover タブではマーケットプレイスのプラグインが Antigravity プラグインマーケットプレイスと同じセクションに分けて表示され、複数のセクションに属するプラグインはそれぞれに表示される（1.4.9 以降）。長いシェルフは先頭 6 件のあとに ⋯ N more — enter to show の行が表示され、Ctrl+E でカーソル位置のシェルフを展開・折りたたみ、[ と ] で前後のシェルフへ移動できる（1.4.11 以降）。パートナープラグインをインストールすると、MCP サーバーごとに Connect <plugin> 画面が表示されてサインインを求められ（Esc でスキップ）、未サインインのプラグインには Installed タブで ⚠ needs sign-in と Sign-in: の行が表示される（1.5.0 以降）"
+  - name: projects
+    description: "プロジェクト一覧を表示し、現在のプロジェクトに印を付ける。ローカルセッションでは、名前とフォルダ（絶対パス・~・ワークスペース相対パス）を指定したプロジェクトの作成、プロジェクト名やフォルダの変更、プロジェクトの切り替えができ、切り替えるとそのフォルダがワークスペースに追加されて新しい会話が始まる（ローカルプロジェクトは 1.5.0 以降）"
   - name: remote-control
     description: "現在のターミナルセッションの Remote Control を切り替える。セッション単位の接続を作成し、別のデバイスからセッションを追跡・操作できるようにする。有効化するとセッションのホスト名と会話へのリンクが表示される。トンネルは CLI インスタンスが開いている間だけ維持され、/remote-control off の実行またはセッションの終了で切断される。起動時の --remote-control と同等。マシン全体で常時接続するには agy remote-control start を使う。Application Default Credentials（AGY_ADC_AUTH）でサインインしている場合は Remote Control が未対応のため表示されない"
     argument-hint: "[on|off]"
@@ -79,10 +81,13 @@ commands:
   - name: rewind
     description: "会話を前のターンまたはチェックポイントに巻き戻す。エイリアス: /undo"
   - name: skills
-    description: 有効なアンビエント、グローバル、ワークスペーススキルの一覧を表示
+    description: 有効なアンビエント、グローバル、ワークスペーススキルの一覧を表示。--remote-agent セッションでは /plugin で接続したクラウドプラグインのスキルが Remote agent skills の下にプラグインごとにまとめて表示され、/skills reload で再表示できる（1.5.2 以降）
   - name: statusline
     description: "ステータスラインの表示切り替え、または描画用のカスタムシェルコマンドを設定。使い方: /statusline [<command>]"
     argument-hint: "[<command>]"
+  - name: swarm
+    description: "（プレビュー・クォータ消費大）swarm を開始する。エージェントがコーディネーターになってワーカーエージェントを追加し、各ワーカーは自分の会話でタスクを並列に進め、共有の掲示板を通じて協力する。ワーカーは /model ピッカーにある任意のモデルで動かせる。/swarm board で現在の swarm を全画面でライブ表示し、Roster・Posts・Message の各ペインを確認できる（alt+s でも開く）。各ワーカーが別個のエージェントとしてクォータを消費する（1.5.5 以降）"
+    argument-hint: "<task>|board"
   - name: tasks
     description: バックグラウンドで実行中のサブエージェントやタスクを一覧表示・管理。1.3.1 以降は、エージェントがスケジュールしたタイマーや定期ジョブ、バックグラウンドで動作中のその他のツールも表示され、completed または failed として示される
   - name: title
