@@ -38,7 +38,8 @@ commands:
     description: Devin CLIの開発者にバグを報告する
     argument-hint: "[description]"
   - name: bypass
-    description: "Bypassモードに切り替える（すべての操作を自動承認）。エイリアス: /yolo, /dangerous"
+    description: "Bypassモードに切り替える（すべての操作を自動承認）。プロンプトを指定するとそのモードで実行する。エイリアス: /yolo, /dangerous"
+    argument-hint: "[prompt]"
   - name: clear
     description: "会話履歴をクリアして新しいセッションを開始する。エイリアス: /new"
   - name: cloud
@@ -155,7 +156,8 @@ commands:
   - name: shortcuts
     description: カテゴリ別にグループ化された対話的・検索可能なリストでキーボードショートカットを閲覧する。行でEnterを押すと再バインドでき、各アクションのcontext.action識別子を確認できる
   - name: smart
-    description: Smartモードに切り替える（高速モデルが安全と判断した操作を自動承認）。段階的にロールアウト中
+    description: Smartモードに切り替える（高速モデルが安全と判断した操作を自動承認）。プロンプトを指定するとそのモードで実行する。段階的にロールアウト中
+    argument-hint: "[prompt]"
   - name: ssh
     description: Devin SSH gateway 経由でこのcloudセッションのVMにSSH接続する。ログイン済みの認証情報で接続を承認するため、ブラウザを経由する必要がない
   - name: steps

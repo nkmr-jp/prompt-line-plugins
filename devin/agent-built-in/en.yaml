@@ -38,7 +38,8 @@ commands:
     description: Report a bug to the Devin CLI developers
     argument-hint: "[description]"
   - name: bypass
-    description: "Switch to Bypass mode (auto-approve all actions). Aliases: /yolo, /dangerous"
+    description: "Switch to Bypass mode (auto-approve all actions), or run a prompt in it. Aliases: /yolo, /dangerous"
+    argument-hint: "[prompt]"
   - name: clear
     description: "Clear conversation history and start a new session. Alias: /new"
   - name: cloud
@@ -155,7 +156,8 @@ commands:
   - name: shortcuts
     description: Browse keyboard shortcuts in an interactive, searchable list grouped by category. Press Enter on a row to rebind it, and see each action's context.action identifier
   - name: smart
-    description: Switch to Smart mode (auto-approve actions a fast model judges safe). Rolling out gradually
+    description: Switch to Smart mode (auto-approve actions a fast model judges safe), or run a prompt in it. Rolling out gradually
+    argument-hint: "[prompt]"
   - name: ssh
     description: SSH into this cloud session's VM through the Devin SSH gateway, approving the connection with your logged-in credentials so no browser round-trip is needed
   - name: steps
