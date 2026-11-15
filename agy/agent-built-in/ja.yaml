@@ -76,7 +76,7 @@ commands:
     description: 現在の会話スレッドの名前を変更
     argument-hint: "[name]"
   - name: resume
-    description: "会話 ID を指定して過去の会話を再開、または会話一覧から選択。Ctrl+F でフラット表示とワークスペースディレクトリ別のグループ表示を切り替えられ、既定の表示は pickerGrouping 設定で指定できる。エイリアス: /switch, /conversation"
+    description: "会話 ID を指定して過去の会話を再開、または会話一覧から選択。ID はステータスラインに表示される短縮 ID のように、1 件の会話だけに一致するプレフィックスでも指定できる。Ctrl+F でフラット表示とワークスペースディレクトリ別のグループ表示を切り替えられ、既定の表示は pickerGrouping 設定で指定できる。エイリアス: /switch, /conversation"
     argument-hint: "[conversation-id]"
   - name: rewind
     description: "会話を前のターンまたはチェックポイントに巻き戻す。エイリアス: /undo"

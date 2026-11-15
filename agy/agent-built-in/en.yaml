@@ -76,7 +76,7 @@ commands:
     description: Rename the current conversation thread
     argument-hint: "[name]"
   - name: resume
-    description: "Resume a previous conversation by ID or browse conversation history. Ctrl+F toggles between a flat list and conversations grouped by workspace directory; the pickerGrouping setting sets the default view. Aliases: /switch, /conversation"
+    description: "Resume a previous conversation by ID or browse conversation history. The ID can be any prefix that matches exactly one conversation, such as the short ID shown in the status line. Ctrl+F toggles between a flat list and conversations grouped by workspace directory; the pickerGrouping setting sets the default view. Aliases: /switch, /conversation"
     argument-hint: "[conversation-id]"
   - name: rewind
     description: "Rewind the conversation to a previous turn or checkpoint. Alias: /undo"
