@@ -11,7 +11,7 @@ reference: https://learn.chatgpt.com/docs/developer-commands?surface=cli
 
 commands:
   - name: agents
-    description: "エージェントのコマンドセンターを開く。接続中のサーバー上のチャットを一覧し、状態を確認して切り替えられる。共有のローカルまたはリモートサーバーが必要。ターミナルから直接開くには codex agents を実行する"
+    description: "エージェントのコマンドセンターを開き、チャットを管理して選んだチャットを開く。ターミナルから codex agents を実行しても開ける。古いチャットを探すには F3 または / を押し、名前・プロンプトのプレビュー・作業ディレクトリの一部を入力する（大文字小文字は区別しない）"
   - name: app
     description: 現在のセッションをデスクトップアプリに引き継ぐ
   - name: approve
@@ -55,7 +55,7 @@ commands:
     description: 対応モデルのFastモードを切り替える
     argument-hint: "[on|off|status]"
   - name: feedback
-    description: メンテナーにログと診断情報を送信する
+    description: "フィードバックを送信する、または診断 ZIP を保存する。フィードバックのカテゴリとログを含めるかどうかを選び、ノートエディタで Enter を押すと送信される。ローカル接続では Ctrl+S で代わりに診断 ZIP を保存できる"
   - name: fork
     description: 現在の会話を新しいスレッドにクローンする
   - name: goal
@@ -135,7 +135,7 @@ commands:
   - name: setup-default-sandbox
     description: 昇格された Windows サンドボックスを設定する
   - name: side
-    description: "一時的なサイド会話を開始する。エイリアス: /btw"
+    description: "サイドチャットを開き、メインのチャットを続けたまま別のチャットで補足の質問をする。サイドチャットは既定では一時的なもの。features.tui_workspace を有効にし、保存済み履歴が使えるローカルのフルスクリーンセッションでは、/side で既存のサイドチャットを再度開き、/side <prompt> で新しいサイドチャットを開始する。エイリアス: /btw"
     argument-hint: "[prompt]"
   - name: skills
     description: タスクに特化したスキルコンテキストを閲覧・適用する

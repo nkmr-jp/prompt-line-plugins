@@ -101,7 +101,8 @@ commands:
   - name: heapdump
     description: メモリ使用量診断用にJavaScriptヒープスナップショットとメモリブレークダウンを ~/Desktop（Desktop フォルダが無い Linux ではホームディレクトリ）に出力する。メモリ問題を報告する際は -diagnostics.json のみを添付する。.heapsnapshot ファイルには会話全体と認証情報が含まれるため共有しないこと。コマンドメニューには表示されないため、コマンド名を最後まで入力する必要がある
   - name: help
-    description: ヘルプと利用可能なコマンド一覧を表示する
+    description: "ヘルプと利用可能なコマンド一覧を表示する。コマンド名を渡すと、そのコマンドの使い方を表示する（v2.1.326 以降）"
+    argument-hint: "[command]"
   - name: hooks
     description: "ツールイベント用のフック設定を表示する。設定済みのフックをイベントごとにまとめた1つの一覧で開くため、Enter 1回でフックを表示できる（v2.1.286 以降）"
   - name: ide
@@ -209,7 +210,7 @@ commands:
   - name: skills
     description: "利用可能なスキルを一覧表示する。入力して名前・説明・提供元で絞り込み、`t` でトークン数でソート、`Space` または `Enter` で Claude と / メニューへの表示/非表示を切り替え、`Esc` で保存して閉じる。プラグインのスキル、frontmatter で disable-model-invocation: true を設定したスキル、managed settings や --settings で skillOverrides が指定されたスキルは切り替えられない"
   - name: status
-    description: "設定インターフェースを開く（Statusタブ）。バージョン、モデル、アカウント、接続状況を表示。v2.1.221以降はセッション種別（インタラクティブか、attached / unattended のバックグラウンドジョブか）も表示する。組織のポリシーを読み込めなかった場合は、その理由（プロキシがエンドポイントを通していない等）を示す「Organization policy」行が表示される（v2.1.261 以降）。Claude apps gateway でサインインした場合は、gateway が提示しユーザーが確認したアカウントも表示される（v2.1.275 以降）。このセッションの auto mode 分類器がサーバー側で動作しているかを示す「Auto mode server」行も表示される（v2.1.278 以降）。プロジェクトの設定ファイルにある telemetry 変数のうち、無視されたものや telemetry を無効にしたものも一覧表示される（v2.1.282 以降）。Claudeのレスポンス中でも動作"
+    description: "設定インターフェースを開く（Statusタブ）。バージョン、モデル、アカウント、接続状況を表示。v2.1.221以降はセッション種別（インタラクティブか、attached / unattended のバックグラウンドジョブか）も表示する。組織のポリシーを読み込めなかった場合は、その理由（プロキシがエンドポイントを通していない等）を示す「Organization policy」行が表示される（v2.1.261 以降）。Claude apps gateway でサインインした場合は、gateway が提示しユーザーが確認したアカウントも表示される（v2.1.275 以降）。このセッションの auto mode 分類器がサーバー側で動作しているかを示す「Auto mode server」行も表示される（v2.1.278 以降）。プロジェクトの設定ファイルにある telemetry 変数のうち、無視されたものや telemetry を無効にしたものも一覧表示される（v2.1.282 以降）。プロバイダーや DISABLE_TELEMETRY などの環境変数によって機能が無効になっている場合は、その旨を示す行も表示される（v2.1.326 以降）。Claudeのレスポンス中でも動作"
   - name: statusline
     description: "Claude Codeのステータスラインを設定する。表示内容を指定するか、引数なしでシェルプロンプトから自動設定"
   - name: stickers

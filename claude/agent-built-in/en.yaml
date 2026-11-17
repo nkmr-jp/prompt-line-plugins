@@ -101,7 +101,8 @@ commands:
   - name: heapdump
     description: Write a JavaScript heap snapshot and a memory breakdown to ~/Desktop, or your home directory on Linux without a Desktop folder, for diagnosing high memory usage. Attach only the -diagnostics.json file when reporting a memory issue; the .heapsnapshot file contains your full conversation and credentials, so do not share it. Does not appear in the command menu, so type it in full
   - name: help
-    description: Show help and available commands
+    description: "Show help and available commands. Pass a command name to show that command's usage, which requires v2.1.326 or later"
+    argument-hint: "[command]"
   - name: hooks
     description: "View hook configurations for tool events. Opens on one list of your configured hooks grouped by event, so viewing a hook takes one Enter (v2.1.286 or later)"
   - name: ide
@@ -209,7 +210,7 @@ commands:
   - name: skills
     description: "List available skills. Type to filter the list by name, description, or source, press `t` to sort by token count, `Space` or `Enter` to cycle a skill's visibility to Claude and the / menu, and `Esc` to save and close. Plugin skills, skills whose frontmatter sets disable-model-invocation: true, and skills with a skillOverrides entry in managed settings or the --settings flag can't be cycled"
   - name: status
-    description: "Open the Settings interface (Status tab) showing version, model, account, and connectivity. As of v2.1.221 it also shows the session kind: interactive, or a background job that is attached or unattended. An Organization policy line says why your organization's policy could not be loaded, such as a proxy not passing the endpoint through, and requires v2.1.261 or later. For a Claude apps gateway sign-in, the account the gateway named and you confirmed is also shown, which requires v2.1.275 or later. An Auto mode server row shows whether this session's auto mode classifier runs on the server, and requires v2.1.278 or later. Telemetry variables in the project's settings files that were ignored or that turned telemetry off are also listed, which requires v2.1.282 or later. Works while Claude is responding"
+    description: "Open the Settings interface (Status tab) showing version, model, account, and connectivity. As of v2.1.221 it also shows the session kind: interactive, or a background job that is attached or unattended. An Organization policy line says why your organization's policy could not be loaded, such as a proxy not passing the endpoint through, and requires v2.1.261 or later. For a Claude apps gateway sign-in, the account the gateway named and you confirmed is also shown, which requires v2.1.275 or later. An Auto mode server row shows whether this session's auto mode classifier runs on the server, and requires v2.1.278 or later. Telemetry variables in the project's settings files that were ignored or that turned telemetry off are also listed, which requires v2.1.282 or later. A row says when your provider or an environment variable such as DISABLE_TELEMETRY turns features off, which requires v2.1.326 or later. Works while Claude is responding"
   - name: statusline
     description: "Configure Claude Code's status line. Describe what you want, or run without arguments to auto-configure from your shell prompt"
   - name: stickers
