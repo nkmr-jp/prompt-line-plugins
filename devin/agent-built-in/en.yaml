@@ -173,7 +173,8 @@ commands:
   - name: usage
     description: Show estimated credit/ACU usage for the session, including usage from previous openings of a resumed session
   - name: vim
-    description: Turn on Vim editing in the prompt box. Press Esc for Normal mode to navigate by word, edit text objects, or select text in Visual mode
+    description: "Toggle Vim mode in the prompt input. With no argument it switches the current state; the setting is saved to your user config. Press Esc for Normal mode to navigate by word, edit text objects, or select text in Visual mode"
+    argument-hint: "[on|off]"
   - name: workspace
     description: "List workspace directories. Alias: /workspaces"
 

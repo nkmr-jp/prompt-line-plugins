@@ -173,7 +173,8 @@ commands:
   - name: usage
     description: セッションの推定credit/ACU使用量を表示する。再開したセッションの以前のオープン分の使用量も含む
   - name: vim
-    description: プロンプト入力欄で Vim 編集を有効にする。Esc で Normal モードに入り、単語単位の移動、テキストオブジェクトの編集、Visual モードでのテキスト選択ができる
+    description: "プロンプト入力欄の Vim モードを切り替える。引数を省略すると現在の状態が反転し、設定はユーザー設定に保存される。Esc で Normal モードに入り、単語単位の移動、テキストオブジェクトの編集、Visual モードでのテキスト選択ができる"
+    argument-hint: "[on|off]"
   - name: workspace
     description: "ワークスペースディレクトリを一覧表示する。エイリアス: /workspaces"
 

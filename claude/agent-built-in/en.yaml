@@ -82,7 +82,7 @@ commands:
   - name: exit
     description: "Exit the CLI. In an attached background session, this detaches and the session keeps running. Alias: /quit"
   - name: export
-    description: "Export the current conversation as plain text. With a filename, writes directly to that file; without, opens a dialog to copy to clipboard or save to a file"
+    description: "Export the current conversation as plain text. With a filename, writes directly to that file; without, opens a dialog to copy to clipboard or save to a file. From v2.1.327 an existing file is no longer overwritten without asking: the dialog asks first, and /export <name> keeps the file and tells you to run /export"
     argument-hint: "[filename]"
   - name: fast
     description: "Toggle Fast mode on or off. Run it while Claude is responding and Claude Code toggles fast mode without waiting for the turn to end, though the running turn finishes at its original speed. Outside a cloud session, in -p mode it works only in a session launched with fast mode in its --settings value, for example claude -p --settings '{\"fastMode\": true}'; the toggle then applies to that session only and is not saved as your default, and any other non-interactive session reports that fast mode is not available. Fast mode also works in cloud sessions, whether on Anthropic-managed infrastructure or a self-hosted runner, when it is available on your account; in Claude Code Remote sessions the host's fast-mode setting, or /fast typed in the session, applies where your organization allows it. Cloud and Remote support requires v2.1.271 or later in the session's environment. In agent view, sets whether new sessions start in fast mode; a bare /fast there opens a picker (v2.1.299 or later)"
@@ -231,7 +231,7 @@ commands:
   - name: theme
     description: "Change the color theme. Includes an auto option that follows the terminal's dark/light mode, light/dark variants, colorblind-accessible (daltonized) themes, ANSI themes that use the terminal's palette, and custom themes from ~/.claude/themes/ or plugins. Select `New custom theme…` to create one"
   - name: tui
-    description: "Set the terminal UI renderer and relaunch into it with your conversation intact. fullscreen enables the flicker-free alt-screen renderer. Without an argument, prints the active renderer"
+    description: "Set the terminal UI renderer and relaunch into it with your conversation intact. fullscreen enables the flicker-free alt-screen renderer. Without an argument, prints the active renderer. From v2.1.327, classic is the name for the non-fullscreen renderer; default still works"
     argument-hint: "[default|fullscreen]"
   - name: ultrareview
     description: "Run a deep, multi-agent code review in a cloud sandbox. Pass a PR reference to review that pull request, or a base branch or commit to change the comparison base. The preferred invocation is now /code-review ultra; /ultrareview remains as an alias. With --post, the PR comment is posted directly as soon as the findings arrive and the comment link is printed, instead of starting a second cloud session to post it, which requires v2.1.269 or later. When there is nothing to review, the message says which case you are in and offers a command that reviews your latest commit, and a new repository's first commit is reviewed in full; in non-interactive sessions it refuses when the repository has no base branch or shared history, both of which require v2.1.277 or later. Includes 3 free runs on Pro, Max, and Ultra, then requires usage credits"
