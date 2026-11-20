@@ -37,7 +37,7 @@ commands:
     description: 会話に追加せずに素早くサイドクエスチョンをする。質問を省略すると、このセッションで直近に尋ねたサイドクエスチョンのオーバーレイを再度開き、過去の回答をたどれる。まだサイドクエスチョンが無い場合は使い方の1行が表示される
     argument-hint: "[question]"
   - name: bug
-    description: "バグを報告する、または会話を共有する。送信前にセッション履歴をどこまで含めるかを選び、同意画面で確認する。ファーストパーティ接続でAnthropicにサインインしている場合はAnthropicへ送信され、サードパーティプロバイダー利用時やAnthropicの認証情報がない場合は ~/.claude/feedback-bundles/ 配下のローカルアーカイブに書き出され、自分で転送する。VS Code 拡張では拡張機能側のフィードバックダイアログが開く（v2.1.229 以降）。Claude の応答中に実行した場合、ターン終了まで待たされずその場でダイアログが開く（v2.1.232 以降）。エイリアス: /share"
+    description: "バグを報告する、または会話を共有する。送信前にセッション履歴をどこまで含めるかを選び、同意画面で確認する。ファーストパーティ接続でAnthropicにサインインしている場合はAnthropicへ送信され、サードパーティプロバイダー利用時やAnthropicの認証情報がない場合は ~/.claude/feedback-bundles/ 配下のローカルアーカイブに書き出され、自分で転送する。VS Code 拡張では拡張機能側のフィードバックダイアログが開く（v2.1.229 以降）。Claude の応答中に実行した場合、ターン終了まで待たされずその場でダイアログが開く（v2.1.232 以降）。v2.1.328 以降は送信前に Yes / No を確認するため、Enter の連打で報告が送信されることはない。エイリアス: /share"
     argument-hint: "[report]"
   - name: cd
     description: "このセッションを新しい作業ディレクトリに移動する。会話のプロンプトキャッシュは保持され、システムプロンプトを再構築する代わりに新ディレクトリのCLAUDE.mdが追加される。セッションは移動先ディレクトリのプロジェクトストレージに移るため、--resume や --continue はそちらから見つけられる。v2.1.223以降は claude --resume <session-id> で他のどのディレクトリからでも移動後のセッションを見つけられる。未使用のディレクトリでは信頼するかを確認され、移動先は Cd の permission ルールで制限・無効化できる。パスを途中まで入力すると候補が表示され、Tab で確定できる。セッションを移動せず追加ディレクトリへのアクセスを付与するには /add-dir を使用"
@@ -56,7 +56,7 @@ commands:
     description: これまでの会話を要約してコンテキストを解放する。要約の焦点を絞る指示を任意で渡せる
     argument-hint: "[instructions]"
   - name: config
-    description: "設定インターフェースを開いてテーマ、モデル、出力スタイルなどを調整する。key=value のペア（例: /config thinking=false）を渡すと設定を直接変更でき、/config theme=dark や /config model=sonnet のような短縮キーも使える。autoContinueAtUsageLimit のようにパネルでの確認が必要な設定は、key=value 形式でオフにはできるがオンにはできない。`/config --help` で設定可能な全キーと選択肢を表示する。インタラクティブ・-p・Remote Controlの各モードで動作。フルスクリーンモードではパネルがマウス操作にも対応し、ホイールで設定一覧をスクロール、値のクリックで変更、ポインタ位置の行がハイライトされる（v2.1.271 以降が必要）。CLAUDE.mdのないプロジェクトではAGENTS.mdが代わりに読み込まれ、この挙動は「Project instructions」から変更できる（v2.1.277 以降）。「Idle compaction」の行でアイドル時の自動コンパクトをオフ／オンに切り替えられる（v2.1.302 以降）。エイリアス: /settings"
+    description: "設定インターフェースを開いてテーマ、モデル、出力スタイルなどを調整する。key=value のペア（例: /config verbose=true）を渡すと設定を直接変更でき、/config theme=dark や /config model=sonnet のような短縮キーも使える。autoContinueAtUsageLimit のようにパネルでの確認が必要な設定は、key=value 形式でオフにはできるがオンにはできない。`/config --help` で設定可能な全キーと選択肢を表示する。インタラクティブ・-p・Remote Controlの各モードで動作。フルスクリーンモードではパネルがマウス操作にも対応し、ホイールで設定一覧をスクロール、値のクリックで変更、ポインタ位置の行がハイライトされる（v2.1.271 以降が必要）。CLAUDE.mdのないプロジェクトではAGENTS.mdが代わりに読み込まれ、この挙動は「Project instructions」から変更できる（v2.1.277 以降）。「Idle compaction」の行でアイドル時の自動コンパクトをオフ／オンに切り替えられる（v2.1.302 以降）。エイリアス: /settings"
     argument-hint: "[key=value ...]"
   - name: context
     description: 現在のコンテキスト使用量をカラーグリッドで表示する。コンテキスト負荷の高いツール、メモリ膨張、容量警告の最適化提案も表示。会話がコンテキストウィンドウを超えた場合は、超過量と空き容量を確保するコマンドを警告として表示する。`all` を渡すと項目ごとの詳細をフルスクリーンで展開。MCP サーバーの instructions も独立した行として表示され、合計に算入される（v2.1.283 以降）。トークンカウント API が利用できない場合は、小型モデルへの追加リクエストではなくローカル推定にフォールバックする（v2.1.261 以降）
@@ -82,7 +82,7 @@ commands:
   - name: exit
     description: "CLIを終了する。バックグラウンドセッションにアタッチ中の場合はデタッチするだけで、セッションは動き続ける。エイリアス: /quit"
   - name: export
-    description: "現在の会話をプレーンテキストとしてエクスポートする。ファイル名を指定するとそのファイルに直接書き込み、指定なしの場合はクリップボードへのコピーまたはファイル保存のダイアログを開く"
+    description: "現在の会話をプレーンテキストとしてエクスポートする。ファイル名を指定するとそのファイルに直接書き込み、指定なしの場合はクリップボードへのコピーまたはファイル保存のダイアログを開く。v2.1.327 以降は既存ファイルを確認なしに上書きしない。ダイアログでは上書き前に確認され、/export <name> は既存ファイルを残したまま /export の実行を案内する"
     argument-hint: "[filename]"
   - name: fast
     description: "Fastモードのオン/オフを切り替える。Claude の応答中に実行するとターンの終了を待たずに切り替わるが、実行中のターンは元の速度のまま完了する。クラウドセッション以外の -p モードでは、--settings で Fast モードを有効にして起動したセッション（例: claude -p --settings '{\"fastMode\": true}'）でのみ機能し、切り替えはそのセッション限りでデフォルトには保存されない。それ以外の非対話セッションでは Fast モードが利用できない旨が表示される。Fast モードはクラウドセッション（Anthropic 管理のインフラでもセルフホストランナーでも）でもアカウントで利用可能なら動作し、Claude Code Remote セッションでは組織が許可している範囲で、ホスト側の Fast モード設定またはセッション内で入力した /fast が適用される。クラウドと Remote での対応にはセッション環境が v2.1.271 以降である必要がある。agent view では新しいセッションを Fast モードで開始するかを設定し、引数なしの /fast でピッカーが開く（v2.1.299 以降）"
@@ -101,7 +101,8 @@ commands:
   - name: heapdump
     description: メモリ使用量診断用にJavaScriptヒープスナップショットとメモリブレークダウンを ~/Desktop（Desktop フォルダが無い Linux ではホームディレクトリ）に出力する。メモリ問題を報告する際は -diagnostics.json のみを添付する。.heapsnapshot ファイルには会話全体と認証情報が含まれるため共有しないこと。コマンドメニューには表示されないため、コマンド名を最後まで入力する必要がある
   - name: help
-    description: ヘルプと利用可能なコマンド一覧を表示する
+    description: "ヘルプと利用可能なコマンド一覧を表示する。コマンド名を渡すと、そのコマンドの使い方を表示する（v2.1.326 以降）"
+    argument-hint: "[command]"
   - name: hooks
     description: "ツールイベント用のフック設定を表示する。設定済みのフックをイベントごとにまとめた1つの一覧で開くため、Enter 1回でフックを表示できる（v2.1.286 以降）"
   - name: ide
@@ -145,7 +146,7 @@ commands:
   - name: pause-memory
     description: "このセッションの自動メモリ保存を一時停止する。エイリアス: /memory-pause, /toggle-memory"
   - name: permissions
-    description: "ツールパーミッションのallow・ask・denyルールを管理する。対話ダイアログを開き、スコープ別のルール確認、ルールの追加・削除、作業ディレクトリの管理、autoモードでの直近の拒否内容の確認ができる。Auto mode タブでは auto モードの分類ルールを確認・編集できる（v2.1.246 以降）。Claude の応答中にも開くことができ、その場でダイアログが表示され、変更は同じターン内の次のツール呼び出しから適用される（v2.1.234 以降）。エイリアス: /allowed-tools"
+    description: "ツールパーミッションのallow・ask・denyルールを管理する。対話ダイアログを開き、スコープ別のルール確認、ルールの追加・削除、作業ディレクトリの管理、autoモードでの直近の拒否内容の確認ができる。Auto mode タブでは auto モードの分類ルールを確認・編集できる（v2.1.246 以降）。デスクトップアプリでは代わりに設定ファイルを編集する。Claude の応答中にも開くことができ、その場でダイアログが表示され、変更は同じターン内の次のツール呼び出しから適用される（v2.1.234 以降）。エイリアス: /allowed-tools"
   - name: plan
     description: "プロンプトからプランモードに直接入る。説明を渡すとそのタスクですぐにプランモードを開始する（例: /plan 認証バグを修正）"
     argument-hint: "[description]"
@@ -209,38 +210,38 @@ commands:
   - name: skills
     description: "利用可能なスキルを一覧表示する。入力して名前・説明・提供元で絞り込み、`t` でトークン数でソート、`Space` または `Enter` で Claude と / メニューへの表示/非表示を切り替え、`Esc` で保存して閉じる。プラグインのスキル、frontmatter で disable-model-invocation: true を設定したスキル、managed settings や --settings で skillOverrides が指定されたスキルは切り替えられない"
   - name: status
-    description: "設定インターフェースを開く（Statusタブ）。バージョン、モデル、アカウント、接続状況を表示。v2.1.221以降はセッション種別（インタラクティブか、attached / unattended のバックグラウンドジョブか）も表示する。組織のポリシーを読み込めなかった場合は、その理由（プロキシがエンドポイントを通していない等）を示す「Organization policy」行が表示される（v2.1.261 以降）。Claude apps gateway でサインインした場合は、gateway が提示しユーザーが確認したアカウントも表示される（v2.1.275 以降）。このセッションの auto mode 分類器がサーバー側で動作しているかを示す「Auto mode server」行も表示される（v2.1.278 以降）。プロジェクトの設定ファイルにある telemetry 変数のうち、無視されたものや telemetry を無効にしたものも一覧表示される（v2.1.282 以降）。Claudeのレスポンス中でも動作"
+    description: "設定インターフェースを開く（Statusタブ）。バージョン、モデル、アカウント、接続状況を表示。v2.1.221以降はセッション種別（インタラクティブか、attached / unattended のバックグラウンドジョブか）も表示する。組織のポリシーを読み込めなかった場合は、その理由（プロキシがエンドポイントを通していない等）を示す「Organization policy」行が表示される（v2.1.261 以降）。Claude apps gateway でサインインした場合は、gateway が提示しユーザーが確認したアカウントも表示される（v2.1.275 以降）。このセッションの auto mode 分類器がサーバー側で動作しているかを示す「Auto mode server」行も表示される（v2.1.278 以降）。プロジェクトの設定ファイルにある telemetry 変数のうち、無視されたものや telemetry を無効にしたものも一覧表示される（v2.1.282 以降）。プロバイダーや DISABLE_TELEMETRY などの環境変数によって機能が無効になっている場合は、その旨を示す行も表示される（v2.1.326 以降）。OpenTelemetry exporter に endpoint が設定されておらずデータが失われそうな場合は通知が表示される（v2.1.328 以降）。自動更新されない managed marketplace とその理由を示す「Marketplace auto-update」行も表示される（v2.1.329 以降）。Claudeのレスポンス中でも動作"
   - name: statusline
     description: "Claude Codeのステータスラインを設定する。表示内容を指定するか、引数なしでシェルプロンプトから自動設定"
   - name: stickers
-    description: Claude Codeステッカーを注文する
+    description: Claude Codeステッカーの在庫状況を確認する
   - name: stop
     description: アタッチ中のバックグラウンドセッション、またはピーク返信の送信先のセッションを停止する。トランスクリプトとworktreeは保持される。停止せずにデタッチしたい場合は /exit か左矢印キーを使う
   - name: subtask
     description: "フォーク済みサブエージェントを起動する。会話全体を引き継いだバックグラウンドサブエージェントがタスクを実行し、その間も作業を続けられる。完了するとこの会話に結果が返る。会話を別のバックグラウンドセッションにコピーする場合は /fork を使う。agent view を無効にしている場合は利用できず、その環境では /fork がフォーク済みサブエージェントを起動する"
     argument-hint: "<task>"
   - name: tasks
-    description: "現在のセッションのバックグラウンド処理を一覧・管理する。完了済みのサブエージェントも含まれる。各行にステータスアイコンが表示され、ページキー・マウスホイール・クリックで一覧を操作できる（v2.1.283 以降）。Claude Code が自身のために実行するバックグラウンド処理は「System tasks」の1行にまとめられ、Enter で中身を表示する（v2.1.285 以降）。エイリアス: /bashes"
+    description: "現在のセッションのバックグラウンド処理を一覧・管理する。完了済みのサブエージェントも含まれる。各行にステータスアイコンが表示され、ページキー・マウスホイール・クリックで一覧を操作できる（v2.1.283 以降）。Claude Code が自身のために実行するバックグラウンド処理は「System tasks」の1行にまとめられ、Enter で中身を表示する（v2.1.285 以降）。このセッションのスケジュール済みタスク、/loop の wakeup、goal、この会話の fork も一覧に含まれ、x を押すと確認のうえ停止できる（v2.1.329 以降）。エイリアス: /bashes"
   - name: team-onboarding
     description: 直近30日のセッション・コマンド・MCPサーバー利用状況から、チームメイトが最初のメッセージとして貼り付けられるMarkdown形式のオンボーディングガイドを生成する。Team/EnterpriseプランのClaude.aiサブスクライバーは、チームメイトがClaude Codeで直接開ける共有リンクも取得できる
   - name: teleport
-    description: "クラウドセッションをこのターミナルに引き込む。ピッカーを開いてブランチと会話を取得。claude.aiサブスクリプションが必要。エイリアス: /tp"
+    description: "クラウドセッションをこのターミナルに引き込む。ピッカーを開いてブランチと会話を取得。v2.1.329 以降は、選択すると開いている会話を置き換えずに /clear と同様に新しいセッションを開始し、元の会話には /resume で戻れる。claude.aiサブスクリプションが必要。エイリアス: /tp"
   - name: terminal-setup
     description: "VS Code・Cursor・Devin Desktop・Alacritty・Zed に、改行用の Shift+Enter キーバインドをインストールする。Apple Terminal では代わりに Option+Enter による改行を有効化し、警告音をオフにする。iTerm2 では /copy が動作するようクリップボードアクセスを有効化する"
   - name: theme
     description: "カラーテーマを変更する。ターミナルのダーク/ライトモードに追従するauto、ライト/ダーク、色覚対応（ダルトナイズ）テーマ、ターミナルのパレットを使うANSIテーマ、~/.claude/themes/ やプラグイン由来のカスタムテーマを含む。`New custom theme…` を選ぶと新しいテーマを作成できる"
   - name: tui
-    description: "ターミナルUIレンダラーを設定し、会話を保ったまま再起動する。fullscreenでフリッカーフリーのalt-screenレンダラーを有効化。引数なしで現在のレンダラーを表示"
-    argument-hint: "[default|fullscreen]"
+    description: "ターミナルUIレンダラーを設定し、会話を保ったまま再起動する。fullscreenでフリッカーフリーのalt-screenレンダラーを有効化。default（v2.1.327 以降は classic も可）で従来のレンダラーを選択。引数なしで現在のレンダラーを表示"
+    argument-hint: "[classic|fullscreen]"
   - name: ultrareview
     description: "クラウドサンドボックス上でマルチエージェント・コードレビューを深く実行する。PR参照を渡すとそのプルリクエストを、ベースとなるブランチまたはコミットを渡すと比較ベースを変更してレビューする。推奨される呼び出しは /code-review ultra となり、/ultrareview はエイリアスとして残る。--post を付けた場合、投稿用に別のクラウドセッションを立ち上げるのではなく、結果が出た時点で直接 PR にコメントを投稿し、そのコメントのリンクを表示する（v2.1.269 以降）。レビュー対象がない場合はどのケースに該当するかを示し、直近のコミットをレビューするコマンドを提示する。新規リポジトリの最初のコミットは全体がレビュー対象になる。非インタラクティブなセッションでは、ベースブランチや共通の履歴がないリポジトリに対しては実行を拒否する（いずれも v2.1.277 以降）。Pro/Max/Ultraプランでは3回まで無料、以降は usage credits が必要"
     argument-hint: "[PR or branch]"
   - name: upgrade
-    description: より高いプランティアに切り替えるためのアップグレードページをブラウザで開く。ブラウザを開けなかった場合は URL を表示せずサインインプロンプトを表示する
+    description: より高いプランティアに切り替えるためのアップグレードページをブラウザで開く。SSH 経由などブラウザを開けない場合は、サインインプロンプトの上にページの URL を表示する（v2.1.323 以降）
   - name: usage
     description: "セッションコスト、プラン使用制限、アクティビティ統計を表示する。Pro・Max・Ultra・Team・Enterpriseの各プランでは、スキル・サブエージェント・プラグイン・MCPサーバー・ループ別の使用量内訳も表示する。ループの内訳ではループごとの実行回数・合計トークン・1回あたりのトークン・最終実行を確認できる（v2.1.243 以降）。/cost ではプロンプトキャッシュミスの推定原因（ツール定義の変更、thinking モードや thinking 表示の変更、キャッシュ TTL 超過など）も表示される（v2.1.260 以降。thinking 関連の原因表示は v2.1.280 以降）。max effort、ワークフロー、常時読み込まれるコンテキスト、大きなツール結果についての警告も表示する（v2.1.299 以降）。各警告は発生源を示す1行の修正案になっており、f で修正を適用できる。同じ修正案は VS Code と /doctor にも表示される（v2.1.305 以降）。利用額を管理する Claude apps gateway を経由している場合は、ゲートウェイ経由の利用額も表示する。利用上限が未設定なら今日・今週・今月の利用額も確認できる（v2.1.319 以降）。エイリアス: /cost, /stats"
   - name: usage-credits
-    description: "レート制限に達した際に使用量クレジットを設定する、または管理者にリクエストする。ブラウザで使用量クレジットの請求設定を開くが、請求権限を持たない Team・Enterprise メンバーはダイアログで確認したうえで CLI から管理者へリクエストを送信する。SSH 経由などブラウザを開けない場合は URL を表示する。/extra-usage からリネームされた"
+    description: "レート制限に達した際に使用量クレジットを設定する、または管理者にリクエストする。ブラウザで使用量クレジットの請求設定を開くが、請求権限を持たない Team・Enterprise メンバーは CLI から管理者へリクエストを送信する。SSH 経由などブラウザを開けない場合は URL を表示する（v2.1.205 以降）。/extra-usage からリネームされた"
   - name: version
     description: このセッションが実行中のバージョンを表示する。autoupdate がダウンロード済みのバージョンとは異なる場合がある
   - name: voice
@@ -273,7 +274,7 @@ skills:
     description: "Claude in Chrome を通じて、ページのテスト、フォーム入力、コンソールログの読み取りなどのタスクを Claude にブラウザ上で実行させる。claude --chrome で起動した場合など、セッションで Chrome 連携が有効なとき、または Claude Code が拡張機能のインストールを提案できるときに利用可能"
     argument-hint: "[task]"
   - name: code-review
-    description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグの観点からレビューする。モデルと effort レベルによってはクリーンアップの余地も指摘する。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub の pull request にインラインコメントとして、または GitLab の merge request にノートとして投稿する（GitLab への投稿は v2.1.257 以降）。github.com の PR を対象に `ultra` を使う場合、`--post` を渡すと起動ダイアログで「完了したレビュー結果を PR に投稿する」が事前選択される（v2.1.227 以降）。`--max-findings <n>` または `all` で通常の上限より多く・少なく指摘を報告でき、この指定は `--max-findings default` を渡すまで再利用される（v2.1.288 以降）。エイリアス: /review"
+    description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグの観点からレビューする。モデルと effort レベルによってはクリーンアップの余地も指摘する。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub の pull request にインラインコメントとして、または GitLab の merge request にノートとして投稿する（GitLab への投稿は v2.1.257 以降）。github.com の PR を対象に `ultra` を使う場合、`--post` を渡すと起動ダイアログで「完了したレビュー結果を PR に投稿する」が事前選択される（v2.1.227 以降）。`--max-findings <n>` または `all` で通常の上限より多く・少なく指摘を報告でき、この指定は `--max-findings default` を渡すまで再利用される（v2.1.288 以降）。ほとんどのモデルでは、各指摘に Important / Pre-existing / Nit のいずれかが付き、報告対象はバグと CLAUDE.md 違反のみでクリーンアップは /simplify に任せる（v2.1.328 以降）。対象を指定しない場合はブランチ全体をデフォルトブランチと比較してレビューする（v2.1.329 以降）。エイリアス: /review"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [--max-findings n|all|default] [pr#|branch|path]"
   - name: code-walkthrough
     description: コードのインタラクティブなウォークスルー Artifact を生成する

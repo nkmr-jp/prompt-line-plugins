@@ -141,7 +141,7 @@ commands:
   - name: repo
     description: Pick the repositories for this cloud session
   - name: resume
-    description: Open the interactive session picker (all sessions, newest first, with each session's project and age; search by project name, or press Alt+G to switch between the current directory and all projects, ordered by last activity), or resume a specific session by ID. With no ID, the picker opens over the running session
+    description: Open the interactive session picker (all sessions, newest first, with each session's project and age; search by project name, or press Alt+G to switch between the current directory and all projects, ordered by last activity), or resume a specific session by ID. With no ID, the picker opens over the running session. As of v3000.13.3 it opens a session monitor that lists sessions by last update with their status, directory, and message count
     argument-hint: "[session-id]"
   - name: revert
     description: Open the interactive step picker, or revert file changes from a specific step onwards and rewind the conversation to before that step (see /steps)
@@ -173,7 +173,8 @@ commands:
   - name: usage
     description: Show estimated credit/ACU usage for the session, including usage from previous openings of a resumed session
   - name: vim
-    description: Turn on Vim editing in the prompt box. Press Esc for Normal mode to navigate by word, edit text objects, or select text in Visual mode
+    description: "Toggle Vim mode in the prompt input. With no argument it switches the current state; the setting is saved to your user config. Press Esc for Normal mode to navigate by word, edit text objects, or select text in Visual mode"
+    argument-hint: "[on|off]"
   - name: workspace
     description: "List workspace directories. Alias: /workspaces"
 
