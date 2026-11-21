@@ -156,7 +156,7 @@ commands:
   - name: shortcuts
     description: Browse keyboard shortcuts in an interactive, searchable list grouped by category. Press Enter on a row to rebind it, and see each action's context.action identifier
   - name: smart
-    description: Switch to Smart mode (auto-approve actions a fast model judges safe), or run a prompt in it. Rolling out gradually
+    description: Switch to Smart mode (auto-approve actions a fast model judges safe), or run a prompt in it. An organization policy can make Smart mode unavailable
     argument-hint: "[prompt]"
   - name: ssh
     description: SSH into this cloud session's VM through the Devin SSH gateway, approving the connection with your logged-in credentials so no browser round-trip is needed

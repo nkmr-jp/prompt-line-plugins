@@ -225,7 +225,7 @@ commands:
   - name: team-onboarding
     description: 直近30日のセッション・コマンド・MCPサーバー利用状況から、チームメイトが最初のメッセージとして貼り付けられるMarkdown形式のオンボーディングガイドを生成する。Team/EnterpriseプランのClaude.aiサブスクライバーは、チームメイトがClaude Codeで直接開ける共有リンクも取得できる
   - name: teleport
-    description: "クラウドセッションをこのターミナルに引き込む。ピッカーを開いてブランチと会話を取得。v2.1.329 以降は、選択すると開いている会話を置き換えずに /clear と同様に新しいセッションを開始し、元の会話には /resume で戻れる。claude.aiサブスクリプションが必要。エイリアス: /tp"
+    description: "クラウドセッションをこのターミナルに引き込む。ピッカーを開いて会話を読み込む。v2.1.329 以降は、選択すると開いている会話を置き換えずに /clear と同様に新しいセッションを開始し、元の会話には /resume で戻れる。claude.aiサブスクリプションが必要。エイリアス: /tp"
   - name: terminal-setup
     description: "VS Code・Cursor・Devin Desktop・Alacritty・Zed に、改行用の Shift+Enter キーバインドをインストールする。Apple Terminal では代わりに Option+Enter による改行を有効化し、警告音をオフにする。iTerm2 では /copy が動作するようクリップボードアクセスを有効化する"
   - name: theme
@@ -301,7 +301,7 @@ skills:
   - name: fewer-permission-prompts
     description: トランスクリプトから頻出するread-onlyのBashとMCPツール呼び出しをスキャンし、プロジェクトの `.claude/settings.json` に優先度付きのallowlistを追加してパーミッションプロンプトを削減する
   - name: loop
-    description: "セッションが開いている間、プロンプトやスラッシュコマンドを繰り返し実行する。間隔を省略すると Claude がイテレーション間隔をセルフペーシングする。プロンプトを省略すると自律メンテナンスチェック（または .claude/loop.md のプロンプト）を実行する。エイリアス: /proactive"
+    description: "セッションが開いている間、プロンプトやスラッシュコマンドを繰り返し実行する。間隔を省略すると Claude がイテレーション間隔をセルフペーシングする。プロンプトを省略すると自律メンテナンスチェック（または .claude/loop.md のプロンプト）を実行する。繰り返しのループはセッションが動いている間、7 日ではなく最長 30 日まで実行され、終了時にその旨を表示する（v2.1.330 以降。それ以前に作成したループは 7 日で終了）。エイリアス: /proactive"
     argument-hint: "[interval] [prompt]"
   - name: plan-artifact
     description: 実装計画・設計ドキュメント・RFC を共有可能な Artifact として公開する

@@ -225,7 +225,7 @@ commands:
   - name: team-onboarding
     description: Generate a teammate onboarding guide from the past 30 days of sessions, commands, and MCP server usage, as a markdown guide a teammate can paste as a first message. claude.ai subscribers on Team and Enterprise plans also get a share link teammates can open directly in Claude Code
   - name: teleport
-    description: "Pull a cloud session into this terminal: opens a picker, then fetches the branch and conversation. From v2.1.329, the pick starts a new session, as /clear does, instead of replacing your open conversation; /resume brings the old one back. Requires a claude.ai subscription. Alias: /tp"
+    description: "Pull a cloud session into this terminal: opens a picker, then loads the conversation. From v2.1.329, the pick starts a new session, as /clear does, instead of replacing your open conversation; /resume brings the old one back. Requires a claude.ai subscription. Alias: /tp"
   - name: terminal-setup
     description: "Install a Shift+Enter keybinding for newlines in VS Code, Cursor, Devin Desktop, Alacritty, or Zed. In Apple Terminal, enables Option+Enter for newlines and turns off the audible bell instead. In iTerm2, turns on clipboard access so that /copy works"
   - name: theme
@@ -301,7 +301,7 @@ skills:
   - name: fewer-permission-prompts
     description: Scan your transcripts for common read-only Bash and MCP tool calls, then add a prioritized allowlist to project `.claude/settings.json` to reduce permission prompts.
   - name: loop
-    description: "Run a prompt or slash command repeatedly while the session stays open. Omit the interval and Claude self-paces between iterations. Omit the prompt to run an autonomous maintenance check (or the prompt in .claude/loop.md). Alias: /proactive"
+    description: "Run a prompt or slash command repeatedly while the session stays open. Omit the interval and Claude self-paces between iterations. Omit the prompt to run an autonomous maintenance check (or the prompt in .claude/loop.md). Recurring loops run up to 30 days instead of 7 while the session keeps running, and say when they end (v2.1.330+; loops made before then still end at 7 days). Alias: /proactive"
     argument-hint: "[interval] [prompt]"
   - name: plan-artifact
     description: "Publish an implementation plan, design doc, or RFC as a shareable Artifact"
