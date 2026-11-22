@@ -347,3 +347,5 @@ agents:
     description: 探索とアクションの両方を必要とする複雑なマルチステップタスク向けの汎用エージェント
   - name: statusline-setup
     description: /statuslineでステータスラインを設定する際に使用
+  - name: web-fetch
+    description: "このサブエージェントを使うセッションで Claude が Web ページを読む際に使用。Haiku で動作し、Haiku を使えない場合は呼び出し元の会話のモデルで動作する。このようなセッションでは、メイン会話・fork・チームメイトは自身の WebFetch ツールを持たない"

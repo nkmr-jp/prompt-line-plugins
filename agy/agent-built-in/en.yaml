@@ -86,10 +86,13 @@ commands:
     description: "Toggle statusline on/off or configure a custom shell command to render the statusline. Usage: /statusline [<command>]"
     argument-hint: "[<command>]"
   - name: swarm
-    description: "(Preview & Quota Heavy) Start a swarm: the agent becomes a coordinator that adds worker agents, each in its own conversation, which work on the task in parallel and collaborate through a shared message board. Workers can run on any model in the /model picker. /swarm board opens a full-screen live view of the current swarm with its Roster, Posts, and Message panes (also alt+s). Every worker is a separate agent that uses your quota (1.5.5 or later)"
+    description: "(Preview & Quota Heavy) Start a swarm: the agent becomes a coordinator that adds worker agents, each in its own conversation, which work on the task in parallel and collaborate through a shared message board. Workers can run on any model in the /model picker. /swarm board opens a full-screen live view of the current swarm with its Roster, Posts, and Message panes (also alt+s); on terminals at least 28 rows tall it also shows a live Overview section with the swarm's goal, overall task progress, and up to six workstream threads with worker status (1.5.14 or later). Every worker is a separate agent that uses your quota (1.5.5 or later)"
     argument-hint: "<task>|board"
   - name: tasks
     description: View and manage background subagents, tasks, and worker processes. Since 1.3.1 it also lists timers and recurring jobs the agent schedules and other tools running in the background, shown as completed or failed
+  - name: thinking
+    description: "Stream the model's full thinking live in the transcript while it thinks, and keep finished thoughts expanded without pressing Ctrl+O. Saved as \"showThinking\" in settings.json and off by default (1.5.14 or later). Usage: /thinking [on|off]"
+    argument-hint: "[on|off]"
   - name: title
     description: "Set or toggle the terminal title. Usage: /title [on|off]"
     argument-hint: "[on|off]"

@@ -86,10 +86,13 @@ commands:
     description: "ステータスラインの表示切り替え、または描画用のカスタムシェルコマンドを設定。使い方: /statusline [<command>]"
     argument-hint: "[<command>]"
   - name: swarm
-    description: "（プレビュー・クォータ消費大）swarm を開始する。エージェントがコーディネーターになってワーカーエージェントを追加し、各ワーカーは自分の会話でタスクを並列に進め、共有の掲示板を通じて協力する。ワーカーは /model ピッカーにある任意のモデルで動かせる。/swarm board で現在の swarm を全画面でライブ表示し、Roster・Posts・Message の各ペインを確認できる（alt+s でも開く）。各ワーカーが別個のエージェントとしてクォータを消費する（1.5.5 以降）"
+    description: "（プレビュー・クォータ消費大）swarm を開始する。エージェントがコーディネーターになってワーカーエージェントを追加し、各ワーカーは自分の会話でタスクを並列に進め、共有の掲示板を通じて協力する。ワーカーは /model ピッカーにある任意のモデルで動かせる。/swarm board で現在の swarm を全画面でライブ表示し、Roster・Posts・Message の各ペインを確認できる（alt+s でも開く）。28 行以上のターミナルでは、swarm の目標・タスク全体の進捗・最大 6 本のワークストリームとワーカーの状態を示す Overview セクションもライブ表示される（1.5.14 以降）。各ワーカーが別個のエージェントとしてクォータを消費する（1.5.5 以降）"
     argument-hint: "<task>|board"
   - name: tasks
     description: バックグラウンドで実行中のサブエージェントやタスクを一覧表示・管理。1.3.1 以降は、エージェントがスケジュールしたタイマーや定期ジョブ、バックグラウンドで動作中のその他のツールも表示され、completed または failed として示される
+  - name: thinking
+    description: "モデルの思考過程の全文を、考えている最中からトランスクリプトにライブ表示し、思考が終わった後も Ctrl+O を押さずに展開したままにする。settings.json に \"showThinking\" として保存され、デフォルトはオフ（1.5.14 以降）。使い方: /thinking [on|off]"
+    argument-hint: "[on|off]"
   - name: title
     description: "ターミナルのタイトルを設定または表示切り替え。使い方: /title [on|off]"
     argument-hint: "[on|off]"

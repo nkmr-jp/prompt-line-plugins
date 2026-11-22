@@ -347,3 +347,5 @@ agents:
     description: A capable agent for complex, multi-step tasks that require both exploration and action.
   - name: statusline-setup
     description: When you run /statusline to configure your status line
+  - name: web-fetch
+    description: "When Claude reads a web page in a session that uses this subagent. Runs on Haiku, or on the model of the conversation that starts it when it can't use Haiku. In such sessions the main conversation, forks, and teammates have no WebFetch tool of their own"
