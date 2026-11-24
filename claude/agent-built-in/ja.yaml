@@ -274,7 +274,7 @@ skills:
     description: "Claude in Chrome を通じて、ページのテスト、フォーム入力、コンソールログの読み取りなどのタスクを Claude にブラウザ上で実行させる。claude --chrome で起動した場合など、セッションで Chrome 連携が有効なとき、または Claude Code が拡張機能のインストールを提案できるときに利用可能"
     argument-hint: "[task]"
   - name: code-review
-    description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグの観点からレビューする。モデルと effort レベルによってはクリーンアップの余地も指摘する。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub の pull request にインラインコメントとして、または GitLab の merge request にノートとして投稿する（GitLab への投稿は v2.1.257 以降）。github.com の PR を対象に `ultra` を使う場合、`--post` を渡すと起動ダイアログで「完了したレビュー結果を PR に投稿する」が事前選択される（v2.1.227 以降）。`--max-findings <n>` または `all` で通常の上限より多く・少なく指摘を報告でき、この指定は `--max-findings default` を渡すまで再利用される（v2.1.288 以降）。ほとんどのモデルでは、各指摘に Important / Pre-existing / Nit のいずれかが付き、報告対象はバグと CLAUDE.md 違反のみでクリーンアップは /simplify に任せる（v2.1.328 以降）。対象を指定しない場合はブランチ全体をデフォルトブランチと比較してレビューする（v2.1.329 以降）。エイリアス: /review"
+    description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグの観点からレビューする。モデルと effort レベルによってはクリーンアップの余地も指摘する。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub の pull request にインラインコメントとして、または GitLab の merge request にノートとして投稿する（GitLab への投稿は v2.1.257 以降）。github.com の PR を対象に `ultra` を使う場合、`--post` を渡すと起動ダイアログで「完了したレビュー結果を PR に投稿する」が事前選択される（v2.1.227 以降）。`--max-findings <n>` または `all` で通常の上限より多く・少なく指摘を報告でき、この指定は `--max-findings default` を渡すまで再利用される（v2.1.288 以降）。ほとんどのモデルでは、各指摘に Important / Pre-existing / Nit のいずれかが付き、報告対象はバグと CLAUDE.md 違反のみでクリーンアップは /simplify に任せる（v2.1.328 以降）。対象を指定しない場合はブランチ全体をデフォルトブランチと比較してレビューする（v2.1.329 以降）。エイリアス: /review, /ship:review"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [--max-findings n|all|default] [pr#|branch|path]"
   - name: code-walkthrough
     description: コードのインタラクティブなウォークスルー Artifact を生成する
@@ -315,12 +315,18 @@ skills:
     description: "プロジェクトのアプリを起動・操作して、変更が動作している様子を実際に確認する。既存のプロジェクト用スキルがあればそれを優先し、なければプロジェクトタイプごとの組み込みパターンにフォールバックする"
   - name: run-skill-generator
     description: "/run と /verify に対し、クリーンな環境からプロジェクトのアプリをビルド・起動・操作する方法を教え込む"
+  - name: ship
+    description: "作業をコミット・プッシュし、ブランチに GitHub の pull request が無ければ作成する。続いて変更をレビューし、その後はこのセッションで pull request を見守り、レビューでの指摘や失敗したチェックへの修正をプッシュする。`/ship stop` で見守りを終了する"
+    argument-hint: "[level] [pr] [+bot]"
   - name: simplify
     description: "変更されたコードのクリーンアップ箇所をレビューし、修正を適用する。4つのレビューエージェントが並列で動き、既存ヘルパーの再利用・簡素化・効率化・抽象度の妥当性をカバーする。正しさのバグは探さない（バグ検出は /code-review を使用）。パスや PR 参照を渡すと対象を絞ってレビューできる"
     argument-hint: "[target]"
   - name: slides
     description: "ブリーフの内容をもとに、新しいプレゼンテーションを Claude Slides のアーティファクトとして作成する（例: `/slides a quarterly review of the platform team`）。アーティファクトが使えるセッションで、Slides テンプレートが使えるアカウントでのみ表示される。Amazon Bedrock、Google Cloud の Agent Platform、Microsoft Foundry、Claude Platform on AWS では利用できない"
     argument-hint: "[brief]"
+  - name: steward
+    description: "開いている GitHub の pull request をこのセッションで見守り、レビューでの指摘や失敗したチェックへの修正をプッシュする。/ship が最初に行うレビューは実行しない。`/steward stop` で見守りを終了する。エイリアス: /ship:steward"
+    argument-hint: "[pr] [+bot]"
   - name: update-config
     description: "許可するコマンド、環境変数の設定、フックの追加などの設定変更を説明すると、Claude が該当する settings.json を編集する。テーマやモデルなどの項目は /config を使う"
     argument-hint: "[request]"
