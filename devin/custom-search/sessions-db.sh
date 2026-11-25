@@ -20,8 +20,13 @@ esac
 db="${DEVIN_CLI_DIR:-$HOME/.local/share/devin/cli}/sessions.db"
 [ -f "$db" ] || exit 0
 
+# Devin removes sessions.db-wal on exit, and a read-only connection cannot recreate it
+# ("unable to open database file (14)"). Without a WAL every commit is in the main file,
+# so immutable is safe; it is not used while the WAL exists because it would skip it.
+src="$db"
+[ -e "$db-wal" ] || src="file:$db?immutable=1"
 # Wait for Devin's write lock instead of failing immediately with "database is locked"
-json=$(sqlite3 -readonly -cmd ".timeout 2000" -json "$db" "$sql")
+json=$(sqlite3 -readonly -cmd ".timeout 2000" -json "$src" "$sql")
 # sqlite3 -json prints nothing for zero rows, which json.load cannot parse
 [ -n "$json" ] || exit 0
 
