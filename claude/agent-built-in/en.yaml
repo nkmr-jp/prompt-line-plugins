@@ -26,7 +26,7 @@ commands:
     description: Spawn a cloud session that watches the current branch's PR and pushes fixes when CI fails or reviewers leave comments. Detects the open PR from the checked-out branch with gh pr view, so check out another branch first to watch its PR. By default the cloud session fixes every CI failure and review comment; pass a prompt to give it different instructions, for example /autofix-pr only fix lint and type errors. Requires the gh CLI and access to cloud sessions
     argument-hint: "[prompt]"
   - name: background
-    description: "Detach the current session to run as a background agent and free this terminal. Pass a prompt to send one more instruction before detaching. Monitor the session with `claude agents`. To copy the conversation into a new background session while this one keeps running, use /fork. Alias: /bg"
+    description: "Detach the current session to run as a background agent and free this terminal. Pass a prompt to send one more instruction before detaching. Monitor the session with `claude agents`. To copy the conversation into a new background session while this one keeps running, use /fork. While a /ship or /steward watch is on, see Messages during a watch. Alias: /bg"
     argument-hint: "[prompt]"
   - name: branch
     description: Create a branch of the current conversation at this point to try a different direction without losing the conversation as it stands. Switches you into the branch and preserves the original, which you can return to with /resume. To run a copy as a separate background session instead of switching into it, use /fork; to hand a side task to a subagent that reports back into this conversation, use /subtask
@@ -159,7 +159,7 @@ commands:
   - name: powerup
     description: Discover Claude Code features through quick interactive lessons with animated demos
   - name: privacy-settings
-    description: View and update your privacy settings. Only available for Pro, Max, and Ultra plan subscribers
+    description: View and update your privacy settings or get a link to them on claude.ai. Only available for Pro, Max, and Ultra plan subscribers
   - name: radio
     description: Open Claude FM lo-fi radio in your browser. Prints the stream URL when no browser is available
   - name: rate-limit-options
@@ -253,7 +253,7 @@ commands:
     description: Open the workflow progress view to watch, pause, resume, or save running and completed workflows
 skills:
   - name: artifact-capabilities
-    description: "Load the reference for the runtime capabilities a published artifact can use, such as calling your connectors or offering a file download, including which ones your account has. Claude normally loads it on its own before building a page that uses one. Available where artifacts are"
+    description: "Load the reference for the runtime capabilities a published artifact can use, such as calling your connectors or offering a file download, including which ones your account has. Requires artifacts"
   - name: artifact-components
     description: Embed reusable components in an Artifact
   - name: artifact-design
@@ -268,6 +268,9 @@ skills:
   - name: claude-api
     description: "Load Claude API reference material for your project's language (Python, TypeScript, Java, Go, Ruby, C#, PHP, or cURL) and Managed Agents reference. Covers tool use, streaming, batches, structured outputs, and common pitfalls. Subcommands: `migrate` upgrades existing Claude API code to a newer model, `upgrade` moves your project's Anthropic SDK dependency across a major version (currently the Python `anthropic` package from 0.x to 1.x), `api-version` updates your Claude API code for a newer API version and then switches your requests to that version, `managed-agents-onboard` walks through creating a Managed Agent (from v2.1.290 it also accepts a page URL, setting up the Managed Agents pattern that page describes as `ant apply` files, or a Console quickstart name such as `deep-researcher`, building that template with the `ant` CLI), `prompt-audit` flags instructions written for older models in your prompts, skills, and tool descriptions and proposes fixes as a diff, and `cost-optimize` profiles an existing project's Claude API spend and works through cost levers (caching, token hygiene, batch, effort, model choice) one measured change at a time, `latency-optimize` finds where your Claude API code makes people wait and tries faster settings against your eval, `build-eval` builds an eval set for your Claude-powered app, `hillclimb` iteratively improves the app against an existing eval, and `preserved-thinking-migration` finds the edits your integration makes to earlier turns, its system prompt, or its tool list that invalidate preserved thinking blocks, measures how much reasoning each one drops, and proposes fixes one at a time, re-measuring after each change. `managed-agents-secure` compares a Managed Agents agent's settings with Anthropic's published security guide, without changing anything. Also covers the Admin API (organization members, invites, workspaces, API keys, rate limit reports, workload identity federation, CMEK). `prompt-audit` requires v2.1.221 or later, `upgrade` requires v2.1.236 or later, `cost-optimize` requires v2.1.247 or later, `build-eval` and `hillclimb` require v2.1.259 or later, `preserved-thinking-migration` requires v2.1.282 or later, `managed-agents-secure` requires v2.1.304 or later, `api-version` requires v2.1.307 or later, and `latency-optimize` requires v2.1.319 or later. Also activates automatically when your code imports `anthropic` or `@anthropic-ai/sdk`."
     argument-hint: "[migrate|upgrade|api-version|managed-agents-onboard|managed-agents-secure|prompt-audit|cost-optimize|latency-optimize|build-eval|hillclimb|preserved-thinking-migration]"
+  - name: claude-approvals
+    description: "Edit, explain, or tune a Claude Approvals policy file or classifier. Requires Claude Code v2.1.331 or later and feature-flag fetching"
+    argument-hint: "[what to change or explain]"
   - name: claude-code-docs
     description: Answer questions about Claude Code features and settings
   - name: claude-in-chrome
@@ -303,6 +306,9 @@ skills:
   - name: loop
     description: "Run a prompt or slash command repeatedly while the session stays open. Omit the interval and Claude self-paces between iterations. Omit the prompt to run an autonomous maintenance check (or the prompt in .claude/loop.md). Recurring loops run up to 30 days instead of 7 while the session keeps running, and say when they end (v2.1.330+; loops made before then still end at 7 days). Alias: /proactive"
     argument-hint: "[interval] [prompt]"
+  - name: motion
+    description: "Make a new animation from your brief as a Claude Motion artifact, for example `/motion an explainer of how our deploy pipeline works`. Available in local sessions in the Desktop app and in Anthropic-hosted cloud sessions, not in the terminal or IDE extensions. Requires Claude Code v2.1.323 or later and a Team or Enterprise account where the Motion template is available"
+    argument-hint: "[brief]"
   - name: plan-artifact
     description: "Publish an implementation plan, design doc, or RFC as a shareable Artifact"
   - name: plugin-authoring
@@ -316,7 +322,7 @@ skills:
   - name: run-skill-generator
     description: "Teach /run and /verify how to build, launch, and drive your project's app from a clean environment."
   - name: ship
-    description: "Commit and push your work and open a GitHub pull request, if your branch has none. Then review the change. Claude then watches the pull request in this session and pushes fixes for review feedback and failing checks. `/ship stop` ends the watch"
+    description: "Commit and push your work where /ship can, open a GitHub pull request for your branch if it has none, then review the change. Claude then watches the pull request in this session and pushes fixes for review feedback and failing checks. `/ship stop` ends the watch"
     argument-hint: "[level] [pr] [+bot]"
   - name: simplify
     description: "Review the changed code for cleanup opportunities and apply the fixes. Four review agents run in parallel, covering reuse of existing helpers, simplification, efficiency, and whether the change is at the right level of abstraction. It does not hunt for correctness bugs — use /code-review for that. Pass a path or PR reference to review a specific target."
@@ -333,7 +339,8 @@ skills:
   - name: verify
     description: "Confirm a code change does what it should by building your project's app, running it, and observing the result, rather than relying on tests or type checks."
   - name: whiteboard
-    description: Sketch on a whiteboard Artifact you can send back to Claude
+    description: "Make a new whiteboard from your brief as a Claude Whiteboards artifact, for example `/whiteboard a service map of the checkout flow`. Requires Claude Code v2.1.323 or later, a session where artifacts are available, and an account where the Whiteboards template is available. When your organization has that template off, the command doesn't appear, so ask an Owner to turn it on"
+    argument-hint: "[brief]"
   - name: whiteboard-mp
     description: Sketch together on a live whiteboard Artifact that Claude draws on too
   - name: workflow-authoring
