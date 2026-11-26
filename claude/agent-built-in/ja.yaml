@@ -26,7 +26,7 @@ commands:
     description: "現在のブランチのPRを監視し、CIが失敗したりレビューコメントが付いたら自動で修正をプッシュするクラウドセッションを起動する。チェックアウト中のブランチからオープンなPRを gh pr view で検出するため、別のPRを監視したいときは先にそのブランチへ切り替える。デフォルトではCIの失敗とレビューコメントをすべて修正するよう指示されるが、プロンプトを渡せば別の指示を与えられる（例: /autofix-pr only fix lint and type errors）。gh CLI とクラウドセッションへのアクセスが必要"
     argument-hint: "[prompt]"
   - name: background
-    description: "現在のセッションをバックグラウンドエージェントとしてデタッチし、ターミナルを解放する。プロンプトを渡すとデタッチ前に追加の指示を送信できる。デタッチしたセッションは `claude agents` で監視できる。このセッションを動かしたまま会話を新しいバックグラウンドセッションにコピーするには /fork を使う。エイリアス: /bg"
+    description: "現在のセッションをバックグラウンドエージェントとしてデタッチし、ターミナルを解放する。プロンプトを渡すとデタッチ前に追加の指示を送信できる。デタッチしたセッションは `claude agents` で監視できる。このセッションを動かしたまま会話を新しいバックグラウンドセッションにコピーするには /fork を使う。/ship や /steward の見守り中は「Messages during a watch」を参照。エイリアス: /bg"
     argument-hint: "[prompt]"
   - name: branch
     description: 現在の会話のこの時点でブランチを作成し、今の会話を失わずに別の方向を試せるようにする。作成したブランチに切り替わり、元の会話は保持されて /resume から戻れる。自分が切り替わらずにコピーを独立したバックグラウンドセッションとして動かしたい場合は /fork、結果がこの会話に戻ってくるサブエージェントに脇作業を任せたい場合は /subtask を使う
@@ -159,7 +159,7 @@ commands:
   - name: powerup
     description: インタラクティブなレッスンとアニメーションデモでClaude Codeの機能を発見する
   - name: privacy-settings
-    description: プライバシー設定を表示・更新する。Pro・Max・Ultraプランのサブスクライバーのみ利用可能
+    description: プライバシー設定を表示・更新する。claude.ai 上の設定へのリンクを取得することもできる。Pro・Max・Ultraプランのサブスクライバーのみ利用可能
   - name: radio
     description: Claude FMのlo-fiラジオをブラウザで開く。ブラウザが使えない場合はストリームURLを表示する
   - name: rate-limit-options
@@ -225,7 +225,7 @@ commands:
   - name: team-onboarding
     description: 直近30日のセッション・コマンド・MCPサーバー利用状況から、チームメイトが最初のメッセージとして貼り付けられるMarkdown形式のオンボーディングガイドを生成する。Team/EnterpriseプランのClaude.aiサブスクライバーは、チームメイトがClaude Codeで直接開ける共有リンクも取得できる
   - name: teleport
-    description: "クラウドセッションをこのターミナルに引き込む。ピッカーを開いてブランチと会話を取得。v2.1.329 以降は、選択すると開いている会話を置き換えずに /clear と同様に新しいセッションを開始し、元の会話には /resume で戻れる。claude.aiサブスクリプションが必要。エイリアス: /tp"
+    description: "クラウドセッションをこのターミナルに引き込む。ピッカーを開いて会話を読み込む。v2.1.329 以降は、選択すると開いている会話を置き換えずに /clear と同様に新しいセッションを開始し、元の会話には /resume で戻れる。claude.aiサブスクリプションが必要。エイリアス: /tp"
   - name: terminal-setup
     description: "VS Code・Cursor・Devin Desktop・Alacritty・Zed に、改行用の Shift+Enter キーバインドをインストールする。Apple Terminal では代わりに Option+Enter による改行を有効化し、警告音をオフにする。iTerm2 では /copy が動作するようクリップボードアクセスを有効化する"
   - name: theme
@@ -253,7 +253,7 @@ commands:
     description: ワークフロー進捗ビューを開き、実行中および完了したワークフローの監視・一時停止・再開・保存を行う
 skills:
   - name: artifact-capabilities
-    description: "公開した Artifact が使えるランタイム機能のリファレンスを読み込む。コネクタの呼び出しやファイルダウンロードの提供などが対象で、自分のアカウントで使える機能もわかる。そうした機能を使うページを作る前に Claude が通常は自動で読み込む。Artifacts が使える環境で利用可能"
+    description: "公開した Artifact が使えるランタイム機能のリファレンスを読み込む。コネクタの呼び出しやファイルダウンロードの提供などが対象で、自分のアカウントで使える機能もわかる。Artifacts が使えることが必要"
   - name: artifact-components
     description: 再利用可能なコンポーネントを Artifact に埋め込む
   - name: artifact-design
@@ -268,13 +268,16 @@ skills:
   - name: claude-api
     description: "Claude APIとManaged Agentsのリファレンス資料をプロジェクトの言語（Python, TypeScript, Java, Go, Ruby, C#, PHP, cURL）に応じて読み込む。tool use、streaming、batches、structured outputs、よくある落とし穴をカバー。サブコマンド: `migrate` は既存のClaude APIコードを新しいモデル向けに更新、`upgrade` はプロジェクトの Anthropic SDK 依存をメジャーバージョン間で移行（現時点では Python の `anthropic` パッケージを 0.x から 1.x へ）、`api-version` は Claude API コードを新しい API バージョンに対応させたうえでリクエストをそのバージョンに切り替え、`managed-agents-onboard` はManaged Agentの作成を対話的にガイド（v2.1.290 以降は、ページの URL を渡すとそのページが説明する Managed Agents のパターンを `ant apply` 用ファイルとして構成し、`deep-researcher` などの Console クイックスタート名を渡すとそのテンプレートを `ant` CLI で構築する）、`prompt-audit` はプロンプト・スキル・tool description に古いモデル向けの記述がないか調べて修正を diff で提案し、`cost-optimize` は既存プロジェクトの Claude API コストを分析してキャッシュ・トークン整理・batch・effort・モデル選択といったコスト要因を一度に一つずつ計測しながら改善する。`latency-optimize` は Claude API コードのうちユーザーを待たせている箇所を見つけ、より高速な設定を eval に対して試す。`build-eval` は Claude を使ったアプリの eval セットを構築し、`hillclimb` は既存の eval に対してアプリを反復的に改善する。`preserved-thinking-migration` は、過去のターン・システムプロンプト・ツール一覧に対する編集のうち preserved thinking ブロックを無効化しているものを洗い出し、それぞれが失わせる推論量を計測したうえで、変更のたびに再計測しながら修正を一つずつ提案する。`managed-agents-secure` は Managed Agents のエージェント設定を Anthropic 公開のセキュリティガイドと照合する（設定は変更しない）。Admin API（組織メンバー、招待、ワークスペース、APIキー、レート制限レポート、workload identity federation、CMEK）もカバーする。`prompt-audit` は v2.1.221 以降、`upgrade` は v2.1.236 以降、`cost-optimize` は v2.1.247 以降、`build-eval` と `hillclimb` は v2.1.259 以降、`preserved-thinking-migration` は v2.1.282 以降、`managed-agents-secure` は v2.1.304 以降、`api-version` は v2.1.307 以降、`latency-optimize` は v2.1.319 以降が必要。`anthropic` または `@anthropic-ai/sdk` をインポートすると自動的に有効化"
     argument-hint: "[migrate|upgrade|api-version|managed-agents-onboard|managed-agents-secure|prompt-audit|cost-optimize|latency-optimize|build-eval|hillclimb|preserved-thinking-migration]"
+  - name: claude-approvals
+    description: "Claude Approvals のポリシーファイルや classifier を編集・説明・調整する。Claude Code v2.1.331 以降と feature flag の取得が必要"
+    argument-hint: "[what to change or explain]"
   - name: claude-code-docs
     description: Claude Code の機能や設定に関する質問に回答する
   - name: claude-in-chrome
     description: "Claude in Chrome を通じて、ページのテスト、フォーム入力、コンソールログの読み取りなどのタスクを Claude にブラウザ上で実行させる。claude --chrome で起動した場合など、セッションで Chrome 連携が有効なとき、または Claude Code が拡張機能のインストールを提案できるときに利用可能"
     argument-hint: "[task]"
   - name: code-review
-    description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグの観点からレビューする。モデルと effort レベルによってはクリーンアップの余地も指摘する。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub の pull request にインラインコメントとして、または GitLab の merge request にノートとして投稿する（GitLab への投稿は v2.1.257 以降）。github.com の PR を対象に `ultra` を使う場合、`--post` を渡すと起動ダイアログで「完了したレビュー結果を PR に投稿する」が事前選択される（v2.1.227 以降）。`--max-findings <n>` または `all` で通常の上限より多く・少なく指摘を報告でき、この指定は `--max-findings default` を渡すまで再利用される（v2.1.288 以降）。ほとんどのモデルでは、各指摘に Important / Pre-existing / Nit のいずれかが付き、報告対象はバグと CLAUDE.md 違反のみでクリーンアップは /simplify に任せる（v2.1.328 以降）。対象を指定しない場合はブランチ全体をデフォルトブランチと比較してレビューする（v2.1.329 以降）。エイリアス: /review"
+    description: "現在の diff、または渡した PR 番号・ブランチ・パスを指定した effort レベルで、正しさのバグの観点からレビューする。モデルと effort レベルによってはクリーンアップの余地も指摘する。effort が低いほど高確度の少数の指摘に絞り、high〜max では網羅範囲を広げ、`ultra` はクラウド上で深いマルチエージェントレビューを実行する。effort レベル未指定時は前回入力したレベルを再利用し、一度も入力していない場合はセッションの effort レベルにフォールバックする。バックグラウンドサブエージェントとして実行されるため、レビュー処理で会話が埋まらない。`--fix` で修正を working tree に適用、`--comment` で GitHub の pull request にインラインコメントとして、または GitLab の merge request にノートとして投稿する（GitLab への投稿は v2.1.257 以降）。github.com の PR を対象に `ultra` を使う場合、`--post` を渡すと起動ダイアログで「完了したレビュー結果を PR に投稿する」が事前選択される（v2.1.227 以降）。`--max-findings <n>` または `all` で通常の上限より多く・少なく指摘を報告でき、この指定は `--max-findings default` を渡すまで再利用される（v2.1.288 以降）。ほとんどのモデルでは、各指摘に Important / Pre-existing / Nit のいずれかが付き、報告対象はバグと CLAUDE.md 違反のみでクリーンアップは /simplify に任せる（v2.1.328 以降）。対象を指定しない場合はブランチ全体をデフォルトブランチと比較してレビューする（v2.1.329 以降）。エイリアス: /review, /ship:review"
     argument-hint: "[low|medium|high|xhigh|max|ultra] [--fix] [--comment] [--max-findings n|all|default] [pr#|branch|path]"
   - name: code-walkthrough
     description: コードのインタラクティブなウォークスルー Artifact を生成する
@@ -301,8 +304,11 @@ skills:
   - name: fewer-permission-prompts
     description: トランスクリプトから頻出するread-onlyのBashとMCPツール呼び出しをスキャンし、プロジェクトの `.claude/settings.json` に優先度付きのallowlistを追加してパーミッションプロンプトを削減する
   - name: loop
-    description: "セッションが開いている間、プロンプトやスラッシュコマンドを繰り返し実行する。間隔を省略すると Claude がイテレーション間隔をセルフペーシングする。プロンプトを省略すると自律メンテナンスチェック（または .claude/loop.md のプロンプト）を実行する。エイリアス: /proactive"
+    description: "セッションが開いている間、プロンプトやスラッシュコマンドを繰り返し実行する。間隔を省略すると Claude がイテレーション間隔をセルフペーシングする。プロンプトを省略すると自律メンテナンスチェック（または .claude/loop.md のプロンプト）を実行する。繰り返しのループはセッションが動いている間、7 日ではなく最長 30 日まで実行され、終了時にその旨を表示する（v2.1.330 以降。それ以前に作成したループは 7 日で終了）。エイリアス: /proactive"
     argument-hint: "[interval] [prompt]"
+  - name: motion
+    description: "指示内容から Claude Motion の Artifact として新しいアニメーションを作成する（例: `/motion an explainer of how our deploy pipeline works`）。Desktop アプリのローカルセッションと Anthropic ホストのクラウドセッションで利用でき、ターミナルや IDE 拡張では使えない。Claude Code v2.1.323 以降と、Motion テンプレートが使える Team または Enterprise アカウントが必要"
+    argument-hint: "[brief]"
   - name: plan-artifact
     description: 実装計画・設計ドキュメント・RFC を共有可能な Artifact として公開する
   - name: plugin-authoring
@@ -315,19 +321,26 @@ skills:
     description: "プロジェクトのアプリを起動・操作して、変更が動作している様子を実際に確認する。既存のプロジェクト用スキルがあればそれを優先し、なければプロジェクトタイプごとの組み込みパターンにフォールバックする"
   - name: run-skill-generator
     description: "/run と /verify に対し、クリーンな環境からプロジェクトのアプリをビルド・起動・操作する方法を教え込む"
+  - name: ship
+    description: "/ship が扱える範囲で作業をコミット・プッシュし、ブランチに GitHub の pull request が無ければ作成する。続いて変更をレビューし、その後はこのセッションで pull request を見守り、レビューでの指摘や失敗したチェックへの修正をプッシュする。`/ship stop` で見守りを終了する"
+    argument-hint: "[level] [pr] [+bot]"
   - name: simplify
     description: "変更されたコードのクリーンアップ箇所をレビューし、修正を適用する。4つのレビューエージェントが並列で動き、既存ヘルパーの再利用・簡素化・効率化・抽象度の妥当性をカバーする。正しさのバグは探さない（バグ検出は /code-review を使用）。パスや PR 参照を渡すと対象を絞ってレビューできる"
     argument-hint: "[target]"
   - name: slides
     description: "ブリーフの内容をもとに、新しいプレゼンテーションを Claude Slides のアーティファクトとして作成する（例: `/slides a quarterly review of the platform team`）。アーティファクトが使えるセッションで、Slides テンプレートが使えるアカウントでのみ表示される。Amazon Bedrock、Google Cloud の Agent Platform、Microsoft Foundry、Claude Platform on AWS では利用できない"
     argument-hint: "[brief]"
+  - name: steward
+    description: "開いている GitHub の pull request をこのセッションで見守り、レビューでの指摘や失敗したチェックへの修正をプッシュする。/ship が最初に行うレビューは実行しない。`/steward stop` で見守りを終了する。エイリアス: /ship:steward"
+    argument-hint: "[pr] [+bot]"
   - name: update-config
     description: "許可するコマンド、環境変数の設定、フックの追加などの設定変更を説明すると、Claude が該当する settings.json を編集する。テーマやモデルなどの項目は /config を使う"
     argument-hint: "[request]"
   - name: verify
     description: "テストや型チェックに頼るのではなく、プロジェクトのアプリをビルドして実行し、実際の挙動を観察することで、コード変更が意図通り動作するかを確認する"
   - name: whiteboard
-    description: Claude に送り返せるホワイトボード Artifact 上でスケッチする
+    description: "指示内容から Claude Whiteboards の Artifact として新しいホワイトボードを作成する（例: `/whiteboard a service map of the checkout flow`）。Claude Code v2.1.323 以降、Artifacts が使えるセッション、Whiteboards テンプレートが使えるアカウントが必要。組織でテンプレートが無効になっているとコマンドが表示されないため、Owner に有効化を依頼する"
+    argument-hint: "[brief]"
   - name: whiteboard-mp
     description: Claude も一緒に描き込むライブなホワイトボード Artifact 上で共同スケッチする
   - name: workflow-authoring
@@ -347,3 +360,5 @@ agents:
     description: 探索とアクションの両方を必要とする複雑なマルチステップタスク向けの汎用エージェント
   - name: statusline-setup
     description: /statuslineでステータスラインを設定する際に使用
+  - name: web-fetch
+    description: "このサブエージェントを使うセッションで Claude が Web ページを読む際に使用。Haiku で動作し、Haiku を使えない場合は呼び出し元の会話のモデルで動作する。このようなセッションでは、メイン会話・fork・チームメイトは自身の WebFetch ツールを持たない"

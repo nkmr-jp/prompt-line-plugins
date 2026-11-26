@@ -17,7 +17,8 @@ references:
 
 commands:
   - name: accept-edits
-    description: Accept Editsモードに切り替える（ワークスペース内のファイル編集を自動承認）
+    description: Accept Editsモードに切り替える（ワークスペース内のファイル編集を自動承認）。プロンプトを指定するとそのモードで実行する
+    argument-hint: "[prompt]"
   - name: add-dir
     description: ワークスペースにディレクトリを追加する。パスを省略すると追加済みのディレクトリを一覧表示する
     argument-hint: "[path]"
@@ -156,7 +157,7 @@ commands:
   - name: shortcuts
     description: カテゴリ別にグループ化された対話的・検索可能なリストでキーボードショートカットを閲覧する。行でEnterを押すと再バインドでき、各アクションのcontext.action識別子を確認できる
   - name: smart
-    description: Smartモードに切り替える（高速モデルが安全と判断した操作を自動承認）。プロンプトを指定するとそのモードで実行する。段階的にロールアウト中
+    description: Smartモードに切り替える（高速モデルが安全と判断した操作を自動承認）。プロンプトを指定するとそのモードで実行する。組織のポリシーで Smart モードが使えない場合がある
     argument-hint: "[prompt]"
   - name: ssh
     description: Devin SSH gateway 経由でこのcloudセッションのVMにSSH接続する。ログイン済みの認証情報で接続を承認するため、ブラウザを経由する必要がない
