@@ -17,7 +17,8 @@ references:
 
 commands:
   - name: accept-edits
-    description: Accept Editsモードに切り替える（ワークスペース内のファイル編集を自動承認）
+    description: Accept Editsモードに切り替える（ワークスペース内のファイル編集を自動承認）。プロンプトを指定するとそのモードで実行する
+    argument-hint: "[prompt]"
   - name: add-dir
     description: ワークスペースにディレクトリを追加する。パスを省略すると追加済みのディレクトリを一覧表示する
     argument-hint: "[path]"

@@ -17,7 +17,8 @@ references:
 
 commands:
   - name: accept-edits
-    description: Switch to Accept Edits mode (auto-approve file edits in workspace)
+    description: Switch to Accept Edits mode (auto-approve file edits in workspace), or run a prompt in it
+    argument-hint: "[prompt]"
   - name: add-dir
     description: Add an additional workspace directory. With no path, list the directories you have added
     argument-hint: "[path]"
